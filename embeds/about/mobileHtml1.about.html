@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — RIHE Mobile</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-height:1.7;background:#fff}
+.hero{text-align:center;padding:36px 16px 28px}
+.hero h1{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#1a3c6e;margin:8px 0}
+.hero p{font-size:0.85rem;color:#718096}
+.sec{padding:28px 16px}
+.sec-div{border-top:1px solid #e2e8f0}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;text-align:center;margin-bottom:18px;color:#1a202c;position:relative;padding-bottom:10px}
+.sec-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:36px;height:3px;background:#1a3c6e;border-radius:2px}
+.quote{font-size:0.88rem;color:#1a3c6e;font-style:italic;text-align:center;padding:14px;background:#EDF1F7;border-radius:8px;margin-bottom:14px}
+.intro p{font-size:0.85rem;color:#4a5568;margin-bottom:10px}
+.dc-card{border:1px solid #e2e8f0;border-radius:10px;padding:18px;text-align:center;margin-bottom:12px}
+.dc-card img{max-width:200px;width:80%;margin-bottom:10px}
+.dc-card h3{font-size:0.95rem;color:#1a202c;margin-bottom:4px}
+.dc-card p{font-size:0.82rem;color:#4a5568}
+.dc-link{font-size:0.82rem;color:#1a3c6e;text-decoration:none;display:inline-block;margin-top:6px}
+.partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.partner-card{border:1px solid #e2e8f0;border-radius:8px;padding:14px 10px;display:flex;align-items:center;justify-content:center;min-height:70px}
+.partner-card img{max-width:100%;max-height:50px;object-fit:contain}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p style="font-size:0.85rem;color:#718096">청각재활연구소 소개</p>
+  <h1>About RIHE</h1>
+  <p>난청에 대한 기초 연구 뿐만 아니라 의료기기 개발, 임상시험에 이르기까지 전주기적인 연구를 진행하는 연세대학교 공식 연구소입니다.</p>
+</div>
+
+<div class="sec">
+  <h2 class="sec-title">청각재활연구소</h2>
+  <div class="intro">
+    <div class="quote">"난청을 치료하는 임상의이자 난청을 연구하는 연구자로서,<br>청각재활연구소를 기반으로 융합 연구자의 길을 걸어왔습니다."</div>
+    <p>2015년부터 다양한 융합 연구를 선보인 연구소입니다. 세계 여러 나라 청각 특성화 연구소들과 어깨를 나란히 견줄 수 있는 연구소가 되겠습니다.</p>
+    <p>청각 특성화 연구소만의 독특한 시각과 연구 방식에서 수년 동안 많은 과정을 거쳐 발전해온 청각 재활연구소만의 우수한 연구들을 볼 수 있습니다.</p>
+  </div>
+</div>
+
+<div class="sec sec-div">
+  <h2 class="sec-title">Data Centers</h2>
+  <div class="dc-card">
+    <img src="https://i.imgur.com/s6VfJ2r.png" alt="참조표준DC">
+    <h3>한국인 청각 참조표준데이터센터</h3>
+    <p>한국인의 청각 분야 데이터를 수집 생산하고 보급하는 국내 유일 기관.</p>
+    <a href="https://www.smilesnail.org/hearing-lab" class="dc-link" target="_top">→ Hearing Lab에서 자세히 보기</a>
+  </div>
+  <div class="dc-card">
+    <img src="https://i.imgur.com/9cFssq8.png" alt="빅데이터DC">
+    <h3>청각 빅데이터센터</h3>
+    <p>산업계와 연구자들에게 청각 분야의 빅데이터를 전문으로 제공하는 국내 유일 기관.</p>
+    <a href="https://www.smilesnail.org/head-lab" class="dc-link" target="_top">→ HeAD Lab에서 자세히 보기</a>
+  </div>
+</div>
+
+<div class="sec sec-div">
+  <h2 class="sec-title">Partners</h2>
+  <div class="partner-grid">
+    <div class="partner-card"><img src="https://i.imgur.com/e73yTmH.jpeg" alt="Cochlear"></div>
+    <div class="partner-card"><img src="https://i.imgur.com/Gt2yITF.jpeg" alt="KRISS"></div>
+    <div class="partner-card"><img src="https://i.imgur.com/uYE9HkB.png" alt="NCSRD"></div>
+    <div class="partner-card"><img src="https://i.imgur.com/GdiAYNJ.jpeg" alt="대한청각학회"></div>
+    <div class="partner-card"><img src="https://i.imgur.com/7WGSBl9.png" alt="ILIAS"></div>
+    <div class="partner-card"><img src="https://i.imgur.com/sH2hnnv.jpeg" alt="M.I one"></div>
+    <div class="partner-card"><img src="https://i.imgur.com/bM7xqYi.png" alt="Innoshuttle"></div>
+    <div class="partner-card"><img src="https://i.imgur.com/pkbfNok.jpeg" alt="J&KYM"></div>
+  </div>
+</div>
+
+</body>
+</html>

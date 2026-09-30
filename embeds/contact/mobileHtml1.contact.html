@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — RIHE Mobile</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-height:1.7;background:#fff}
+.hero{text-align:center;padding:36px 16px 28px}
+.hero h1{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#1a3c6e;margin:8px 0}
+.hero p{font-size:0.85rem;color:#718096}
+.sec{padding:28px 16px}
+.sec-div{border-top:1px solid #e2e8f0}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;text-align:center;margin-bottom:18px;color:#1a202c;position:relative;padding-bottom:10px}
+.sec-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:36px;height:3px;background:#1a3c6e;border-radius:2px}
+.info-card{border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:10px}
+.info-card h3{font-size:0.95rem;color:#1a3c6e;margin-bottom:6px}
+.info-card p{font-size:0.85rem;color:#4a5568;margin-bottom:3px}
+.info-card a{color:#1a3c6e;text-decoration:none}
+.map-wrap{border-radius:10px;overflow:hidden;border:1px solid #e2e8f0;margin-top:14px;height:220px}
+.map-wrap iframe{width:100%;height:100%;border:none}
+.team-card{border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:10px;text-align:center;position:relative;overflow:hidden}
+.team-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.team-card.basic::before{background:#2E8B57}
+.team-card.hearing::before{background:#7096B5}
+.team-card.head::before{background:#4A90C4}
+.team-card h4{font-size:0.95rem;margin-bottom:2px}
+.team-card .eng{font-size:0.75rem;color:#718096;margin-bottom:8px}
+.team-card .contact{font-size:0.82rem;color:#4a5568}
+.team-card .contact a{color:#1a3c6e;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p>청각재활연구소에 문의하기</p>
+  <h1>Contact Us</h1>
+</div>
+
+<div class="sec">
+  <h2 class="sec-title">연구소 안내</h2>
+  <div class="info-card">
+    <h3>📍 주소</h3>
+    <p><strong>연세대학교 원주세브란스기독병원</strong></p>
+    <p>의학관 318호</p>
+    <p style="color:#718096;font-size:0.8rem">(26426) 강원특별자치도 원주시 일산로 20</p>
+  </div>
+  <div class="info-card">
+    <h3>📧 이메일</h3>
+    <p><a href="mailto:okas2000&#64;yonsei.ac.kr">okas2000&#64;yonsei.ac.kr</a></p>
+    <p style="color:#718096;font-size:0.8rem">서영준 연구소장</p>
+  </div>
+  <div class="info-card">
+    <h3>🏛️ 소속</h3>
+    <p>연세대학교 원주의과대학</p>
+    <p>원주세브란스기독병원 이비인후과</p>
+    <p>청각재활연구소 (RIHE)</p>
+  </div>
+  <div class="map-wrap">
+    <iframe src="https://maps.google.com/maps?q=%EC%9B%90%EC%A3%BC%EC%84%B8%EB%B8%8C%EB%9E%80%EC%8A%A4%EA%B8%B0%EB%8F%85%EB%B3%91%EC%9B%90&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+  </div>
+</div>
+
+<div class="sec sec-div">
+  <h2 class="sec-title">팀별 연락처</h2>
+
+  <div class="team-card basic">
+    <h4>🧬 기초팀</h4>
+    <p class="eng">Basic Lab</p>
+    <div class="contact">
+      <p>담당자: 이은수</p>
+      <p>📧 <a href="mailto:es1121&#64;yonsei.ac.kr">es1121&#64;yonsei.ac.kr</a></p>
+    </div>
+  </div>
+
+  <div class="team-card hearing">
+    <h4>📊 참조표준팀</h4>
+    <p class="eng">Hearing Lab</p>
+    <div class="contact">
+      <p>담당자: 변유선</p>
+      <p>📧 <a href="mailto:uuuseon&#64;yonsei.ac.kr">uuuseon&#64;yonsei.ac.kr</a></p>
+    </div>
+  </div>
+
+  <div class="team-card head">
+    <h4>🤖 데이터팀</h4>
+    <p class="eng">HeAD Lab</p>
+    <div class="contact">
+      <p>담당자: 윤철영</p>
+      <p>📧 <a href="mailto:fezro&#64;yonsei.ac.kr">fezro&#64;yonsei.ac.kr</a></p>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

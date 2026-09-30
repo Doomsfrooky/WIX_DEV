@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outcomes — RIHE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: #1a202c;
+      line-height: 1.7;
+      background: #fff;
+    }
+    .section {
+      padding: 48px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 32px;
+      color: #1a202c;
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 3px;
+      background: #1a3c6e;
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       📊 Outcomes 숫자 카드
+       - 숫자 수정: outcome-number 안의 숫자만 바꾸면 됩니다
+       ============================================================ */
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      text-align: center;
+    }
+    .outcome-card {
+      padding: 28px 16px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      transition: transform 0.2s;
+    }
+    .outcome-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+    .outcome-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #1a3c6e;
+      margin-bottom: 6px;
+    }
+    .outcome-label {
+      font-size: 0.95rem;
+      color: #4a5568;
+      font-weight: 500;
+    }
+    .fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade.show { opacity: 1; transform: translateY(0); }
+    @media (max-width: 768px) {
+      .outcomes-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="section" id="outcomes">
+    <h2 class="section-title">Outcomes</h2>
+    <div class="outcomes-grid fade">
+
+      <!-- Journals: 숫자만 바꾸면 됩니다 -->
+      <div class="outcome-card">
+        <div class="outcome-number">118</div>
+        <div class="outcome-label">Journals</div>
+      </div>
+
+      <!-- Patents: 숫자만 바꾸면 됩니다 -->
+      <div class="outcome-card">
+        <div class="outcome-number">80</div>
+        <div class="outcome-label">Patents</div>
+      </div>
+
+      <!-- Technology Transfer: 숫자만 바꾸면 됩니다 -->
+      <div class="outcome-card">
+        <div class="outcome-number">12</div>
+        <div class="outcome-label">Technology Transfer</div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    var obs = new IntersectionObserver(function(e) {
+      e.forEach(function(el, i) { if (el.isIntersecting) { setTimeout(function() { el.target.classList.add('show'); }, i * 80); obs.unobserve(el.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade').forEach(function(el) { obs.observe(el); });
+  </script>
+</body>
+</html>

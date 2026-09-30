@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Hearing Lab Mobile</title>
+<style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'EngSerif',Pretendard,sans-serif;color:#1a202c;line-height:1.7;background:#fff;-webkit-text-size-adjust:100%}
+.hero{text-align:center;padding:36px 16px 28px}
+.hero h1{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;margin:8px 0;line-height:1.3}
+.hero p{font-size:0.82rem;color:#718096;margin-bottom:4px}
+.sec{padding:28px 16px}
+.sec-div{border-top:1px solid #e2e8f0}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;text-align:center;margin-bottom:16px;position:relative;padding-bottom:10px}
+.sec-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:36px;height:3px;border-radius:2px}
+.intro p{font-size:0.85rem;color:#4a5568;margin-bottom:8px}
+.dc-box{border:1px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;margin-bottom:14px}
+.dc-box img{max-width:180px;width:60%;margin-bottom:8px}
+.dc-box h3{font-size:0.92rem;margin-bottom:4px}
+.dc-box p{font-size:0.78rem;color:#4a5568}
+.mv-card{border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden}
+.mv-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.mv-card h3{font-size:0.95rem;margin-bottom:6px}
+.mv-card p{font-size:0.82rem;color:#4a5568}
+.org-top{background:#e8e8ee;border-radius:10px;padding:12px;text-align:center;font-weight:700;font-size:0.85rem;margin-bottom:8px}
+.org-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.org-box{border-radius:8px;padding:8px 12px;font-size:0.75rem;font-weight:600;text-align:center;min-width:70px}
+.dm{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.dm img{width:70px;height:70px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.dm .ph{width:70px;height:70px;border-radius:10px;background:#f0f4f8;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#718096;border:1.5px dashed #e2e8f0}
+.dm-info h4{font-size:0.92rem;margin-bottom:1px}
+.dm-info .badge{display:inline-block;font-size:0.68rem;padding:1px 6px;border-radius:6px;margin-bottom:4px}
+.dm-info p{font-size:0.78rem;color:#4a5568}
+.rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rs-card{padding:12px;border:1px solid #e2e8f0;border-radius:8px}
+.rs-card h4{font-size:0.82rem;margin-bottom:3px}
+.rs-card p{font-size:0.72rem;color:#4a5568}
+.collapse-header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:0.88rem;font-weight:500;margin-bottom:6px}
+.collapse-arrow{transition:transform 0.3s}
+.collapse-arrow.open{transform:rotate(180deg)}
+.collapse-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.collapse-body.open{max-height:8000px}
+.collapse-inner{padding:10px 14px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px}
+.pub-item{padding:8px 0;border-bottom:1px solid #f0f0f0}
+.pub-title{font-size:0.8rem;color:#1a202c;margin-bottom:3px}
+.pub-authors{font-size:0.7rem;color:#718096;margin-bottom:3px}
+.pub-tags{display:flex;gap:3px;flex-wrap:wrap}
+.pub-tag{font-size:0.62rem;padding:1px 5px;border-radius:6px}
+.pub-tag.year{background:#f0f0f0;color:#555}
+.pub-tag.journal{background:#EDF1F7;color:#1a3c6e;border:1px solid #C2CEDF}
+.pub-tag.team-basic{background:#EDF8F2;color:#2E8B57}
+.pub-tag.team-hearing{background:#EDF2F8;color:#7096B5}
+.pub-tag.team-head{background:#EBF5FF;color:#4A90C4}
+.alumni-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.alumni-card{text-align:center;padding:12px 6px;border:1px solid #e2e8f0;border-radius:10px}
+.alumni-card h4{font-size:0.8rem;margin-bottom:2px}
+.alumni-card p{font-size:0.68rem;color:#718096}
+.placeholder{text-align:center;padding:16px;color:#718096;font-size:0.8rem}
+.sec-title::after{background:#7096B5}
+.mv-card::before{background:#7096B5}
+.badge{background:#EDF2F8;color:#7096B5}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1 style="color:#7096B5">Hearing Lab</h1>
+  <p>참조표준팀 · 청각재활연구소</p>
+</div>
+
+<!-- 소개 + DC -->
+<div class="sec">
+  <h2 class="sec-title">Hearing Lab 소개</h2>
+  <div class="intro">
+    <p>Hearing Lab은 연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 산하 참조표준팀으로, 한국인청각참조표준 데이터를 수집·생산하고 청각 연구를 수행합니다.</p>
+    <p>한국인의 특성을 반영한 청각 참조표준을 확립하여, 더 정확한 청력 진단과 더 나은 의료서비스 제공을 목표로 합니다.</p>
+  </div>
+  <div class="dc-box" style="margin-top:14px">
+    <img src="https://i.imgur.com/s6VfJ2r.png" alt="참조표준DC">
+    <h3>한국인 청각 참조표준데이터센터</h3>
+    <p>한국인의 청각 분야 데이터를 수집 생산하고 보급하는 국내 유일 기관. 2019년 1월부터 운영.</p>
+  </div>
+</div>
+
+<!-- Mission & Vision -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Mission &amp; Vision</h2>
+  <div class="mv-card"><h3>Mission</h3><p>한국인 청각 참조표준데이터를 수집·생산·보급하여 표준화된 청력검사 환경을 구축합니다.</p></div>
+  <div class="mv-card"><h3>Vision</h3><p>국내 유일 청각 참조표준 데이터센터로서, 청각 분야의 국가 표준을 선도합니다.</p></div>
+</div>
+
+<!-- Organigram -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Organigram</h2>
+  <div class="org-top">RIHE</div>
+  <div style="text-align:center;color:#999;margin:4px 0">↓</div>
+  <div class="org-row">
+    <div class="org-box" style="background:#e8e8ee;color:#555">Basic Lab</div>
+    <div class="org-box" style="background:#7096B5;color:#fff">Hearing Lab</div>
+    <div class="org-box" style="background:#e8e8ee;color:#555">HeAD Lab</div>
+    <div class="org-box" style="background:#e8e8ee;color:#555">Audiso</div>
+  </div>
+</div>
+
+<!-- Director & Manager -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Director &amp; Manager</h2>
+  <div class="dm">
+    <img src="https://i.imgur.com/vIAp69Y.jpeg" alt="서영준">
+    <div class="dm-info"><span class="badge">Director</span><h4>서영준 교수</h4><p>RIHE 연구소장<br>원주세브란스기독병원 이비인후과</p></div>
+  </div>
+  <div class="dm">
+    <img src="https://i.imgur.com/2Q56Mj7.jpeg" alt="변유선">
+    <div class="dm-info"><span class="badge">Manager</span><h4>변유선</h4><p>Hearing Lab · 박사과정</p></div>
+  </div>
+</div>
+
+<!-- Research Subjects -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Research Subjects</h2>
+  <div class="rs-grid">
+    <div class="rs-card"><h4>한국인 청각 참조표준 데이터 수집</h4><p>연령별·성별 한국인 청각 데이터의 체계적 수집 및 품질 관리</p></div>
+    <div class="rs-card"><h4>청력검사 표준화 연구</h4><p>국제 표준에 부합하는 청력검사 절차 및 기준 수립</p></div>
+    <div class="rs-card"><h4>보청기/이어폰 산업 데이터</h4><p>청각 산업 및 의료기기 개발을 위한 표준 데이터 제공</p></div>
+    <div class="rs-card"><h4>국제 청각 데이터베이스 네트워크</h4><p>글로벌 청각 연구 기관과의 데이터 공유 및 공동 연구</p></div>
+  </div>
+</div>
+
+<!-- Publication & Report -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Publication &amp; Report</h2>
+  <div class="collapse-header" onclick="toggle('pub')"><span>📄 Publication (19편)</span><span class="collapse-arrow" id="pub-arrow">▼</span></div>
+  <div class="collapse-body" id="pub-body"><div class="collapse-inner">
+<div class="pub-item" data-year="2025" data-team="hearing">
+        <div class="pub-title">Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital</div>
+        <div class="pub-authors">Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">CRITICAL PUBLIC HEALTH</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2024" data-team="hearing">
+        <div class="pub-title">Efficacy of virtual reality pure-tone audiometry in training of hearing test for audiologist</div>
+        <div class="pub-authors">Kwak, Chanbeom, Kim, Jinsook, Jang, Hyunsook, Han, Woojae, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Heliyon</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2024" data-team="hearing">
+        <div class="pub-title">Understanding Standard Procedure in Auditory Brainstem Response: Importance of Normative Data</div>
+        <div class="pub-authors">Kwak Chanbeom, Byun Yuseon, You Sunghwa, Sagong Junghee, Kim Do-Yun, Cho Wan-...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2024" data-team="hearing">
+        <div class="pub-title">Improving Accuracy and Reliability of Hearing Tests: Measurement Standards for Audiometric Devices</div>
+        <div class="pub-authors">Cho, Wan-Ho, Lee, Jihyun, Seo, Young Joon, Kong, Tae Hoon, Suh, Michelle J., ...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology and Otology</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2023" data-team="hearing">
+        <div class="pub-title">Improving Accuracy and Reliability of Hearing Tests: An Exploration of International Standards</div>
+        <div class="pub-authors">Suh Michelle J., Lee Jihyun, Cho Wan-Ho, Jin In-Ki, Kong Tae Hoon, Oh Soo Hee...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology and Otology</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2023" data-team="hearing">
+        <div class="pub-title">d-Galactose and Hypoxia Induce the Early Onset of Age-Related Hearing Loss Deterioration in a Mouse Model</div>
+        <div class="pub-authors">Batsaikhan Temuulen, Choi Jin Sil, Ha Sun Mok, Ahn Yeji, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">TISSUE ENGINEERING AND REGENERATIVE MEDICINE</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2023" data-team="hearing">
+        <div class="pub-title">Contralateral bone conducted sound wave propagation on the skull bones in fresh frozen cadaver</div>
+        <div class="pub-authors">Lee, J., Cho, W.-H., Kong, T.H., Jung, S.-S., Han, W., Park, S., Seo, Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Scientific Reports</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2022" data-team="hearing">
+        <div class="pub-title">The value of having an initial word recognition score for a precise prognosis of idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Kwak, Chanbeom, Seo, Young Joon, Yoon, ChulYoung, Lee, JuHyung, Han, Woojae</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2022" data-team="hearing">
+        <div class="pub-title">Analysis of the Knowledge, Attitudes, and Practice Model of Healthcare Professionals on Hearing Loss at Elderly Dementia Residences in Korea</div>
+        <div class="pub-authors">Kwak, C., Seo, Y.J., Park, K.H., Han, W.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">HEALTHCARE</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2022" data-team="hearing">
+        <div class="pub-title">양성돌발체위현기증 진단을 위한 주성분 분석을 이용한 안진 자동패턴인식 기술: 예비 연구</div>
+        <div class="pub-authors">O-Hyeon Gwon, TAEHOON KONG, Jaehong Key, SEJUNG YANG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2022" data-team="hearing">
+        <div class="pub-title">Observation of the vibration response on the skull bones by bone conduction with the fresh frozen cadaver</div>
+        <div class="pub-authors">Cho, Wan-Ho, Lee, Ji Hyeon, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Proceedings of the International Congress on Acoustics</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2021" data-team="hearing">
+        <div class="pub-title">Efficacy of Music Training in Hearing Aid and Cochlear Implant Users: A Systematic Review and Meta-Analysis</div>
+        <div class="pub-authors">Ab Shukor, Nor Farawaheeda, Lee, Jihyeon, Seo, Young Joon, Han, Woojae</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2021" data-team="hearing">
+        <div class="pub-title">Auditory Function Testing for Types of Dementia: Systematic Reviews and Meta-Analysis</div>
+        <div class="pub-authors">박시훈, 한우재, TAEHOON KONG, YOUNG JOON SEO, HANJAEHYUN , TAEHUI KIM</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">대한이비인후과학회지 두경부외과학</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">일측성 난청 환자에서 골전도 보청기의 효능</div>
+        <div class="pub-authors">이지현, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">대한이비인후과학회지 두경부외과학</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">Better Understanding of Direct Bone-Conduction Measurement: Comparison with Frequency-Specific Bone-Conduction Tones and Brainstem Responses</div>
+        <div class="pub-authors">Kim, Yeoju, Han, Woojae, Park, Sihun, You, Sunghwa, Kwak, Chanbeom, YOUNG JOO...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">Baha Attract Implantation Using a Small Incision: Initial Report of Surgical Technique and Surveillance</div>
+        <div class="pub-authors">Dong Su Jang, Dong Hyo Shin, Woojae Han, , YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">Measurement of Skull Size on Computed Tomography Images for Developing a Bone Conduction Headset Suitable for the Korean Standard Head Size</div>
+        <div class="pub-authors">Cheol Hyo Ku, Soo Won Kim, Ji Young Kim, Seung Won Paik, Hui Joon Yang, Ji Hy...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">Reliability and validity of self-screening tool for hearing loss in older adults</div>
+        <div class="pub-authors">Sunghwa You, Woojae Han, Saea Kim, Sanga Maeng, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Clinical interventions in aging</span>
+        </div>
+      </div>
+<div class="pub-item" data-year="2019" data-team="hearing">
+        <div class="pub-title">Evaluation of wireless Bluetooth devices to improve recognition of speech and sentences when using a mobile phone in bone conduction device recipients</div>
+        <div class="pub-authors">Chanbeom Kwak, Woojae Han, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+  </div></div>
+  <div class="collapse-header" onclick="toggle('report')"><span>📋 Report</span><span class="collapse-arrow" id="report-arrow">▼</span></div>
+  <div class="collapse-body" id="report-body"><div class="collapse-inner">
+    <p class="placeholder">학회 발표 데이터는 Research 페이지에서 확인하세요.</p>
+  </div></div>
+</div>
+
+<!-- Alumni -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Alumni</h2>
+  <div class="alumni-grid">
+    <div class="alumni-card"><h4>이지현</h4><p>박사 · 2022 졸업</p></div>
+    <div class="alumni-card"><h4>류성화</h4><p>박사 · 2026 졸업</p></div>
+  </div>
+</div>
+
+<script>
+function toggle(id){document.getElementById(id+'-body').classList.toggle('open');document.getElementById(id+'-arrow').classList.toggle('open')}
+</script>
+</body>
+</html>

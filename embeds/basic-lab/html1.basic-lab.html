@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Lab — RIHE</title>
+
+  <!-- 구글 폰트 (Noto Sans KR + Playfair Display) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    /* ============================================================
+       🎨 색상 변수 (Basic Lab = 초록 기반)
+       - 다른 랩 페이지로 복사할 때 여기만 바꾸면 됩니다
+       ============================================================ */
+    :root {
+      --accent: #2E8B57;          /* 메인 초록 */
+      --accent-dark: #1F6B42;     /* 진한 초록 (제목, 강조) */
+      --accent-light: #EDF8F2;    /* 연한 초록 (배경, 뱃지) */
+      --accent-border: #B2DFCC;   /* 초록 테두리 */
+      --text: #1a202c;            /* 본문 글자 */
+      --text-mid: #4a5568;        /* 보조 글자 */
+      --text-light: #718096;      /* 연한 글자 */
+      --border: #e2e8f0;          /* 구분선 */
+    }
+
+    /* ============================================================
+       기본 리셋 & 바디
+       ============================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: var(--text);
+      line-height: 1.7;
+      background: #fff;           /* ← 전체 배경 흰색 */
+    }
+
+    /* ============================================================
+       🏠 HERO 섹션 (맨 위 타이틀 영역)
+       ============================================================ */
+    .hero {
+      background: #fff;
+      text-align: center;
+      padding: 72px 24px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-light);
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    /* 히어로 메인 타이틀 */
+    .hero-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      margin: 14px 0;
+      color: var(--accent-dark);
+    }
+    .hero-desc {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    /* 히어로에 로고 이미지 넣을 경우 (HeAD Lab 참고) */
+    .hero-logo {
+      max-width: 400px;
+      width: 80%;
+      margin: 12px auto;
+      display: block;
+    }
+
+    /* ============================================================
+       📦 공통 섹션 스타일
+       ============================================================ */
+    .section {
+      padding: 60px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    /* 섹션 사이 구분선 */
+    .section-divider {
+      border-top: 1px solid var(--border);
+    }
+    /* 섹션 제목 (가운데 정렬 + 밑줄 장식) */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 32px;
+      color: var(--text);
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       📝 소개 섹션 (좌: 텍스트, 우: 이미지)
+       ============================================================ */
+    .about-grid {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .about-text {
+      flex: 1.2;
+    }
+    .about-text p {
+      font-size: 1rem;
+      color: var(--text-mid);
+      margin-bottom: 12px;
+    }
+    .about-img {
+      flex: 1;
+      text-align: center;
+    }
+    .about-img img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    /* 이미지 플레이스홀더 (사진 준비 전 표시용) */
+    .placeholder-img {
+      width: 100%;
+      height: 200px;
+      background: #f8fafc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      font-size: 0.85rem;
+      border: 2px dashed var(--border);
+    }
+
+    /* ============================================================
+       🎯 Mission & Vision 카드
+       ============================================================ */
+    .mv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .mv-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* 카드 상단 액센트 바 */
+    .mv-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--accent);
+    }
+    .mv-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: var(--accent-dark);
+    }
+    .mv-card p {
+      color: var(--text-mid);
+      font-size: 0.93rem;
+    }
+
+    /* ============================================================
+       👤 Director & Manager
+       ============================================================ */
+    .director-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin: 20px auto;
+      max-width: 660px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 22px;
+      border: 1px solid var(--border);
+    }
+    /* Manager는 좌우 반전 */
+    .director-row.reverse {
+      flex-direction: row-reverse;
+    }
+    .director-row.reverse .d-text {
+      text-align: right;
+    }
+    /* 프로필 사진 */
+    .d-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 14px;
+      object-fit: cover;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      flex-shrink: 0;
+    }
+    /* 사진 없을 때 플레이스홀더 */
+    .d-photo-placeholder {
+      width: 110px;
+      height: 110px;
+      border-radius: 14px;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      border: 2px dashed var(--border);
+    }
+    .d-text h3 {
+      font-size: 1.1rem;
+      margin-bottom: 3px;
+    }
+    .d-text p {
+      color: var(--text-mid);
+      font-size: 0.9rem;
+    }
+    /* 역할 뱃지 (Director / Manager) */
+    .d-role {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      font-size: 0.78rem;
+      padding: 2px 10px;
+      border-radius: 16px;
+      margin-bottom: 5px;
+    }
+
+    /* ============================================================
+       🔬 Research Subjects (2x2 그리드)
+       ============================================================ */
+    .rs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .rs-card {
+      padding: 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .rs-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    .rs-card h4 {
+      color: var(--accent-dark);
+      font-size: 0.95rem;
+      margin-bottom: 5px;
+    }
+    .rs-card p {
+      color: var(--text-mid);
+      font-size: 0.88rem;
+    }
+
+    /* ============================================================
+       📄 Publication & Report (접히는 아코디언)
+       ============================================================ */
+    .collapse-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .collapse-header:hover {
+      background: #f8fafc;
+    }
+    /* 화살표 아이콘 */
+    .collapse-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.3s;
+    }
+    .collapse-arrow.open {
+      transform: rotate(180deg);
+    }
+    /* 접히는 본문 영역 */
+    .collapse-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .collapse-body.open {
+      max-height: 3000px;
+    }
+    .collapse-inner {
+      padding: 14px 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+    }
+    /* 연도 필터 버튼 */
+    .year-filters {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .year-btn {
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+    .year-btn.active,
+    .year-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    /* 논문 개별 항목 */
+    .pub-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .pub-item:last-child {
+      border-bottom: none;
+    }
+    .pub-title {
+      font-size: 0.92rem;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .pub-title a {
+      color: var(--accent-dark);
+      text-decoration: underline dotted;
+    }
+    .pub-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .pub-tag {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .pub-tag.year {
+      background: #f0f0f0;
+      color: #555;
+    }
+    .pub-tag.journal {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      border: 1px solid var(--accent-border);
+    }
+    .pub-tag.conf {
+      background: #fffaf0;
+      color: #c05621;
+      border: 1px solid #feebc8;
+    }
+
+    /* ============================================================
+       🎓 Alumni 카드
+       ============================================================ */
+    .alumni-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .alumni-card {
+      text-align: center;
+      padding: 22px 14px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+    .alumni-card:hover {
+      transform: translateY(-2px);
+    }
+    .alumni-photo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .alumni-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+    .alumni-card p {
+      color: var(--text-mid);
+      font-size: 0.85rem;
+    }
+
+    /* ============================================================
+       ✨ 페이드인 애니메이션
+       ============================================================ */
+    .fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       📱 반응형 (모바일 768px 이하)
+       ============================================================ */
+    @media (max-width: 768px) {
+      .about-grid {
+        flex-direction: column;
+      }
+      .mv-grid,
+      .rs-grid {
+        grid-template-columns: 1fr;
+      }
+      .alumni-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .director-row,
+      .director-row.reverse {
+        flex-direction: column;
+        text-align: center;
+      }
+      .director-row.reverse .d-text {
+        text-align: center;
+      }
+      .hero {
+        padding: 48px 20px 40px;
+      }
+      .hero-main {
+        font-size: 2.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       🏠 HERO
+       - hero-sub: 소제목 (한줄 슬로건)
+       - hero-main: 메인 타이틀
+       - hero-desc: 설명
+       ============================================================ -->
+  <header class="hero">
+    <p class="hero-sub">난청 치료의 근본을 탐구하는 기초연구</p>
+    <h1 class="hero-main">Basic Lab</h1>
+    <p class="hero-desc">연세대학교 원주세브란스기독병원 청각재활연구소 기초팀에 오신 것을 환영합니다.</p>
+  </header>
+
+
+  <!-- ============================================================
+       1️⃣ 소개
+       - 왼쪽: 텍스트 / 오른쪽: 이미지
+       - 이미지 교체: placeholder-img를 <img src="URL" alt="설명"> 로 변경
+       ============================================================ -->
+  <section class="section" id="about">
+    <h2 class="section-title">Basic Lab 소개</h2>
+    <div class="fade">
+      <div class="about-text">
+        <p>Basic Lab은 연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 산하 기초팀으로, 줄기세포, 나노입자, 약물 전달 등 난청의 기전에 대한 기초 연구를 수행합니다.</p>
+        <p>난청 치료를 위한 혁신적인 기초 연구 기반을 구축하고, 줄기세포 및 나노공학 기술을 활용한 새로운 치료 접근법을 개발합니다.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       2️⃣ Mission & Vision
+       - mv-card 안의 텍스트만 수정하면 됩니다
+       ============================================================ -->
+  <section class="section section-divider" id="mission">
+    <h2 class="section-title">Mission &amp; Vision</h2>
+    <div class="mv-grid fade">
+      <div class="mv-card">
+        <h3>Mission</h3>
+        <p>난청 치료를 위한 혁신적인 기초 연구 기반을 구축하고, 줄기세포 및 나노공학 기술을 활용한 새로운 치료 접근법을 개발합니다.</p>
+      </div>
+      <div class="mv-card">
+        <h3>Vision</h3>
+        <p>기초과학의 성과를 임상에 적용하여, 난청 환자의 삶의 질 향상에 기여하는 세계적 수준의 연구실을 목표로 합니다.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       3️⃣ Organigram (조직도)
+       - TODO: 이미지 준비 후 placeholder-img → <img src="URL" alt="조직도"> 교체
+       ============================================================ -->
+  <section class="section section-divider" id="organization">
+    <h2 class="section-title">Organigram</h2>
+    <div class="fade" style="text-align: center;">
+      <!-- HTML 기반 조직도 (Basic Lab 강조) -->
+      <div style="max-width: 860px; margin: 0 auto;">
+        <!-- RIHE 상위 박스 -->
+        <div style="background: #e8e8ee; border-radius: 12px; padding: 18px 24px; font-weight: 700; font-size: 1.1rem; color: #1a1a2e;">
+          Research Institute of Hearing Enhancement<br>(RIHE)
+        </div>
+        <!-- 화살표 -->
+        <div style="display: flex; justify-content: center; gap: 120px; margin: 4px 0;">
+          <span style="color: #999; font-size: 1.4rem;">↓</span>
+          <span style="color: #999; font-size: 1.4rem;">↓</span>
+          <span style="color: #999; font-size: 1.4rem;">↓</span>
+          <span style="color: #999; font-size: 1.4rem;">↓</span>
+        </div>
+        <!-- 하위 박스 4개 -->
+        <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+          <div style="background: #e8e8ee; border-radius: 10px; padding: 12px 20px; font-weight: 600; font-size: 0.95rem; color: #555; min-width: 140px;">
+            Audiso Co., Ltd.
+          </div>
+          <!-- ★ Basic Lab 강조 (accent 색상) -->
+          <div style="background: var(--accent-dark); border-radius: 10px; padding: 12px 20px; font-weight: 700; font-size: 0.95rem; color: #fff; min-width: 120px;">
+            Basic Lab
+          </div>
+          <div style="background: #e8e8ee; border-radius: 10px; padding: 12px 20px; font-weight: 600; font-size: 0.95rem; color: #555; min-width: 140px;">
+            Hearing Lab
+          </div>
+          <div style="background: #e8e8ee; border-radius: 10px; padding: 12px 20px; font-weight: 600; font-size: 0.95rem; color: #555; min-width: 120px;">
+            HeAD Lab
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       4️⃣ Director & Manager
+       - Director: 서영준 교수 (RIHE 연구소장)
+       - Manager: 이은수 (Basic Lab 팀장, 연구교수)
+       - 사진 교체: src="URL" 변경 또는 d-photo-placeholder → img 교체
+       ============================================================ -->
+  <section class="section section-divider" id="director">
+    <h2 class="section-title">Director &amp; Manager</h2>
+
+    <!-- Director (좌: 사진, 우: 텍스트) -->
+    <div class="director-row fade">
+      <img src="https://i.imgur.com/vIAp69Y.jpeg" alt="서영준 교수" class="d-photo">
+      <div class="d-text">
+        <span class="d-role">Director</span>
+        <h3>서영준 교수</h3>
+        <p>RIHE 연구소장<br>연세대학교 원주세브란스기독병원 이비인후과</p>
+      </div>
+    </div>
+
+    <!-- Manager (좌: 텍스트, 우: 사진 — reverse 클래스로 반전) -->
+    <div class="director-row reverse fade">
+      <!-- TODO: 이은수 팀장 사진 준비 후 교체 -->
+      <img src="https://i.imgur.com/SkXdr8p.jpeg" alt="이은수" class="d-photo">
+      <div class="d-text">
+        <span class="d-role">Manager</span>
+        <h3>이은수</h3>
+        <p>Basic Lab 팀장 · 연구교수</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       5️⃣ Research Subjects
+       - 카드 추가: rs-card div를 복사 후 내용 수정
+       - 카드 삭제: 해당 rs-card div 전체 삭제
+       ============================================================ -->
+  <section class="section section-divider" id="subjects">
+    <h2 class="section-title">Research Subjects</h2>
+    <div class="rs-grid">
+      <div class="rs-card fade">
+        <h4>줄기세포 호밍 및 나노입자 전달</h4>
+        <p>자성 나노입자를 이용한 줄기세포의 내이 호밍 효율 향상 연구</p>
+      </div>
+      <div class="rs-card fade">
+        <h4>Exosome 기반 치료제 연구</h4>
+        <p>엑소좀을 활용한 내이 세포 보호 및 재생 치료제 개발</p>
+      </div>
+      <div class="rs-card fade">
+        <h4>약물 독성 및 보호 메커니즘</h4>
+        <p>이독성 약물에 의한 내이 손상 기전 규명 및 보호 전략 연구</p>
+      </div>
+      <div class="rs-card fade">
+        <h4>내이 세포 재생 연구</h4>
+        <p>유모세포 및 신경세포 재생을 위한 분자생물학적 접근</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       6️⃣ Publication & Report (접히는 아코디언)
+       - 기본 상태: 접힘 → 클릭 시 펼침
+       - 연도 필터: 전체 / 2026 / 2025 / 2024 / 2023 / 2022
+
+       ✏️ 논문 추가 방법:
+       pub-list (또는 report-list) 안에 아래 코드 복사 & 붙여넣기:
+
+       <div class="pub-item" data-year="2025">
+         <div class="pub-title">
+           <a href="https://논문링크" target="_blank">논문 제목</a>
+         </div>
+         <div class="pub-tags">
+           <span class="pub-tag year">2025</span>
+           <span class="pub-tag journal">저널명</span>
+         </div>
+       </div>
+       ============================================================ -->
+  <section class="section section-divider" id="publication">
+    <h2 class="section-title">Publication &amp; Report</h2>
+
+    <!-- Publication (접힘) -->
+    <div style="margin-bottom: 14px;">
+      <div class="collapse-header" onclick="toggleCollapse('pub')">
+        <span>📄 Publication</span>
+        <span class="collapse-arrow" id="pub-arrow">▼</span>
+      </div>
+      <div class="collapse-body" id="pub">
+        <div class="collapse-inner">
+          <div class="year-filters">
+            <button class="year-btn active" onclick="filterYear(this,'pub')">전체</button>
+            <button class="year-btn" onclick="filterYear(this,'pub')">2026</button>
+            <button class="year-btn" onclick="filterYear(this,'pub')">2025</button>
+            <button class="year-btn" onclick="filterYear(this,'pub')">2024</button>
+            <button class="year-btn" onclick="filterYear(this,'pub')">2023</button>
+            <button class="year-btn" onclick="filterYear(this,'pub')">2022</button>
+            <button class="year-btn" onclick="filterYear(this,'pub')">~2021</button>
+          </div>
+          <div id="pub-list">
+      <div class="pub-item" data-year="2025" data-team="basic">
+        <div class="pub-title">Innovative surgical approaches for the Osia® 2 System</div>
+        <div class="pub-authors">Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="basic">
+        <div class="pub-title">Isolated Myxoma of the External Auditory Canal: A Rare Case Report</div>
+        <div class="pub-authors">전은경, 김민헌, 권동환, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Virtual reality simulators for temporal bone dissection: overcoming limitations of previous models</div>
+        <div class="pub-authors">Temuulen Batsaikhan, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Vitamin D supplementation in preventing the recurrence of benign paroxysmal positional vertigo</div>
+        <div class="pub-authors">Kong, Tae Hoon, Jung, Su Young, Seo, Young Joon, Shim, Dae Bo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">LARYNGOSCOPE INVESTIGATIVE OTOLARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Combination Therapy of Choline Alfoscerate With Ginkgo biloba Monotherapy in Age-Related Hearing Loss: Effects and Outcomes</div>
+        <div class="pub-authors">Kim Dae Hyun, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Role of Kir4.1 Channels in Aminoglycoside-Induced Ototoxicity of Hair Cells</div>
+        <div class="pub-authors">Choi, Jin Sil, Ahn, Ye Ji, Lee, SuHoon, Park, Dong Jun, Park, JeongEun, Ha, S...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">BioMed Research International</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Meta-Analysis Exploring the Effects of Music Training in Cochlear Implant Users by Age</div>
+        <div class="pub-authors">Shukor Nor Farawaheeda Ab, Seo Young Joon, Han Woojae</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology and Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">편도에 고립된 뇌간 경색의 희귀한 증례: 급작스러운 현훈의 임상적 특징 및 영상 소견</div>
+        <div class="pub-authors">Dong Hwan Kwon, Eun kyung Jeon, Young Joon Seo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">효과적인 BAHAⓇ Attract의 이식술식</div>
+        <div class="pub-authors">Lee, Jeon Mi, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">대한이비인후-두경부외과학회지</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">A nystagmus extraction system using artificial intelligence for video-nystagmography</div>
+        <div class="pub-authors">Lee, Yerin, Lee, Sena, Han, Junghun, 서영준, Yang, Sejung</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Scientific Reports</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">An eye-tracking algorithm for nystagmus detection in videonystagmography based on convolutional neural networks</div>
+        <div class="pub-authors">Lee, Y., Lee, S., Han, J., Wang, H.J., 서영준, Yang, S.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Progress in Biomedical Optics and Imaging - Proceedings of SPIE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Deep Learning Techniques for Ear Diseases Based on Segmentation of the Normal Tympanic Membrane</div>
+        <div class="pub-authors">Park, Y.S., Jeon, J.H., Kong, T.H., Chung, T.Y., Seo, Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Clinical and Experimental Otorhinolaryngology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">Protection of Hearing Loss in Ototoxic Mouse Model Through SPIONs and Dexamethasone-Loaded PLGA Nanoparticle Delivery by Magnetic Attraction</div>
+        <div class="pub-authors">Park, Jeong-Eun, Kim, Woo Cheol, Kim, Sung Kyun, Ahn, Yeji, Ha, Sun Mok, Kim,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF NANOMEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">안진영상에서 안진기의 미끄러짐으로 유발된 동잡음 제거 알고리즘 개발</div>
+        <div class="pub-authors">Yerin Lee, Young Joon Seo, Sejung Yang</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">Circulatory disturbance of the cochlear spiral modiolar artery in a type 2 diabetic mouse model</div>
+        <div class="pub-authors">Seo Young Joon, Shim Dae Bo, Sharif Arazu, Samson Zeke, Takechi Ryu, Brown Da...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Laryngoscope Investigative Otolaryngology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">The risk of laryngitis with herpes zoster infection: A nested case-control study using data from the Korean National Sample Cohort</div>
+        <div class="pub-authors">Joo, Young-Hoon, Lee, Hyun-Jin, Park, Jun-Ook, Seo, Young Joon, Kong, Tae Hoo...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">PLOS ONE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Protective effect of MSC-derived exosomes against cisplatin-induced apoptosis via heat shock protein 70 in auditory explant model</div>
+        <div class="pub-authors">Park, Dong Jun, Park, Jeong-Eun, Lee, Su Hoon, Eliceiri, Brian P., Choi, Jin ...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">NANOMEDICINE-NANOTECHNOLOGY BIOLOGY AND MEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Hyperbaric Protocols for Idiopathic Sudden Sensorineural Hearing Loss Response</div>
+        <div class="pub-authors">Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Engineering of Extracellular Vesicles Based on Payload Changes for Tissue Regeneration</div>
+        <div class="pub-authors">Park Dong Jun, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">TISSUE ENGINEERING AND REGENERATIVE MEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Usefulness of stress-related hormones as predictors and prognostic factors for idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Chae, H (Chae, Heesung), Lee, HS (Lee, Hyun Su), Lee, JH (Lee, Joo Hyung), Ki...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Alteration of payload in extracellular vesicles by crosstalk with mesenchymal stem cells from different origin</div>
+        <div class="pub-authors">DONGJUN PARK, JEONGEUN PARK, TAEHOON KONG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF NANOBIOTECHNOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Effects of reactive oxygen species generation induced by Wonju City particulate matter on mitochondrial dysfunction in human middle ear cell</div>
+        <div class="pub-authors">SUHOON LEE, SUNMOKHA , MinJae JEONG, DONGJUN PARK, Polo, CN (Polo, Carlos Nor...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ENVIRONMENTAL SCIENCE AND POLLUTION RESEARCH</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Crucial Music Components Needed for Speech Perception Enhancement of Pediatric Cochlear Implant Users: A Systematic Review and Meta-Analysis</div>
+        <div class="pub-authors">Ab Shukor, NF (Ab Shukor, Nor Farawaheeda), Han, W (Han, Woojae), JIHYEON LEE...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AUDIOLOGY AND NEURO-OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">The Effectiveness of Hyperbaric Oxygen Therapy in Severe Idiopathic Sudden Sensorineural Hearing Loss</div>
+        <div class="pub-authors">YEJI AHN, YOUNG JOON SEO, Lee, YS (Lee, Young Sub)</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Audiological benefits and performance improvements of Baha® attract implantation in patients with unilateral hearing loss</div>
+        <div class="pub-authors">TAEHOON KONG, JIHYEON LEE, Kwak C., Han W., Gwon O.-H., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Cochlear Implants International</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Biodistribution of poly clustered superparamagnetic iron oxide nanoparticle labeled mesenchymal stem cells in aminoglycoside induced ototoxic mouse model</div>
+        <div class="pub-authors">YEJI AHN, WAN SU YUN, JINSILCHOI , woochul kim, Su Hoon Lee, Dong Jun Park, J...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Biomedical Engineering Letters</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Usefulness of vertebrobasilar artery radiological finding as a predictive and prognostic factor for sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Han, SM (Han, Sung Min), Lee, HS (Lee, Hyun Su), Chae, HS (Chae, Hee Sung), Y...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Improvement of stem cell-derived exosome release efficiency by surface-modified nanoparticles</div>
+        <div class="pub-authors">박동준, Yun, W.S., Kim, W.C., Park, J.-E., Lee, S.H., Ha, S., Choi, J.S., Key, J...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF NANOBIOTECHNOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">In vitro time-lapse live-cell imaging to explore cell migration toward the organ of corti</div>
+        <div class="pub-authors">Park, J.-E., Lee, S.H., DONGJUN PARK, Seo, Y.J., Kim, S.K.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOVE-JOURNAL OF VISUALIZED EXPERIMENTS</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Circulating microRNAs as potentially new diagnostic biomarkers of idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">SUNMOKHA , Hwang, KR (Hwang, Kyu Rin), ILHWAN PARK, Park, S (Park, Sunyoung),...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Endocytic trafficking of polymeric clustered superparamagnetic iron oxide nanoparticles in mesenchymal stem cells</div>
+        <div class="pub-authors">Su Hoon Lee, Dong Jun Park, Wan Su Yun, Jeong-Eun Park, Jin Sil Choi, Jaehong...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF CONTROLLED RELEASE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Induced short-term hearing loss due to stimulation of age-related factors by intermittent hypoxia, high-fat diet, and galactose injection</div>
+        <div class="pub-authors">박동준, Ha, S., Choi, J.S., Lee, S.H., Park, J.-E., Seo, Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">International Journal of Molecular Sciences</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019" data-team="basic">
+        <div class="pub-title">Strategies to enhance efficacy of SPION-labeled stem cell homing by magnetic attraction: a systemic review with meta-analysis</div>
+        <div class="pub-authors">Ye Ji Ahn, Tae Hoon Kong, Jin Sil Choi, Wan Su Yun, Jaehong Key, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF NANOMEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Circulating Serum miRNA-205 as a Diagnostic Biomarker for Ototoxicity in Mice Treated with Aminoglycoside Antibiotics</div>
+        <div class="pub-authors">Lee S.H., Ju H.M., Choi J.S., Ahn Y., Lee S., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Enhanced homing technique of mesenchymal stem cells using iron oxide nanoparticles by magnetic attraction in olfactory-injured mouse models</div>
+        <div class="pub-authors">WANSU YUN, JINSILCHOI , HYUNMI JU, MIN HEE KIM, SEONG JIN CHOI, EunSeol Oh, Y...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Update on Bone-Conduction Auditory Brainstem Responses: A Review</div>
+        <div class="pub-authors">YOUNG JOON SEO, 곽찬범, 김세아, PARKYOONAH , 박경호, 한우재</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">A Simple Model for Inducing Optimal Increase of SDF-1 with Aminoglycoside Ototoxicity</div>
+        <div class="pub-authors">HYUNMI JU, SUNHEE LEE, JINSILCHOI , YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">BIOMED RESEARCH INTERNATIONAL</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">Usefulness of Intravital Multiphoton Microscopy in Visualizing Study of Mouse Cochlea and Volume Changes in the Scala Media</div>
+        <div class="pub-authors">HYUNMI JU, SUNHEE LEE, , Kwon, SH (Kwon, Seung-Hae), JINSILCHOI , YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">FRONTIERS IN NEUROLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">Image-guided implantation of the Bonebridge™ with a surgical navigation: A feasibility study</div>
+        <div class="pub-authors">Kong T.H., Park Y.A., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">International Journal of Surgery Case Reports</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="basic">
+        <div class="pub-title">The change of hippocampal volume and its relevance with inner ear function in Meniere's disease patients</div>
+        <div class="pub-authors">YOUNG JOON SEO, Jinna Kim , sung huhn Kim</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="basic">
+        <div class="pub-title">Head position and increased head velocity to optimize video head impulse test sensitivity</div>
+        <div class="pub-authors">YOUNG JOON SEO, PARKYOONAH , Tae Hoon Kong, MEE RAN BAE , sung huhn Kim</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report (접힘) -->
+    <div>
+      <div class="collapse-header" onclick="toggleCollapse('report')">
+        <span>📋 Report</span>
+        <span class="collapse-arrow" id="report-arrow">▼</span>
+      </div>
+      <div class="collapse-body" id="report">
+        <div class="collapse-inner">
+          <div class="year-filters">
+            <button class="year-btn active" onclick="filterYear(this,'report')">전체</button>
+            <button class="year-btn" onclick="filterYear(this,'report')">2026</button>
+            <button class="year-btn" onclick="filterYear(this,'report')">2025</button>
+            <button class="year-btn" onclick="filterYear(this,'report')">2024</button>
+            <button class="year-btn" onclick="filterYear(this,'report')">2023</button>
+            <button class="year-btn" onclick="filterYear(this,'report')">2022</button>
+          </div>
+          <div id="report-list">
+            <!-- 여기에 pub-item 추가 -->
+            <p style="color: #999; font-size: 0.88rem; padding: 10px 0;">
+              ※ 학회 발표 데이터는 Research 페이지와 연동 예정입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       7️⃣ Alumni (졸업생)
+       - 현재 등록된 졸업생 없음
+       - 졸업생 추가 시: 아래 주석 해제 후 내용 수정
+
+       <div class="alumni-grid">
+         <div class="alumni-card fade">
+           <img src="사진URL" alt="이름" class="alumni-photo">
+           <h4>이름</h4>
+           <p>학과 석사<br>20XX년 XX월 졸업</p>
+         </div>
+       </div>
+       ============================================================ -->
+  <section class="section section-divider" id="alumni">
+    <h2 class="section-title">Alumni</h2>
+    <div style="text-align: center; color: var(--text-light); padding: 36px 0;">
+      <p>현재 등록된 졸업생이 없습니다.</p>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       📜 JavaScript
+       1. toggleCollapse — 아코디언 접기/펼치기
+       2. filterYear    — 연도별 논문 필터
+       3. Observer       — 스크롤 시 페이드인 애니메이션
+       ============================================================ -->
+  <script>
+    /* 아코디언 접기/펼치기 */
+    function toggleCollapse(id) {
+      document.getElementById(id).classList.toggle('open');
+      document.getElementById(id + '-arrow').classList.toggle('open');
+    }
+
+    /* 연도별 필터 */
+    function filterYear(btn, section) {
+      var parent = btn.parentElement;
+      parent.querySelectorAll('.year-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      btn.classList.add('active');
+
+      var year = btn.textContent.trim();
+      var list = document.getElementById(section + '-list');
+      list.querySelectorAll('.pub-item').forEach(function(item) {
+        if (year === '전체') {
+          item.style.display = '';
+        } else if (year === '~2021') {
+          item.style.display = (parseInt(item.dataset.year) <= 2021) ? '' : 'none';
+        } else {
+          item.style.display = (item.dataset.year === year) ? '' : 'none';
+        }
+      });
+    }
+
+    /* 스크롤 시 페이드인 */
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry, i) {
+        if (entry.isIntersecting) {
+          setTimeout(function() {
+            entry.target.classList.add('show');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade').forEach(function(el) {
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>

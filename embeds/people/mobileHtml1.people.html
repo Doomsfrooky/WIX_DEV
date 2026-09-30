@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>People — RIHE Mobile</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'EngSerif',Pretendard,sans-serif;color:#1a202c;line-height:1.6;background:#fff}
+.hero{text-align:center;padding:36px 16px 28px}
+.hero h1{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#1a3c6e;margin:8px 0}
+.hero p{font-size:0.85rem;color:#718096}
+.tab-nav{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;justify-content:center}
+.tab-btn{padding:5px 10px;border:1px solid #e2e8f0;border-radius:14px;background:#fff;font-size:0.75rem;color:#4a5568;text-decoration:none}
+.team-sec{padding:28px 16px;scroll-margin-top:50px}
+.team-sec+.team-sec{border-top:1px solid #e2e8f0}
+.team-title{font-family:'Playfair Display',serif;font-size:1.2rem;text-align:center;margin-bottom:4px}
+.team-sub{text-align:center;font-size:0.78rem;color:#718096;margin-bottom:6px}
+.team-bar{width:36px;height:3px;border-radius:2px;margin:0 auto 16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{text-align:center;padding:14px 8px;border:1px solid #e2e8f0;border-radius:10px}
+.card img{width:65px;height:65px;border-radius:50%;object-fit:cover;margin-bottom:6px}
+.card h4{font-size:0.82rem;margin-bottom:1px}
+.card .role{font-size:0.72rem;color:#718096}
+.card .dept{display:inline-block;font-size:0.65rem;padding:1px 6px;border-radius:8px;background:#FFF9E6;color:#B8880E;border:1px solid #F0DDA0;margin-top:2px}
+.fac-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.fac-card{text-align:center;padding:14px 8px;border:1px solid #e2e8f0;border-radius:10px}
+.fac-card img{width:75px;height:75px;border-radius:50%;object-fit:cover;margin-bottom:6px}
+.fac-card h4{font-size:0.82rem;margin-bottom:1px}
+.fac-card .role{font-size:0.72rem;color:#718096}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p>함께 연구하는 사람들</p>
+  <h1>People</h1>
+</div>
+
+<nav class="tab-nav">
+  <a href="#faculty" class="tab-btn">Faculty</a>
+  <a href="#basic" class="tab-btn">기초팀</a>
+  <a href="#hearing" class="tab-btn">참조표준팀</a>
+  <a href="#head" class="tab-btn">데이터팀</a>
+  <a href="#admin" class="tab-btn">행정팀</a>
+  <a href="#audiso" class="tab-btn">Audiso</a>
+</nav>
+
+<!-- Faculty -->
+<div class="team-sec" id="faculty">
+  <h2 class="team-title">Faculty</h2>
+  <p class="team-sub">교수진</p>
+  <div class="team-bar" style="background:#1a3c6e"></div>
+  <div class="fac-grid">
+    <div class="fac-card"><img src="https://i.imgur.com/vIAp69Y.jpeg" alt="서영준"><h4>서영준</h4><p class="role">교수 / 연구소장</p></div>
+    <div class="fac-card"><img src="https://i.imgur.com/6nGWxAV.jpeg" alt="기재홍"><h4>기재홍</h4><p class="role">교수</p></div>
+    <div class="fac-card"><img src="https://i.imgur.com/kKOtOgO.jpeg" alt="공태훈"><h4>공태훈</h4><p class="role">교수</p></div>
+  </div>
+</div>
+
+<!-- 기초팀 -->
+<div class="team-sec" id="basic">
+  <h2 class="team-title">기초팀</h2>
+  <p class="team-sub">Basic Lab</p>
+  <div class="team-bar" style="background:#2E8B57"></div>
+  <div class="grid">
+    <div class="card"><img src="https://i.imgur.com/SkXdr8p.jpeg" alt="이은수"><h4>이은수</h4><p class="role">연구교수 / 팀장</p></div>
+    <div class="card"><img src="https://i.imgur.com/i8G7rWP.jpeg" alt="Temuulen"><h4>Temuulen</h4><p class="role">Post-doc</p></div>
+    <div class="card"><img src="https://i.imgur.com/MrCaFNt.jpeg" alt="이현수"><h4>이현수</h4><p class="role">박사과정</p></div>
+    <div class="card"><img src="https://i.imgur.com/8FpEVAF.jpeg" alt="양효경"><h4>양효경</h4><p class="role">연구원</p></div>
+  </div>
+</div>
+
+<!-- 참조표준팀 -->
+<div class="team-sec" id="hearing">
+  <h2 class="team-title">참조표준팀</h2>
+  <p class="team-sub">Hearing Lab</p>
+  <div class="team-bar" style="background:#7096B5"></div>
+  <div class="grid">
+    <div class="card"><img src="https://i.imgur.com/2Q56Mj7.jpeg" alt="변유선"><h4>변유선</h4><p class="role">박사과정</p></div>
+    <div class="card"><img src="https://i.imgur.com/J60sGwj.jpeg" alt="이동혁"><h4>이동혁</h4><p class="role">박사과정</p></div>
+    <div class="card"><img src="https://i.imgur.com/W89RCOU.jpeg" alt="전진희"><h4>전진희</h4><p class="role">연구원</p></div>
+    <div class="card"><img src="https://i.imgur.com/Fb7yMsE.jpeg" alt="윤창희"><h4>윤창희</h4><p class="role">연구원</p></div>
+  </div>
+</div>
+
+<!-- 데이터팀 -->
+<div class="team-sec" id="head">
+  <h2 class="team-title">데이터팀</h2>
+  <p class="team-sub">HeAD Lab</p>
+  <div class="team-bar" style="background:#4A90C4"></div>
+  <div class="grid">
+    <div class="card"><img src="https://i.imgur.com/RC37iFm.jpeg" alt="윤철영"><h4>윤철영</h4><p class="role">박사과정 / 팀장</p></div>
+    <div class="card"><img src="https://i.imgur.com/7FVQZQe.jpeg" alt="김송이"><h4>김송이</h4><p class="role">박사과정</p></div>
+    <div class="card"><img src="https://i.imgur.com/yCSCJNd.jpeg" alt="김진수"><h4>김진수</h4><p class="role">석사과정</p></div>
+    <div class="card"><img src="https://i.imgur.com/bomh6kn.jpeg" alt="임승미"><h4>임승미</h4><p class="role">석사과정</p></div>
+    <div class="card"><img src="https://i.imgur.com/F9YowOS.jpeg" alt="서연호"><h4>서연호</h4><p class="role">석사과정</p></div>
+    <div class="card"><img src="https://i.imgur.com/0PwvF5s.jpeg" alt="윤담"><h4>윤담</h4><p class="role">학부연구원</p></div>
+    <div class="card"><img src="https://i.imgur.com/uWDb8vJ.jpeg" alt="김동유"><h4>김동유</h4><p class="role">학부연구원</p></div>
+  </div>
+</div>
+
+<!-- 행정팀 -->
+<div class="team-sec" id="admin">
+  <h2 class="team-title">행정팀</h2>
+  <p class="team-sub">Administration</p>
+  <div class="team-bar" style="background:#8B6BB5"></div>
+  <div class="grid">
+    <div class="card"><img src="https://i.imgur.com/WtpEoDz.jpeg" alt="김다희"><h4>김다희</h4><p class="role">연구원</p></div>
+    <div class="card"><img src="https://i.imgur.com/SQ95MyN.jpeg" alt="서영란"><h4>서영란</h4><p class="role">연구원</p></div>
+    <div class="card"><img src="https://i.imgur.com/MgDWUeK.jpeg" alt="채성현"><h4>채성현</h4><p class="role">연구원</p></div>
+    <div class="card"><img src="https://i.imgur.com/tctARoM.jpeg" alt="김순정"><h4>김순정</h4><p class="role">연구간호사</p></div>
+  </div>
+</div>
+
+<!-- Audiso -->
+<div class="team-sec" id="audiso">
+  <h2 class="team-title">Audiso</h2>
+  <p class="team-sub">오디에스오(주)</p>
+  <div class="team-bar" style="background:#D4A017"></div>
+  <div class="grid">
+    <div class="card"><img src="https://i.imgur.com/OelMBU2.jpeg" alt="강철영"><h4>강철영</h4><p class="role">팀장</p><span class="dept">개발</span></div>
+    <div class="card"><img src="https://i.imgur.com/IwDfyTr.jpeg" alt="손명석"><h4>손명석</h4><span class="dept">개발</span></div>
+    <div class="card"><img src="https://i.imgur.com/SF6uDfd.jpeg" alt="고재욱"><h4>고재욱</h4><span class="dept">개발</span></div>
+    <div class="card"><img src="https://i.imgur.com/KVbmUMU.jpeg" alt="홍기현"><h4>홍기현</h4><span class="dept">개발</span></div>
+    <div class="card"><img src="https://i.imgur.com/jwJDNdM.jpeg" alt="박진철"><h4>박진철</h4><span class="dept">영업</span></div>
+    <div class="card"><img src="https://i.imgur.com/MU5lo9P.jpeg" alt="여인기"><h4>여인기</h4><span class="dept">인증</span></div>
+    <div class="card"><img src="https://i.imgur.com/7bDCrbo.jpeg" alt="이재원"><h4>이재원</h4><span class="dept">전략</span></div>
+    <div class="card"><img src="https://i.imgur.com/cxhOocR.jpeg" alt="정현우"><h4>정현우</h4><span class="dept">홍보</span></div>
+    <div class="card"><img src="https://i.imgur.com/akWRZpf.jpeg" alt="강동휘"><h4>강동휘</h4><span class="dept">홍보</span></div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(function(b){
+  b.addEventListener('click',function(e){
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>

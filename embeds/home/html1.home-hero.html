@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Hero — RIHE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: #1a202c;
+      line-height: 1.7;
+      background: #fff;
+    }
+    .hero {
+      background: #fff;
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: #1a3c6e;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: #4a5568;
+      max-width: 700px;
+      margin: 0 auto 10px;
+    }
+    .hero-sub-en {
+      font-size: 0.9rem;
+      color: #718096;
+      max-width: 700px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+    @media (max-width: 768px) {
+      .hero { padding: 56px 20px 44px; }
+      .hero-title { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1 class="hero-title">Research Institute of<br>Hearing Enhancement</h1>
+    <p class="hero-sub">청각재활연구소 에 오신 것을 환영합니다.</p>
+    <p class="hero-sub">난청의 기전 대한 기초 연구를 바탕으로 치료제 개발 및 임상 연구, 그리고 의료 기기 개발까지 청각에 대한 전주기적 연구를 하는 연구소로, 난청 연구에서 세계 최고의 연구소가 되기 위해 노력합니다.</p>
+    <p class="hero-sub-en">Based on basic research on the mechanism of hearing loss, it is a research institute that conducts full-cycle research on hearing from the development of drugs, clinical research, and medical devices, and strives to become the world's best research institute in hearing research.</p>
+  </header>
+
+</body>
+</html>

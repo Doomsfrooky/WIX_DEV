@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Director — RIHE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: #1a202c;
+      line-height: 1.8;
+      background: #fff;
+    }
+
+    .section {
+      padding: 56px 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 36px;
+      color: #1a202c;
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 3px;
+      background: #1a3c6e;
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       좌: 텍스트 / 우: 사진 레이아웃
+       ============================================================ */
+    .director-layout {
+      display: flex;
+      gap: 36px;
+      align-items: flex-start;
+    }
+
+    /* 왼쪽 텍스트 */
+    .director-text {
+      flex: 1;
+    }
+    .director-text h3 {
+      font-size: 1.4rem;
+      color: #1a3c6e;
+      margin-bottom: 2px;
+    }
+    .director-text .sub-title {
+      font-size: 1rem;
+      color: #4a5568;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .director-text .sub-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: #718096;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+    .director-text .name-en {
+      font-size: 0.9rem;
+      color: #718096;
+      margin-bottom: 14px;
+    }
+
+    /* 소속/직함 */
+    .positions {
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .positions p {
+      font-size: 0.88rem;
+      color: #4a5568;
+      margin-bottom: 2px;
+      text-align: center;
+    }
+    .positions .email {
+      font-size: 0.88rem;
+      color: #1a3c6e;
+      margin-top: 6px;
+    }
+
+    /* 인사말 */
+    .message {
+      font-size: 0.92rem;
+      color: #4a5568;
+      margin-bottom: 14px;
+    }
+    .message-en {
+      font-size: 0.85rem;
+      color: #718096;
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    .message-extra {
+      font-size: 0.9rem;
+      color: #4a5568;
+    }
+
+    /* 오른쪽 사진 */
+    .director-photo {
+      flex-shrink: 0;
+      width: 280px;
+    }
+    .director-photo img {
+      width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 768px) {
+      .director-layout {
+        flex-direction: column-reverse;
+        align-items: center;
+      }
+      .director-photo {
+        width: 220px;
+        margin-bottom: 20px;
+      }
+      .director-text {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="section">
+    <h2 class="section-title">연구소장</h2>
+
+    <div class="director-layout">
+
+      <!-- 왼쪽: 텍스트 -->
+      <div class="director-text">
+
+        <!-- 이름/직함 -->
+        <h3>서영준 연구소장</h3>
+        <p class="sub-title">차세대 한림원 회원</p>
+        <p class="sub-year">(2022.1~)</p>
+
+        <!-- 영문 이름 -->
+        <p class="name-en">Young Joon Seo (Yonsei Univ.)</p>
+
+        <!-- 소속 -->
+        <div class="positions">
+          <p>연세대학교 원주의과대학 이비인후과 주임교수</p>
+          <p>연세대학교 미래캠퍼스 디지털헬스케어학과 겸임교수</p>
+          <p>연세대학교 원주의과대학원 의학통계학과 겸임교수</p>
+          <p>대한청각학회 연구이사</p>
+          <p class="email">okas2000@yonsei.ac.kr</p>
+        </div>
+
+        <!-- 인사말 (한국어) -->
+        <p class="message">난청을 치료하는 임상의이자 난청을 연구하는 연구자로서, 청각재활연구소를 기반으로 융합 연구자의 길을 걸어왔습니다. 2015년부터 다양한 융합 연구를 선보인 연구소입니다. 세계 여러 나라 청각 특성화 연구소들과 어깨를 나란히 견줄 수 있는 연구소가 되겠습니다.</p>
+
+        <!-- 인사말 (영문) -->
+        <p class="message-en">As a clinician who treats patients with hearing loss and a researcher who studies the patho-physiology of hearing loss, I have walked the path of becoming a translational researcher based on our Institute. It is a research institute that has been promoting various translational research since 2015. We will be a research institute that can be compared shoulder to shoulder with other hearing labs in many countries around the world.</p>
+
+        <!-- 추가 메시지 -->
+        <p class="message-extra">청각 특성화 연구소만의 독특한 시각과 연구 방식에서 수년 동안 많은 과정을 거쳐 발전해온 청각 재활연구소만의 우수한 연구들을 볼 수 있습니다. 발전된 기틀을 놓치지 않으며, 청각을 연구할 수 있는 우수한 인재를 양성하는 데 게을리 하지 않으며, 새로운 융합 연구에 대해 끊임없이 고민합니다.</p>
+
+      </div>
+
+      <!-- 오른쪽: 사진 -->
+      <div class="director-photo">
+        <!-- TODO: 교수님 사진 교체 시 src만 변경 -->
+        <img src="https://i.imgur.com/vIAp69Y.jpeg" alt="서영준 교수">
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    var obs = new IntersectionObserver(function(e) {
+      e.forEach(function(el, i) { if (el.isIntersecting) { setTimeout(function() { el.target.classList.add('show'); }, i * 80); obs.unobserve(el.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade').forEach(function(el) { obs.observe(el); });
+  </script>
+</body>
+</html>

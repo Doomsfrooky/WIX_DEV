@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home — RIHE Mobile</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-height:1.7;background:#fff}
+.hero{text-align:center;padding:36px 16px 28px}
+.hero h1{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:600;color:#1a3c6e;margin-bottom:12px;line-height:1.3}
+.hero p{font-size:0.85rem;color:#4a5568;margin-bottom:8px}
+.hero .en{font-size:0.78rem;color:#718096;font-style:italic}
+.sec{padding:28px 16px}
+.sec-div{border-top:1px solid #e2e8f0}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;text-align:center;margin-bottom:18px;color:#1a202c;position:relative;padding-bottom:10px}
+.sec-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:36px;height:3px;background:#1a3c6e;border-radius:2px}
+/* Outcomes */
+.outcome{text-align:center;padding:16px;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:10px}
+.outcome .num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:#1a3c6e}
+.outcome .lbl{font-size:0.85rem;color:#4a5568}
+/* Book */
+.book{display:flex;gap:14px;align-items:center}
+.book img{width:120px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.book-text h3{font-size:1rem;color:#1a3c6e;margin-bottom:4px}
+.book-text p{font-size:0.82rem;color:#4a5568}
+/* Director */
+.dir{display:flex;gap:16px;align-items:flex-start}
+.dir img{width:100px;border-radius:10px;flex-shrink:0}
+.dir-info h3{font-size:1.1rem;color:#1a3c6e;margin-bottom:2px}
+.dir-info .sub{font-size:0.82rem;color:#4a5568;font-style:italic;margin-bottom:6px}
+.dir-info p{font-size:0.8rem;color:#4a5568;margin-bottom:6px}
+.dir-info ul{padding-left:14px;font-size:0.75rem;color:#718096}
+.dir-info ul li{margin-bottom:2px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Research Institute of<br>Hearing Enhancement</h1>
+  <p>청각재활연구소 에 오신 것을 환영합니다.</p>
+  <p>난청의 기전 대한 기초 연구를 바탕으로 치료제 개발 및 임상 연구, 그리고 의료 기기 개발까지 청각에 대한 전주기적 연구를 하는 연구소로, 난청 연구에서 세계 최고의 연구소가 되기 위해 노력합니다.</p>
+  <p class="en">Based on basic research on the mechanism of hearing loss, it is a research institute that conducts full-cycle research on hearing.</p>
+</div>
+
+<div class="sec sec-div">
+  <h2 class="sec-title">Outcomes</h2>
+  <div class="outcome"><div class="num">118</div><div class="lbl">Journals</div></div>
+  <div class="outcome"><div class="num">80</div><div class="lbl">Patents</div></div>
+  <div class="outcome"><div class="num">12</div><div class="lbl">Technology Transfer</div></div>
+</div>
+
+<div class="sec sec-div">
+  <h2 class="sec-title" style="font-style:italic;font-size:1.1rem">Digital Therapeutics</h2>
+  <div class="book">
+    <img src="https://i.imgur.com/Ltm00mT.jpeg" alt="DTx">
+    <div class="book-text">
+      <h3>의사가 알려주는 디지털 치료제</h3>
+      <p>디지털 치료제에 대한 차세대 한림원 회원의 전문 서적 출판</p>
+    </div>
+  </div>
+</div>
+
+<div class="sec sec-div">
+  <h2 class="sec-title">연구소장</h2>
+  <div class="dir">
+    <img src="https://i.imgur.com/vIAp69Y.jpeg" alt="서영준 교수">
+    <div class="dir-info">
+      <h3>서영준 연구소장</h3>
+      <p class="sub">차세대 한림원 회원 (2022.1~)</p>
+      <p>난청을 치료하는 임상의이자 난청을 연구하는 연구자로서, 청각재활연구소를 기반으로 융합 연구자의 길을 걸어왔습니다.</p>
+      <ul>
+        <li>연세대학교 원주의과대학 이비인후과 주임교수</li>
+        <li>연세대학교 디지털헬스케어학과 겸임교수</li>
+        <li>대한청각학회 연구이사</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

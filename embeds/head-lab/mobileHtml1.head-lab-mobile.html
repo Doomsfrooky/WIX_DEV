@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<title>HeAD Lab Mobile</title>
+<style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-height:1.7;background:#fff;-webkit-text-size-adjust:100%}
+.hero{text-align:center;padding:36px 16px 28px}
+.hero h1{font-size:1.5rem;font-weight:600;margin:8px 0;line-height:1.3}
+.hero p{font-size:0.82rem;color:#718096;margin-bottom:4px}
+.sec{padding:28px 16px}
+.sec-div{border-top:1px solid #e2e8f0}
+.sec-title{font-size:1.2rem;font-weight:700;text-align:center;margin-bottom:16px;position:relative;padding-bottom:10px}
+.sec-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:36px;height:3px;border-radius:2px}
+.intro p{font-size:0.85rem;color:#4a5568;margin-bottom:8px}
+/* DC box */
+.dc-box{border:1px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;margin-bottom:14px}
+.dc-box img{max-width:180px;width:60%;margin-bottom:8px}
+.dc-box h3{font-size:0.92rem;margin-bottom:4px}
+.dc-box p{font-size:0.78rem;color:#4a5568}
+/* M&V */
+.mv-card{border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden}
+.mv-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.mv-card h3{font-size:0.95rem;margin-bottom:6px}
+.mv-card p{font-size:0.82rem;color:#4a5568}
+/* Organigram */
+.org-top{background:#e8e8ee;border-radius:10px;padding:12px;text-align:center;font-weight:700;font-size:0.85rem;margin-bottom:8px}
+.org-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.org-box{border-radius:8px;padding:8px 12px;font-size:0.75rem;font-weight:600;text-align:center;min-width:70px}
+/* D&M */
+.dm{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.dm img{width:70px;height:70px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.dm .ph{width:70px;height:70px;border-radius:10px;background:#f0f4f8;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#718096;border:1.5px dashed #e2e8f0}
+.dm-info h4{font-size:0.92rem;margin-bottom:1px}
+.dm-info .badge{display:inline-block;font-size:0.68rem;padding:1px 6px;border-radius:6px;margin-bottom:4px}
+.dm-info p{font-size:0.78rem;color:#4a5568}
+/* Research Subjects */
+.rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rs-card{padding:12px;border:1px solid #e2e8f0;border-radius:8px}
+.rs-card h4{font-size:0.82rem;margin-bottom:3px}
+.rs-card p{font-size:0.72rem;color:#4a5568}
+/* 접힘 */
+.collapse-header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:0.88rem;font-weight:500;margin-bottom:6px}
+.collapse-arrow{transition:transform 0.3s}
+.collapse-arrow.open{transform:rotate(180deg)}
+.collapse-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.collapse-body.open{max-height:8000px}
+.collapse-inner{padding:10px 14px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px}
+/* 논문 */
+.pub-item{padding:8px 0;border-bottom:1px solid #f0f0f0}
+.pub-title{font-size:0.8rem;color:#1a202c;margin-bottom:3px}
+.pub-authors{font-size:0.7rem;color:#718096;margin-bottom:3px}
+.pub-tags{display:flex;gap:3px;flex-wrap:wrap}
+.pub-tag{font-size:0.62rem;padding:1px 5px;border-radius:6px}
+.pub-tag.year{background:#f0f0f0;color:#555}
+.pub-tag.journal{background:#EDF1F7;color:#1a3c6e;border:1px solid #C2CEDF}
+.pub-tag.team-basic{background:#EDF8F2;color:#2E8B57}
+.pub-tag.team-hearing{background:#EDF2F8;color:#7096B5}
+.pub-tag.team-head{background:#EBF5FF;color:#4A90C4}
+/* Alumni */
+.alumni-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.alumni-card{text-align:center}
+.alumni-card img{width:55px;height:55px;border-radius:50%;object-fit:cover;margin-bottom:4px}
+.alumni-card h4{font-size:0.8rem}
+.alumni-card p{font-size:0.68rem;color:#718096}
+.placeholder{text-align:center;padding:16px;color:#718096;font-size:0.8rem}
+.sec-title::after{background:#4A90C4}
+.mv-card::before{background:#4A90C4}
+.badge{background:#EBF5FF;color:#4A90C4}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1 style="color:#4A90C4">HeAD Lab</h1>
+  <p>데이터팀 · 청각재활연구소</p>
+</div>
+
+<!-- 소개 + DC -->
+<div class="sec">
+  <h2 class="sec-title">HeAD Lab 소개</h2>
+  <div class="intro">
+    <p>HeAD Lab은 연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 산하 연구팀으로, 청각 데이터와 인공지능 기술을 융합하여 난청 예측, 청력 건강 관리, 청각재활 분야의 혁신적 솔루션을 개발하고 있습니다.</p>
+    <p>최첨단 데이터 과학과 AI 기술을 활용하여 청력 손실의 조기 발견부터 개인 맞춤형 청각재활까지, 청각 건강 관리의 전 주기를 아우르는 연구를 수행합니다.</p>
+  </div>
+  <div class="dc-box" style="margin-top:14px">
+    <img src="https://i.imgur.com/9cFssq8.png" alt="빅데이터DC">
+    <h3>청각 빅데이터센터</h3>
+    <p>산업계와 연구자들에게 청각 분야의 빅데이터를 전문으로 제공하는 국내 유일 기관. 10만건 이상 데이터.</p>
+  </div>
+</div>
+
+<!-- Mission & Vision & Core Values (3개) -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Mission & Vision</h2>
+  <div class="mv-card"><h3>Mission</h3><p>청각 건강 데이터의 표준화와 인공지능 기술 융합을 통해 난청 예방, 조기 진단 및 효과적인 재활을 위한 혁신적 솔루션을 개발하여 전 세계인의 청력 건강 증진에 기여합니다.</p></div>
+  <div class="mv-card"><h3>Vision</h3><p>빅데이터와 AI 기술을 활용한 청각 건강 관리의 글로벌 리더로서, 국제 표준을 선도하고 누구나 쉽게 접근할 수 있는 디지털 청각 건강 생태계를 구축합니다.</p></div>
+  <div class="mv-card"><h3>Core Values</h3><p>혁신성 (Innovation)<br>정확성 (Precision)<br>협력 (Collaboration)</p></div>
+</div>
+
+<!-- Organigram -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Organigram</h2>
+  <div class="org-top">RIHE</div>
+  <div style="text-align:center;color:#999;margin:4px 0">↓</div>
+  <div class="org-row">
+    <div class="org-box" style="background:#e8e8ee;color:#555">Basic Lab</div>
+    <div class="org-box" style="background:#e8e8ee;color:#555">Hearing Lab</div>
+    <div class="org-box" style="background:#4A90C4;color:#fff">HeAD Lab</div>
+    <div class="org-box" style="background:#e8e8ee;color:#555">Audiso</div>
+  </div>
+</div>
+
+<!-- Director & Manager -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Director & Manager</h2>
+  <div class="dm">
+    <img src="https://i.imgur.com/vIAp69Y.jpeg" alt="서영준">
+    <div class="dm-info"><span class="badge">Director</span><h4>서영준 교수</h4><p>RIHE 연구소장<br>원주세브란스기독병원 이비인후과</p></div>
+  </div>
+  <div class="dm">
+    <img src="https://i.imgur.com/RC37iFm.jpeg" alt="윤철영">
+    <div class="dm-info"><span class="badge">Manager</span><h4>윤철영 팀장</h4><p>HeAD Lab 연구팀장<br>연세대학교 의료정보통계학과</p></div>
+  </div>
+</div>
+
+<!-- Research Subjects (6개) -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Research Subjects</h2>
+  <div class="rs-grid">
+    <div class="rs-card"><h4>Future Hearing Prediction</h4><p>정상 청력자의 장기 데이터를 활용한 미래 청력 예측 AI 모델 개발</p></div>
+    <div class="rs-card"><h4>Ototoxicity & Drugs</h4><p>이독성 약물 데이터 분석 및 난청 발생 위험도 평가</p></div>
+    <div class="rs-card"><h4>Eardrum Imaging</h4><p>고막 내시경 영상 기반 AI 분류 및 온디바이스 적용</p></div>
+    <div class="rs-card"><h4>Noise Map</h4><p>환경 소음과 건강 데이터를 융합한 소음지도 제작</p></div>
+    <div class="rs-card"><h4>International Cohorts</h4><p>UK Biobank 및 NHIS/KNHANES 연계 연구</p></div>
+    <div class="rs-card"><h4>Ear Age</h4><p>청력 기반 생물학적 나이 추정 및 청각 노화 연구</p></div>
+  </div>
+</div>
+
+<!-- Publication & Report -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Publication & Report</h2>
+  <div class="collapse-header" onclick="toggle('pub')"><span>📄 Publication (17편)</span><span class="collapse-arrow" id="pub-arrow">▼</span></div>
+  <div class="collapse-body" id="pub-body"><div class="collapse-inner">
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data</div>
+        <div class="pub-authors">You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">HEARING RESEARCH</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset</div>
+        <div class="pub-authors">Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data</div>
+        <div class="pub-authors">Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Frontiers in Neurology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System</div>
+        <div class="pub-authors">Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">OTO Open</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Part 2. Current Status of Hearing Disability and Hearing Rehabilitation Devices in Korea Using National Data: NHIS-Database, 2010 to 2020; [2부. 국가 데이터를 활용한 한국의 청각장애 현황 및 청각재활장비 현황: NHIS-Database, 2010~2020]</div>
+        <div class="pub-authors">Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Korean Journal of Otorhinolaryngology-Head and Neck Surgery</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Seasonal variation in vestibular neuritis in Korea: a nationwide population-based cohort study</div>
+        <div class="pub-authors">Yoon Chul-Young, 서영준, 박지윤</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Part 1. 전국 데이터를 이용한 우리나라 난청 환자 현황: National Health Insurance Service-데이터베이스, 2010 to 2020</div>
+        <div class="pub-authors">Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">대한이비인후-두경부외과학회지</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Virtual reality-based vestibular rehabilitation therapy in patients with acute unilateral vestibulopathy: a randomized controlled trial</div>
+        <div class="pub-authors">Lee, Jae Woo, Yoon, Chul Young, Kim, Jae Ha, Seo, Young Joon, Kong, Tae Hoon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Frontiers in Neurology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="head">
+        <div class="pub-title">Importance of small vessel disease as a possible cause of sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">PloS one</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="head">
+        <div class="pub-title">Clinical characteristics of the "Gap" between the prevalence and incidence of hearing loss using National Health Insurance Service data</div>
+        <div class="pub-authors">Lee Junhun, Yoon Chul Young, Lee Juhyung, Kong Tae Hoon, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">PLoS ONE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">Effect of changes in the hearing aid subsidy on the prevalence of hearing loss in South Korea</div>
+        <div class="pub-authors">Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Frontiers in Neurology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">A situational analysis of ear and hearing care in South Korea using WHO ear and Hearing Care Situation Analysis tool</div>
+        <div class="pub-authors">Lee, Juhyeong, Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Oh, Seung Ha, S...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Frontiers in Public Health</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">건강 보험 데이터 분석을 통한 급성 전정신경염의 유병률 측정</div>
+        <div class="pub-authors">Chul Young Yoon, Seulgi Hong, Ji-Yun Park, Young Joon Seo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">Learning curve comparable study of microscopic and endoscopic type 1 tympanoplasty</div>
+        <div class="pub-authors">Lee Hyun Su, Yoon Chul Young, 박대우, Lee Joo Hyung, 서영준, 공태훈</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">Epidemiology of idiopathic sudden sensorineural hearing loss in the era of big data</div>
+        <div class="pub-authors">Yoon Chul Young, Kong, Tae Hoon, Lee Juhyung, Seo, Young Joon, Ahn, Jae Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="head">
+        <div class="pub-title">Association of dietary factors with noise-induced hearing loss in Korean population: A 3-year national cohort study</div>
+        <div class="pub-authors">Lee, H.J., Lee, J., Yoon, C., Park, Y., Joo, Y.-H., Park, J.-O., Seo, Y.J., P...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">PLOS ONE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="head">
+        <div class="pub-title">Relationship between Nutrient Intake and Hearing Loss According to the Income Level of Working-Aged Adults: A Korean National Health and Nutrition Survey</div>
+        <div class="pub-authors">Lee, Juhyung, Lee, Ji-Hyeon, Yoon, Chulyoung, Kwak, Chanbeom, Jaejoon Ahn, Ko...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">NUTRIENTS</span>
+        </div>
+      </div>
+  </div></div>
+  <div class="collapse-header" onclick="toggle('report')"><span>📋 Report</span><span class="collapse-arrow" id="report-arrow">▼</span></div>
+  <div class="collapse-body" id="report-body"><div class="collapse-inner">
+    <p class="placeholder">학회 발표 데이터는 Research 페이지에서 확인하세요.</p>
+  </div></div>
+</div>
+
+<!-- Alumni -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Alumni</h2>
+  <div class="alumni-grid">
+    <div class="alumni-card"><img src="https://i.imgur.com/TWCotbS.jpeg" alt="김지원"><h4>김지원</h4><p>의료정보통계학과 석사<br>2025.02 졸업</p></div>
+    <div class="alumni-card"><img src="https://i.imgur.com/gQo7vUz.jpeg" alt="이준헌"><h4>이준헌</h4><p>의료정보통계학과 석사<br>2026.02 졸업</p></div>
+    <div class="alumni-card"><img src="https://i.imgur.com/jXCJxED.jpeg" alt="이주형"><h4>이주형</h4><p>의료정보통계학 석사<br>2023.02 졸업</p></div>
+  </div>
+</div>
+
+<script>
+function toggle(id){document.getElementById(id+'-body').classList.toggle('open');document.getElementById(id+'-arrow').classList.toggle('open')}
+</script>
+</body>
+</html>

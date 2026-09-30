@@ -1,0 +1,3198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research — RIHE</title>
+
+  <!-- 구글 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    /* ============================================================
+       🎨 색상 변수 (Research = 네이비 기반)
+       ============================================================ */
+    :root {
+      --accent: #1a3c6e;
+      --accent-dark: #0f2847;
+      --accent-light: #EDF1F7;
+      --accent-border: #C2CEDF;
+      --basic: #2E8B57;           /* 기초팀 초록 */
+      --hearing: #7096B5;         /* 참조표준팀 스틸블루 */
+      --head: #4A90C4;            /* 데이터팀 하늘색 */
+      --collab: #8B6BB5;          /* Collab & Medical 보라 */
+      --text: #1a202c;
+      --text-mid: #4a5568;
+      --text-light: #718096;
+      --border: #e2e8f0;
+    }
+
+    /* ============================================================
+       기본 리셋 & 바디
+       ============================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: var(--text);
+      line-height: 1.7;
+      background: #fff;
+    }
+
+    /* ============================================================
+       🏠 HERO
+       ============================================================ */
+    .hero {
+      background: #fff;
+      text-align: center;
+      padding: 72px 24px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-light);
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .hero-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      margin: 14px 0;
+      color: var(--accent);
+    }
+    .hero-desc {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       📦 공통 섹션
+       ============================================================ */
+    .section {
+      padding: 60px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .section-divider {
+      border-top: 1px solid var(--border);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 32px;
+      color: var(--text);
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       🔬 Projects (2x2 카드 그리드)
+       ============================================================ */
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .project-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+    .project-img {
+      width: 100%;
+      padding: 16px;
+      overflow: hidden;
+      background: #fafafa;
+    }
+    .project-img img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+    .project-body {
+      padding: 18px;
+    }
+    .project-body h3 {
+      font-size: 1.05rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .project-body p {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+    }
+
+    /* ============================================================
+       📄 접히는 아코디언 (Publication/Report/Patent)
+       ============================================================ */
+    .collapse-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .collapse-header:hover { background: #f8fafc; }
+    .collapse-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.3s;
+    }
+    .collapse-arrow.open { transform: rotate(180deg); }
+    .collapse-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .collapse-body.open { max-height: 5000px; }
+    .collapse-inner {
+      padding: 14px 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+    }
+
+    /* ============================================================
+       🏷️ 필터 영역 (팀별 + 연도별)
+       ============================================================ */
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .filter-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-right: 4px;
+    }
+    .filter-btns {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    /* 공통 필터 버튼 */
+    .filter-btn {
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.2s;
+      font-family: 'EngSerif', Pretendard, sans-serif;
+    }
+    .filter-btn:hover {
+      background: #f0f0f0;
+    }
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    /* 팀별 필터 버튼 활성화 색상 */
+    .filter-btn.active[data-team="basic"] {
+      background: var(--basic);
+      border-color: var(--basic);
+    }
+    .filter-btn.active[data-team="hearing"] {
+      background: var(--hearing);
+      border-color: var(--hearing);
+    }
+    .filter-btn.active[data-team="collab"] {
+      background: var(--collab);
+      border-color: var(--collab);
+    }
+    .filter-btn.active[data-team="head"] {
+      background: var(--head);
+      border-color: var(--head);
+    }
+
+    /* ============================================================
+       📄 논문/발표 목록
+       ============================================================ */
+    .pub-count {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+    .pub-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .pub-item:last-child {
+      border-bottom: none;
+    }
+    .pub-title {
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .pub-title a {
+      color: var(--accent);
+      text-decoration: underline dotted;
+    }
+    .pub-title a:hover {
+      text-decoration: underline solid;
+    }
+    /* 저자 */
+    .pub-authors {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+    /* 태그 행 */
+    .pub-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .pub-tag {
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .pub-tag.year {
+      background: #f0f0f0;
+      color: #555;
+    }
+    .pub-tag.journal {
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+    }
+    .pub-tag.conf {
+      background: #fffaf0;
+      color: #c05621;
+      border: 1px solid #feebc8;
+    }
+    /* 팀 태그 — 각 팀 색상 */
+    .pub-tag.team-basic {
+      background: #EDF8F2;
+      color: var(--basic);
+      border: 1px solid #B2DFCC;
+    }
+    .pub-tag.team-hearing {
+      background: #EDF2F8;
+      color: var(--hearing);
+      border: 1px solid #C2D5E5;
+    }
+    .pub-tag.team-collab {
+      background: #F3EDFA;
+      color: var(--collab);
+      border: 1px solid #D6C4E9;
+    }
+    .pub-tag.team-head {
+      background: #EBF5FF;
+      color: var(--head);
+      border: 1px solid #B8D8F0;
+    }
+
+    /* 더보기 버튼 */
+    .show-more-btn {
+      display: block;
+      margin: 16px auto 0;
+      padding: 10px 28px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      transition: 0.2s;
+      font-family: 'EngSerif', Pretendard, sans-serif;
+    }
+    .show-more-btn:hover {
+      background: #f8fafc;
+    }
+    /* 결과 없음 */
+    .no-results {
+      text-align: center;
+      color: var(--text-light);
+      padding: 32px 0;
+      font-size: 0.9rem;
+    }
+
+    /* ============================================================
+       ✨ 페이드인
+       ============================================================ */
+    .fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       📱 반응형
+       ============================================================ */
+    @media (max-width: 768px) {
+      .hero { padding: 48px 20px 40px; }
+      .hero-main { font-size: 2.1rem; }
+      .project-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       🏠 HERO
+       ============================================================ -->
+  <header class="hero">
+    <p class="hero-sub">청각재활연구소의 연구 성과</p>
+    <h1 class="hero-main">Research</h1>
+    <p class="hero-desc">연세대학교 원주세브란스기독병원 청각재활연구소(RIHE)의 Publication과 Report를 한눈에 확인하세요.</p>
+  </header>
+
+
+  <!-- ============================================================
+       1️⃣ Projects (연구 분야 4개 카드)
+       ============================================================ -->
+  <section class="section" id="projects">
+    <h2 class="section-title">Projects</h2>
+    <p style="text-align:center; color:var(--text-mid); margin-top:-20px; margin-bottom:28px; font-size:0.95rem;">
+      Various Subjects for Hearing research cover Basic science, Big Data &amp; AI, Medical devices, and Clinical Trials.<br>
+      Always, we would like to Welcome Collaborations with our Laboratory.
+    </p>
+
+    <div class="project-grid">
+
+      <!-- Basic sciences -->
+      <div class="project-card fade">
+        <div class="project-img">
+          <img src="https://i.imgur.com/JbUTgTe.jpeg" alt="Basic sciences">
+        </div>
+        <div class="project-body">
+          <h3>Basic sciences</h3>
+          <p>Homing phenomenon is important for stem cells to have a journey to injury site. The efficacy is so low to the cochlea. We intend to enhance this efficacy of homing with Nanoparticle-Magnetic force. As a carrier, the labeled stem cells would deliver paracrine effects (exosome, drugs, and regenerative genes) to the hair cells of cochlea.</p>
+        </div>
+      </div>
+
+      <!-- Big data & AI -->
+      <div class="project-card fade">
+        <div class="project-img">
+          <img src="https://i.imgur.com/EgbUUiR.jpeg" alt="Big data & AI">
+        </div>
+        <div class="project-body">
+          <h3>Big data &amp; AI</h3>
+          <p>대한민국 유일의 한국인청각참조표준데이터 센터로 지정받아, 청각 데이터의 표준을 제정하려고 한다. 청각 데이터 뿐만 아니라, 어지러움에 대한 많은 데이터를 축적하고 인공지능을 통한 분석으로 세계에 어지러움에 대한 적절진단을 가능하게 하려고 한다.</p>
+        </div>
+      </div>
+
+      <!-- Medical devices -->
+      <div class="project-card fade">
+        <div class="project-img">
+          <img src="https://i.imgur.com/xqYPd2L.jpeg" alt="Medical devices">
+        </div>
+        <div class="project-body">
+          <h3>Medical devices</h3>
+          <p>Developed one-stop ventilation tube for otitis media treatment. Attempted ventilation tube insertion, which can be performed without anesthesia. By developing smart nystagmography, we are developing a dizziness rehabilitation platform using virtual reality and diagnosis of dizziness. In addition, we are developing many medical devices by reflecting demand in clinical fields such as smart balancers and bone conduction hearing aids.</p>
+        </div>
+      </div>
+
+      <!-- Clinical Trials -->
+      <div class="project-card fade">
+        <div class="project-img">
+          <img src="https://i.imgur.com/jNAHuk5.jpeg" alt="Clinical Trials">
+        </div>
+        <div class="project-body">
+          <h3>Clinical Trials</h3>
+          <p>We performed mainly clinical trials for bone conduction hearing aids. The outputs from basic research (exosome, drugs, and medical devices) in our laboratory would be in progress to clinical trials.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       2️⃣ Publication (논문)
+       ✏️ 논문 추가 방법: pub-list 안에 아래 코드 복사 & 붙여넣기
+       <div class="pub-item" data-year="2025" data-team="head">
+         <div class="pub-title"><a href="링크" target="_blank">제목</a></div>
+         <div class="pub-authors">저자</div>
+         <div class="pub-tags">
+           <span class="pub-tag year">2025</span>
+           <span class="pub-tag team-head">HeAD Lab</span>
+           <span class="pub-tag journal">저널명</span>
+         </div>
+       </div>
+       ※ data-team 값: basic / hearing / head / collab
+       ============================================================ -->
+  <section class="section section-divider" id="publication">
+    <h2 class="section-title">Publication</h2>
+
+    <!-- 팀별 필터 -->
+    <div class="filter-row fade">
+      <span class="filter-label">팀</span>
+      <div class="filter-btns" id="pub-team-filters">
+        <button class="filter-btn active" data-team="all" onclick="filterPub()">전체</button>
+        <button class="filter-btn" data-team="basic" onclick="filterPub()">Basic Lab</button>
+        <button class="filter-btn" data-team="hearing" onclick="filterPub()">Hearing Lab</button>
+        <button class="filter-btn" data-team="head" onclick="filterPub()">HeAD Lab</button>
+        <button class="filter-btn" data-team="collab" onclick="filterPub()">Collab &amp; Medical</button>
+      </div>
+    </div>
+    <!-- 연도별 필터 -->
+    <div class="filter-row fade">
+      <span class="filter-label">연도</span>
+      <div class="filter-btns" id="pub-year-filters">
+        <button class="filter-btn active" data-year="all" onclick="filterPub()">전체</button>
+        <button class="filter-btn" data-year="2026" onclick="filterPub()">2026</button>
+        <button class="filter-btn" data-year="2025" onclick="filterPub()">2025</button>
+        <button class="filter-btn" data-year="2024" onclick="filterPub()">2024</button>
+        <button class="filter-btn" data-year="2023" onclick="filterPub()">2023</button>
+        <button class="filter-btn" data-year="2022" onclick="filterPub()">2022</button>
+        <button class="filter-btn" data-year="older" onclick="filterPub()">~2021</button>
+      </div>
+    </div>
+
+    <!-- 결과 카운트 -->
+    <p class="pub-count" id="pub-count"></p>
+
+    <!-- 논문 목록 -->
+    <div id="pub-list">
+
+      <div class="pub-item" data-year="2026" data-team="hearing">
+        <div class="pub-title">Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening</div>
+        <div class="pub-authors">Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Hearing Research</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026" data-team="hearing">
+        <div class="pub-title">Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017</div>
+        <div class="pub-authors">Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., &amp; Jin, I. K.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">American Journal of Audiology</span>
+        </div>
+      </div>
+
+      <div class="pub-item" data-year="2025" data-team="hearing">
+        <div class="pub-title">Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital</div>
+        <div class="pub-authors">Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">CRITICAL PUBLIC HEALTH</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="basic">
+        <div class="pub-title">Innovative surgical approaches for the Osia® 2 System</div>
+        <div class="pub-authors">Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="collab">
+        <div class="pub-title">A Retrospective Comparison of Clinical Characteristics of Post-Traumatic and Idiopathic Benign Paroxysmal Positional Vertigo</div>
+        <div class="pub-authors">Kim, Minheon, Jeon, Eun Kyung, Seo, Young Joon, Kong, Tae Hoon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">EAR AND HEARING</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data</div>
+        <div class="pub-authors">You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">HEARING RESEARCH</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="basic">
+        <div class="pub-title">Isolated Myxoma of the External Auditory Canal: A Rare Case Report</div>
+        <div class="pub-authors">전은경, 김민헌, 권동환, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset</div>
+        <div class="pub-authors">Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data</div>
+        <div class="pub-authors">Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Frontiers in Neurology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System</div>
+        <div class="pub-authors">Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">OTO Open</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Part 2. Current Status of Hearing Disability and Hearing Rehabilitation Devices in Korea Using National Data: NHIS-Database, 2010 to 2020; [2부. 국가 데이터를 활용한 한국의 청각장애 현황 및 청각재활장비 현황: NHIS-Database, 2010~2020]</div>
+        <div class="pub-authors">Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Korean Journal of Otorhinolaryngology-Head and Neck Surgery</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Seasonal variation in vestibular neuritis in Korea: a nationwide population-based cohort study</div>
+        <div class="pub-authors">Yoon Chul-Young, 서영준, 박지윤</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Part 1. 전국 데이터를 이용한 우리나라 난청 환자 현황: National Health Insurance Service-데이터베이스, 2010 to 2020</div>
+        <div class="pub-authors">Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">대한이비인후-두경부외과학회지</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="head">
+        <div class="pub-title">Virtual reality-based vestibular rehabilitation therapy in patients with acute unilateral vestibulopathy: a randomized controlled trial</div>
+        <div class="pub-authors">Lee, Jae Woo, Yoon, Chul Young, Kim, Jae Ha, Seo, Young Joon, Kong, Tae Hoon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Frontiers in Neurology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="hearing">
+        <div class="pub-title">Efficacy of virtual reality pure-tone audiometry in training of hearing test for audiologist</div>
+        <div class="pub-authors">Kwak, Chanbeom, Kim, Jinsook, Jang, Hyunsook, Han, Woojae, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Heliyon</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="hearing">
+        <div class="pub-title">Understanding Standard Procedure in Auditory Brainstem Response: Importance of Normative Data</div>
+        <div class="pub-authors">Kwak Chanbeom, Byun Yuseon, You Sunghwa, Sagong Junghee, Kim Do-Yun, Cho Wan-...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="hearing">
+        <div class="pub-title">Improving Accuracy and Reliability of Hearing Tests: Measurement Standards for Audiometric Devices</div>
+        <div class="pub-authors">Cho, Wan-Ho, Lee, Jihyun, Seo, Young Joon, Kong, Tae Hoon, Suh, Michelle J., ...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology and Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="head">
+        <div class="pub-title">Importance of small vessel disease as a possible cause of sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">PloS one</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="head">
+        <div class="pub-title">Clinical characteristics of the "Gap" between the prevalence and incidence of hearing loss using National Health Insurance Service data</div>
+        <div class="pub-authors">Lee Junhun, Yoon Chul Young, Lee Juhyung, Kong Tae Hoon, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">PLoS ONE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Virtual reality simulators for temporal bone dissection: overcoming limitations of previous models</div>
+        <div class="pub-authors">Temuulen Batsaikhan, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Vitamin D supplementation in preventing the recurrence of benign paroxysmal positional vertigo</div>
+        <div class="pub-authors">Kong, Tae Hoon, Jung, Su Young, Seo, Young Joon, Shim, Dae Bo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">LARYNGOSCOPE INVESTIGATIVE OTOLARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Combination Therapy of Choline Alfoscerate With Ginkgo biloba Monotherapy in Age-Related Hearing Loss: Effects and Outcomes</div>
+        <div class="pub-authors">Kim Dae Hyun, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Role of Kir4.1 Channels in Aminoglycoside-Induced Ototoxicity of Hair Cells</div>
+        <div class="pub-authors">Choi, Jin Sil, Ahn, Ye Ji, Lee, SuHoon, Park, Dong Jun, Park, JeongEun, Ha, S...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">BioMed Research International</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Meta-Analysis Exploring the Effects of Music Training in Cochlear Implant Users by Age</div>
+        <div class="pub-authors">Shukor Nor Farawaheeda Ab, Seo Young Joon, Han Woojae</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology and Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="hearing">
+        <div class="pub-title">Improving Accuracy and Reliability of Hearing Tests: An Exploration of International Standards</div>
+        <div class="pub-authors">Suh Michelle J., Lee Jihyun, Cho Wan-Ho, Jin In-Ki, Kong Tae Hoon, Oh Soo Hee...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology and Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">편도에 고립된 뇌간 경색의 희귀한 증례: 급작스러운 현훈의 임상적 특징 및 영상 소견</div>
+        <div class="pub-authors">Dong Hwan Kwon, Eun kyung Jeon, Young Joon Seo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">Effect of changes in the hearing aid subsidy on the prevalence of hearing loss in South Korea</div>
+        <div class="pub-authors">Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Frontiers in Neurology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">A situational analysis of ear and hearing care in South Korea using WHO ear and Hearing Care Situation Analysis tool</div>
+        <div class="pub-authors">Lee, Juhyeong, Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Oh, Seung Ha, S...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Frontiers in Public Health</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">건강 보험 데이터 분석을 통한 급성 전정신경염의 유병률 측정</div>
+        <div class="pub-authors">Chul Young Yoon, Seulgi Hong, Ji-Yun Park, Young Joon Seo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">효과적인 BAHAⓇ Attract의 이식술식</div>
+        <div class="pub-authors">Lee, Jeon Mi, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">대한이비인후-두경부외과학회지</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="hearing">
+        <div class="pub-title">d-Galactose and Hypoxia Induce the Early Onset of Age-Related Hearing Loss Deterioration in a Mouse Model</div>
+        <div class="pub-authors">Batsaikhan Temuulen, Choi Jin Sil, Ha Sun Mok, Ahn Yeji, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">TISSUE ENGINEERING AND REGENERATIVE MEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">A nystagmus extraction system using artificial intelligence for video-nystagmography</div>
+        <div class="pub-authors">Lee, Yerin, Lee, Sena, Han, Junghun, 서영준, Yang, Sejung</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Scientific Reports</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">Learning curve comparable study of microscopic and endoscopic type 1 tympanoplasty</div>
+        <div class="pub-authors">Lee Hyun Su, Yoon Chul Young, 박대우, Lee Joo Hyung, 서영준, 공태훈</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="head">
+        <div class="pub-title">Epidemiology of idiopathic sudden sensorineural hearing loss in the era of big data</div>
+        <div class="pub-authors">Yoon Chul Young, Kong, Tae Hoon, Lee Juhyung, Seo, Young Joon, Ahn, Jae Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="hearing">
+        <div class="pub-title">Contralateral bone conducted sound wave propagation on the skull bones in fresh frozen cadaver</div>
+        <div class="pub-authors">Lee, J., Cho, W.-H., Kong, T.H., Jung, S.-S., Han, W., Park, S., Seo, Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Scientific Reports</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">An eye-tracking algorithm for nystagmus detection in videonystagmography based on convolutional neural networks</div>
+        <div class="pub-authors">Lee, Y., Lee, S., Han, J., Wang, H.J., 서영준, Yang, S.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Progress in Biomedical Optics and Imaging - Proceedings of SPIE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Deep Learning Techniques for Ear Diseases Based on Segmentation of the Normal Tympanic Membrane</div>
+        <div class="pub-authors">Park, Y.S., Jeon, J.H., Kong, T.H., Chung, T.Y., Seo, Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Clinical and Experimental Otorhinolaryngology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">Protection of Hearing Loss in Ototoxic Mouse Model Through SPIONs and Dexamethasone-Loaded PLGA Nanoparticle Delivery by Magnetic Attraction</div>
+        <div class="pub-authors">Park, Jeong-Eun, Kim, Woo Cheol, Kim, Sung Kyun, Ahn, Yeji, Ha, Sun Mok, Kim,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF NANOMEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">안진영상에서 안진기의 미끄러짐으로 유발된 동잡음 제거 알고리즘 개발</div>
+        <div class="pub-authors">Yerin Lee, Young Joon Seo, Sejung Yang</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="head">
+        <div class="pub-title">Association of dietary factors with noise-induced hearing loss in Korean population: A 3-year national cohort study</div>
+        <div class="pub-authors">Lee, H.J., Lee, J., Yoon, C., Park, Y., Joo, Y.-H., Park, J.-O., Seo, Y.J., P...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">PLOS ONE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">Circulatory disturbance of the cochlear spiral modiolar artery in a type 2 diabetic mouse model</div>
+        <div class="pub-authors">Seo Young Joon, Shim Dae Bo, Sharif Arazu, Samson Zeke, Takechi Ryu, Brown Da...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Laryngoscope Investigative Otolaryngology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="hearing">
+        <div class="pub-title">The value of having an initial word recognition score for a precise prognosis of idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Kwak, Chanbeom, Seo, Young Joon, Yoon, ChulYoung, Lee, JuHyung, Han, Woojae</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="hearing">
+        <div class="pub-title">Analysis of the Knowledge, Attitudes, and Practice Model of Healthcare Professionals on Hearing Loss at Elderly Dementia Residences in Korea</div>
+        <div class="pub-authors">Kwak, C., Seo, Y.J., Park, K.H., Han, W.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">HEALTHCARE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="head">
+        <div class="pub-title">Relationship between Nutrient Intake and Hearing Loss According to the Income Level of Working-Aged Adults: A Korean National Health and Nutrition Survey</div>
+        <div class="pub-authors">Lee, Juhyung, Lee, Ji-Hyeon, Yoon, Chulyoung, Kwak, Chanbeom, Jaejoon Ahn, Ko...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-head">HeAD Lab</span>
+          <span class="pub-tag journal">NUTRIENTS</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="hearing">
+        <div class="pub-title">양성돌발체위현기증 진단을 위한 주성분 분석을 이용한 안진 자동패턴인식 기술: 예비 연구</div>
+        <div class="pub-authors">O-Hyeon Gwon, TAEHOON KONG, Jaehong Key, SEJUNG YANG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="hearing">
+        <div class="pub-title">Observation of the vibration response on the skull bones by bone conduction with the fresh frozen cadaver</div>
+        <div class="pub-authors">Cho, Wan-Ho, Lee, Ji Hyeon, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Proceedings of the International Congress on Acoustics</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">The risk of laryngitis with herpes zoster infection: A nested case-control study using data from the Korean National Sample Cohort</div>
+        <div class="pub-authors">Joo, Young-Hoon, Lee, Hyun-Jin, Park, Jun-Ook, Seo, Young Joon, Kong, Tae Hoo...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">PLOS ONE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Protective effect of MSC-derived exosomes against cisplatin-induced apoptosis via heat shock protein 70 in auditory explant model</div>
+        <div class="pub-authors">Park, Dong Jun, Park, Jeong-Eun, Lee, Su Hoon, Eliceiri, Brian P., Choi, Jin ...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">NANOMEDICINE-NANOTECHNOLOGY BIOLOGY AND MEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Hyperbaric Protocols for Idiopathic Sudden Sensorineural Hearing Loss Response</div>
+        <div class="pub-authors">Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Engineering of Extracellular Vesicles Based on Payload Changes for Tissue Regeneration</div>
+        <div class="pub-authors">Park Dong Jun, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">TISSUE ENGINEERING AND REGENERATIVE MEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Usefulness of stress-related hormones as predictors and prognostic factors for idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Chae, H (Chae, Heesung), Lee, HS (Lee, Hyun Su), Lee, JH (Lee, Joo Hyung), Ki...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Alteration of payload in extracellular vesicles by crosstalk with mesenchymal stem cells from different origin</div>
+        <div class="pub-authors">DONGJUN PARK, JEONGEUN PARK, TAEHOON KONG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF NANOBIOTECHNOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Effects of reactive oxygen species generation induced by Wonju City particulate matter on mitochondrial dysfunction in human middle ear cell</div>
+        <div class="pub-authors">SUHOON LEE, SUNMOKHA , MinJae JEONG, DONGJUN PARK, Polo, CN (Polo, Carlos Nor...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ENVIRONMENTAL SCIENCE AND POLLUTION RESEARCH</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Crucial Music Components Needed for Speech Perception Enhancement of Pediatric Cochlear Implant Users: A Systematic Review and Meta-Analysis</div>
+        <div class="pub-authors">Ab Shukor, NF (Ab Shukor, Nor Farawaheeda), Han, W (Han, Woojae), JIHYEON LEE...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AUDIOLOGY AND NEURO-OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">The Effectiveness of Hyperbaric Oxygen Therapy in Severe Idiopathic Sudden Sensorineural Hearing Loss</div>
+        <div class="pub-authors">YEJI AHN, YOUNG JOON SEO, Lee, YS (Lee, Young Sub)</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Audiological benefits and performance improvements of Baha® attract implantation in patients with unilateral hearing loss</div>
+        <div class="pub-authors">TAEHOON KONG, JIHYEON LEE, Kwak C., Han W., Gwon O.-H., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Cochlear Implants International</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Biodistribution of poly clustered superparamagnetic iron oxide nanoparticle labeled mesenchymal stem cells in aminoglycoside induced ototoxic mouse model</div>
+        <div class="pub-authors">YEJI AHN, WAN SU YUN, JINSILCHOI , woochul kim, Su Hoon Lee, Dong Jun Park, J...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Biomedical Engineering Letters</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="hearing">
+        <div class="pub-title">Efficacy of Music Training in Hearing Aid and Cochlear Implant Users: A Systematic Review and Meta-Analysis</div>
+        <div class="pub-authors">Ab Shukor, Nor Farawaheeda, Lee, Jihyeon, Seo, Young Joon, Han, Woojae</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="hearing">
+        <div class="pub-title">Auditory Function Testing for Types of Dementia: Systematic Reviews and Meta-Analysis</div>
+        <div class="pub-authors">박시훈, 한우재, TAEHOON KONG, YOUNG JOON SEO, HANJAEHYUN , TAEHUI KIM</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">대한이비인후과학회지 두경부외과학</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Usefulness of vertebrobasilar artery radiological finding as a predictive and prognostic factor for sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Han, SM (Han, Sung Min), Lee, HS (Lee, Hyun Su), Chae, HS (Chae, Hee Sung), Y...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="collab">
+        <div class="pub-title">Familial Otosclerosis Associated with Osteogenesis Imperfecta: A Case Report</div>
+        <div class="pub-authors">Ha Neul Lee, Hyun Jong Jeon, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Improvement of stem cell-derived exosome release efficiency by surface-modified nanoparticles</div>
+        <div class="pub-authors">박동준, Yun, W.S., Kim, W.C., Park, J.-E., Lee, S.H., Ha, S., Choi, J.S., Key, J...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF NANOBIOTECHNOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">In vitro time-lapse live-cell imaging to explore cell migration toward the organ of corti</div>
+        <div class="pub-authors">Park, J.-E., Lee, S.H., DONGJUN PARK, Seo, Y.J., Kim, S.K.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOVE-JOURNAL OF VISUALIZED EXPERIMENTS</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Circulating microRNAs as potentially new diagnostic biomarkers of idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">SUNMOKHA , Hwang, KR (Hwang, Kyu Rin), ILHWAN PARK, Park, S (Park, Sunyoung),...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="collab">
+        <div class="pub-title">Non-invasive postoperative monitoring of pedicled rat skin flap using laser speckle contrast imaging</div>
+        <div class="pub-authors">Im, J., Kong, T.H., Choi, J.S., Seo, Y.J., Choi, E.C., Jung, B., Kim, J.-H.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">MICROVASCULAR RESEARCH</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Endocytic trafficking of polymeric clustered superparamagnetic iron oxide nanoparticles in mesenchymal stem cells</div>
+        <div class="pub-authors">Su Hoon Lee, Dong Jun Park, Wan Su Yun, Jeong-Eun Park, Jin Sil Choi, Jaehong...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF CONTROLLED RELEASE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Induced short-term hearing loss due to stimulation of age-related factors by intermittent hypoxia, high-fat diet, and galactose injection</div>
+        <div class="pub-authors">박동준, Ha, S., Choi, J.S., Lee, S.H., Park, J.-E., Seo, Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">International Journal of Molecular Sciences</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">일측성 난청 환자에서 골전도 보청기의 효능</div>
+        <div class="pub-authors">이지현, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">대한이비인후과학회지 두경부외과학</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="collab">
+        <div class="pub-title">Sixth Cranial Nerve Palsy and Vertigo Caused by Vertebrobasilar Insufficiency</div>
+        <div class="pub-authors">Seung Won Paik, Hui Joon Yang, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="collab">
+        <div class="pub-title">비디오두부충동검사와 온도안진검사 간의 비교분석</div>
+        <div class="pub-authors">한 준, 백승원, 양희준, 박상유, 이지현, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="collab">
+        <div class="pub-title">미로내 신경초종 1예와 이전 국내에서 보고된 미로내 신경초종 증례의 문헌 고찰</div>
+        <div class="pub-authors">전현종, 채희성, 이하늘, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">대한이비인후과학회지 두경부외과학</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="collab">
+        <div class="pub-title">Engineered iron oxide nanoparticles to improve regenerative effects of mesenchymal stem cells</div>
+        <div class="pub-authors">Wan Su Yun, Susmita Aryal, YEJI AHN, YOUNG JOON SEO, Jaehong Key</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Biomedical Engineering Letters</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="collab">
+        <div class="pub-title">Sphenoid Sinus Fat Packing in Transsphenoidal Surgery: Long-Term Fate Assessment Using Magnetic Resonance Imaging</div>
+        <div class="pub-authors">황치상, 황금, 채희성, 이현수, 이중석, 서영준, 박동준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Journal of Rhinology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="collab">
+        <div class="pub-title">Experimental animal models for meniere's disease: A mini-review</div>
+        <div class="pub-authors">Seo Y.J., Brown D.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">Better Understanding of Direct Bone-Conduction Measurement: Comparison with Frequency-Specific Bone-Conduction Tones and Brainstem Responses</div>
+        <div class="pub-authors">Kim, Yeoju, Han, Woojae, Park, Sihun, You, Sunghwa, Kwak, Chanbeom, YOUNG JOO...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">Baha Attract Implantation Using a Small Incision: Initial Report of Surgical Technique and Surveillance</div>
+        <div class="pub-authors">Dong Su Jang, Dong Hyo Shin, Woojae Han, , YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">Measurement of Skull Size on Computed Tomography Images for Developing a Bone Conduction Headset Suitable for the Korean Standard Head Size</div>
+        <div class="pub-authors">Cheol Hyo Ku, Soo Won Kim, Ji Young Kim, Seung Won Paik, Hui Joon Yang, Ji Hy...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="hearing">
+        <div class="pub-title">Reliability and validity of self-screening tool for hearing loss in older adults</div>
+        <div class="pub-authors">Sunghwa You, Woojae Han, Saea Kim, Sanga Maeng, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Clinical interventions in aging</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019" data-team="hearing">
+        <div class="pub-title">Evaluation of wireless Bluetooth devices to improve recognition of speech and sentences when using a mobile phone in bone conduction device recipients</div>
+        <div class="pub-authors">Chanbeom Kwak, Woojae Han, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019" data-team="collab">
+        <div class="pub-title">Association of Dietary Factors with Presence and Severity of Tinnitus in Korean Adults with Normal Hearing</div>
+        <div class="pub-authors">Sung Kyun Kim, Yoon Ah Park, SANG-YOO PARK, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">JOURNAL OF FOOD AND NUTRITION RESEARCH</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019" data-team="basic">
+        <div class="pub-title">Strategies to enhance efficacy of SPION-labeled stem cell homing by magnetic attraction: a systemic review with meta-analysis</div>
+        <div class="pub-authors">Ye Ji Ahn, Tae Hoon Kong, Jin Sil Choi, Wan Su Yun, Jaehong Key, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF NANOMEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019" data-team="collab">
+        <div class="pub-title">Clinical Features of Fracture versus Concussion of the Temporal Bone after Head Trauma</div>
+        <div class="pub-authors">Jae Woo Lee, Yoon Ah Park, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="collab">
+        <div class="pub-title">Surgical outcomes of tympanoplasty using a sterile acellular dermal allograft: a prospective randomised controlled study.</div>
+        <div class="pub-authors">Jeon Mi Lee, YOUNG JOON SEO, Dae Bo Shim, Hyun Jin Lee, sung huhn Kim</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">ACTA OTORHINOLARYNGOLOGICA ITALICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="collab">
+        <div class="pub-title">A newly designed tympanostomy stent with TiO2 coating to reduce Pseudomonas aeruginosa biofilm formation</div>
+        <div class="pub-authors">Joe, H (Joe, Hosung), YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">JOURNAL OF BIOMATERIALS APPLICATIONS</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="collab">
+        <div class="pub-title">Pyoderma Gangrenosum of the Preauricular Area with Ulcerative Colitis: A Case Report and Review</div>
+        <div class="pub-authors">Hee Sung Chae, Sung Min Han, Ha Neul Lee, Hyun Jong Jeon, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Circulating Serum miRNA-205 as a Diagnostic Biomarker for Ototoxicity in Mice Treated with Aminoglycoside Antibiotics</div>
+        <div class="pub-authors">Lee S.H., Ju H.M., Choi J.S., Ahn Y., Lee S., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Enhanced homing technique of mesenchymal stem cells using iron oxide nanoparticles by magnetic attraction in olfactory-injured mouse models</div>
+        <div class="pub-authors">WANSU YUN, JINSILCHOI , HYUNMI JU, MIN HEE KIM, SEONG JIN CHOI, EunSeol Oh, Y...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Update on Bone-Conduction Auditory Brainstem Responses: A Review</div>
+        <div class="pub-authors">YOUNG JOON SEO, 곽찬범, 김세아, PARKYOONAH , 박경호, 한우재</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="collab">
+        <div class="pub-title">Monitoring blood-flow in the mouse cochlea using an endoscopic laser speckle contrast imaging system</div>
+        <div class="pub-authors">Yu, S (Yu, Sunkon), Jeong Pyo Bong, JINSILCHOI , YOUNG JOON SEO, Byung Jo Jung</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">PLOS ONE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="collab">
+        <div class="pub-title">외이도의 에크린 한선종</div>
+        <div class="pub-authors">이영섭, 한준, 구철효, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">대한이비인후과학회지 두경부외과학</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">A Simple Model for Inducing Optimal Increase of SDF-1 with Aminoglycoside Ototoxicity</div>
+        <div class="pub-authors">HYUNMI JU, SUNHEE LEE, JINSILCHOI , YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">BIOMED RESEARCH INTERNATIONAL</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="collab">
+        <div class="pub-title">Tracheal reconstruction with a free vascularized myofascial flap: Preclinical investigation in a porcine model to human clinical application</div>
+        <div class="pub-authors">Kim W.S., Chang J.W., Jang W.S., YOUNG JOON SEO, Kang M.-L., Sung H.-J., Kim ...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">SCIENTIFIC REPORTS</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="collab">
+        <div class="pub-title">Importance of adhesiolysis in revision surgery for vibrant soundbridge device failures at the short incus process</div>
+        <div class="pub-authors">PARKYOONAH , Tae Hoon Kong, Jin Soon Chang, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="collab">
+        <div class="pub-title">Damage of Inner Ear Sensory Hair Cells via Mitochondrial Loss in a Murine Model of Sleep Apnea With Chronic Intermittent Hypoxia</div>
+        <div class="pub-authors">YOUNG JOON SEO, Ju, HM (Ju, Hyun Mi), Lee, SH (Lee, Sun Hee), Kwak, SH (Kwak,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">SLEEP</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="collab">
+        <div class="pub-title">A sustained increase of plasma fibrinogen in sudden sensorineural hearing loss predicts worse outcome independently</div>
+        <div class="pub-authors">Park Y.A., Kong T.H., Seo Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">AMERICAN JOURNAL OF OTOLARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">Usefulness of Intravital Multiphoton Microscopy in Visualizing Study of Mouse Cochlea and Volume Changes in the Scala Media</div>
+        <div class="pub-authors">HYUNMI JU, SUNHEE LEE, , Kwon, SH (Kwon, Seung-Hae), JINSILCHOI , YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">FRONTIERS IN NEUROLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="collab">
+        <div class="pub-title">Kawasaki disease and labyrinthitis: An underdiagnosed complication</div>
+        <div class="pub-authors">Kim K.Y., Kim K.H., Park Y.A., Seo Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="collab">
+        <div class="pub-title">Efficacy of Bone-Anchored Hearing Aids in Single-Sided Deafness: A Systematic Review</div>
+        <div class="pub-authors">Kim, G (Kim, Gaeun), HYUNMI JU, Lee, SH (Lee, Sun Hee), HEE SOON kIM , Kwon, ...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">OTOLOGY & NEUROTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="collab">
+        <div class="pub-title">Does Herpes Virus Reactivation Affect Prognosis in Idiopathic Sudden Sensorineural Hearing Loss?</div>
+        <div class="pub-authors">박상만, 한준, 이재우, 공태훈, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">Image-guided implantation of the Bonebridge™ with a surgical navigation: A feasibility study</div>
+        <div class="pub-authors">Kong T.H., Park Y.A., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">International Journal of Surgery Case Reports</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="basic">
+        <div class="pub-title">The change of hippocampal volume and its relevance with inner ear function in Meniere's disease patients</div>
+        <div class="pub-authors">YOUNG JOON SEO, Jinna Kim , sung huhn Kim</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="basic">
+        <div class="pub-title">Head position and increased head velocity to optimize video head impulse test sensitivity</div>
+        <div class="pub-authors">YOUNG JOON SEO, PARKYOONAH , Tae Hoon Kong, MEE RAN BAE , sung huhn Kim</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="collab">
+        <div class="pub-title">A mutation of the succinate dehydrogenase B gene in a Korean family with paraganglioma</div>
+        <div class="pub-authors">Borum Sagong, YOUNG JOON SEO, Hyun-Jin Lee, Mi Joo Kim , Un-Kyung Kim, In Seo...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">FAMILIAL CANCER</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="collab">
+        <div class="pub-title">Is Alcohol Swabbing Sufficient to Clean Otoscopes in Hospitals?</div>
+        <div class="pub-authors">Cheol Hyo Ku, Young Sub Lee, 서영준, Jeong Pyo Bong</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">대한이비인후과학회지 두경부외과학</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="collab">
+        <div class="pub-title">Early deterioration of residual hearing in patients with SLC26A4 mutations</div>
+        <div class="pub-authors">Kim B.G., Roh K.J., Park A.Y., Lee S.C., Kang B.S., YOUNG JOON SEO, Lee J.D.,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">LARYNGOSCOPE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="collab">
+        <div class="pub-title">Correlation of vestibular aqueduct size with air-bone gap in enlarged vestibular aqueduct syndrome.</div>
+        <div class="pub-authors">YoungJoon Seo, Jinna Kim, jae young choi</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">LARYNGOSCOPE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="collab">
+        <div class="pub-title">Lowest Oxyhemoglobin Saturation May Be an Independent Factor Influencing Auditory Function in Severe Obstructive Sleep Apnea</div>
+        <div class="pub-authors">Seo, YJ (Seo, Young Joon), Park, SY (Park, Sang Yoo), Chung, HJ (Chung, Hyo J...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">JOURNAL OF CLINICAL SLEEP MEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="collab">
+        <div class="pub-title">Clinical Features and Prognosis of Sudden Sensorineural Hearing Loss Secondary to Intralabyrinthine Hemorrhage</div>
+        <div class="pub-authors">이재우, 박윤아, Park SM, 공태훈, 박상유, Jeong Pyo Bong, DONG JOON PARK, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2015" data-team="collab">
+        <div class="pub-title">Predictive value of neutrophil to lymphocyte ratio in first-time and recurrent idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Seo, YJ (Seo, Young Joon), Park, YA (Park, Yoon Ah), Bong, JP (Bong, Jeong Py...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2015</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2015" data-team="collab">
+        <div class="pub-title">Changes in Tinnitus After Middle Ear Implant Surgery: Comparisons With the Cochlear Implant</div>
+        <div class="pub-authors">YoungJoon Seo, Hyun Ji Kim, In Seok Moon, jae young choi</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2015</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">EAR AND HEARING</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2015" data-team="collab">
+        <div class="pub-title">Association of hearing impairment with chronic kidney disease: a cross-sectional study of the Korean general population</div>
+        <div class="pub-authors">Seo, YJ (Seo, Young Joon), Ko, SB (Ko, Sang Baek), Ha, TH (Ha, Tae Hyung), Go...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2015</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">BMC NEPHROLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2015" data-team="collab">
+        <div class="pub-title">Genetic aspects and clinical characteristics of familial meniere's disease in a South Korean population</div>
+        <div class="pub-authors">Jeon Mi Lee, 김미주, Jinsei Jung, Hyun Ji Kim, YoungJoon Seo, sung huhn Kim</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2015</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">LARYNGOSCOPE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2015" data-team="collab">
+        <div class="pub-title">Expression and Localization of Aquaporin Water Channels in Human Middle Ear Epithelium</div>
+        <div class="pub-authors">Seo, YJ (Seo, Young Joon), Choi, JY (Choi, Jae Young)</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2015</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">OTOLOGY & NEUROTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2015" data-team="collab">
+        <div class="pub-title">A Melting Method for RNA Extraction from the Mucosal Membrane of the Mouse Middle Ear</div>
+        <div class="pub-authors">YoungJoon Seo, sung huhn Kim , In Seok Moon , jae young choi</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2015</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">YONSEI MEDICAL JOURNAL</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2014" data-team="collab">
+        <div class="pub-title">Neutrophil-to-Lymphocyte Ratio and Platelet-to-Lymphocyte Ratio: Novel Markers for Diagnosis and Prognosis in Patientswith Idiopathic Sudden Sensorineural Hearing Loss</div>
+        <div class="pub-authors">YOUNG JOON SEO, JUNHUI JEONG, Jae Young Choi, In Seok Moon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2014</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">DISEASE MARKERS</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2013" data-team="collab">
+        <div class="pub-title">Visualization of endolymphatic hydrops and correlation with audio-vestibular functional testing in patients with definite Meniere's disease</div>
+        <div class="pub-authors">young joon Seo, Jinna Kim, jae young choi, WON SANG LEE</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2013</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2012" data-team="collab">
+        <div class="pub-title">Cochlear implantation in a bilateral sensorineural hearing loss patient with relapsing polychondritis</div>
+        <div class="pub-authors">young joon Seo, jae young choi, Si Hong Kim, Kim, TJ (Kim, Tae-Jung)</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2012</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">RHEUMATOLOGY INTERNATIONAL</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2011" data-team="collab">
+        <div class="pub-title">Radiologic characteristics of sinonasal fungus ball: an analysis of 119 cases</div>
+        <div class="pub-authors">young joon Seo, Jinna Kim, Kyubo Kim, JEUNG GWEON LEE, Chang-Hoon Kim, JOO HE...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2011</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">ACTA RADIOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2010" data-team="collab">
+        <div class="pub-title">혀에 발생한 신경초종 1예 및 고찰</div>
+        <div class="pub-authors">Won Il Lee, Hong Jun Kim, young joon Seo, Kyung Jin Roh, EUN CHANG CHOI, Hyun...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2010</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">대한두경부종양학회지</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2008" data-team="collab">
+        <div class="pub-title">메니에르병 환자에서 고실내 Gadolinium-diethylen-triamine pentaacetic acid 주입 후 자기공명영상을 통한 내림프공간의 시각화</div>
+        <div class="pub-authors">young joon Seo , Daebo Shim , Jinna Kim , WON SANG LEE</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2008</span>
+          <span class="pub-tag team-collab">Collab & Medical</span>
+          <span class="pub-tag journal">대한평형의학회지</span>
+        </div>
+      </div>
+
+      <p class="no-results" id="pub-no-results" style="display:none;">해당 조건에 맞는 논문이 없습니다.</p>
+    </div>
+
+    <!-- 더보기 버튼 (5개 초과 시 표시) -->
+    <button class="show-more-btn" id="pub-more-btn" onclick="toggleShowMore('pub')" style="display:none;">
+      더보기 ▼
+    </button>
+  </section>
+
+
+  <!-- ============================================================
+       3️⃣ Report (학회 발표)
+       ✏️ 학회 발표 추가 방법: report-list 안에 아래 코드 복사 & 붙여넣기
+       <div class="pub-item" data-year="2025">
+         <div class="pub-title">발표 제목</div>
+         <div class="pub-authors">발표자</div>
+         <div class="pub-tags">
+           <span class="pub-tag year">2025</span>
+           <span class="pub-tag conf">학회명</span>
+         </div>
+       </div>
+       ※ Report는 팀별 필터 없음 (연도별만)
+       ============================================================ -->
+  <section class="section section-divider" id="report">
+    <h2 class="section-title">Report</h2>
+
+    <!-- Report은 팀별 필터 없음 (팀장님 지시) -->
+    <!-- 연도별 필터 -->
+    <div class="filter-row fade">
+      <span class="filter-label">연도</span>
+      <div class="filter-btns" id="report-year-filters">
+        <button class="filter-btn active" data-year="all" onclick="filterReport()">전체</button>
+        <button class="filter-btn" data-year="2026" onclick="filterReport()">2026</button>
+        <button class="filter-btn" data-year="2025" onclick="filterReport()">2025</button>
+        <button class="filter-btn" data-year="2024" onclick="filterReport()">2024</button>
+        <button class="filter-btn" data-year="2023" onclick="filterReport()">2023</button>
+        <button class="filter-btn" data-year="2022" onclick="filterReport()">2022</button>
+        <button class="filter-btn" data-year="older" onclick="filterReport()">~2021</button>
+      </div>
+    </div>
+
+    <p class="pub-count" id="report-count"></p>
+
+    <div id="report-list">
+
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">Implementation of an App-Based Telemedicine Framework in Otolaryngology: Focusing on Remote Hearing Aid Fitting</div>
+        <div class="pub-authors">YUSEON BYUN, DONGHYEOK LEE, JINHUI JEON, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">ICORL 2026, Goyang, Korea, 2026,04</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">ASSESSMENT OF AMBIENT NOISE EFFECTS ON KIOSK-BASED AUTOMATED AUDIOMETRY</div>
+        <div class="pub-authors">DONGHYEOK LEE, CHANBEOM KWAK, JUNGHEE SAGONG1, YUSEON BYUN, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">ICORL 2026, Goyang, Korea, 2026,04</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">Development and efficacy of virtual reality simulator in training of hearing test for audiologist</div>
+        <div class="pub-authors">Yuseon BYUN</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">WCA 2026, Seoul, Korea, 2026.05</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">Assessment of ambient noise levels in audiometric booths: A compliance study with ISO 8253-1</div>
+        <div class="pub-authors">Donghyeok LEE</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">WCA 2026, Seoul, Korea, 2026.05</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">Assessment of ambient noise effects on kiosk-based automated audiometry and its superior clinical utility for screening</div>
+        <div class="pub-authors">Donghyeok LEE</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">WCA 2026, Seoul, Korea, 2026.05</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">Comparison of remote and face-to-face hearing aid fitting in terms of satisfaction and outcomes</div>
+        <div class="pub-authors">Yuseon BYUN</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">WCA 2026, Seoul, Korea, 2026.05</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">Development and validation of kiosk-based audiometry as pioneer in digital health in audiology</div>
+        <div class="pub-authors">Donghyeok LEE</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">WCA 2026, Seoul, Korea, 2026.05</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">청각데이터[Big DATA]를 활용한 난청 예측 모델</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">제 21회 신생아 및 영유아 청각조기진단재활 심포지엄, 대한민국, 2026.03.14</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026">
+        <div class="pub-title">CES(Consumer Technolohy Association) 2026</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag conf">CES(Consumer Technolohy Association) 2026, 미국, 2026.01.05</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">COMPARISON OF AUDIOMETRY CALIBRATION FOR LEVEL AND LOCATION OF HOSPITAL</div>
+        <div class="pub-authors">YUSEON BYUN, JUNHUN LEE, CHUL YOUNG YOON, SUNGHWA YOU, JUNGHEE SAGONG, CHANBEOM KWAK, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">ICORL 2025, Suwon, Korea, 2025.04</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">DEVELOPMENT AND EFFICACY OF VIRTUAL REALITY SIMULATOR IN TRAINING OF HEARING TEST FOR AUDIOLOGIST</div>
+        <div class="pub-authors">CHANBEOM KWAK, YUSEON BYUN, CHULYOUNG KANG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">ICORL 2025, Suwon, Korea, 2025.04</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">EVALUATION OF AMBIENT NOISE IMPACT ON AUTOMATED AUDIOMETRY IN NON- SOUNDPROOF ENVIRONMENTS</div>
+        <div class="pub-authors">DONGHYUK LEE, CHANBEOM KWAK, JUNGHEE SAGONG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">제31차 이비인후과 종합학술대회, Cheongju, Korea, 2025.10</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">COMPLEMENTARITY BETWEEN KIOSK-BASED REVISED HEARING HANDICAP INVENTORY FOR KOREAN VERSION (RHHI-K) AND PURE-TONE AUDIOMETRY: IDENTIFYING SUBJECTIVE HEARING HANDICAP BEYOND AUDIOMETRIC THRESHOLDS</div>
+        <div class="pub-authors">CHANBEOM KWAK, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">제31차 이비인후과 종합학술대회, Cheongju, Korea, 2025.10</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">COMPARISON OF REMOTE AND FACE-TO-FACE HEARING AID FITTING IN TERMS OF SATISFACTION AND OUTCOMES</div>
+        <div class="pub-authors">YUSEON BYUN, HYEYUN YIM, JUNGHEE SAGONG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">제31차 이비인후과 종합학술대회, Cheongju, Korea, 2025.10</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">Comparison of Remote and Face-to-face Hearing Aid Fitting in Terms of Satisfaction and Outcomes</div>
+        <div class="pub-authors">Yuseon Byun, Hyeyun Yim, Junghee Sagonga, Young Joon Seo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">APSCI 2025, Shangri-La Kuala Lumpur, Malaysia, 2025.11</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">Development of a Virtual Reality-Based Speech Audiometry Simulator for Clinical Training in Audiology</div>
+        <div class="pub-authors">Yuseon Byun, Chulyoung Kang, Junghee Sagong, Chanbeom Kwak, Young Joon Seo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">APSCI 2025, Shangri-La Kuala Lumpur, Malaysia, 2025.11</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">Establishment of a Nationally Standardized Korean Normal-Hearing Dataset and the Need for Accredited Calibration in Audiometry</div>
+        <div class="pub-authors">Junghee Sagong, Donghyeok Leea, Yuseon Byun, Junhun Lee, Chanbeom Kwak, Young Joon Seo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">APSCI 2025, Shangri-La Kuala Lumpur, Malaysia, 2025.11</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">2025 대한청각학회 이비인후과 전공의/임상의를 위한 청각검사 워크샵</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">2025 대한청각학회 이비인후과 전공의/임상의를 위한 청각검사 워크샵, 대한민국, 2025.12.06</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">Innovative surgical approaches for the Osia® 2 System</div>
+        <div class="pub-authors">Seo, Young Joon, Lee, Jae Woo, Lee, Hyun Su,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">15th Asia Pacific Symposium on Cochlear Implant’s and Relate...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">31차 이비인후과 종합학술대회</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">31차 이비인후과 종합학술대회, 대한민국, 2025.10.24</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">임상 의사가 알아야 할 OTC 보청기와 PSAP 최신 동향 발표</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">2025 제33차 보청기워크샵, 대한민국, 2025.09.28</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">이명환자에게 적절한 약물 선택하기 발표</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">제16회 경희 이명세미나, 대한민국, 2025.09.07</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">내이 요법을 위한 나노 입자 기반 약물 전달 시스템 발표</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">내이기초연구회 & 생체재료연구회 공동 심포지엄(The EAR Symposium), 대한민국, 2025.08....</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">2025 제79차 대한청각학회 학술대회 - 순음청력검사 절차 표준강의</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">2025 제79차 대한청각학회 학술대회, 대한민국, 2025.05.10</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">제99차 대한이비인후과학회 학술대회 2025년 춘계 대한이비인후과의사회 학술대회</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">제99차 대한이비인후과학회 학술대회 2025년 춘계 대한이비인후과의사회 학술대회, 대한민국, 2025.04....</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">제70차 대한이과학회 학술대회</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">제70차 대한이과학회 학술대회, 대한민국, 2025.04.06</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">18th Oto-Neurotology Symposium</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">18th Oto-Neurotology Symposium, 대한민국, 2025.03.07</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025">
+        <div class="pub-title">한국줄기세포학회 2025 동계학술대회</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag conf">한국줄기세포학회 2025 동계학술대회 , 대한민국, 2025.01.16</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">Development of Artificial Intelligence Hearing Aid Chatbot</div>
+        <div class="pub-authors">Chanbeom Kwak</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">WCA 2024, Paris, France, 2024.09</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">EFFICACY OF VIRTUAL REALITY PURE-TONE AUDIOMETRY IN TRAINING OF HEARING TEST FOR AUDIOLOGIST</div>
+        <div class="pub-authors">CHANBEOM KWAK, SUNGHWA YOU, YUSEON BYUN, CHULYOUNG KANG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">제30차 이비인후과 종합학술대회, Gyeongju, Korea, 2024.10</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">2024 제 27차 (사)한국청각언어재활학회 학술대회</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">2024 제 27차 (사)한국청각언어재활학회 학술대회, 대한민국, 2024.11.02</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">REVISITING THE DIAGNOSTIC THRESHOLDS: COMPARATIVE ACCURACY OF CALORIC TEST AND VIDEO HEAD IMPULSE TEST IN UNILATERAL VESTIBULAR IMPAIRMENT</div>
+        <div class="pub-authors">공태훈, Lee, Hyun Su, Kim, Jae Ha, 서영준,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">제30차 이비인후과 종합학술대회, 대한민국, 2024.10.11</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">A COMPREHENSIVE AUDIOLOGICAL OUTCOMES OF THE OSIA® 2 SYSTEM IN PATIENTS WITH CONDUCTIVE AND MIXED HEARING LOSS: A PROSPECTIVE, SINGLE-ARM CLINICAL TRIAL</div>
+        <div class="pub-authors">공태훈, Lee, Hyun Su, 서영준,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">제30차 이비인후과 종합학술대회, 대한민국, 2024.10.11</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">2024년 최신 보청기 소개_와이덱스</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">2024제 31차 보청기 워크샵, 대한민국, 2024.09.29</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">보청기 음장검사 및 실이측정</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">제 24회 대한청각학회 청력검사 강습회, 대한민국, 2024.09.07</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">청력검사 장비의 보정 및 관리</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">2024 대한청각학회 청각사 보수교육, 대한민국, 2024.07.14</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">AI와 DATA 를 활용한 최신 연구 동향과 연구비 수주 전략</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">제 6회 가톨릭 이과 세미나, 대한민국, 2024.07.13</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">Enhancing recovery prediction in unilateral sudden sensorineural hearing loss: A multi-institutional AI approach</div>
+        <div class="pub-authors">Kim, Jae Ha, Suh, You Taek, Jeon, Jae Who, Han, Sung Min, Lee, Hyun Su, Seo, ...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">The 7th Congress of European ORL-HNS, 아일랜드, 2024.06.18</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024">
+        <div class="pub-title">Clinical characteristics of post-traumatic BPPV: A comparative study with idiopathic BPPV</div>
+        <div class="pub-authors">공태훈, Kwon, Dong Whan, Kim, Jae Ha, Kim, Minion, 서영준,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag conf">The 7th Congress of European ORL-HNS, 아일랜드, 2024.06.17</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">CONSTRUCTION OF HEARING BIG-DATA: INTEGRATION, MANAGEMENT, AND APPLICATION</div>
+        <div class="pub-authors">SUNGHWA YOU, JI-HYEON LEE, CHULYOUNG YOON, TAE-HOON KONG, YOUNG-JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">ICORL 2023, Goyang, Korea, 2023.04</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">KOLAS-ACCREDITED CALIBRATION INSTITUTION FOR ENHANCING AUDIOMETRIC TESTING RELIABILITY</div>
+        <div class="pub-authors">JIHYEON LEE, JUNGHEE SAGONG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">제29차 이비인후과 종합학술대회, Gwangju, Korea, 2023.10</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">새로운 의료서비스 혁명 : 디지털 치료제</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">새로운 의료서비스 혁명 : 디지털 치료제, 대한민국, 2023.12.21</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">가상현실 순음청력검사 표준 시뮬레이터</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">청각 건강 관리를 넘어서 : 청각 재활의 최첨단 기술의 탐색, 대한민국, 2023.11.04</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">SPISOME' from tonsil dericed MSC for treatment of hearing loss</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">2023 제29회 아주이과심포지움, 대한민국, 2023.11.03</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">청성뇌간반응검사</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">제23회 대한청각학회 청력검사 강습회, 대한민국, 2023.10.28</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">CLINICAL CHARATERISTICS OF BENIGN PAROXYSMAL POSITIONAL VERTIGO FOLLOWING MAJOR TRAUMA</div>
+        <div class="pub-authors">Kong, Tae Hoon, Kim, Minheon, Lee, Hyun Su, Jeon, Eun Kyung, Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">제29차 이비인후과 종합학술대회, 대한민국, 2023.10.13</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">어지러움 전정재활치료의 최신지견</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">2023 한국전문물리치료학회 추계학술대회, 대한민국, 2023.09.23</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">보청기 피팅의 변화: 어떻게 발전하고 있는가</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">2023 제 29차 보청기 워크샵, 대한민국, 2023.09.03</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">Basic Cell Culture and Application</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">이과학기초연구워크샵, 이과학 연구세미나, 대한민국, 2023.06.20</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">국산의료기기의 수출확대를 위한 병원과 기업의 협력방안</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">의료기기 혁신 성장 포럼 2차 토론회, 대한민국, 2023.06.20</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">청각 빅데이터의 구축: 데이터 통합, 관리 및 활용을 중심으로</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">2023재75차 대한청각학회 학술대회, 대한민국, 2023.05.13</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023">
+        <div class="pub-title">Effect of Vestibular Rehabilitation using a VR Guide in Patients with Acute Unilateral Vestibular Hypofunction: ?A Randomized Controlled Trial</div>
+        <div class="pub-authors">Kong, Tae Hoon, Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag conf">International Congress of ORL-HNS 2023, 대한민국, 2023.04.23</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022">
+        <div class="pub-title">ASSOCIATION OF DIETARY FACTORS WITH NOISE INDUCED HEARING LOSS IN KOREAN POPULATION: A 3-YEAR NATIONAL COHORT STUDY</div>
+        <div class="pub-authors">HYUN JIN LEE, YOUNG JOON SEO, KYOUNG-HO PARK</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag conf">제28차 이비인후과 종합학술대회, Daejeon, Korea, 2022.10</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022">
+        <div class="pub-title">순음청력검사와 청성뇌간반응 검사 데이터</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag conf">제5회 가톨릭 이과 세미나, 대한민국, 2022.12.17</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022">
+        <div class="pub-title">소음과 난청 빅데이터 분석</div>
+        <div class="pub-authors">Seo, Young Joon,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag conf">2022 추계 소음진동 학술대회 환경소음정책 거버넌스 구축을 위한 소음 건강 포럼, 대한민국, 2022.11...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021">
+        <div class="pub-title">ASSOCIATION OF DIETARY FACTORS WITH NOISE INDUCED HEARING LOSS IN KOREAN POPULATION: A 3-YEAR NATIONAL COHORT STUDY</div>
+        <div class="pub-authors">HYUN JIN LEE, YOUNG JOON SEO, KYOUNG-HO PARK</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag conf">제27차 이비인후과 종합학술대회, Cheongju, Korea, 2021.10</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021">
+        <div class="pub-title">Minimal Incision Technique & Auditory Performance</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag conf">Malaysia Cochlear Implant Symposium 2021, 대한민국, 2021.11.28</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021">
+        <div class="pub-title">Enhancing the homing phenomenon of mesenchymal stem cells labeled with SPION under magnetic attraction</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag conf">2021년 제 27회 아주이과심포지움, 대한민국, 2021.11.05</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021">
+        <div class="pub-title">Enhancement of Homing Phenomenon in SPION Labeled Mesenchymal Stem Cell Using Magnetic Attraction for hearing recovery</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag conf">4th International and 12th Annual National Convention and Sc...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021">
+        <div class="pub-title">Enhancing the homing phenomenon of mesenchymal stem cells labeled with SPION under magnetic attraction</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag conf">제 6차 Experimental Research Forum in ORL, 대한민국, 2021.06.05</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021">
+        <div class="pub-title">BAHA Attract Implantation Using a Small Incision</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag conf">The 4th Webinar organized by HSI & Yonsei, 대한민국, 2021.06.04</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021">
+        <div class="pub-title">1차년도 사업결과 보고</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag conf">2021 제 71차 대한청각학회 학술대회 , 대한민국, 2021.05.15</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021">
+        <div class="pub-title">안면마비 환자의 적외선체열영상</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag conf">2021년 대한체열학회 제 40차 춘계학술대회, 대한민국, 2021.05.15</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020">
+        <div class="pub-title">BONE CONDUCTION PATHWAY MEASURED ON CADAVER HEADS</div>
+        <div class="pub-authors">JI-HYEON LEE, TAE-HOON KONG, WAN-HO CHO, YOUNG-JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag conf">ICORL 2020, Seoul, Korea, 2020.06</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020">
+        <div class="pub-title">한국 환경정책평가연구원 소음과 건강 세미나</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag conf">제4차 소음 진공관리 종합계획, 대한민국, 2020.07.13</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020">
+        <div class="pub-title">ASSOCIATION OF HYPERTENSION AND DIABETES MELLITUS WITH HEARING LOSS</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag conf">제94차 대한이비인후과학회 학술대회, 대한민국, 2020.06.29</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020">
+        <div class="pub-title">THE EXPERIMENTAL ANIMAL MODEL FOR MENIERE'S DISEASE-A MINI-REVIEW</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag conf">제94차 대한이비인후과학회 학술대회, 대한민국, 2020.06.28</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020">
+        <div class="pub-title">EFFECTS OF PARTICULATE MATTER-INDUCED ROSGENERATION ON MITOCHONDRIAL DYSFUNCTION IN HUMAN MIDDLE EAR EPITHELIAL CELLS</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag conf">제94차 대한이비인후과학회 학술대회, 대한민국, 2020.06.27</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019">
+        <div class="pub-title">New technology in neurotology</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag conf">2019 이과학 Live Surgery 및 신의료기술 세미나, 대한민국, 2019.11.24</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019">
+        <div class="pub-title">PCA를 이용한 급성 어지럼증의 안진 유형 분류 알고리즘 개발</div>
+        <div class="pub-authors">권오현, YOUNG JOON SEO, Jaehong Key,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag conf">2019 대한의용생체공학회 추계학술대회, 대한민국, 2019.11.07</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019">
+        <div class="pub-title">디지털 헬스케어 서비스 모텔</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag conf">개교 60주년 기념 Digital Healthcare International Forum, 대한민국, 201...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019">
+        <div class="pub-title">A prospective study of audiological benefits for Cochlear Baha Attract implantations</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag conf">Asian Study Group for Bone Conduction Hearing Devices, 대한민국,...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">Ear problems in hyperbaric oxygen therapy</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">2018년 대한응급의학회 추계학술대회, 대한민국, 2018.10.19</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">The prevalence of dolichoectasia and related clinical features in patients with acute peripheral vestibulopathy</div>
+        <div class="pub-authors">YOUNG JOON SEO, 한성민,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">제 24차 이비인후과 종합학술대회, 대한민국, 2018.10.12</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">Measurement of head size by age group using CT image for development of bone hearing aid body suitable for Korean</div>
+        <div class="pub-authors">YOUNG JOON SEO, 구철효,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">제 24차 이비인후과 종합학술대회, 대한민국, 2018.10.12</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">Circulating microRNAs as the diagnostic biomarker for sudden sensorineural hearing loss</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">제 24차 이비인후과 종합학술대회, 대한민국, 2018.10.12</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">Using homing phenomenon of stem cell in otology</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">제4차 Experimental Research Forum in ORL, 대한민국, 2018.06.06</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">Usefulness of intravital multihoton microscopy in visualizing study of mouse cochlea and volume changes in the scala media</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">제92차 대한이비인후과학회 학술대회, 대한민국, 2018.04.29</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">For evaluation of the efficacy for hyperbaric oxygen therapy(HBO) in sudden sensorineural hearing loss(SSNHL)</div>
+        <div class="pub-authors">YOUNG JOON SEO, 한준,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">제92차 대한이비인후과학회 학술대회, 대한민국, 2018.04.29</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">Comparison of ENG and vHIT result on vestibular neuritis</div>
+        <div class="pub-authors">YOUNG JOON SEO, 한준,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">제92차 대한이비인후과학회 학술대회, 대한민국, 2018.04.28</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">For evaluation of the efficacy for hyperbaric oxygen therapy(HBO) in sudden sensorineural hearing loss(SSNHL)</div>
+        <div class="pub-authors">YOUNG JOON SEO, 이영섭,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">17th Korea Japan Joint Meeting Of Otorhinolaryngology Head A...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">강원지역 노인의 청각관리 및 치료</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">한림대 헬스케어미디어연구소 창립6주년 기념 심포지움 - 지역사회와 건강커뮤니케이션, 대한민국, 2018.04...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018">
+        <div class="pub-title">청각학에서 바라본 골전도 보청기</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag conf">BK21 플러스 사업-청각언어재활 프로그램 개발 연구팀 세미나, 대한민국, 2018.01.08</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">2017년 제1회 대한고압의학회 학술대회, 대한민국, 2017.11.24</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Comparison of ENG and vHIT result on vestibular neuritis</div>
+        <div class="pub-authors">YOUNG JOON SEO, Chun HAN, Min Suk KANG,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">제23차 이비인후과 종합학술대회, 대한민국, 2017.10.20</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Relationship between temporal bone fracture and zygomaticomaxillary complex fracture after head trauma</div>
+        <div class="pub-authors">YOUNG JOON SEO, Huijoon YANG, Da-Young KIM, Yoon-Ah PARK,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">제23차 이비인후과 종합학술대회, 대한민국, 2017.10.20</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Sudden sensorineural hearing loss treated with additional hyperbaric oxygen therapy (HBO)</div>
+        <div class="pub-authors">YOUNG JOON SEO, Young sub LEE, Yoon Ah PARK, Min Suk KANG, Jeong Pyo BONG,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">제23차 이비인후과 종합학술대회, 대한민국, 2017.10.20</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Use of HBOT in idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">2017 대한응급의학회 추계학술대회, 대한민국, 2017.10.20</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Comparison of clinical features and prognosis of patients with sudden sensorinerual hearing loss by presence and location of the anterior inferior cerebellar artery loop</div>
+        <div class="pub-authors">YOUNG JOON SEO, Jaewoo LEE, Hyeonkyu CHOI, Minchul SHIN,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">제23차 이비인후과 종합학술대회, 대한민국, 2017.10.20</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Efficacy of Bone-Anchored Hearing Aids in Single-Sided Deafness: A Systematic Review</div>
+        <div class="pub-authors">YOUNG JOON SEO, 권정아, 김희순, 이선희, 주현미, 김가은,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">제11차 서울대학교병원 인공와우심포지엄, 대한민국, 2017.07.22</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Symposium III : Clinical Research Methodologies in Rhinology 2. 의료기기의 개발과 임상시험 진행 노하우</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">2017 대한비과학회 학술심포지엄 Recent Update of Clinical and Experimenta...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017">
+        <div class="pub-title">Enhancement of homing phenomenon of mesenchymal derived stem cell using nanoparticle</div>
+        <div class="pub-authors">YOUNG JOON SEO,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag conf">제23회 아주이과심포지움 "The Fourth Revolution of Basic Research in Ne...</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2014">
+        <div class="pub-title">The Clinical Importance of Primary Intervention in EAC cancer</div>
+        <div class="pub-authors">Mi Joo Kim, WON SANG LEE, In Seok Moon, Soon Hyung Park, 서영준,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2014</span>
+          <span class="pub-tag conf">제88차 이비인후과종합학술대회, 대한민국, 2014.04.27</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2010">
+        <div class="pub-title">Radiologic characteristics of sinuonasal fungus ball; Analysis of 119 cases</div>
+        <div class="pub-authors">young joon Seo, Kyubo Kim, Chang-Hoon Kim, JEUNG GWEON LEE, JOO HEON YOON,</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2010</span>
+          <span class="pub-tag conf">제84차 대한이비인후과학회 춘계학술대회, 대한민국, 2010.04.23</span>
+        </div>
+      </div>
+
+      <p class="no-results" id="report-no-results" style="display:none;">해당 조건에 맞는 발표가 없습니다.</p>
+    </div>
+
+    <button class="show-more-btn" id="report-more-btn" onclick="toggleShowMore('report')" style="display:none;">
+      더보기 ▼
+    </button>
+  </section>
+
+
+  <!-- ============================================================
+       4️⃣ Patents (특허) — 접이식 아코디언
+       ⚠️ 아래 collapse-inner 안에 원본 Research HTML의 특허 목록(pub-item들)을
+          그대로 복사해서 붙여넣으면 됩니다. (이 부분은 더보기 버그와 무관)
+       특허 1건 형식:
+       <div class="pub-item">
+         <div class="pub-title">특허 제목</div>
+         <div class="pub-authors">발명자</div>
+         <div class="pub-tags">
+           <span class="pub-tag year">등록 2024</span>
+           <span class="pub-tag journal">10-XXXXXXX (대한민국)</span>
+         </div>
+       </div>
+       ============================================================ -->
+  <section class="section section-divider" id="patents">
+    <h2 class="section-title">Patents</h2>
+    <div>
+      <div class="collapse-header" onclick="togglePatent()">
+        <span>📋 특허 목록 (80건)</span>
+        <span class="collapse-arrow" id="patent-arrow">▼</span>
+      </div>
+      <div class="collapse-body" id="patent-body">
+        <div class="collapse-inner">
+      <div class="pub-item">
+        <div class="pub-title">AI 기반 자기복원형 의약품 운송 박스 및 그 제어 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">의약품 운송을 위한 다자간 인증 기반 스마트 락킹 박스 제어 시스템 및 이의 실행 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">고령층 건강 관리를 위한 통합 검진 키오스크 및 이의 실행 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">생체 신호 기반 이명 치료 장치 및 이의 실행 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">웨어러블 기기를 활용한 수면 생체 지표 예측 방법 및 이를 실행하는 서버</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">개인 맞춤형 영양소 추천 장치 및 이의 실행 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">N-아세틸시스테인(NAC)에 의해 항산화 효과가 개선된 편도 유래 중간엽 줄기세포 배양액을 포함하는 피부재생용 조성물</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">N-아세틸시스테인(NAC)을 이용한 편도 유래 중간엽 줄기세포의 배양방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">가상현실에 기반한 전정재활치료 콘텐츠를 제공하는 방법 및 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 이명치료 장치 및 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 이명치료 장치 및 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">비디오 안진 검사를 위한 동공 트래킹 방법 및 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">전정 재활 훈련 시스템</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">편도 유래 중간엽 줄기세포 제조방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">편도 유래 중간엽 줄기세포 제조방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">N-아세틸시스테인(NAC)을 이용한 편도 유래 중간엽 줄기세포의 배양방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">N-아세틸시스테인(NAC)에 의해 항산화 효과가 개선된 편도 유래 중간엽 줄기세포 배양액을 포함하는 피부재생용 조성물</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">안진 검출을 위한 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">인공지능 딥러닝에 기초한 청성뇌간반응검사의 자동화 결과 판독 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중간엽줄기세포 또는 이로부터 유래된 엑소좀을 유효성분으로 포함하는 난청 예방용 조성물</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">미국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">노인성 난청 동물모델 및 이의 제작방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">미국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">가상현실 기반 청력 검사 시스템</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">청취자의 청력 정보를 기반으로 TV 음량을 제어하는 장치 및 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">전정 재활 훈련 시스템</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료 기구</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">미국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">편도 유래 중간엽 줄기세포 제조 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료 기구</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">중국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료 기구</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">중국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">고막 영상 분석을 통한 귀 질환 진단 장치 및 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중간엽줄기세포 유래 엑소좀을 유효성분으로 포함하는 난청 예방용 조성물</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 임플란트 수직 드릴링 가이드 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">위치 정보를 이용한 보청기 피팅 장치 및 피팅 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 임플란트 수직 드릴링 가이드 및 편평도 측정 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">미국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">난청환자를 위한 청능 훈련시스템</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">노인성 난청 동물모델 및 이의 제작방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중간엽줄기세포 또는 이로부터 유래된 엑소좀을 유효성분으로 포함하는 난청 예방용 조성물</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 임플란트 수직 드릴링 가이드 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">가상현실 기반의 휴대용 안진 검사장치 및 이를 이용한 검진 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">미국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">박막 압력 측정 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">기계 학습에 기초한 순음청력검사의 자동화 결과 판독 장치 및 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">노인성 난청 동물모델 및 이의 제작방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">어지럼증 진단 어플리케이션 및 그 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">어지럼증 진단 어플리케이션 및 그 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 임플란트 수직 드릴링 가이드 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">노인성 난청 동물모델의 제작방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중간엽줄기세포를 유효성분으로 포함하는 난청 예방용 조성물</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중간엽줄기세포 유래 엑소좀을 유효성분으로 포함하는 난청 예방용 조성물</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 임플란트 수직 드릴링 가이드 및 편평도 측정 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 임플란트 수직 드릴링 가이드 및 편평도 측정 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료 기구</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">중국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료 기구</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">미국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">안구 움직임에 기반한 이석증 질병정보를 제공하는 방법 및 이를 위한 진단장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">안구 움직임에 기반한 이석증의 질병정보 제공방법 및 이를 위한 질병정보 제공장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 보청기의 착용 압력 측정을 위한 헤드 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">골전도 아크 헤드셋</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">자성 나노입자 클러스터를 이용한 줄기세포 유래 엑소좀 생성 촉진 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">달팽이관에서의 미세 혈류 측정 방법 및 장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">난청환자를 위한 청능 훈련시스템 및 청능 훈련방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">가상현실 기반의 휴대용 안진 검사장치 및 이를 이용한 검진 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">동공과 홍채를 이용한 이석증의 진단방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">이석증의 진단명 표시방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">가상현실 기반의 휴대용 안진 검사장치 및 이를 이용한 검진 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">휴대용 안진 검사장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">유럽</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">휴대용 안진기 및 이의 캘리브레이션 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">공기전도 방식과 골전도 방식이 결합된 소리전달시스템 및 이의 동작방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">달팽이관에서의 미세 혈류 측정 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료 기구</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">휴대용 안진 검사장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">미국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">난청 진단을 위한 miR-205 및 이의 용도</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">S상 정맥동을 통한 골 이식형 정맥 접근 포트 및 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료 기구</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료 기구</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">위치 정보를 이용한 보청기 피팅 장치 및 피팅 방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">호밍능이 향상된 줄기세포 및 이의 제조방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">휴대용 안진 검사장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year"></span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료용 고막천공관의 제조방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">중이염 치료용 고막천공술 시술장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag journal">출원</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">이비인후과 유닛</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">휴대용 안진 검사장치</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-title">고막천공관과 그 제조방법 및 사용방법</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">등록</span>
+          <span class="pub-tag year">대한민국</span>
+          <span class="pub-tag journal">특허</span>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       ⚙️ SCRIPT  (더보기 버그 수정 버전)
+       핵심: '필터 통과 여부'는 .filter-match 클래스로,
+            '화면 표시 여부'는 display 스타일로 분리해서 관리한다.
+       ============================================================ -->
+  <script>
+    var INITIAL_SHOW = 5; /* 처음에 보여줄 항목 수 */
+
+    /* ── 필터 버튼 클릭 시 active 토글 ── */
+    function setActiveBtn(containerId, clickedBtn) {
+      var container = document.getElementById(containerId);
+      container.querySelectorAll('.filter-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      clickedBtn.classList.add('active');
+    }
+
+    /* ── Publication 필터 ── */
+    function filterPub() {
+      var teamBtn = event.target.closest('[data-team]');
+      var yearBtn = event.target.closest('[data-year]');
+      if (teamBtn && teamBtn.parentElement.id === 'pub-team-filters') setActiveBtn('pub-team-filters', teamBtn);
+      if (yearBtn && yearBtn.parentElement.id === 'pub-year-filters') setActiveBtn('pub-year-filters', yearBtn);
+      applyFilter('pub');
+    }
+
+    /* ── Report 필터 (연도만) ── */
+    function filterReport() {
+      var yearBtn = event.target.closest('[data-year]');
+      if (yearBtn && yearBtn.parentElement.id === 'report-year-filters') setActiveBtn('report-year-filters', yearBtn);
+      applyFilter('report');
+    }
+
+    /* ── 공통 필터 적용 ──
+       핵심: '필터 통과 여부'는 .filter-match 클래스로 표시하고,
+       '화면 표시 여부'는 display 스타일로 따로 관리한다.
+       (이 둘을 display 하나로 섞어 쓴 게 더보기 버그의 원인) */
+    function applyFilter(section) {
+      var teamFilterEl = document.getElementById(section + '-team-filters');
+      var teamFilter = teamFilterEl ? teamFilterEl.querySelector('.active') : null;
+      var yearFilter = document.getElementById(section + '-year-filters').querySelector('.active');
+      var team = teamFilter ? teamFilter.dataset.team : 'all';
+      var year = yearFilter ? yearFilter.dataset.year : 'all';
+
+      var list = document.getElementById(section + '-list');
+      var items = list.querySelectorAll('.pub-item');
+      var matchCount = 0;
+
+      items.forEach(function(item) {
+        var matchTeam = (team === 'all' || item.dataset.team === team);
+        var itemYear = parseInt(item.dataset.year, 10);
+        var matchYear = (year === 'all'
+          || item.dataset.year === year
+          || (year === 'older' && itemYear <= 2021));
+        if (matchTeam && matchYear) {
+          item.classList.add('filter-match');
+          matchCount++;
+        } else {
+          item.classList.remove('filter-match');
+        }
+      });
+
+      /* 결과 없음 표시 */
+      var noResults = document.getElementById(section + '-no-results');
+      if (noResults) noResults.style.display = (matchCount === 0) ? '' : 'none';
+
+      /* 카운트 표시 */
+      var countEl = document.getElementById(section + '-count');
+      if (countEl) countEl.textContent = '총 ' + matchCount + '건';
+
+      /* 더보기 접힌 상태로 리셋 */
+      applyShowMore(section, false);
+    }
+
+    /* ── 더보기 / 접기 토글 ── */
+    function toggleShowMore(section) {
+      var btn = document.getElementById(section + '-more-btn');
+      var expanded = btn.dataset.expanded === 'true';
+      applyShowMore(section, !expanded);
+    }
+
+    /* ── 표시 개수 적용 ── */
+    function applyShowMore(section, expand) {
+      var list = document.getElementById(section + '-list');
+      var allItems = list.querySelectorAll('.pub-item');
+      var matched = Array.from(allItems).filter(function(i) {
+        return i.classList.contains('filter-match');
+      });
+      var btn = document.getElementById(section + '-more-btn');
+
+      /* 필터를 통과 못 한 항목은 모두 숨김 */
+      allItems.forEach(function(item) {
+        if (!item.classList.contains('filter-match')) item.style.display = 'none';
+      });
+
+      /* 통과 항목이 INITIAL_SHOW 이하면 전부 표시 + 버튼 숨김 */
+      if (matched.length <= INITIAL_SHOW) {
+        matched.forEach(function(item) { item.style.display = ''; });
+        btn.style.display = 'none';
+        btn.dataset.expanded = 'false';
+        return;
+      }
+
+      /* 통과 항목이 더 많으면 버튼 표시 */
+      btn.style.display = '';
+      if (expand) {
+        matched.forEach(function(item) { item.style.display = ''; });
+        btn.textContent = '접기 ▲';
+        btn.dataset.expanded = 'true';
+      } else {
+        matched.forEach(function(item, i) {
+          item.style.display = (i < INITIAL_SHOW) ? '' : 'none';
+        });
+        btn.textContent = '더보기 ▼ (' + (matched.length - INITIAL_SHOW) + '건 더)';
+        btn.dataset.expanded = 'false';
+      }
+    }
+
+    /* ── 페이지 로드 시 초기화 ── */
+    window.addEventListener('DOMContentLoaded', function() {
+      applyFilter('pub');
+      applyFilter('report');
+    });
+
+    /* Patent 아코디언 */
+    function togglePatent() {
+      document.getElementById('patent-body').classList.toggle('open');
+      document.getElementById('patent-arrow').classList.toggle('open');
+    }
+
+    /* ── 페이드인 ── */
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry, i) {
+        if (entry.isIntersecting) {
+          setTimeout(function() { entry.target.classList.add('show'); }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade').forEach(function(el) { observer.observe(el); });
+  </script>
+
+</body>
+</html>

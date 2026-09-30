@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Intro — RIHE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: #1a202c;
+      line-height: 1.7;
+      background: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      background: #fff;
+      text-align: center;
+      padding: 72px 24px 56px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: #718096;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .hero-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      margin: 14px 0;
+      color: #1a3c6e;
+    }
+    .hero-desc {
+      font-size: 0.95rem;
+      color: #718096;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* 소개 */
+    .section {
+      padding: 60px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 32px;
+      color: #1a202c;
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 3px;
+      background: #1a3c6e;
+      border-radius: 2px;
+    }
+    .intro-text {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .intro-text p {
+      font-size: 1rem;
+      color: #4a5568;
+      margin-bottom: 14px;
+    }
+    .intro-quote {
+      font-size: 1.05rem;
+      color: #1a3c6e;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 18px;
+      background: #EDF1F7;
+      border-radius: 10px;
+    }
+    .fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 768px) {
+      .hero { padding: 48px 20px 40px; }
+      .hero-main { font-size: 2.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <p class="hero-sub">청각재활연구소 소개</p>
+    <h1 class="hero-main">About RIHE</h1>
+    <p class="hero-desc">
+      난청에 대한 기초 연구 뿐만 아니라 의료기기 개발, 임상시험에 이르기까지
+      전주기적인 연구를 진행하는 연세대학교 공식 연구소입니다.
+    </p>
+  </header>
+
+  <section class="section" id="about-intro">
+    <h2 class="section-title">청각재활연구소</h2>
+    <div class="intro-text fade">
+      <div class="intro-quote">
+        "난청을 치료하는 임상의이자 난청을 연구하는 연구자로서,<br>
+        청각재활연구소를 기반으로 융합 연구자의 길을 걸어왔습니다."
+      </div>
+      <p>2015년부터 다양한 융합 연구를 선보인 연구소입니다. 세계 여러 나라 청각 특성화 연구소들과 어깨를 나란히 견줄 수 있는 연구소가 되겠습니다.</p>
+      <p>청각 특성화 연구소만의 독특한 시각과 연구 방식에서 수년 동안 많은 과정을 거쳐 발전해온 청각 재활연구소만의 우수한 연구들을 볼 수 있습니다.</p>
+    </div>
+  </section>
+
+  <script>
+    var obs = new IntersectionObserver(function(e) {
+      e.forEach(function(el, i) { if (el.isIntersecting) { setTimeout(function() { el.target.classList.add('show'); }, i * 80); obs.unobserve(el.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade').forEach(function(el) { obs.observe(el); });
+  </script>
+</body>
+</html>

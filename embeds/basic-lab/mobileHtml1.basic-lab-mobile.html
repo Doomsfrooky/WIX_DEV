@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<title>Basic Lab Mobile</title>
+<style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-height:1.7;background:#fff;-webkit-text-size-adjust:100%}
+.hero{text-align:center;padding:36px 16px 28px}
+.hero h1{font-size:1.5rem;font-weight:600;margin:8px 0;line-height:1.3}
+.hero p{font-size:0.82rem;color:#718096;margin-bottom:4px}
+.sec{padding:28px 16px}
+.sec-div{border-top:1px solid #e2e8f0}
+.sec-title{font-size:1.2rem;font-weight:700;text-align:center;margin-bottom:16px;position:relative;padding-bottom:10px}
+.sec-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:36px;height:3px;border-radius:2px}
+.intro p{font-size:0.85rem;color:#4a5568;margin-bottom:8px}
+/* DC box */
+.dc-box{border:1px solid #e2e8f0;border-radius:10px;padding:16px;text-align:center;margin-bottom:14px}
+.dc-box img{max-width:180px;width:60%;margin-bottom:8px}
+.dc-box h3{font-size:0.92rem;margin-bottom:4px}
+.dc-box p{font-size:0.78rem;color:#4a5568}
+/* M&V */
+.mv-card{border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden}
+.mv-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.mv-card h3{font-size:0.95rem;margin-bottom:6px}
+.mv-card p{font-size:0.82rem;color:#4a5568}
+/* Organigram */
+.org-top{background:#e8e8ee;border-radius:10px;padding:12px;text-align:center;font-weight:700;font-size:0.85rem;margin-bottom:8px}
+.org-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.org-box{border-radius:8px;padding:8px 12px;font-size:0.75rem;font-weight:600;text-align:center;min-width:70px}
+/* D&M */
+.dm{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.dm img{width:70px;height:70px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.dm .ph{width:70px;height:70px;border-radius:10px;background:#f0f4f8;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#718096;border:1.5px dashed #e2e8f0}
+.dm-info h4{font-size:0.92rem;margin-bottom:1px}
+.dm-info .badge{display:inline-block;font-size:0.68rem;padding:1px 6px;border-radius:6px;margin-bottom:4px}
+.dm-info p{font-size:0.78rem;color:#4a5568}
+/* Research Subjects */
+.rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rs-card{padding:12px;border:1px solid #e2e8f0;border-radius:8px}
+.rs-card h4{font-size:0.82rem;margin-bottom:3px}
+.rs-card p{font-size:0.72rem;color:#4a5568}
+/* 접힘 */
+.collapse-header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:0.88rem;font-weight:500;margin-bottom:6px}
+.collapse-arrow{transition:transform 0.3s}
+.collapse-arrow.open{transform:rotate(180deg)}
+.collapse-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.collapse-body.open{max-height:8000px}
+.collapse-inner{padding:10px 14px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px}
+/* 논문 */
+.pub-item{padding:8px 0;border-bottom:1px solid #f0f0f0}
+.pub-title{font-size:0.8rem;color:#1a202c;margin-bottom:3px}
+.pub-authors{font-size:0.7rem;color:#718096;margin-bottom:3px}
+.pub-tags{display:flex;gap:3px;flex-wrap:wrap}
+.pub-tag{font-size:0.62rem;padding:1px 5px;border-radius:6px}
+.pub-tag.year{background:#f0f0f0;color:#555}
+.pub-tag.journal{background:#EDF1F7;color:#1a3c6e;border:1px solid #C2CEDF}
+.pub-tag.team-basic{background:#EDF8F2;color:#2E8B57}
+.pub-tag.team-hearing{background:#EDF2F8;color:#7096B5}
+.pub-tag.team-head{background:#EBF5FF;color:#4A90C4}
+/* Alumni */
+.alumni-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.alumni-card{text-align:center}
+.alumni-card img{width:55px;height:55px;border-radius:50%;object-fit:cover;margin-bottom:4px}
+.alumni-card h4{font-size:0.8rem}
+.alumni-card p{font-size:0.68rem;color:#718096}
+.placeholder{text-align:center;padding:16px;color:#718096;font-size:0.8rem}
+.sec-title::after{background:#2E8B57}
+.mv-card::before{background:#2E8B57}
+.badge{background:#EDF8F2;color:#2E8B57}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1 style="color:#2E8B57">Basic Lab</h1>
+  <p>기초팀 · 청각재활연구소</p>
+</div>
+
+<!-- 소개 -->
+<div class="sec">
+  <h2 class="sec-title">Basic Lab 소개</h2>
+  <div class="intro">
+    <p>Basic Lab은 연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 산하 기초팀으로, 줄기세포, 나노입자, 약물 전달 등 난청의 기전에 대한 기초 연구를 수행합니다.</p>
+    <p>난청 치료를 위한 혁신적인 기초 연구 기반을 구축하고, 줄기세포 및 나노공학 기술을 활용한 새로운 치료 접근법을 개발합니다.</p>
+  </div>
+</div>
+
+<!-- Mission & Vision -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Mission & Vision</h2>
+  <div class="mv-card"><h3>Mission</h3><p>난청의 기전 규명 및 줄기세포·나노공학 기반 혁신적 치료법 개발</p></div>
+  <div class="mv-card"><h3>Vision</h3><p>세계적 수준의 난청 기초 연구 허브로 성장</p></div>
+</div>
+
+<!-- Organigram -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Organigram</h2>
+  <div class="org-top">RIHE</div>
+  <div style="text-align:center;color:#999;margin:4px 0">↓</div>
+  <div class="org-row">
+    <div class="org-box" style="background:#2E8B57;color:#fff">Basic Lab</div>
+    <div class="org-box" style="background:#e8e8ee;color:#555">Hearing Lab</div>
+    <div class="org-box" style="background:#e8e8ee;color:#555">HeAD Lab</div>
+    <div class="org-box" style="background:#e8e8ee;color:#555">Audiso</div>
+  </div>
+</div>
+
+<!-- Director & Manager -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Director & Manager</h2>
+  <div class="dm">
+    <img src="https://i.imgur.com/vIAp69Y.jpeg" alt="서영준">
+    <div class="dm-info"><span class="badge">Director</span><h4>서영준 교수</h4><p>RIHE 연구소장<br>원주세브란스기독병원 이비인후과</p></div>
+  </div>
+  <div class="dm">
+    <img src="https://i.imgur.com/SkXdr8p.jpeg" alt="이은수">
+    <div class="dm-info"><span class="badge">Manager</span><h4>이은수</h4><p>Basic Lab 팀장 · 연구교수</p></div>
+  </div>
+</div>
+
+<!-- Research Subjects -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Research Subjects</h2>
+  <div class="rs-grid">
+    <div class="rs-card"><h4>줄기세포 호밍 및 나노입자 전달</h4><p>자성 나노입자를 이용한 줄기세포의 내이 호밍 효율 향상 연구</p></div>
+    <div class="rs-card"><h4>Exosome 기반 치료제</h4><p>엑소좀을 활용한 내이 세포 보호 및 재생 치료제 개발</p></div>
+    <div class="rs-card"><h4>약물 독성 및 보호 메커니즘</h4><p>이독성 약물에 의한 내이 손상 기전 규명 및 보호 전략</p></div>
+    <div class="rs-card"><h4>내이 세포 재생 연구</h4><p>유모세포 및 신경세포 재생을 위한 분자생물학적 접근</p></div>
+  </div>
+</div>
+
+<!-- Publication & Report -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Publication & Report</h2>
+  <div class="collapse-header" onclick="toggle('pub')"><span>📄 Publication (41편)</span><span class="collapse-arrow" id="pub-arrow">▼</span></div>
+  <div class="collapse-body" id="pub-body"><div class="collapse-inner">
+      <div class="pub-item" data-year="2025" data-team="basic">
+        <div class="pub-title">Innovative surgical approaches for the Osia® 2 System</div>
+        <div class="pub-authors">Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2025" data-team="basic">
+        <div class="pub-title">Isolated Myxoma of the External Auditory Canal: A Rare Case Report</div>
+        <div class="pub-authors">전은경, 김민헌, 권동환, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2025</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Virtual reality simulators for temporal bone dissection: overcoming limitations of previous models</div>
+        <div class="pub-authors">Temuulen Batsaikhan, 서영준</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Vitamin D supplementation in preventing the recurrence of benign paroxysmal positional vertigo</div>
+        <div class="pub-authors">Kong, Tae Hoon, Jung, Su Young, Seo, Young Joon, Shim, Dae Bo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">LARYNGOSCOPE INVESTIGATIVE OTOLARYNGOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2024" data-team="basic">
+        <div class="pub-title">Combination Therapy of Choline Alfoscerate With Ginkgo biloba Monotherapy in Age-Related Hearing Loss: Effects and Outcomes</div>
+        <div class="pub-authors">Kim Dae Hyun, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2024</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Role of Kir4.1 Channels in Aminoglycoside-Induced Ototoxicity of Hair Cells</div>
+        <div class="pub-authors">Choi, Jin Sil, Ahn, Ye Ji, Lee, SuHoon, Park, Dong Jun, Park, JeongEun, Ha, S...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">BioMed Research International</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Meta-Analysis Exploring the Effects of Music Training in Cochlear Implant Users by Age</div>
+        <div class="pub-authors">Shukor Nor Farawaheeda Ab, Seo Young Joon, Han Woojae</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology and Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">편도에 고립된 뇌간 경색의 희귀한 증례: 급작스러운 현훈의 임상적 특징 및 영상 소견</div>
+        <div class="pub-authors">Dong Hwan Kwon, Eun kyung Jeon, Young Joon Seo</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">효과적인 BAHAⓇ Attract의 이식술식</div>
+        <div class="pub-authors">Lee, Jeon Mi, Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">대한이비인후-두경부외과학회지</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">A nystagmus extraction system using artificial intelligence for video-nystagmography</div>
+        <div class="pub-authors">Lee, Yerin, Lee, Sena, Han, Junghun, 서영준, Yang, Sejung</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Scientific Reports</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">An eye-tracking algorithm for nystagmus detection in videonystagmography based on convolutional neural networks</div>
+        <div class="pub-authors">Lee, Y., Lee, S., Han, J., Wang, H.J., 서영준, Yang, S.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Progress in Biomedical Optics and Imaging - Proceedings of SPIE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2023" data-team="basic">
+        <div class="pub-title">Deep Learning Techniques for Ear Diseases Based on Segmentation of the Normal Tympanic Membrane</div>
+        <div class="pub-authors">Park, Y.S., Jeon, J.H., Kong, T.H., Chung, T.Y., Seo, Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2023</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Clinical and Experimental Otorhinolaryngology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">Protection of Hearing Loss in Ototoxic Mouse Model Through SPIONs and Dexamethasone-Loaded PLGA Nanoparticle Delivery by Magnetic Attraction</div>
+        <div class="pub-authors">Park, Jeong-Eun, Kim, Woo Cheol, Kim, Sung Kyun, Ahn, Yeji, Ha, Sun Mok, Kim,...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF NANOMEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">안진영상에서 안진기의 미끄러짐으로 유발된 동잡음 제거 알고리즘 개발</div>
+        <div class="pub-authors">Yerin Lee, Young Joon Seo, Sejung Yang</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Research in Vestibular Science</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2022" data-team="basic">
+        <div class="pub-title">Circulatory disturbance of the cochlear spiral modiolar artery in a type 2 diabetic mouse model</div>
+        <div class="pub-authors">Seo Young Joon, Shim Dae Bo, Sharif Arazu, Samson Zeke, Takechi Ryu, Brown Da...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2022</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Laryngoscope Investigative Otolaryngology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">The risk of laryngitis with herpes zoster infection: A nested case-control study using data from the Korean National Sample Cohort</div>
+        <div class="pub-authors">Joo, Young-Hoon, Lee, Hyun-Jin, Park, Jun-Ook, Seo, Young Joon, Kong, Tae Hoo...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">PLOS ONE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Protective effect of MSC-derived exosomes against cisplatin-induced apoptosis via heat shock protein 70 in auditory explant model</div>
+        <div class="pub-authors">Park, Dong Jun, Park, Jeong-Eun, Lee, Su Hoon, Eliceiri, Brian P., Choi, Jin ...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">NANOMEDICINE-NANOTECHNOLOGY BIOLOGY AND MEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Hyperbaric Protocols for Idiopathic Sudden Sensorineural Hearing Loss Response</div>
+        <div class="pub-authors">Seo, Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Engineering of Extracellular Vesicles Based on Payload Changes for Tissue Regeneration</div>
+        <div class="pub-authors">Park Dong Jun, Seo Young Joon</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">TISSUE ENGINEERING AND REGENERATIVE MEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Usefulness of stress-related hormones as predictors and prognostic factors for idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Chae, H (Chae, Heesung), Lee, HS (Lee, Hyun Su), Lee, JH (Lee, Joo Hyung), Ki...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Alteration of payload in extracellular vesicles by crosstalk with mesenchymal stem cells from different origin</div>
+        <div class="pub-authors">DONGJUN PARK, JEONGEUN PARK, TAEHOON KONG, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF NANOBIOTECHNOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Effects of reactive oxygen species generation induced by Wonju City particulate matter on mitochondrial dysfunction in human middle ear cell</div>
+        <div class="pub-authors">SUHOON LEE, SUNMOKHA , MinJae JEONG, DONGJUN PARK, Polo, CN (Polo, Carlos Nor...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ENVIRONMENTAL SCIENCE AND POLLUTION RESEARCH</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Crucial Music Components Needed for Speech Perception Enhancement of Pediatric Cochlear Implant Users: A Systematic Review and Meta-Analysis</div>
+        <div class="pub-authors">Ab Shukor, NF (Ab Shukor, Nor Farawaheeda), Han, W (Han, Woojae), JIHYEON LEE...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AUDIOLOGY AND NEURO-OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">The Effectiveness of Hyperbaric Oxygen Therapy in Severe Idiopathic Sudden Sensorineural Hearing Loss</div>
+        <div class="pub-authors">YEJI AHN, YOUNG JOON SEO, Lee, YS (Lee, Young Sub)</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Audiological benefits and performance improvements of Baha® attract implantation in patients with unilateral hearing loss</div>
+        <div class="pub-authors">TAEHOON KONG, JIHYEON LEE, Kwak C., Han W., Gwon O.-H., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Cochlear Implants International</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Biodistribution of poly clustered superparamagnetic iron oxide nanoparticle labeled mesenchymal stem cells in aminoglycoside induced ototoxic mouse model</div>
+        <div class="pub-authors">YEJI AHN, WAN SU YUN, JINSILCHOI , woochul kim, Su Hoon Lee, Dong Jun Park, J...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Biomedical Engineering Letters</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2021" data-team="basic">
+        <div class="pub-title">Usefulness of vertebrobasilar artery radiological finding as a predictive and prognostic factor for sudden sensorineural hearing loss</div>
+        <div class="pub-authors">Han, SM (Han, Sung Min), Lee, HS (Lee, Hyun Su), Chae, HS (Chae, Hee Sung), Y...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2021</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Improvement of stem cell-derived exosome release efficiency by surface-modified nanoparticles</div>
+        <div class="pub-authors">박동준, Yun, W.S., Kim, W.C., Park, J.-E., Lee, S.H., Ha, S., Choi, J.S., Key, J...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF NANOBIOTECHNOLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">In vitro time-lapse live-cell imaging to explore cell migration toward the organ of corti</div>
+        <div class="pub-authors">Park, J.-E., Lee, S.H., DONGJUN PARK, Seo, Y.J., Kim, S.K.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOVE-JOURNAL OF VISUALIZED EXPERIMENTS</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Circulating microRNAs as potentially new diagnostic biomarkers of idiopathic sudden sensorineural hearing loss</div>
+        <div class="pub-authors">SUNMOKHA , Hwang, KR (Hwang, Kyu Rin), ILHWAN PARK, Park, S (Park, Sunyoung),...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">ACTA OTO-LARYNGOLOGICA</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Endocytic trafficking of polymeric clustered superparamagnetic iron oxide nanoparticles in mesenchymal stem cells</div>
+        <div class="pub-authors">Su Hoon Lee, Dong Jun Park, Wan Su Yun, Jeong-Eun Park, Jin Sil Choi, Jaehong...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">JOURNAL OF CONTROLLED RELEASE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2020" data-team="basic">
+        <div class="pub-title">Induced short-term hearing loss due to stimulation of age-related factors by intermittent hypoxia, high-fat diet, and galactose injection</div>
+        <div class="pub-authors">박동준, Ha, S., Choi, J.S., Lee, S.H., Park, J.-E., Seo, Y.J.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2020</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">International Journal of Molecular Sciences</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2019" data-team="basic">
+        <div class="pub-title">Strategies to enhance efficacy of SPION-labeled stem cell homing by magnetic attraction: a systemic review with meta-analysis</div>
+        <div class="pub-authors">Ye Ji Ahn, Tae Hoon Kong, Jin Sil Choi, Wan Su Yun, Jaehong Key, YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2019</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF NANOMEDICINE</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Circulating Serum miRNA-205 as a Diagnostic Biomarker for Ototoxicity in Mice Treated with Aminoglycoside Antibiotics</div>
+        <div class="pub-authors">Lee S.H., Ju H.M., Choi J.S., Ahn Y., Lee S., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Enhanced homing technique of mesenchymal stem cells using iron oxide nanoparticles by magnetic attraction in olfactory-injured mouse models</div>
+        <div class="pub-authors">WANSU YUN, JINSILCHOI , HYUNMI JU, MIN HEE KIM, SEONG JIN CHOI, EunSeol Oh, Y...</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2018" data-team="basic">
+        <div class="pub-title">Update on Bone-Conduction Auditory Brainstem Responses: A Review</div>
+        <div class="pub-authors">YOUNG JOON SEO, 곽찬범, 김세아, PARKYOONAH , 박경호, 한우재</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2018</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">Journal of Audiology & Otology</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">A Simple Model for Inducing Optimal Increase of SDF-1 with Aminoglycoside Ototoxicity</div>
+        <div class="pub-authors">HYUNMI JU, SUNHEE LEE, JINSILCHOI , YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">BIOMED RESEARCH INTERNATIONAL</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">Usefulness of Intravital Multiphoton Microscopy in Visualizing Study of Mouse Cochlea and Volume Changes in the Scala Media</div>
+        <div class="pub-authors">HYUNMI JU, SUNHEE LEE, , Kwon, SH (Kwon, Seung-Hae), JINSILCHOI , YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">FRONTIERS IN NEUROLOGY</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2017" data-team="basic">
+        <div class="pub-title">Image-guided implantation of the Bonebridge™ with a surgical navigation: A feasibility study</div>
+        <div class="pub-authors">Kong T.H., Park Y.A., YOUNG JOON SEO</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2017</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">International Journal of Surgery Case Reports</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="basic">
+        <div class="pub-title">The change of hippocampal volume and its relevance with inner ear function in Meniere's disease patients</div>
+        <div class="pub-authors">YOUNG JOON SEO, Jinna Kim , sung huhn Kim</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">AURIS NASUS LARYNX</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2016" data-team="basic">
+        <div class="pub-title">Head position and increased head velocity to optimize video head impulse test sensitivity</div>
+        <div class="pub-authors">YOUNG JOON SEO, PARKYOONAH , Tae Hoon Kong, MEE RAN BAE , sung huhn Kim</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2016</span>
+          <span class="pub-tag team-basic">Basic Lab</span>
+          <span class="pub-tag journal">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY</span>
+        </div>
+      </div>
+  </div></div>
+  <div class="collapse-header" onclick="toggle('report')"><span>📋 Report</span><span class="collapse-arrow" id="report-arrow">▼</span></div>
+  <div class="collapse-body" id="report-body"><div class="collapse-inner">
+    <p class="placeholder">학회 발표 데이터는 Research 페이지에서 확인하세요.</p>
+  </div></div>
+</div>
+
+<script>
+function toggle(id){document.getElementById(id+'-body').classList.toggle('open');document.getElementById(id+'-arrow').classList.toggle('open')}
+</script>
+</body>
+</html>

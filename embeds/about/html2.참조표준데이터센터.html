@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>참조표준데이터센터 — RIHE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: #1a202c;
+      line-height: 1.7;
+      background: #fff;
+    }
+    .section {
+      padding: 48px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 32px;
+      color: #1a202c;
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 3px;
+      background: #1a3c6e;
+      border-radius: 2px;
+    }
+
+    /* 데이터센터 카드 */
+    .dc-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .dc-card img {
+      max-width: 360px;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .dc-card h3 {
+      font-size: 1.1rem;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+    .dc-card p {
+      font-size: 0.92rem;
+      color: #4a5568;
+      margin-bottom: 8px;
+    }
+    .dc-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: #1a3c6e;
+      text-decoration: none;
+    }
+    .dc-link:hover { text-decoration: underline; }
+
+    .fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <section class="section">
+    <h2 class="section-title">Data Centers</h2>
+
+    <div class="dc-card fade">
+      <img src="https://i.imgur.com/s6VfJ2r.png" alt="청각참조표준데이터센터 로고">
+      <h3>한국인 청각 참조표준데이터센터</h3>
+      <p>Korea Hearing Standard-data Center</p>
+      <p>한국인의 청각 분야 데이터를 수집 생산하고 보급하는 국내 유일 기관. 2019년 1월부터 운영.</p>
+      <a href="https://www.smilesnail.org/hearing-lab" class="dc-link" target="_top">→ Hearing Lab에서 자세히 보기</a>
+    </div>
+  </section>
+
+  <!-- ⬇️ 이 아래에 Wix 에디터에서 뉴스 영상을 삽입하세요 ⬇️ -->
+
+  <script>
+    var obs = new IntersectionObserver(function(e) {
+      e.forEach(function(el, i) { if (el.isIntersecting) { setTimeout(function() { el.target.classList.add('show'); }, i * 80); obs.unobserve(el.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade').forEach(function(el) { obs.observe(el); });
+  </script>
+</body>
+</html>

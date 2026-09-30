@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Info — RIHE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: #1a202c;
+      line-height: 1.7;
+      background: #fff;
+    }
+    .hero {
+      background: #fff;
+      text-align: center;
+      padding: 72px 24px 56px;
+    }
+    .hero-sub { font-size: 1rem; color: #718096; margin-bottom: 10px; }
+    .hero-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem; font-weight: 700; margin: 14px 0; color: #1a3c6e;
+    }
+    .hero-desc { font-size: 0.95rem; color: #718096; max-width: 560px; margin: 0 auto; }
+
+    .section {
+      padding: 48px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem; font-weight: 600; text-align: center;
+      margin-bottom: 32px; color: #1a202c;
+      position: relative; padding-bottom: 12px;
+    }
+    .section-title::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 44px; height: 3px; background: #1a3c6e; border-radius: 2px;
+    }
+
+    /* 좌: 정보 카드 / 우: 지도 */
+    .contact-grid {
+      display: flex;
+      gap: 28px;
+      align-items: stretch;
+    }
+    .contact-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .contact-map {
+      flex: 1.2;
+    }
+
+    .info-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .info-card h3 {
+      font-size: 1.05rem; color: #1a3c6e; margin-bottom: 8px;
+    }
+    .info-card p {
+      color: #4a5568; font-size: 0.93rem; margin-bottom: 4px;
+    }
+    .info-card a { color: #1a3c6e; text-decoration: none; }
+    .info-card a:hover { text-decoration: underline; }
+
+    /* 지도 */
+    .map-container {
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      border: none;
+    }
+
+    /* 팀별 연락처 */
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+    }
+    .team-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .team-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 4px;
+    }
+    .team-card.basic::before { background: #2E8B57; }
+    .team-card.hearing::before { background: #7096B5; }
+    .team-card.head::before { background: #4A90C4; }
+    .team-card .team-icon { font-size: 2rem; margin-bottom: 10px; }
+    .team-card h4 { font-size: 1.05rem; color: #1a202c; margin-bottom: 4px; }
+    .team-card .team-eng { font-size: 0.82rem; color: #718096; margin-bottom: 12px; }
+    .team-card .team-contact { font-size: 0.9rem; color: #4a5568; }
+    .team-card .team-contact a { color: #1a3c6e; text-decoration: none; }
+    .team-card .team-contact a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .contact-grid { flex-direction: column; }
+      .hero { padding: 48px 20px 40px; }
+      .hero-main { font-size: 2.1rem; }
+      .map-container, .map-container iframe { min-height: 280px; }
+      .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <p class="hero-sub">청각재활연구소에 문의하기</p>
+    <h1 class="hero-main">Contact Us</h1>
+    <p class="hero-desc">연세대학교 원주세브란스기독병원 청각재활연구소 (RIHE)</p>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">연구소 안내</h2>
+
+    <div class="contact-grid">
+
+      <!-- 왼쪽: 정보 -->
+      <div class="contact-info">
+        <div class="info-card">
+          <h3>📍 주소</h3>
+          <p><strong>연세대학교 원주세브란스기독병원</strong></p>
+          <p>의학관 318호</p>
+          <p style="color:#718096; font-size:0.88rem; margin-top:6px;">
+            (26426) 강원특별자치도 원주시 일산로 20
+          </p>
+        </div>
+        <div class="info-card">
+          <h3>📧 이메일</h3>
+          <p><a href="mailto:okas2000@yonsei.ac.kr">okas2000@yonsei.ac.kr</a></p>
+          <p style="color:#718096; font-size:0.85rem;">서영준 연구소장</p>
+        </div>
+        <div class="info-card">
+          <h3>🏛️ 소속</h3>
+          <p>연세대학교 원주의과대학</p>
+          <p>원주세브란스기독병원 이비인후과</p>
+          <p>청각재활연구소 (RIHE)</p>
+        </div>
+      </div>
+
+      <!-- 오른쪽: 지도 -->
+      <div class="contact-map">
+        <div class="map-container">
+          <!--
+            Google Maps 임베드
+            - 만약 지도가 안 뜨면:
+              1. Google Maps에서 "원주세브란스기독병원" 검색
+              2. 공유 → 지도 퍼가기 → iframe 코드 복사
+              3. 아래 iframe 전체를 복사한 코드로 교체
+          -->
+          <iframe src="https://maps.google.com/maps?q=%EC%9B%90%EC%A3%BC%EC%84%B8%EB%B8%8C%EB%9E%80%EC%8A%A4%EA%B8%B0%EB%8F%85%EB%B3%91%EC%9B%90&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       팀별 연락처
+       - 기초팀 / 참조표준팀 / 데이터팀만
+       - Audiso, 행정팀 미포함 (v6 확정)
+       ============================================================ -->
+  <section class="section" style="border-top: 1px solid #e2e8f0;">
+    <h2 class="section-title">팀별 연락처</h2>
+    <div class="team-grid">
+
+      <!-- 기초팀 -->
+      <div class="team-card basic">
+        <div class="team-icon">🧬</div>
+        <h4>기초팀</h4>
+        <p class="team-eng">Basic Lab</p>
+        <div class="team-contact">
+          <p>담당자: 이은수</p>
+          <p>📧 <a href="mailto:es1121@yonsei.ac.kr">es1121@yonsei.ac.kr</a></p>
+        </div>
+      </div>
+
+      <!-- 참조표준팀 -->
+      <div class="team-card hearing">
+        <div class="team-icon">📊</div>
+        <h4>참조표준팀</h4>
+        <p class="team-eng">Hearing Lab</p>
+        <div class="team-contact">
+          <p>담당자: 변유선</p>
+          <p>📧 <a href="mailto:uuuseon@yonsei.ac.kr">uuuseon@yonsei.ac.kr</a></p>
+        </div>
+      </div>
+
+      <!-- 데이터팀 -->
+      <div class="team-card head">
+        <div class="team-icon">🤖</div>
+        <h4>데이터팀</h4>
+        <p class="team-eng">HeAD Lab</p>
+        <div class="team-contact">
+          <p>담당자: 윤철영</p>
+          <p>📧 <a href="mailto:fezro@yonsei.ac.kr">fezro@yonsei.ac.kr</a></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

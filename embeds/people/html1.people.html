@@ -81,6 +81,12 @@
     .member-card.faculty .member-photo { width: 110px; height: 110px; }
     .member-card h4 { font-size: 0.95rem; margin-bottom: 2px; color: var(--text); }
     .member-card .member-role { font-size: 0.82rem; color: var(--text-mid); margin-bottom: 4px; }
+    /* 사진 준비 전: 같은 크기의 원에 성(姓) 표시 */
+    .member-photo-empty {
+      display: flex; align-items: center; justify-content: center;
+      background: #EDF1F7; color: var(--text-mid);
+      font-size: 1.6rem; font-weight: 600;
+    }
     .member-card .member-dept {
       display: inline-block; font-size: 0.72rem; padding: 1px 8px;
       border-radius: 10px; background: #FFF9E6; color: #B8880E; border: 1px solid #F0DDA0;
@@ -188,6 +194,11 @@
         <p class="member-role">박사과정</p>
       </div>
       <div class="member-card">
+        <div class="member-photo member-photo-empty" role="img" aria-label="이동우 사진 준비 중">이</div>
+        <h4>이동우</h4>
+        <p class="member-role">박사과정</p>
+      </div>
+      <div class="member-card">
         <img src="https://i.imgur.com/W89RCOU.jpeg" alt="전진희" class="member-photo">
         <h4>전진희</h4>
         <p class="member-role">연구원</p>
@@ -209,7 +220,7 @@
       <div class="member-card">
         <img src="https://i.imgur.com/RC37iFm.jpeg" alt="윤철영" class="member-photo">
         <h4>윤철영</h4>
-        <p class="member-role">박사과정 / 팀장</p>
+        <p class="member-role">팀장</p>
       </div>
       <div class="member-card">
         <img src="https://i.imgur.com/7FVQZQe.jpeg" alt="김송이" class="member-photo">
@@ -234,11 +245,6 @@
       <div class="member-card">
         <img src="https://i.imgur.com/0PwvF5s.jpeg" alt="윤담" class="member-photo">
         <h4>윤담</h4>
-        <p class="member-role">학부연구원</p>
-      </div>
-      <div class="member-card">
-        <img src="https://i.imgur.com/uWDb8vJ.jpeg" alt="김동유" class="member-photo">
-        <h4>김동유</h4>
         <p class="member-role">학부연구원</p>
       </div>
     </div>
@@ -278,7 +284,12 @@
     <h2 class="team-title">Audiso</h2>
     <p class="team-subtitle">오디에스오(주)</p>
     <div class="team-bar" style="background: var(--audiso);"></div>
-    <div class="member-grid cols-5 fade">
+    <div class="member-grid cols-4 fade">
+      <div class="member-card">
+        <div class="member-photo member-photo-empty" role="img" aria-label="김철영 사진 준비 중">김</div>
+        <h4>김철영</h4>
+        <p class="member-role">CTO</p>
+      </div>
       <div class="member-card">
         <img src="https://i.imgur.com/OelMBU2.jpeg" alt="강철영" class="member-photo">
         <h4>강철영</h4>
@@ -301,9 +312,29 @@
         <span class="member-dept">개발</span>
       </div>
       <div class="member-card">
-        <img src="https://i.imgur.com/jwJDNdM.jpeg" alt="박진철" class="member-photo">
-        <h4>박진철</h4>
+        <div class="member-photo member-photo-empty" role="img" aria-label="김강현 사진 준비 중">김</div>
+        <h4>김강현</h4>
+        <span class="member-dept">개발</span>
+      </div>
+      <div class="member-card">
+        <div class="member-photo member-photo-empty" role="img" aria-label="이상윤 사진 준비 중">이</div>
+        <h4>이상윤</h4>
+        <span class="member-dept">AI개발</span>
+      </div>
+      <div class="member-card">
+        <div class="member-photo member-photo-empty" role="img" aria-label="신동현 사진 준비 중">신</div>
+        <h4>신동현</h4>
         <span class="member-dept">영업</span>
+      </div>
+      <div class="member-card">
+        <div class="member-photo member-photo-empty" role="img" aria-label="홍상의 사진 준비 중">홍</div>
+        <h4>홍상의</h4>
+        <span class="member-dept">영업</span>
+      </div>
+      <div class="member-card">
+        <div class="member-photo member-photo-empty" role="img" aria-label="문진혁 사진 준비 중">문</div>
+        <h4>문진혁</h4>
+        <span class="member-dept">QA</span>
       </div>
       <div class="member-card">
         <img src="https://i.imgur.com/MU5lo9P.jpeg" alt="여인기" class="member-photo">
@@ -314,16 +345,6 @@
         <img src="https://i.imgur.com/7bDCrbo.jpeg" alt="이재원" class="member-photo">
         <h4>이재원</h4>
         <span class="member-dept">전략</span>
-      </div>
-      <div class="member-card">
-        <img src="https://i.imgur.com/cxhOocR.jpeg" alt="정현우" class="member-photo">
-        <h4>정현우</h4>
-        <span class="member-dept">홍보</span>
-      </div>
-      <div class="member-card">
-        <img src="https://i.imgur.com/akWRZpf.jpeg" alt="강동휘" class="member-photo">
-        <h4>강동휘</h4>
-        <span class="member-dept">홍보</span>
       </div>
     </div>
   </section>

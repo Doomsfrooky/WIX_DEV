@@ -24,8 +24,8 @@
 | About | `#mobileHtml1` | 모바일 | 붙여넣기 | 1,665 → **1,750** | `embeds/about/mobileHtml1.about.html` |
 | Research | `#html1` | 데스크톱 | 붙여넣기 | 3,843 → **3,920** | `embeds/research/html1.research.html` |
 | Research | `#mobileHtml1` | 모바일 | 붙여넣기 | 3,651 → **4,220** | `embeds/research/mobileHtml1.research.html` |
-| People | `#html1` | 데스크톱 | - | 3,454 → **3,500** | `embeds/people/html1.people.html` |
-| People | `#mobileHtml1` | 모바일 | 붙여넣기 | 3,668 → **3,710** | `embeds/people/mobileHtml1.people.html` |
+| People | `#html1` | 데스크톱 | 붙여넣기 | 3,454 → **3,940** | `embeds/people/html1.people.html` |
+| People | `#mobileHtml1` | 모바일 | 붙여넣기 | 3,668 → **3,860** | `embeds/people/mobileHtml1.people.html` |
 | Basic Lab | `#html1` | 데스크톱 | 붙여넣기 | 3,212 → **3,050** | `embeds/basic-lab/html1.basic-lab.html` |
 | Basic Lab | `#mobileHtml1` | 모바일 | 붙여넣기 | 1,979 → **2,320** | `embeds/basic-lab/mobileHtml1.basic-lab-mobile.html` |
 | Hearing Lab | `#html1` | 데스크톱 | 붙여넣기 | 4,017 → **3,830** | `embeds/hearing-lab/html1.hearing-lab.html` |
@@ -49,9 +49,17 @@
 
 ## 확인이 필요한 것
 
+- People 구성원 변경(아래 참고). 새로 들어온 7명은 사진이 없어 원 안에 성을 표시했습니다. 사진을 주시면 바꿔 넣겠습니다.
 - 저자 목록이 원본에서 잘려 있는 논문(예: `Kim,...`)은 그대로 두었습니다. 논문 자체는 한 편도 삭제하지 않았습니다.
 - Audiso 피스탑 트리플케어 설명의 효능 표현이 허용된 문구인지.
 - Report의 학회명 11건은 원본에서 '...'로 잘려 있어 복원하지 못했습니다.
+
+## People 구성원 변경 (2026-09-30 요청)
+
+- 삭제: 김동유(데이터팀), 박진철·정현우·강동휘(오디에스오)
+- 추가: 이동우(참조표준팀, 박사과정), 김철영(오디에스오, CTO), 김강현(개발), 이상윤(AI개발), 신동현·홍상의(영업), 문진혁(QA)
+- 변경: 윤철영 '박사과정 / 팀장' → '팀장'
+- 오디에스오는 12명이 되어 데스크톱에서 한 줄에 4명씩 3줄로 배치했습니다.
 
 ## Wix 설정 (코드 아님)
 

@@ -9,6 +9,7 @@
 ```
 embeds/<페이지>/<요소 ID>.<이름>.html   Wix 요소 하나 = 파일 하나
 docs/site-map.md                          페이지별 요소 ID, 에디터 높이, 파일 위치
+docs/audit.md                             사이트 점검 보고서(2026-09-30)와 고칠 순서
 tools/fetch_live.py                       게시된 사이트에서 모든 임베드를 다시 받아오는 스크립트
 ```
 

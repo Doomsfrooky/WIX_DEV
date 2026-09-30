@@ -53,7 +53,7 @@ body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-heig
 .collapse-arrow{transition:transform 0.3s}
 .collapse-arrow.open{transform:rotate(180deg)}
 .collapse-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
-.collapse-body.open{max-height:8000px}
+.collapse-body.open{max-height:none}
 .collapse-inner{padding:10px 14px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px}
 /* 논문 */
 .pub-item{padding:8px 0;border-bottom:1px solid #f0f0f0}
@@ -81,8 +81,9 @@ body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-heig
 <body>
 
 <div class="hero">
+  <p>난청 치료의 근본을 탐구하는 기초연구</p>
   <h1 style="color:#2E8B57">Basic Lab</h1>
-  <p>기초팀 · 청각재활연구소</p>
+  <p>연세대학교 원주세브란스기독병원 청각재활연구소 기초팀에 오신 것을 환영합니다.</p>
 </div>
 
 <!-- 소개 -->
@@ -97,20 +98,20 @@ body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-heig
 <!-- Mission & Vision -->
 <div class="sec sec-div">
   <h2 class="sec-title">Mission & Vision</h2>
-  <div class="mv-card"><h3>Mission</h3><p>난청의 기전 규명 및 줄기세포·나노공학 기반 혁신적 치료법 개발</p></div>
-  <div class="mv-card"><h3>Vision</h3><p>세계적 수준의 난청 기초 연구 허브로 성장</p></div>
+  <div class="mv-card"><h3>Mission</h3><p>난청 치료를 위한 혁신적인 기초 연구 기반을 구축하고, 줄기세포 및 나노공학 기술을 활용한 새로운 치료 접근법을 개발합니다.</p></div>
+  <div class="mv-card"><h3>Vision</h3><p>기초과학의 성과를 임상에 적용하여, 난청 환자의 삶의 질 향상에 기여하는 세계적 수준의 연구실을 목표로 합니다.</p></div>
 </div>
 
 <!-- Organigram -->
 <div class="sec sec-div">
   <h2 class="sec-title">Organigram</h2>
-  <div class="org-top">RIHE</div>
+  <div class="org-top">Research Institute of Hearing Enhancement<br>(RIHE)</div>
   <div style="text-align:center;color:#999;margin:4px 0">↓</div>
   <div class="org-row">
+    <div class="org-box" style="background:#e8e8ee;color:#555">Audiso Co., Ltd.</div>
     <div class="org-box" style="background:#2E8B57;color:#fff">Basic Lab</div>
     <div class="org-box" style="background:#e8e8ee;color:#555">Hearing Lab</div>
     <div class="org-box" style="background:#e8e8ee;color:#555">HeAD Lab</div>
-    <div class="org-box" style="background:#e8e8ee;color:#555">Audiso</div>
   </div>
 </div>
 
@@ -119,7 +120,7 @@ body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-heig
   <h2 class="sec-title">Director & Manager</h2>
   <div class="dm">
     <img src="https://i.imgur.com/vIAp69Y.jpeg" alt="서영준">
-    <div class="dm-info"><span class="badge">Director</span><h4>서영준 교수</h4><p>RIHE 연구소장<br>원주세브란스기독병원 이비인후과</p></div>
+    <div class="dm-info"><span class="badge">Director</span><h4>서영준 교수</h4><p>RIHE 연구소장<br>연세대학교 원주세브란스기독병원 이비인후과</p></div>
   </div>
   <div class="dm">
     <img src="https://i.imgur.com/SkXdr8p.jpeg" alt="이은수">
@@ -132,8 +133,8 @@ body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-heig
   <h2 class="sec-title">Research Subjects</h2>
   <div class="rs-grid">
     <div class="rs-card"><h4>줄기세포 호밍 및 나노입자 전달</h4><p>자성 나노입자를 이용한 줄기세포의 내이 호밍 효율 향상 연구</p></div>
-    <div class="rs-card"><h4>Exosome 기반 치료제</h4><p>엑소좀을 활용한 내이 세포 보호 및 재생 치료제 개발</p></div>
-    <div class="rs-card"><h4>약물 독성 및 보호 메커니즘</h4><p>이독성 약물에 의한 내이 손상 기전 규명 및 보호 전략</p></div>
+    <div class="rs-card"><h4>Exosome 기반 치료제 연구</h4><p>엑소좀을 활용한 내이 세포 보호 및 재생 치료제 개발</p></div>
+    <div class="rs-card"><h4>약물 독성 및 보호 메커니즘</h4><p>이독성 약물에 의한 내이 손상 기전 규명 및 보호 전략 연구</p></div>
     <div class="rs-card"><h4>내이 세포 재생 연구</h4><p>유모세포 및 신경세포 재생을 위한 분자생물학적 접근</p></div>
   </div>
 </div>
@@ -513,10 +514,13 @@ body{font-family:'Times New Roman',Pretendard,sans-serif;color:#1a202c;line-heig
         </div>
       </div>
   </div></div>
-  <div class="collapse-header" onclick="toggle('report')"><span>📋 Report</span><span class="collapse-arrow" id="report-arrow">▼</span></div>
-  <div class="collapse-body" id="report-body"><div class="collapse-inner">
-    <p class="placeholder">학회 발표 데이터는 Research 페이지에서 확인하세요.</p>
-  </div></div>
+  <a class="collapse-header" href="https://www.smilesnail.org/project" target="_top" style="color:inherit;text-decoration:none"><span>📋 Report (학회 발표)</span><span style="font-size:0.78rem">Research에서 보기 →</span></a>
+</div>
+
+<!-- Alumni -->
+<div class="sec sec-div">
+  <h2 class="sec-title">Alumni</h2>
+  <p class="placeholder">현재 등록된 졸업생이 없습니다.</p>
 </div>
 
 <script>

@@ -1,0 +1,248 @@
+[
+ {
+  "key": "faculty",
+  "title": "Faculty",
+  "subtitle": "교수진",
+  "members": [
+   {
+    "name": "서영준",
+    "role": "교수 / 연구소장",
+    "dept": "이비인후과",
+    "photo": "https://i.imgur.com/vIAp69Y.jpeg"
+   },
+   {
+    "name": "기재홍",
+    "role": "교수",
+    "dept": "생체공학과",
+    "photo": "https://i.imgur.com/6nGWxAV.jpeg"
+   },
+   {
+    "name": "공태훈",
+    "role": "교수",
+    "dept": "이비인후과",
+    "photo": "https://i.imgur.com/kKOtOgO.jpeg"
+   }
+  ]
+ },
+ {
+  "key": "basic",
+  "title": "기초팀",
+  "subtitle": "Basic Lab",
+  "members": [
+   {
+    "name": "이은수",
+    "role": "연구교수 / 팀장",
+    "dept": "",
+    "photo": "https://i.imgur.com/SkXdr8p.jpeg"
+   },
+   {
+    "name": "Temuulen Batsaikhan",
+    "role": "Post-doc",
+    "dept": "",
+    "photo": "https://i.imgur.com/i8G7rWP.jpeg"
+   },
+   {
+    "name": "이현수",
+    "role": "박사과정",
+    "dept": "",
+    "photo": "https://i.imgur.com/MrCaFNt.jpeg"
+   },
+   {
+    "name": "양효경",
+    "role": "연구원",
+    "dept": "",
+    "photo": "https://i.imgur.com/8FpEVAF.jpeg"
+   }
+  ]
+ },
+ {
+  "key": "hearing",
+  "title": "참조표준팀",
+  "subtitle": "Hearing Lab",
+  "members": [
+   {
+    "name": "변유선",
+    "role": "박사과정",
+    "dept": "",
+    "photo": "https://i.imgur.com/2Q56Mj7.jpeg"
+   },
+   {
+    "name": "이동혁",
+    "role": "박사과정",
+    "dept": "",
+    "photo": "https://i.imgur.com/J60sGwj.jpeg"
+   },
+   {
+    "name": "이동우",
+    "role": "박사과정",
+    "dept": "",
+    "photo": ""
+   },
+   {
+    "name": "전진희",
+    "role": "연구원",
+    "dept": "",
+    "photo": "https://i.imgur.com/W89RCOU.jpeg"
+   },
+   {
+    "name": "윤창희",
+    "role": "연구원",
+    "dept": "",
+    "photo": "https://i.imgur.com/Fb7yMsE.jpeg"
+   }
+  ]
+ },
+ {
+  "key": "head",
+  "title": "데이터팀",
+  "subtitle": "HeAD Lab",
+  "members": [
+   {
+    "name": "윤철영",
+    "role": "팀장",
+    "dept": "",
+    "photo": "https://i.imgur.com/RC37iFm.jpeg"
+   },
+   {
+    "name": "김송이",
+    "role": "박사과정",
+    "dept": "",
+    "photo": "https://i.imgur.com/7FVQZQe.jpeg"
+   },
+   {
+    "name": "김진수",
+    "role": "석사과정",
+    "dept": "",
+    "photo": "https://i.imgur.com/yCSCJNd.jpeg"
+   },
+   {
+    "name": "임승미",
+    "role": "석사과정",
+    "dept": "",
+    "photo": "https://i.imgur.com/bomh6kn.jpeg"
+   },
+   {
+    "name": "서연호",
+    "role": "석사과정",
+    "dept": "",
+    "photo": "https://i.imgur.com/F9YowOS.jpeg"
+   },
+   {
+    "name": "윤담",
+    "role": "학부연구원",
+    "dept": "",
+    "photo": "https://i.imgur.com/0PwvF5s.jpeg"
+   }
+  ]
+ },
+ {
+  "key": "admin",
+  "title": "행정팀",
+  "subtitle": "Administration",
+  "members": [
+   {
+    "name": "김다희",
+    "role": "연구원",
+    "dept": "",
+    "photo": "https://i.imgur.com/WtpEoDz.jpeg"
+   },
+   {
+    "name": "서영란",
+    "role": "연구원",
+    "dept": "",
+    "photo": "https://i.imgur.com/SQ95MyN.jpeg"
+   },
+   {
+    "name": "채성현",
+    "role": "연구원",
+    "dept": "",
+    "photo": "https://i.imgur.com/MgDWUeK.jpeg"
+   },
+   {
+    "name": "김순정",
+    "role": "연구간호사",
+    "dept": "",
+    "photo": "https://i.imgur.com/tctARoM.jpeg"
+   }
+  ]
+ },
+ {
+  "key": "audiso",
+  "title": "Audiso",
+  "subtitle": "오디에스오(주)",
+  "members": [
+   {
+    "name": "김철영",
+    "role": "CTO",
+    "dept": "",
+    "photo": ""
+   },
+   {
+    "name": "강철영",
+    "role": "팀장",
+    "dept": "개발",
+    "photo": "https://i.imgur.com/OelMBU2.jpeg"
+   },
+   {
+    "name": "손명석",
+    "role": "",
+    "dept": "개발",
+    "photo": "https://i.imgur.com/IwDfyTr.jpeg"
+   },
+   {
+    "name": "고재욱",
+    "role": "",
+    "dept": "개발",
+    "photo": "https://i.imgur.com/SF6uDfd.jpeg"
+   },
+   {
+    "name": "홍기현",
+    "role": "",
+    "dept": "개발",
+    "photo": "https://i.imgur.com/KVbmUMU.jpeg"
+   },
+   {
+    "name": "김강현",
+    "role": "",
+    "dept": "개발",
+    "photo": ""
+   },
+   {
+    "name": "이상윤",
+    "role": "",
+    "dept": "AI개발",
+    "photo": ""
+   },
+   {
+    "name": "신동현",
+    "role": "",
+    "dept": "영업",
+    "photo": ""
+   },
+   {
+    "name": "홍상의",
+    "role": "",
+    "dept": "영업",
+    "photo": ""
+   },
+   {
+    "name": "문진혁",
+    "role": "",
+    "dept": "QA",
+    "photo": ""
+   },
+   {
+    "name": "여인기",
+    "role": "",
+    "dept": "인증",
+    "photo": "https://i.imgur.com/MU5lo9P.jpeg"
+   },
+   {
+    "name": "이재원",
+    "role": "",
+    "dept": "전략",
+    "photo": "https://i.imgur.com/7bDCrbo.jpeg"
+   }
+  ]
+ }
+]

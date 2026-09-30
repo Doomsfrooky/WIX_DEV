@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HeAD Lab — RIHE</title>
+<!-- 자동 생성 파일: tools/build.py로 만듭니다. 직접 고치지 말고 data/*.json이나 build.py를 고치세요. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #ffffff; --ink: #111b2e; --ink-2: #475569; --line: #e3e8f0; --grid: #edf1f6;
+  --navy: #1b3d6f; --navy-soft: #eef3fa;
+  --basic: #2e8b57; --hearing: #4e7595; --head: #2e6e9e; --audiso: #9a6f07; --collab: #6b4fa0;
+  --accent: var(--navy);
+  --sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --ease: cubic-bezier(.23, 1, .32, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: var(--paper); -webkit-text-size-adjust: 100%; }
+body { font-family: var(--sans); color: var(--ink); background: var(--paper); line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+html[data-lang="ko"] [data-l="en"], html[data-lang="en"] [data-l="ko"] { display: none !important; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+.label { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+
+/* 머리 */
+.hero { padding: 64px 0 48px; }
+.hero h1 { font-size: 46px; line-height: 1.2; font-weight: 700; letter-spacing: -.02em; margin: 12px 0 10px; text-wrap: balance; }
+.hero .sub { font-size: 17px; font-weight: 500; color: var(--accent); }
+.hero .lead { font-size: 17px; color: var(--ink-2); max-width: 36em; margin-top: 14px; }
+.hero .logo { height: 72px; width: auto; margin: 6px 0 4px; display: block; }
+.hero .cta { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 6px; font-size: 15px; font-weight: 600; text-decoration: none; background: var(--accent); color: #fff; transition: opacity 150ms ease; }
+.btn:hover { opacity: .88; }
+.btn.ghost { background: none; color: var(--accent); border: 1px solid var(--line); }
+
+/* 구역 */
+section { padding: 56px 0; border-top: 1px solid var(--line); }
+h2 { font-size: 26px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 24px; }
+h3 { font-size: 17px; font-weight: 600; }
+.prose p { font-size: 16px; color: var(--ink-2); max-width: 44em; }
+.prose p + p { margin-top: 12px; }
+.muted { color: var(--ink-2); }
+.more { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.more span[aria-hidden] { transition: transform 200ms var(--ease); }
+.more:hover span[aria-hidden] { transform: translateX(3px); }
+.split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+.figure img { width: 100%; height: auto; border-radius: 6px; display: block; }
+.cols { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 2px solid var(--ink); }
+.cols.c2 { grid-template-columns: repeat(2, 1fr); }
+.cols.c4 { grid-template-columns: repeat(4, 1fr); }
+.cols > * { padding: 20px 22px 18px; border-left: 1px solid var(--line); }
+.cols.c2 > :nth-child(2n+1), .cols.c3 > :nth-child(3n+1), .cols.c4 > :nth-child(4n+1) { padding-left: 0; border-left: 0; }
+.cols.c2 > :nth-child(n+3), .cols.c3 > :nth-child(n+4), .cols.c4 > :nth-child(n+5) { border-top: 1px solid var(--line); }
+.cols.fig img { aspect-ratio: 4 / 3; object-fit: contain; }
+.cols p { font-size: 14px; color: var(--ink-2); margin-top: 8px; line-height: 1.65; }
+.cols img { width: 100%; height: auto; border-radius: 4px; margin-bottom: 14px; background: var(--grid); }
+.bullets { list-style: none; margin-top: 14px; display: grid; gap: 6px; }
+.bullets li { font-size: 15px; color: var(--ink-2); padding-left: 16px; position: relative; }
+.bullets li::before { content: ''; position: absolute; left: 0; top: .72em; width: 6px; height: 1px; background: var(--accent); }
+.quote { font-size: 18px; line-height: 1.75; border-left: 2px solid var(--accent); padding-left: 20px; max-width: 40em; }
+.box { border: 1px solid var(--line); border-radius: 6px; padding: 24px; }
+.box.tint { background: var(--navy-soft); border-color: transparent; }
+.box .logo { height: 56px; width: auto; display: block; margin-bottom: 16px; }
+
+/* 숫자 */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); }
+.stat { padding-left: 24px; border-left: 1px solid var(--line); }
+.stat:first-child { padding-left: 0; border-left: 0; }
+.stat .n { font-family: var(--mono); font-size: 52px; font-weight: 500; line-height: 1.1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.stat .t { font-size: 15px; color: var(--ink-2); margin-top: 6px; }
+
+/* 링크 목록(연구실 등) */
+.rows { list-style: none; border-top: 2px solid var(--ink); }
+.rows li { border-bottom: 1px solid var(--line); }
+.rows a { display: grid; grid-template-columns: 220px 1fr auto; gap: 24px; align-items: baseline; padding: 18px 8px 18px 18px; text-decoration: none; position: relative; transition: background-color 200ms var(--ease); }
+.rows a::before { content: ''; position: absolute; left: 0; top: 20px; bottom: 20px; width: 3px; border-radius: 2px; background: var(--c, var(--accent)); }
+.rows a:hover { background: var(--navy-soft); }
+.rows .name { font-size: 17px; font-weight: 600; }
+.rows .sub { display: block; font-size: 13px; color: var(--ink-2); font-weight: 400; }
+.rows .desc { font-size: 15px; color: var(--ink-2); }
+.rows .go { font-family: var(--mono); color: var(--accent); }
+
+/* 사람 */
+.person { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: start; }
+.person + .person { margin-top: 36px; }
+.person img, .person .ph { width: 100%; aspect-ratio: 1 / 1.05; object-fit: cover; border-radius: 6px; background: var(--grid); }
+.person .who { font-size: 20px; font-weight: 700; }
+.person .role { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+.person ul { list-style: none; margin-top: 8px; font-size: 14px; color: var(--ink-2); }
+.person ul li { padding: 2px 0; }
+.mail { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 14px; color: var(--accent); }
+.members { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 28px 20px; }
+.member { text-align: left; }
+.member img, .member .ph { width: 100%; aspect-ratio: 1 / 1.1; object-fit: cover; border-radius: 6px; background: var(--grid); display: block; margin-bottom: 10px; }
+.ph { display: flex !important; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; color: var(--ink-2); }
+.member .nm { font-size: 16px; font-weight: 600; line-height: 1.4; }
+.member .rl { font-size: 13px; color: var(--ink-2); }
+.team-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.team-nav a { font-size: 14px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; color: var(--ink-2); }
+.team-nav a:hover { border-color: var(--accent); color: var(--accent); }
+.team-h { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
+.team-h h2 { margin: 0; }
+.team-h .dot { width: 10px; height: 10px; border-radius: 2px; background: var(--c); align-self: center; }
+
+/* 조직도 */
+.org { display: grid; gap: 10px; }
+.org .top { border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px; font-weight: 600; }
+.org .units { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.org .unit { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; font-size: 14px; color: var(--ink-2); text-decoration: none; border-top: 3px solid var(--c); }
+.org .unit.on { background: var(--navy-soft); color: var(--ink); font-weight: 600; }
+
+/* 목록 (논문·발표·특허) */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.chips .k { font-family: var(--mono); font-size: 12px; color: var(--ink-2); width: 44px; align-self: center; }
+.chip { font: 500 13px var(--sans); padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.list-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 14px 0 4px; font-size: 13px; color: var(--ink-2); }
+.items { list-style: none; border-top: 2px solid var(--ink); }
+.items li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.items .ti { font-size: 15px; font-weight: 500; line-height: 1.55; }
+.items .au { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+.items .mt { font-family: var(--mono); font-size: 12px; color: var(--ink-2); margin-top: 5px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.items .tm { color: var(--c); }
+.pager { display: flex; align-items: center; gap: 10px; }
+.pager button { font: 500 14px var(--mono); width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
+.pager button:disabled { opacity: .35; cursor: default; }
+.pager .pg { font-family: var(--mono); font-size: 13px; min-width: 56px; text-align: center; }
+.empty { padding: 28px 0; color: var(--ink-2); font-size: 14px; }
+
+/* 파트너 */
+.logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.logos div { border: 1px solid var(--line); border-radius: 6px; height: 96px; display: flex; align-items: center; justify-content: center; padding: 14px; }
+.logos img { max-height: 64px; width: auto; object-fit: contain; }
+
+/* 연락처 */
+.kv { display: grid; grid-template-columns: 120px 1fr; gap: 10px 20px; font-size: 15px; }
+.kv dt { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); padding-top: 3px; }
+.map { width: 100%; height: 360px; border: 0; border-radius: 6px; background: var(--grid); }
+
+/* 청력도 (홈) */
+.audiogram { width: 100%; height: auto; display: block; overflow: visible; }
+.audiogram .g { stroke: var(--grid); stroke-width: 1; }
+.audiogram .g.major { stroke: #dde3ec; }
+.audiogram .axis { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); }
+.audiogram .band { fill: var(--navy-soft); }
+.audiogram .band-edge { stroke: var(--navy); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.audiogram .cap { font-size: 12px; fill: var(--navy); font-weight: 500; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+.fig-note { margin-top: 10px; font-size: 12px; color: var(--ink-2); }
+
+.lang-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 5; display: flex; border: 1px solid var(--line); border-radius: 999px; background: #fff; padding: 3px; box-shadow: 0 4px 16px rgba(17, 27, 46, .08); }
+.lang-toggle button { font: 500 13px var(--mono); border: 0; background: none; color: var(--ink-2); padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+.lang-toggle button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+
+.rise { opacity: 0; transform: translateY(12px); animation: rise 700ms var(--ease) forwards; animation-delay: calc(var(--i, 0) * 90ms); }
+@keyframes rise { to { opacity: 1; transform: none; } }
+.draw { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 1200ms var(--ease) forwards; animation-delay: calc(200ms + var(--i, 0) * 40ms); }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.band { opacity: 0; animation: fade 900ms var(--ease) 700ms forwards; }
+@keyframes fade { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .rise, .band { opacity: 1; transform: none; animation: none; }
+  .draw { stroke-dashoffset: 0; animation: none; }
+  .more span[aria-hidden], .rows a, .btn { transition: none; }
+}
+
+/* 모바일 (Wix 모바일 레이아웃 320px) */
+@media (max-width: 760px) {
+  .wrap { padding: 0 18px; }
+  .hero { padding: 36px 0 28px; }
+  .hero h1 { font-size: 30px; }
+  .hero .sub, .hero .lead { font-size: 15px; }
+  .hero .logo { height: 52px; }
+  .hero-grid, .split { grid-template-columns: 1fr; gap: 24px; }
+  section { padding: 36px 0; }
+  h2 { font-size: 21px; margin-bottom: 16px; }
+  .cols, .cols.c2, .cols.c4 { grid-template-columns: 1fr; }
+  .cols > *, .cols.c2 > *, .cols.c3 > *, .cols.c4 > * { padding: 16px 0; border-left: 0; border-top: 1px solid var(--line); }
+  .cols > :first-child { border-top: 0; }
+  .stats { grid-template-columns: 1fr; gap: 14px; }
+  .stat, .stat:first-child { padding: 0 0 0 14px; border-left: 2px solid var(--accent); }
+  .stat .n { font-size: 38px; }
+  .rows a { grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px 4px 14px 14px; }
+  .rows .desc { grid-column: 1 / -1; grid-row: 2; font-size: 14px; }
+  .person { grid-template-columns: 1fr; gap: 16px; }
+  .person img, .person .ph { width: 128px; }
+  .quote { font-size: 15px; padding-left: 14px; }
+  .members { grid-template-columns: repeat(2, 1fr); gap: 20px 14px; }
+  .org .units { grid-template-columns: repeat(2, 1fr); }
+  .logos { grid-template-columns: repeat(2, 1fr); }
+  .logos div { height: 72px; }
+  .kv { grid-template-columns: 1fr; gap: 2px; }
+  .kv dd { margin-bottom: 10px; }
+  .map { height: 240px; }
+  .chips .k { width: 100%; }
+  .list-meta { flex-direction: column; align-items: flex-start; }
+}
+
+:root { --accent: var(--head); }
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+<p class="label rise" style="--i:0">Yonsei University · Wonju Severance Christian Hospital · RIHE</p>
+<h1 class="rise" style="--i:1"><img class="logo" src="https://i.imgur.com/QV0SgF2.png" alt="HeAD Lab"></h1>
+<p class="sub rise" style="--i:2"><span data-l="ko">데이터팀 · RIHE Hearing AI &amp; Data Lab</span><span data-l="en" lang="en">Data team · RIHE Hearing AI &amp; Data Lab</span></p>
+<p class="lead rise" style="--i:3"><span data-l="ko">데이터로 소리를 이해하고, AI로 미래를 예측하다</span><span data-l="en" lang="en">Understanding sound with data, predicting the future with AI</span></p>
+
+</div></header><section><div class="wrap"><h2><span data-l="ko">HeAD Lab 소개</span><span data-l="en" lang="en">About HeAD Lab</span></h2><div class="prose"><p data-l="ko">HeAD Lab은 청각 데이터와 인공지능 기술을 융합하여 난청 예측, 청력 건강 관리, 청각재활 분야의 솔루션을 개발합니다. 데이터 과학과 AI 기술로 청력 손실의 조기 발견부터 개인 맞춤형 청각재활까지 청각 건강 관리의 전 주기를 아우르는 연구를 수행합니다.</p><p data-l="en" lang="en">HeAD Lab combines hearing data and AI to build solutions for predicting hearing loss, managing hearing health and hearing rehabilitation, covering the full cycle from early detection to personalised rehabilitation.</p></div><div class="box tint" style="margin-top:28px"><img class="logo" src="https://i.imgur.com/9cFssq8.png" alt="청각 빅데이터센터 Korea Hearing Big-data Center" loading="lazy">
+<h3><span data-l="ko">청각 빅데이터센터 운영</span><span data-l="en" lang="en">Korea Hearing Big-data Center</span></h3>
+<div class="prose" style="margin-top:10px"><p data-l="ko">산업계와 연구자에게 청각 분야의 빅데이터를 전문으로 제공하는 국내 유일 기관입니다. 10만 건 이상의 순음청력검사와 청성뇌간반응검사 데이터를 기반으로 라이프로그 데이터, 참조표준데이터, 보건의료빅데이터와 연계된 종합적인 청각빅데이터 제공을 목표로 합니다.</p><p data-l="en" lang="en">Korea’s only provider of hearing big data for industry and researchers. Built on over 100,000 pure-tone audiometry and auditory brainstem response records, we aim to provide comprehensive hearing big data linked with lifelog, reference-standard and health big data.</p></div>
+<ul class="bullets" data-l="ko"><li>CDM, NHANES, UK Biobank 등 국내외 의료 빅데이터 활용 연구</li><li>순음청력검사(PTA) 및 청성뇌간반응검사(ABR) 데이터 표준화</li><li>건강보험공단 청력데이터 연동 추출</li><li>청각 빅데이터 기반 AI 모델 개발 및 데이터 서비스</li><li>산업체·연구자 대상 데이터 제공 및 기술 컨설팅</li></ul><ul class="bullets" data-l="en" lang="en"><li>Research using medical big data at home and abroad (CDM, NHANES, UK Biobank)</li><li>Standardising pure-tone audiometry (PTA) and auditory brainstem response (ABR) data</li><li>Linked extraction of hearing data from the National Health Insurance Service</li><li>AI models and data services built on hearing big data</li><li>Data provision and technical consulting for industry and researchers</li></ul></div></div></section><section><div class="wrap"><h2>Mission &amp; Vision</h2><div class="cols c3"><div><h3>Mission</h3><p data-l="ko">청각 건강 데이터의 표준화와 인공지능 기술 융합을 통해 난청 예방, 조기 진단 및 효과적인 재활을 위한 혁신적 솔루션을 개발하여 전 세계인의 청력 건강 증진에 기여합니다.</p><p data-l="en" lang="en">Standardise hearing-health data and combine it with AI to develop solutions for prevention, early diagnosis and effective rehabilitation of hearing loss worldwide.</p></div><div><h3>Vision</h3><p data-l="ko">빅데이터와 AI 기술을 활용한 청각 건강 관리의 글로벌 리더로서, 국제 표준을 선도하고 누구나 쉽게 접근할 수 있는 디지털 청각 건강 생태계를 구축합니다.</p><p data-l="en" lang="en">Lead hearing-health care with big data and AI, set international standards and build a digital hearing-health ecosystem open to everyone.</p></div><div><h3>Core Values</h3><p data-l="ko">혁신성 · 정확성 · 협력</p><p data-l="en" lang="en">Innovation · Precision · Collaboration</p></div></div></div></section><section><div class="wrap"><h2><span data-l="ko">조직</span><span data-l="en" lang="en">Organization</span></h2><div class="org"><div class="top">Research Institute of Hearing Enhancement (RIHE)</div><div class="units"><a class="unit" href="https://www.smilesnail.org/audiso" data-path="/audiso" target="_top" style="--c:var(--audiso)">Audiso Co., Ltd.</a><a class="unit" href="https://www.smilesnail.org/about-1" data-path="/about-1" target="_top" style="--c:var(--basic)">Basic Lab</a><a class="unit" href="https://www.smilesnail.org/hearing-lab" data-path="/hearing-lab" target="_top" style="--c:var(--hearing)">Hearing Lab</a><a class="unit on" href="https://www.smilesnail.org/head-lab" data-path="/head-lab" target="_top" style="--c:var(--head)">HeAD Lab</a></div></div></div></section><section><div class="wrap"><h2>Director &amp; Manager</h2><div class="person"><img src="https://i.imgur.com/vIAp69Y.jpeg" alt="" width="200" height="210" loading="lazy"><div>
+<p class="role">Director</p><p class="who"><span data-l="ko">서영준 교수</span><span data-l="en" lang="en">Prof. Young Joon Seo</span></p>
+<ul data-l="ko"><li>RIHE 연구소장</li><li>연세대학교 원주세브란스기독병원 이비인후과</li></ul>
+<ul data-l="en" lang="en"><li>Director, RIHE</li><li>Department of Otorhinolaryngology, Wonju Severance Christian Hospital, Yonsei University</li></ul></div></div><div class="person"><img src="https://i.imgur.com/RC37iFm.jpeg" alt="" width="200" height="210" loading="lazy"><div>
+<p class="role">Manager</p><p class="who"><span data-l="ko">윤철영 팀장</span><span data-l="en" lang="en">Chul Young Yoon</span></p>
+<ul data-l="ko"><li>HeAD Lab 연구팀장</li><li>연세대학교 의료정보통계학과</li></ul>
+<ul data-l="en" lang="en"><li>Team Leader, HeAD Lab</li><li>Department of Medical Informatics and Biostatistics, Yonsei University</li></ul></div></div></div></section><section><div class="wrap"><h2>Research Subjects</h2><div class="cols c2"><div><h3><span data-l="ko">Future Hearing Prediction</span><span data-l="en" lang="en">Future Hearing Prediction</span></h3><p data-l="ko">정상 청력자의 장기 데이터를 활용한 미래 청력 예측 AI 모델 개발</p><p data-l="en" lang="en">AI models that predict future hearing from long-term data of people with normal hearing</p></div><div><h3><span data-l="ko">Ototoxicity &amp; Drugs</span><span data-l="en" lang="en">Ototoxicity &amp; Drugs</span></h3><p data-l="ko">이독성 약물 데이터 분석 및 난청 발생 위험도 평가</p><p data-l="en" lang="en">Analysing ototoxic-drug data and the risk of hearing loss</p></div><div><h3><span data-l="ko">Eardrum Imaging</span><span data-l="en" lang="en">Eardrum Imaging</span></h3><p data-l="ko">고막 내시경 영상 기반 AI 분류 및 온디바이스 적용</p><p data-l="en" lang="en">AI classification of eardrum endoscopy images, on device</p></div><div><h3><span data-l="ko">Noise Map</span><span data-l="en" lang="en">Noise Map</span></h3><p data-l="ko">환경 소음과 건강 데이터를 융합한 소음지도 제작</p><p data-l="en" lang="en">Noise maps combining environmental noise and health data</p></div><div><h3><span data-l="ko">International Cohorts</span><span data-l="en" lang="en">International Cohorts</span></h3><p data-l="ko">UK Biobank 및 NHIS/KNHANES 연계 연구</p><p data-l="en" lang="en">Research linking UK Biobank and NHIS/KNHANES</p></div><div><h3><span data-l="ko">Ear Age</span><span data-l="en" lang="en">Ear Age</span></h3><p data-l="ko">청력 기반 생물학적 나이 추정 및 청각 노화 연구</p><p data-l="en" lang="en">Estimating biological age from hearing, and ear ageing</p></div></div></div></section><section><div class="wrap"><h2>Publication</h2><div data-list data-kind="pub" data-src="d-pubs"></div><p style="margin-top:28px"><a class="more" href="https://www.smilesnail.org/project" data-path="/project" target="_top"><span data-l="ko">학회 발표(Report) 목록은 Research 페이지에서 보기</span><span data-l="en" lang="en">See conference reports on the Research page</span><span aria-hidden="true">→</span></a></p></div></section><section><div class="wrap"><h2>Alumni</h2><div class="members"><div class="member"><img src="https://i.imgur.com/TWCotbS.jpeg" alt="" loading="lazy"><div class="nm">김지원</div><div class="rl"><span data-l="ko">의료정보통계학과 석사 · 2025년 2월 졸업</span><span data-l="en" lang="en">M.S. · Feb 2025</span></div></div><div class="member"><img src="https://i.imgur.com/gQo7vUz.jpeg" alt="" loading="lazy"><div class="nm">이준헌</div><div class="rl"><span data-l="ko">의료정보통계학과 석사 · 2026년 2월 졸업</span><span data-l="en" lang="en">M.S. · Feb 2026</span></div></div><div class="member"><img src="https://i.imgur.com/jXCJxED.jpeg" alt="" loading="lazy"><div class="nm">이주형</div><div class="rl"><span data-l="ko">의료정보통계학 석사 · 2023년 2월 졸업</span><span data-l="en" lang="en">M.S. · Feb 2023</span></div></div></div></div></section>
+<div class="lang-toggle" role="group" aria-label="Language"><button type="button" data-set="ko" aria-pressed="true">KO</button><button type="button" data-set="en" aria-pressed="false">EN</button></div>
+<script type="application/json" id="d-pubs">[{"year": 2025, "team": "head", "title": "Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data", "authors": "You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon", "journal": "HEARING RESEARCH"}, {"year": 2025, "team": "head", "title": "Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset", "authors": "Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho", "journal": "Journal of Audiology & Otology"}, {"year": 2025, "team": "head", "title": "Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data", "authors": "Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun", "journal": "Frontiers in Neurology"}, {"year": 2025, "team": "head", "title": "Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System", "authors": "Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon", "journal": "OTO Open"}, {"year": 2025, "team": "head", "title": "Part 2. Current Status of Hearing Disability and Hearing Rehabilitation Devices in Korea Using National Data: NHIS-Database, 2010 to 2020; [2부. 국가 데이터를 활용한 한국의 청각장애 현황 및 청각재활장비 현황: NHIS-Database, 2010~2020]", "authors": "Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...", "journal": "Korean Journal of Otorhinolaryngology-Head and Neck Surgery"}, {"year": 2025, "team": "head", "title": "Seasonal variation in vestibular neuritis in Korea: a nationwide population-based cohort study", "authors": "Yoon Chul-Young, 서영준, 박지윤", "journal": "Research in Vestibular Science"}, {"year": 2025, "team": "head", "title": "Part 1. 전국 데이터를 이용한 우리나라 난청 환자 현황: National Health Insurance Service-데이터베이스, 2010 to 2020", "authors": "Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...", "journal": "대한이비인후-두경부외과학회지"}, {"year": 2025, "team": "head", "title": "Virtual reality-based vestibular rehabilitation therapy in patients with acute unilateral vestibulopathy: a randomized controlled trial", "authors": "Lee, Jae Woo, Yoon, Chul Young, Kim, Jae Ha, Seo, Young Joon, Kong, Tae Hoon", "journal": "Frontiers in Neurology"}, {"year": 2024, "team": "head", "title": "Importance of small vessel disease as a possible cause of sudden sensorineural hearing loss", "authors": "Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon", "journal": "PloS one"}, {"year": 2024, "team": "head", "title": "Clinical characteristics of the \"Gap\" between the prevalence and incidence of hearing loss using National Health Insurance Service data", "authors": "Lee Junhun, Yoon Chul Young, Lee Juhyung, Kong Tae Hoon, Seo Young Joon", "journal": "PLoS ONE"}, {"year": 2023, "team": "head", "title": "Effect of changes in the hearing aid subsidy on the prevalence of hearing loss in South Korea", "authors": "Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon", "journal": "Frontiers in Neurology"}, {"year": 2023, "team": "head", "title": "A situational analysis of ear and hearing care in South Korea using WHO ear and Hearing Care Situation Analysis tool", "authors": "Lee, Juhyeong, Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Oh, Seung Ha, S...", "journal": "Frontiers in Public Health"}, {"year": 2023, "team": "head", "title": "건강 보험 데이터 분석을 통한 급성 전정신경염의 유병률 측정", "authors": "Chul Young Yoon, Seulgi Hong, Ji-Yun Park, Young Joon Seo", "journal": "Research in Vestibular Science"}, {"year": 2023, "team": "head", "title": "Learning curve comparable study of microscopic and endoscopic type 1 tympanoplasty", "authors": "Lee Hyun Su, Yoon Chul Young, 박대우, Lee Joo Hyung, 서영준, 공태훈", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"year": 2023, "team": "head", "title": "Epidemiology of idiopathic sudden sensorineural hearing loss in the era of big data", "authors": "Yoon Chul Young, Kong, Tae Hoon, Lee Juhyung, Seo, Young Joon, Ahn, Jae Joon", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"year": 2022, "team": "head", "title": "Association of dietary factors with noise-induced hearing loss in Korean population: A 3-year national cohort study", "authors": "Lee, H.J., Lee, J., Yoon, C., Park, Y., Joo, Y.-H., Park, J.-O., Seo, Y.J., P...", "journal": "PLOS ONE"}, {"year": 2022, "team": "head", "title": "Relationship between Nutrient Intake and Hearing Loss According to the Income Level of Working-Aged Adults: A Korean National Health and Nutrition Survey", "authors": "Lee, Juhyung, Lee, Ji-Hyeon, Yoon, Chulyoung, Kwak, Chanbeom, Jaejoon Ahn, Ko...", "journal": "NUTRIENTS"}]</script>
+<script>
+(function () {
+  var SITE = 'https://www.smilesnail.org';
+  var LANG = 'ko', hooks = [];
+  window.RIHE = { onLang: function (f) { hooks.push(f); }, lang: function () { return LANG; } };
+  function setLang(l) {
+    LANG = l === 'en' ? 'en' : 'ko';
+    document.documentElement.setAttribute('data-lang', LANG);
+    document.documentElement.lang = LANG;
+    document.querySelectorAll('[data-path]').forEach(function (a) {
+      a.href = SITE + (LANG === 'en' ? '/en' : '') + a.getAttribute('data-path');
+    });
+    document.querySelectorAll('.lang-toggle button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === LANG));
+    });
+    hooks.forEach(function (f) { f(LANG); });
+  }
+  // Wix 페이지 코드가 언어를 보냄: $w('#html1').postMessage({ lang: wixWindow.multilingual.currentLanguage })
+  window.addEventListener('message', function (e) { if (e.data && e.data.lang) setLang(e.data.lang); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.lang-toggle button');
+    if (b) setLang(b.getAttribute('data-set'));
+  });
+
+  // ---- 목록: 필터 + 10개씩 넘기기 (높이가 거의 일정하게 유지됨)
+  var TEAM = {
+    basic: ['Basic Lab', 'Basic Lab'], hearing: ['Hearing Lab', 'Hearing Lab'],
+    head: ['HeAD Lab', 'HeAD Lab'], collab: ['협력·임상', 'Collab & Medical']
+  };
+  var UI = {
+    all: ['전체', 'All'], team: ['팀', 'Team'], year: ['연도', 'Year'], total: ['총 ', ''], unit: ['건', ' items'],
+    prev: ['이전', 'Previous'], next: ['다음', 'Next'], none: ['해당 조건의 항목이 없습니다.', 'No items match this filter.'],
+    '등록': ['등록', 'Granted'], '출원': ['출원', 'Filed'], '대한민국': ['대한민국', 'Korea'], '미국': ['미국', 'USA'],
+    '중국': ['중국', 'China'], '유럽': ['유럽', 'Europe']
+  };
+  function u(k) { var v = UI[k]; return v ? v[LANG === 'en' ? 1 : 0] : k; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function mountList(root) {
+    var data = JSON.parse(document.getElementById(root.getAttribute('data-src')).textContent);
+    var kind = root.getAttribute('data-kind'), size = 10;
+    var withTeams = root.hasAttribute('data-teams'), withYears = kind !== 'patent';
+    var st = { team: 'all', year: 'all', page: 0 };
+    // 연도 버튼: 최근 5개 연도 + 그 이전은 한 묶음 (데이터에 따라 자동)
+    var years = [], cut = null;
+    if (withYears) {
+      years = data.map(function (d) { return d.year; }).filter(function (y, i, a) { return a.indexOf(y) === i; }).sort(function (a, b) { return b - a; });
+      if (years.length > 6) { cut = years[5]; years = years.slice(0, 5); }
+    }
+    function pass(d) {
+      if (st.team !== 'all' && d.team !== st.team) return false;
+      if (st.year === 'all') return true;
+      if (st.year === 'old') return d.year <= cut;
+      return d.year === st.year;
+    }
+    function chips() {
+      var h = '';
+      if (withTeams) {
+        h += '<div class="chips" role="group"><span class="k">' + u('team') + '</span>' + chip('team', 'all', u('all'));
+        Object.keys(TEAM).forEach(function (k) {
+          if (data.some(function (d) { return d.team === k; })) h += chip('team', k, TEAM[k][LANG === 'en' ? 1 : 0]);
+        });
+        h += '</div>';
+      }
+      if (withYears) {
+        h += '<div class="chips" role="group"><span class="k">' + u('year') + '</span>' + chip('year', 'all', u('all'));
+        years.forEach(function (y) { h += chip('year', y, y); });
+        if (cut) h += chip('year', 'old', '~' + cut);
+        h += '</div>';
+      }
+      return h;
+    }
+    function chip(k, v, label) {
+      return '<button type="button" class="chip" data-k="' + k + '" data-v="' + v + '" aria-pressed="' + (String(st[k]) === String(v)) + '">' + label + '</button>';
+    }
+    function item(d) {
+      if (kind === 'pub') {
+        var tm = TEAM[d.team];
+        return '<li><div class="ti">' + esc(d.title) + '</div><div class="au">' + esc(d.authors) + '</div><div class="mt"><span>' + d.year + '</span><span>' + esc(d.journal) + '</span>' +
+          (withTeams && tm ? '<span class="tm" style="--c:var(--' + d.team + ')">' + tm[LANG === 'en' ? 1 : 0] + '</span>' : '') + '</div></li>';
+      }
+      if (kind === 'report') {
+        return '<li><div class="ti">' + esc(d.title) + '</div><div class="au">' + esc(d.authors) + '</div><div class="mt"><span>' + d.year + '</span><span>' + esc(d.event) + '</span></div></li>';
+      }
+      return '<li><div class="ti">' + esc(d.title) + '</div><div class="mt"><span>' + u(d.status) + '</span>' + (d.country ? '<span>' + u(d.country) + '</span>' : '') + '</div></li>';
+    }
+    function render() {
+      var rows = data.filter(pass), pages = Math.max(1, Math.ceil(rows.length / size));
+      if (st.page >= pages) st.page = pages - 1;
+      var view = rows.slice(st.page * size, st.page * size + size);
+      root.innerHTML = chips() +
+        '<div class="list-meta"><span>' + u('total') + rows.length + u('unit') + '</span>' +
+        '<span class="pager"><button type="button" data-p="-1" aria-label="' + u('prev') + '"' + (st.page === 0 ? ' disabled' : '') + '>‹</button>' +
+        '<span class="pg">' + (st.page + 1) + ' / ' + pages + '</span>' +
+        '<button type="button" data-p="1" aria-label="' + u('next') + '"' + (st.page >= pages - 1 ? ' disabled' : '') + '>›</button></span></div>' +
+        (view.length ? '<ul class="items"' + (LANG === 'en' ? '' : '') + '>' + view.map(item).join('') + '</ul>' : '<p class="empty">' + u('none') + '</p>');
+    }
+    root.addEventListener('click', function (e) {
+      var c = e.target.closest('.chip'), p = e.target.closest('[data-p]');
+      if (c) { var v = c.getAttribute('data-v'); st[c.getAttribute('data-k')] = /^\d+$/.test(v) ? +v : v; st.page = 0; render(); }
+      if (p && !p.disabled) { st.page += +p.getAttribute('data-p'); render(); }
+    });
+    window.RIHE.onLang(render);
+    render();
+  }
+  document.querySelectorAll('[data-list]').forEach(mountList);
+
+  // ---- 청력도 격자 (홈)
+  var g = document.getElementById('grid');
+  if (g) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var el = function (tag, a, txt) { var n = document.createElementNS(NS, tag); for (var k in a) n.setAttribute(k, a[k]); if (txt) n.textContent = txt; g.appendChild(n); };
+    ['125', '250', '500', '1k', '2k', '4k', '8k'].forEach(function (f, i) {
+      var x = 40 + i * 70;
+      el('line', { x1: x, y1: 20, x2: x, y2: 280, 'class': 'g major draw', style: '--i:' + i });
+      el('text', { x: x, y: 302, 'class': 'axis', 'text-anchor': 'middle' }, f);
+    });
+    for (var db = -10; db <= 120; db += 10) {
+      var y = 20 + (db + 10) * 2;
+      el('line', { x1: 40, y1: y, x2: 460, y2: y, 'class': 'g' + (db % 20 === 0 ? ' major' : '') + ' draw', style: '--i:' + (db + 10) / 10 });
+      if (db % 20 === 0) el('text', { x: 30, y: y + 4, 'class': 'axis', 'text-anchor': 'end' }, String(db));
+    }
+    el('text', { x: 460, y: 322, 'class': 'axis', 'text-anchor': 'end' }, 'Hz');
+    el('text', { x: 30, y: 12, 'class': 'axis', 'text-anchor': 'end' }, 'dB HL');
+  }
+
+  setLang(new URLSearchParams(location.search).get('lang') || 'ko');
+})();
+</script>
+</body>
+</html>

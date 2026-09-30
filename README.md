@@ -13,6 +13,9 @@ docs/audit.md                             사이트 점검 보고서(2026-09-30)
 docs/paste-list.md                        Wix에 붙여넣을 파일과 요소 높이 목록
 docs/author-review.md                     저자 목록 검토용 자료(사이트에는 미반영)
 tools/fetch_live.py                       게시된 사이트에서 모든 임베드를 다시 받아오는 스크립트
+data/*.json                               새 디자인용 데이터(논문·발표·특허·구성원)
+tools/build.py                            data와 문구로 새 디자인 페이지(site/)를 만드는 스크립트
+site/                                     새 디자인 시안(docs/redesign.md 참고)
 ```
 
 요소 ID는 Wix 에디터에서 요소를 클릭했을 때 오른쪽 아래 코드 패널에 보이는 ID(`#html1`, `#mobileHtml1` 등)와 같습니다.

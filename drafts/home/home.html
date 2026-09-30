@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home — RIHE (draft)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     RIHE 홈 시안 — 하나의 파일로 데스크톱(#html1)과 모바일(#mobileHtml1) 모두 사용
+     한국어/영어: <html data-lang="ko|en">. Wix 페이지 코드가 postMessage로 언어를 알려 줌
+     ============================================================ */
+  :root {
+    --paper: #ffffff;
+    --ink: #111b2e;
+    --ink-2: #475569;
+    --line: #e3e8f0;
+    --grid: #edf1f6;
+    --navy: #1b3d6f;
+    --navy-soft: #eef3fa;
+    --basic: #2e8b57;
+    --hearing: #4e7595;
+    --head: #2e6e9e;
+    --audiso: #9a6f07;
+    --sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --ease: cubic-bezier(.23, 1, .32, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--paper); -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.7;
+    word-break: keep-all;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+
+  /* 언어 전환: 해당 언어가 아닌 요소 숨김 */
+  html[data-lang="ko"] [data-l="en"], html[data-lang="en"] [data-l="ko"] { display: none !important; }
+
+  .mono { font-family: var(--mono); font-feature-settings: "zero" 0; }
+  .label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 72px 0 56px; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+  .hero h1 {
+    font-size: 52px;
+    line-height: 1.18;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 14px 0 8px;
+    text-wrap: balance;
+  }
+  html[data-lang="en"] .hero h1 { font-size: 44px; letter-spacing: -0.015em; }
+  .hero .sub { font-size: 17px; font-weight: 500; color: var(--navy); margin-bottom: 20px; }
+  .hero .lead { font-size: 17px; color: var(--ink-2); max-width: 34em; }
+
+  .audiogram { width: 100%; height: auto; display: block; overflow: visible; }
+  .audiogram .g { stroke: var(--grid); stroke-width: 1; }
+  .audiogram .g.major { stroke: #dde3ec; }
+  .audiogram .axis { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); }
+  .audiogram .band { fill: var(--navy-soft); }
+  .audiogram .band-edge { stroke: var(--navy); stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .audiogram .cap { font-family: var(--sans); font-size: 12px; fill: var(--navy); font-weight: 500; }
+  .fig-note { margin-top: 10px; font-size: 12px; color: var(--ink-2); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 28px; }
+  .more {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 14px; font-weight: 600; color: var(--navy); text-decoration: none;
+  }
+  .more span { transition: transform 200ms var(--ease); }
+  .more:hover span { transform: translateX(3px); }
+
+  /* 연구 분야: 청력도의 주파수 눈금처럼 4칸 */
+  .areas { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--ink); }
+  .area { padding: 22px 22px 8px 0; position: relative; }
+  .area + .area { padding-left: 22px; border-left: 1px solid var(--line); }
+  .area h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .area p { font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+  .areas-foot { margin-top: 24px; }
+
+  /* 성과 숫자 */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .stat { padding: 4px 0 4px 24px; border-left: 1px solid var(--line); }
+  .stat:first-child { padding-left: 0; border-left: 0; }
+  .stat .n { font-family: var(--mono); font-size: 56px; font-weight: 500; line-height: 1.1; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .stat .t { font-size: 15px; color: var(--ink-2); margin-top: 6px; }
+
+  /* 연구실 목록 */
+  .labs { list-style: none; border-top: 2px solid var(--ink); }
+  .labs li { border-bottom: 1px solid var(--line); }
+  .labs a {
+    display: grid; grid-template-columns: 200px 1fr auto; gap: 24px; align-items: baseline;
+    padding: 20px 8px 20px 18px; text-decoration: none; position: relative;
+    transition: background-color 200ms var(--ease);
+  }
+  .labs a::before { content: ''; position: absolute; left: 0; top: 22px; bottom: 22px; width: 3px; border-radius: 2px; background: var(--c); }
+  .labs a:hover { background: var(--navy-soft); }
+  .labs .name { font-size: 18px; font-weight: 600; }
+  .labs .team { display: block; font-size: 13px; color: var(--ink-2); font-weight: 400; }
+  .labs .desc { font-size: 15px; color: var(--ink-2); }
+  .labs .go { font-family: var(--mono); font-size: 14px; color: var(--navy); }
+
+  /* 연구소장 */
+  .director { display: grid; grid-template-columns: 220px 1fr; gap: 48px; align-items: start; }
+  .director img { width: 100%; aspect-ratio: 1 / 1.05; object-fit: cover; border-radius: 6px; background: var(--grid); }
+  .director .who { font-size: 20px; font-weight: 700; }
+  .director .roles { list-style: none; margin: 10px 0 20px; font-size: 14px; color: var(--ink-2); }
+  .director .roles li { padding: 2px 0; }
+  .director blockquote {
+    font-size: 17px; line-height: 1.8; color: var(--ink);
+    border-left: 2px solid var(--navy); padding-left: 20px; max-width: 38em;
+  }
+  .director .mail { display: inline-block; margin-top: 18px; font-family: var(--mono); font-size: 14px; color: var(--navy); }
+
+  /* 데이터센터 */
+  .centers { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .center { border: 1px solid var(--line); border-radius: 6px; padding: 24px; display: grid; grid-template-columns: 120px 1fr; gap: 20px; align-items: center; }
+  .center img { width: 100%; height: 64px; object-fit: contain; }
+  .center h3 { font-size: 16px; font-weight: 600; }
+  .center p { font-size: 14px; color: var(--ink-2); }
+
+  /* 미리보기 전용 언어 전환 버튼 (Wix에 넣을 때는 build 스크립트가 제거) */
+  .lang-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 5; display: flex; border: 1px solid var(--line); border-radius: 999px; background: #fff; padding: 3px; box-shadow: 0 4px 16px rgba(17, 27, 46, .08); }
+  .lang-toggle button { font: 500 13px var(--mono); border: 0; background: none; color: var(--ink-2); padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+  .lang-toggle button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+
+  /* ---------- 등장 모션 ---------- */
+  .rise { opacity: 0; transform: translateY(12px); animation: rise 700ms var(--ease) forwards; animation-delay: calc(var(--i, 0) * 90ms); }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .draw { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 1200ms var(--ease) forwards; animation-delay: calc(200ms + var(--i, 0) * 40ms); }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .band { opacity: 0; animation: fade 900ms var(--ease) 700ms forwards; }
+  @keyframes fade { to { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .band { opacity: 1; transform: none; animation: none; }
+    .draw { stroke-dashoffset: 0; animation: none; }
+    .more span, .labs a { transition: none; }
+  }
+
+  /* ---------- 모바일 (Wix 모바일 레이아웃 320px) ---------- */
+  @media (max-width: 760px) {
+    .wrap { padding: 0 18px; }
+    .hero { padding: 40px 0 32px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .hero h1, html[data-lang="en"] .hero h1 { font-size: 30px; }
+    .hero .sub, .hero .lead { font-size: 15px; }
+    section { padding: 40px 0; }
+    h2 { font-size: 21px; margin-bottom: 18px; }
+    .areas { grid-template-columns: 1fr; }
+    .area, .area + .area { padding: 16px 0; border-left: 0; }
+    .area + .area { border-top: 1px solid var(--line); }
+    .stats { grid-template-columns: 1fr; gap: 16px; }
+    .stat, .stat:first-child { padding: 0 0 0 14px; border-left: 2px solid var(--navy); }
+    .stat .n { font-size: 40px; }
+    .labs a { grid-template-columns: 1fr auto; gap: 4px 12px; padding: 16px 4px 16px 14px; }
+    .labs .desc { grid-column: 1 / -1; grid-row: 2; font-size: 14px; }
+    .director { grid-template-columns: 1fr; gap: 20px; }
+    .director img { width: 140px; }
+    .director blockquote { font-size: 15px; padding-left: 14px; }
+    .centers { grid-template-columns: 1fr; }
+    .center { grid-template-columns: 1fr; padding: 16px; gap: 10px; }
+    .center img { width: auto; max-width: 180px; height: 40px; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="label rise" style="--i:0">Yonsei University · Wonju Severance Christian Hospital</p>
+      <h1 class="rise" style="--i:1">
+        <span data-l="ko">청각재활연구소</span>
+        <span data-l="en" lang="en">Research Institute of Hearing Enhancement</span>
+      </h1>
+      <p class="sub rise" style="--i:2">
+        <span data-l="ko" lang="en">Research Institute of Hearing Enhancement</span>
+        <span data-l="en">청각재활연구소 · RIHE</span>
+      </p>
+      <p class="lead rise" style="--i:3">
+        <span data-l="ko">난청의 기전에 대한 기초 연구를 바탕으로 치료제 개발, 임상 연구, 의료기기 개발까지 청각에 대한 전주기적 연구를 하는 연구소입니다.</span>
+        <span data-l="en" lang="en">Built on basic research into the mechanisms of hearing loss, we conduct full-cycle hearing research, from drug development and clinical research to medical devices.</span>
+      </p>
+    </div>
+
+    <figure class="rise" style="--i:2" aria-label="청력도 격자와 정상 청력 범위">
+      <svg class="audiogram" viewBox="0 0 480 330" role="img" aria-hidden="true">
+        <!-- 정상 청력 범위 −10~20 dB HL (y: 10 dB = 20px, −10 dB → y=20) -->
+        <rect class="band" x="40" y="20" width="420" height="60"></rect>
+        <g id="grid"></g>
+        <line class="band-edge" x1="40" y1="80" x2="460" y2="80"></line>
+        <text class="cap" x="452" y="72" text-anchor="end" data-l="ko">정상 청력 범위 (≤ 20 dB HL)</text>
+        <text class="cap" x="452" y="72" text-anchor="end" data-l="en">Normal hearing (≤ 20 dB HL)</text>
+      </svg>
+      <figcaption class="fig-note">
+        <span data-l="ko">청력도(audiogram). 가로축 주파수, 세로축 청력역치.</span>
+        <span data-l="en" lang="en">Audiogram: frequency across, hearing threshold down.</span>
+      </figcaption>
+    </figure>
+  </div>
+</header>
+
+<section aria-labelledby="h-areas">
+  <div class="wrap">
+    <h2 id="h-areas"><span data-l="ko">연구 분야</span><span data-l="en">Research areas</span></h2>
+    <div class="areas">
+      <div class="area">
+        <h3>Basic sciences</h3>
+        <p data-l="ko">자성 나노입자로 줄기세포가 달팽이관으로 모이는 효율(호밍)을 높이고, 엑소좀·약물·재생 유전자를 유모세포에 전달합니다.</p>
+        <p data-l="en" lang="en">Enhancing stem-cell homing to the cochlea with nanoparticles and magnetic force, delivering exosomes, drugs and regenerative genes to hair cells.</p>
+      </div>
+      <div class="area">
+        <h3>Big data &amp; AI</h3>
+        <p data-l="ko">국내 유일의 한국인 청각 참조표준 데이터센터로서 청각 데이터의 표준을 만들고, 어지럼증 데이터를 인공지능으로 분석합니다.</p>
+        <p data-l="en" lang="en">As Korea's only reference standard data center for hearing, we set standards for hearing data and analyse dizziness data with AI.</p>
+      </div>
+      <div class="area">
+        <h3>Medical devices</h3>
+        <p data-l="ko">마취 없이 시술하는 원스톱 중이염 환기관, 스마트 안진검사, VR 어지럼증 재활, 골전도 보청기 등 임상 수요에서 출발한 의료기기를 개발합니다.</p>
+        <p data-l="en" lang="en">A one-stop ventilation tube without anaesthesia, smart nystagmography, VR dizziness rehabilitation and bone conduction hearing aids, built from clinical needs.</p>
+      </div>
+      <div class="area">
+        <h3>Clinical trials</h3>
+        <p data-l="ko">골전도 보청기 임상시험을 중심으로, 기초 연구의 성과(엑소좀, 약물, 의료기기)를 임상시험으로 이어 갑니다.</p>
+        <p data-l="en" lang="en">Mainly clinical trials of bone conduction hearing aids; outputs of our basic research (exosomes, drugs, devices) move on to clinical trials.</p>
+      </div>
+    </div>
+    <p class="areas-foot">
+      <a class="more" href="/project" data-path="/project" target="_top">
+        <span data-l="ko">논문·학회 발표·특허 보기</span><span data-l="en">Publications, reports and patents</span><span aria-hidden="true">→</span>
+      </a>
+    </p>
+  </div>
+</section>
+
+<section aria-labelledby="h-outcomes">
+  <div class="wrap">
+    <h2 id="h-outcomes"><span data-l="ko">성과</span><span data-l="en">Outcomes</span></h2>
+    <div class="stats">
+      <div class="stat"><div class="n">120</div><div class="t"><span data-l="ko">학술지 논문</span><span data-l="en">Journal articles</span></div></div>
+      <div class="stat"><div class="n">80</div><div class="t"><span data-l="ko">특허 (출원·등록)</span><span data-l="en">Patents (filed and granted)</span></div></div>
+      <div class="stat"><div class="n">12</div><div class="t"><span data-l="ko">기술이전</span><span data-l="en">Technology transfers</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-labs">
+  <div class="wrap">
+    <h2 id="h-labs"><span data-l="ko">연구실</span><span data-l="en">Labs</span></h2>
+    <ul class="labs">
+      <li><a href="/about-1" data-path="/about-1" target="_top" style="--c: var(--basic)">
+        <span class="name">Basic Lab <span class="team" data-l="ko">기초팀</span></span>
+        <span class="desc"><span data-l="ko">줄기세포·나노입자·약물 전달로 난청의 기전을 연구합니다.</span><span data-l="en" lang="en">Stem cells, nanoparticles and drug delivery for the mechanisms of hearing loss.</span></span>
+        <span class="go" aria-hidden="true">→</span></a></li>
+      <li><a href="/hearing-lab" data-path="/hearing-lab" target="_top" style="--c: var(--hearing)">
+        <span class="name">Hearing Lab <span class="team" data-l="ko">참조표준팀</span></span>
+        <span class="desc"><span data-l="ko">한국인 청각 참조표준 데이터를 수집·생산합니다.</span><span data-l="en" lang="en">Collecting and producing Korean reference hearing data.</span></span>
+        <span class="go" aria-hidden="true">→</span></a></li>
+      <li><a href="/head-lab" data-path="/head-lab" target="_top" style="--c: var(--head)">
+        <span class="name">HeAD Lab <span class="team" data-l="ko">데이터팀</span></span>
+        <span class="desc"><span data-l="ko">청각 빅데이터와 인공지능으로 난청을 예측하고 관리합니다.</span><span data-l="en" lang="en">Hearing big data and AI for predicting and managing hearing loss.</span></span>
+        <span class="go" aria-hidden="true">→</span></a></li>
+      <li><a href="/audiso" data-path="/audiso" target="_top" style="--c: var(--audiso)">
+        <span class="name">Audiso <span class="team" data-l="ko">오디에스오(주)</span></span>
+        <span class="desc"><span data-l="ko">국내 최초 청력계 KOLAS 국제공인교정기관, 연구소 교원창업 기업입니다.</span><span data-l="en" lang="en">Korea's first KOLAS-accredited audiometer calibration body; a faculty start-up of the institute.</span></span>
+        <span class="go" aria-hidden="true">→</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<section aria-labelledby="h-director">
+  <div class="wrap director">
+    <img src="https://i.imgur.com/vIAp69Y.jpeg" alt="" width="220" height="231" loading="lazy">
+    <div>
+      <h2 id="h-director" style="margin-bottom:12px"><span data-l="ko">연구소장</span><span data-l="en">Director</span></h2>
+      <p class="who"><span data-l="ko">서영준</span><span data-l="en" lang="en">Young Joon Seo</span></p>
+      <ul class="roles" data-l="ko">
+        <li>연세대학교 원주의과대학 이비인후과 주임교수</li>
+        <li>연세대학교 미래캠퍼스 디지털헬스케어학과 겸임교수</li>
+        <li>연세대학교 원주의과대학원 의학통계학과 겸임교수</li>
+        <li>대한청각학회 연구이사 · 차세대 한림원 회원(2022.1~)</li>
+      </ul>
+      <ul class="roles" data-l="en" lang="en">
+        <li>Professor and Chair, Department of Otorhinolaryngology, Yonsei University Wonju College of Medicine</li>
+        <li>Adjunct Professor, Department of Digital Healthcare, Yonsei University Mirae Campus</li>
+        <li>Adjunct Professor, Department of Medical Statistics, Yonsei University Wonju Graduate School of Medicine</li>
+        <li>Director of Research, Korean Audiological Society · Member, Young Korean Academy of Science and Technology (since 2022)</li>
+      </ul>
+      <blockquote>
+        <p data-l="ko">난청을 치료하는 임상의이자 난청을 연구하는 연구자로서, 청각재활연구소를 기반으로 융합 연구자의 길을 걸어왔습니다. 2015년부터 다양한 융합 연구를 선보인 연구소입니다. 세계 여러 나라 청각 특성화 연구소들과 어깨를 나란히 견줄 수 있는 연구소가 되겠습니다.</p>
+        <p data-l="en" lang="en">As a clinician who treats patients with hearing loss and a researcher who studies its pathophysiology, I have walked the path of a translational researcher based on our Institute. Since 2015 the Institute has pursued a wide range of translational research, and we will stand shoulder to shoulder with hearing research institutes around the world.</p>
+      </blockquote>
+      <a class="mail" href="mailto:okas2000@yonsei.ac.kr">okas2000@yonsei.ac.kr</a>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-centers">
+  <div class="wrap">
+    <h2 id="h-centers"><span data-l="ko">데이터센터</span><span data-l="en">Data centers</span></h2>
+    <div class="centers">
+      <a class="center" href="/hearing-lab" data-path="/hearing-lab" target="_top" style="text-decoration:none">
+        <img src="https://i.imgur.com/s6VfJ2r.png" alt="" loading="lazy">
+        <div>
+          <h3><span data-l="ko">한국인 청각 참조표준데이터센터</span><span data-l="en" lang="en">Korea Hearing Standard-data Center</span></h3>
+          <p><span data-l="ko">한국인 청각 데이터를 수집·생산하고 보급하는 국내 유일 기관. 2019년 1월부터 운영.</span><span data-l="en" lang="en">Korea's only center collecting, producing and distributing Korean hearing data, since January 2019.</span></p>
+        </div>
+      </a>
+      <a class="center" href="/head-lab" data-path="/head-lab" target="_top" style="text-decoration:none">
+        <img src="https://i.imgur.com/9cFssq8.png" alt="" loading="lazy">
+        <div>
+          <h3><span data-l="ko">청각 빅데이터센터</span><span data-l="en" lang="en">Korea Hearing Big-data Center</span></h3>
+          <p><span data-l="ko">산업계와 연구자에게 청각 빅데이터를 제공하는 국내 유일 기관. 10만 건 이상의 데이터.</span><span data-l="en" lang="en">Korea's only provider of hearing big data for industry and researchers, with over 100,000 records.</span></p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="lang-toggle" role="group" aria-label="Language">
+  <button type="button" data-set="ko" aria-pressed="true">KO</button>
+  <button type="button" data-set="en" aria-pressed="false">EN</button>
+</div>
+
+<script>
+  (function () {
+    var SITE = 'https://www.smilesnail.org';
+
+    // 청력도 격자: 주파수 7칸(125~8k Hz), 청력역치 −10~120 dB (10 dB = 20px)
+    var g = document.getElementById('grid');
+    var NS = 'http://www.w3.org/2000/svg';
+    var freqs = ['125', '250', '500', '1k', '2k', '4k', '8k'];
+    function el(tag, attrs, text) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      if (text) e.textContent = text;
+      g.appendChild(e);
+      return e;
+    }
+    freqs.forEach(function (f, i) {
+      var x = 40 + i * 70;
+      el('line', { x1: x, y1: 20, x2: x, y2: 280, 'class': 'g major draw', style: '--i:' + i });
+      el('text', { x: x, y: 302, 'class': 'axis', 'text-anchor': 'middle' }, f);
+    });
+    for (var db = -10; db <= 120; db += 10) {
+      var y = 20 + (db + 10) * 2;
+      if (y > 280) break;
+      el('line', { x1: 40, y1: y, x2: 460, y2: y, 'class': 'g' + (db % 20 === 0 ? ' major' : '') + ' draw', style: '--i:' + (db + 10) / 10 });
+      if (db % 20 === 0) el('text', { x: 30, y: y + 4, 'class': 'axis', 'text-anchor': 'end' }, String(db));
+    }
+    el('text', { x: 460, y: 322, 'class': 'axis', 'text-anchor': 'end' }, 'Hz');
+    el('text', { x: 30, y: 12, 'class': 'axis', 'text-anchor': 'end' }, 'dB HL');
+
+    // 언어 적용: 텍스트 전환 + 링크를 해당 언어 페이지로
+    function setLang(lang) {
+      lang = lang === 'en' ? 'en' : 'ko';
+      document.documentElement.setAttribute('data-lang', lang);
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-path]').forEach(function (a) {
+        a.href = SITE + (lang === 'en' ? '/en' : '') + a.getAttribute('data-path');
+      });
+      document.querySelectorAll('.lang-toggle button').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === lang));
+      });
+    }
+    // Wix 페이지 코드: $w('#html1').postMessage({ lang: wixWindow.multilingual.currentLanguage })
+    window.addEventListener('message', function (e) {
+      if (e.data && e.data.lang) setLang(e.data.lang);
+    });
+    document.querySelectorAll('.lang-toggle button').forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.getAttribute('data-set')); });
+    });
+    setLang(new URLSearchParams(location.search).get('lang') || 'ko');
+  })();
+</script>
+</body>
+</html>

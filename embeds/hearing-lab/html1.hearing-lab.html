@@ -381,7 +381,7 @@
       transition: max-height 0.4s ease;
     }
     .collapse-body.open {
-      max-height: 3000px;
+      max-height: none;           /* 내용 길이만큼 펼침 */
     }
     .collapse-inner {
       padding: 14px 18px;
@@ -426,6 +426,24 @@
     .pub-title a {
       color: var(--accent-dark);
       text-decoration: underline dotted;
+    }
+    .pub-authors {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+    .pub-tag[class*="team-"] {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      border: 1px solid var(--accent-border);
+    }
+    a.collapse-header {
+      color: inherit;
+      text-decoration: none;
+    }
+    .report-go {
+      font-size: 0.85rem;
+      color: var(--accent-dark);
     }
     .pub-tags {
       display: flex;
@@ -756,6 +774,24 @@
             <button class="year-btn" onclick="filterYear(this,'pub')">~2021</button>
           </div>
           <div id="pub-list">
+      <div class="pub-item" data-year="2026" data-team="hearing">
+        <div class="pub-title">Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening</div>
+        <div class="pub-authors">Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">Hearing Research</span>
+        </div>
+      </div>
+      <div class="pub-item" data-year="2026" data-team="hearing">
+        <div class="pub-title">Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017</div>
+        <div class="pub-authors">Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., &amp; Jin, I. K.</div>
+        <div class="pub-tags">
+          <span class="pub-tag year">2026</span>
+          <span class="pub-tag team-hearing">Hearing Lab</span>
+          <span class="pub-tag journal">American Journal of Audiology</span>
+        </div>
+      </div>
       <div class="pub-item" data-year="2025" data-team="hearing">
         <div class="pub-title">Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital</div>
         <div class="pub-authors">Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...</div>
@@ -932,31 +968,11 @@
       </div>
     </div>
 
-    <!-- Report -->
-    <div>
-      <div class="collapse-header" onclick="toggleCollapse('report')">
-        <span>📋 Report</span>
-        <span class="collapse-arrow" id="report-arrow">▼</span>
-      </div>
-      <div class="collapse-body" id="report">
-        <div class="collapse-inner">
-          <div class="year-filters">
-            <button class="year-btn active" onclick="filterYear(this,'report')">전체</button>
-            <button class="year-btn" onclick="filterYear(this,'report')">2026</button>
-            <button class="year-btn" onclick="filterYear(this,'report')">2025</button>
-            <button class="year-btn" onclick="filterYear(this,'report')">2024</button>
-            <button class="year-btn" onclick="filterYear(this,'report')">2023</button>
-            <button class="year-btn" onclick="filterYear(this,'report')">2022</button>
-          </div>
-          <div id="report-list">
-            <!-- 여기에 pub-item 추가 -->
-            <p style="color: #999; font-size: 0.88rem; padding: 10px 0;">
-              ※ 학회 발표 데이터는 Research 페이지와 연동 예정입니다.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Report: 학회 발표 목록은 Research 페이지 한 곳에서 관리 -->
+    <a class="collapse-header" href="https://www.smilesnail.org/project" target="_top">
+      <span>📋 Report (학회 발표)</span>
+      <span class="report-go">Research 페이지에서 보기 →</span>
+    </a>
   </section>
 
 
@@ -1025,6 +1041,18 @@
     document.querySelectorAll('.fade').forEach(function(el) {
       observer.observe(el);
     });
+    /* 해당 연도 논문이 없는 연도 버튼은 숨김 (논문을 추가하면 자동으로 다시 보임) */
+    (function hideEmptyYears() {
+      var items = document.querySelectorAll('#pub-list .pub-item');
+      document.querySelectorAll('#pub .year-btn').forEach(function(btn) {
+        var y = btn.textContent.trim();
+        if (y === '전체') return;
+        var n = Array.prototype.filter.call(items, function(it) {
+          return y === '~2021' ? parseInt(it.dataset.year, 10) <= 2021 : it.dataset.year === y;
+        }).length;
+        if (n === 0) btn.style.display = 'none';
+      });
+    })();
   </script>
 
 </body>

@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>People · RIHE</title>
+<title>Gallery · RIHE</title>
 <!--
   자동 생성 파일입니다. 직접 고치지 말고 data/*.json 또는 tools/pages/*.py, tools/kit.py를 고친 뒤
   python3 tools/build.py 를 실행하세요. 같은 파일을 Wix 데스크톱(#html1)과 모바일(#mobileHtml1) 요소에 붙입니다.
-  구성원은 data/people.json에서 만들어집니다. 사진이 없는 구성원은 이름 첫 글자로 표시됩니다.
+  사진은 data/gallery.json, 영상은 data/videos.json에서 만들어집니다. Wix CMS의 Gallery 컬렉션을 쓰려면 tools/pages/gallery.md의 페이지 코드를 붙이세요.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400&amp;display=swap&amp;text=%21%22%23%24%25%26%27%28%29%2A%2B%2C-.%2F0123456789%3A%3B%3C%3D%3E%3F%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~%C2%B7%E2%80%93%E2%80%98%E2%80%99%E2%80%9C%E2%80%9D%E2%80%A6%EA%B0%95%EA%B2%BD%EA%B3%A0%EA%B3%B5%EA%B5%90%EA%B5%AC%EA%B8%B0%EA%B9%80%EB%8B%A4%EB%8B%B4%EB%8F%99%EB%9E%80%EB%AA%85%EB%AC%B8%EB%AF%B8%EB%B3%80%EC%83%81%EC%84%9C%EC%84%9D%EC%84%A0%EC%84%B1%EC%86%90%EC%86%A1%EC%88%98%EC%88%9C%EC%8A%B9%EC%8B%A0%EC%96%91%EC%97%AC%EC%97%B0%EC%98%81%EC%9A%B0%EC%9A%B1%EC%9B%90%EC%9C%A0%EC%9C%A4%EC%9D%80%EC%9D%98%EC%9D%B4%EC%9D%B8%EC%9E%84%EC%9E%AC%EC%A0%84%EC%A0%95%EC%A4%80%EC%A7%84%EC%B0%BD%EC%B1%84%EC%B2%A0%ED%83%9C%ED%8C%80%ED%96%89%ED%98%81%ED%98%84%ED%98%B8%ED%99%8D%ED%9A%A8%ED%9B%88%ED%9D%AC" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400&amp;display=swap&amp;text=%21%22%23%24%25%26%27%28%29%2A%2B%2C-.%2F0123456789%3A%3B%3C%3D%3E%3F%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~%C2%B7%E2%80%93%E2%80%98%E2%80%99%E2%80%9C%E2%80%9D%E2%80%A6%EA%B0%81%EA%B0%95%EA%B0%9C%EA%B0%A4%EA%B4%80%EA%B5%AC%EB%89%B4%EB%8D%B0%EB%9F%AC%EB%A6%AC%EB%AF%BC%EB%B0%A9%EB%B3%B4%EB%B9%85%EC%82%AC%EC%83%81%EC%84%BC%EC%86%8C%EC%8A%A4%EC%97%B0%EC%98%81%EC%9B%90%EC%9D%B4%EC%A7%84%EC%B2%AD%ED%84%B0%ED%99%8D" rel="stylesheet">
 <script>(function(d){try{d.classList.add('js');var m=/[?&]lang=(en|ko)/.exec(location.search);if(m){d.setAttribute('data-lang',m[1]);d.lang=m[1];}}catch(e){}})(document.documentElement);</script>
 <style>
 :root {
@@ -556,7 +556,7 @@ html[data-lang="en"] .pq blockquote p { line-height: 1.65; }
 </style>
 </head>
 <body>
-<header class="hero hero-in wrap hero-people"><p class="inst ld" style="--d:0"><span data-l="ko">연세대학교 원주세브란스기독병원</span><span data-l="en" lang="en">Yonsei University · Wonju Severance Christian Hospital</span></p><h1 class="ld" style="--d:1"><span data-l="ko">구성원</span><span data-l="en" lang="en">People</span></h1><p class="alt ld" style="--d:2"><span data-l="ko">함께 연구하는 사람들</span><span data-l="en" lang="en">The people of RIHE</span></p><div class="hline" aria-hidden="true" style="--off:1.5px"><i></i><svg class="coil" viewBox="0 0 48.40 56" width="48" height="56" aria-hidden="true" focusable="false"><path d="M0 54.50H17.71L19.64 54.44L21.55 54.26L23.44 53.96L25.29 53.55L27.10 53.02L28.86 52.39L30.57 51.65L32.22 50.81L33.80 49.87L35.32 48.84L36.75 47.73L38.11 46.53L39.38 45.26L40.55 43.93L41.64 42.53L42.63 41.07L43.52 39.56L44.31 38.01L45.00 36.43L45.58 34.81L46.06 33.17L46.43 31.51L46.69 29.85L46.85 28.18L46.90 26.51L46.85 24.86L46.70 23.22L46.44 21.60L46.09 20.02L45.63 18.47L45.09 16.95L44.46 15.49L43.74 14.08L42.94 12.72L42.06 11.43L41.10 10.20L40.08 9.04L38.99 7.95L37.85 6.94L36.65 6.01L35.40 5.16L34.11 4.40L32.78 3.72L31.42 3.13L30.03 2.63L28.63 2.22L27.21 1.91L25.78 1.68L24.35 1.54L22.93 1.50L21.51 1.54L20.10 1.68L18.72 1.90L17.36 2.20L16.03 2.59L14.74 3.05L13.48 3.59L12.27 4.21L11.11 4.90L10.00 5.65L8.95 6.47L7.96 7.35L7.02 8.28L6.16 9.26L5.36 10.29L4.63 11.36L3.98 12.46L3.40 13.60L2.90 14.76L2.47 15.95L2.12 17.15L1.85 18.37L1.65 19.59L1.54 20.82L1.50 22.04L1.54 23.25L1.65 24.46L1.84 25.64L2.10 26.81L2.43 27.94L2.83 29.05L3.29 30.13L3.82 31.16L4.41 32.16L5.06 33.11L5.76 34.01L6.51 34.86L7.31 35.66L8.15 36.40L9.03 37.09L9.94 37.71L10.89 38.27L11.86 38.77L12.86 39.20L13.88 39.56L14.91 39.86L15.95 40.10L17.00 40.26L18.05 40.36L19.10 40.39L20.14 40.36L21.17 40.26L22.18 40.10L23.18 39.88L24.15 39.60L25.10 39.26L26.02 38.86L26.91 38.40L27.76 37.90L28.58 37.35L29.35 36.75L30.08 36.10L30.77 35.42L31.40 34.70L31.99 33.95L32.52 33.16L33.00 32.35L33.42 31.52L33.79 30.66L34.11 29.79L34.36 28.91L34.56 28.01L34.71 27.12L34.79 26.22L34.82 25.32L34.79 24.43L34.71 23.55L34.57 22.68L34.38 21.82L34.14 20.99L33.84 20.17L33.50 19.39L33.11 18.63L32.68 17.89L32.21 17.20L31.69 16.53L31.14 15.91L30.56 15.32L29.94 14.78L29.29 14.28L28.62 13.82L27.93 13.41L27.21 13.05L26.48 12.73L25.73 12.46L24.98 12.24L24.21 12.07L23.44 11.95L22.67 11.88L21.91 11.85L21.14 11.88L20.39 11.95L19.64 12.06L18.91 12.23L18.19 12.44L17.50 12.69L16.82 12.98L16.17 13.31L15.54 13.68L14.95 14.09L14.38 14.53L13.84 15.00L13.34 15.50L12.88 16.03L12.45 16.58L12.06 17.16L11.70 17.75L11.39 18.37L11.12 18.99L10.89 19.63L10.70 20.28L10.56 20.94L10.45 21.60L10.39 22.25L10.37 22.91L10.39 23.57L10.45 24.21L10.55 24.85L10.69 25.48L10.87 26.09L11.08 26.69L11.33 27.27L11.62 27.83L11.94 28.36L12.28 28.87L12.66 29.36L13.06 29.82L13.49 30.25L13.95 30.65L14.42 31.02L14.91 31.35L15.42 31.65L15.95 31.92L16.49 32.15L17.03 32.35L17.59 32.51L18.15 32.64L18.71 32.73L19.28 32.78L19.84 32.80L20.40 32.78L20.96 32.73L21.51 32.64L22.04 32.52L22.57 32.37L23.08 32.18L23.57 31.97L24.05 31.73L24.51 31.45L24.95 31.16L25.37 30.83L25.76 30.49L26.13 30.12L26.47 29.73L26.79 29.33L27.07 28.90L27.33 28.47L27.56 28.02L27.76 27.56L27.93 27.09L28.07 26.61L28.17 26.13L28.25 25.65L28.30 25.16L28.31 24.68L28.30 24.20L28.25 23.73L28.18 23.26L28.07 22.80L27.94 22.35L27.79 21.91L27.60 21.48L27.39 21.07L27.16 20.68L26.91 20.31L26.63 19.95L26.33 19.61L26.02 19.30L25.68 19.00L25.34 18.73L24.97 18.49L24.60 18.27L24.21 18.07L23.82 17.90L23.42 17.75L23.01 17.64L22.60 17.54L22.19 17.48L21.77 17.44L21.36 17.43L20.95 17.44L20.54 17.48L20.14 17.54L19.74 17.63L19.36 17.74L18.98 17.88L18.62 18.03L18.27 18.21L17.93 18.41L17.61 18.63" pathLength="1"/></svg></div><p class="lead ld" style="--d:3"><span data-l="ko">연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 구성원을 소개합니다.</span><span data-l="en" lang="en">Meet the members of the Research Institute of Hearing Enhancement.</span></p><div class="ld hero-x" style="--d:4"><nav class="jump" aria-label="팀 바로가기" data-aria-en="Jump to a team"><ul><li><a href="#faculty" style="--c:var(--navy)"><span class="mark" aria-hidden="true"></span><span data-l="ko">교수진</span><span data-l="en" lang="en">Faculty</span><span class="mono">3<span class="sr" data-l="ko">명</span><span class="sr" data-l="en" lang="en"> members</span></span></a></li><li><a href="#basic" style="--c:var(--basic)"><span class="mark" aria-hidden="true"></span>Basic Lab<span class="mono">4<span class="sr" data-l="ko">명</span><span class="sr" data-l="en" lang="en"> members</span></span></a></li><li><a href="#hearing" style="--c:var(--hearing)"><span class="mark" aria-hidden="true"></span>Hearing Lab<span class="mono">5<span class="sr" data-l="ko">명</span><span class="sr" data-l="en" lang="en"> members</span></span></a></li><li><a href="#head" style="--c:var(--head)"><span class="mark" aria-hidden="true"></span>HeAD Lab<span class="mono">6<span class="sr" data-l="ko">명</span><span class="sr" data-l="en" lang="en"> members</span></span></a></li><li><a href="#admin" style="--c:var(--ink)"><span class="mark" aria-hidden="true"></span><span data-l="ko">행정팀</span><span data-l="en" lang="en">Administration</span><span class="mono">4<span class="sr" data-l="ko">명</span><span class="sr" data-l="en" lang="en"> members</span></span></a></li><li><a href="#audiso" style="--c:var(--audiso)"><span class="mark" aria-hidden="true"></span>Audiso<span class="mono">12<span class="sr" data-l="ko">명</span><span class="sr" data-l="en" lang="en"> members</span></span></a></li></ul></nav></div></header><main><section class="sec wrap team" id="faculty"><div class="sg"><div class="sg-h rv" data-rv><h2><span class="mark" style="--c:var(--navy)" aria-hidden="true"></span><span data-l="ko">교수진</span><span data-l="en" lang="en">Faculty</span></h2><p class="note"><span data-l="ko"><span class="nw">3명</span></span><span data-l="en" lang="en"><span class="nw">3 members</span></span></p></div><div class="sg-b" data-rv><ul class="people rows"><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/vIAp69Yl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">서영준</span><span data-l="en" lang="en">Young Joon Seo</span></p><p class="rl"><span data-l="ko">교수 / 연구소장<br>이비인후과</span><span data-l="en" lang="en">Professor / Director<br>Otorhinolaryngology</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/6nGWxAVl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">기재홍</span><span data-l="en" lang="en">Jaehong Key</span></p><p class="rl"><span data-l="ko">교수<br>생체공학과</span><span data-l="en" lang="en">Professor<br>Biomedical Engineering</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/kKOtOgOl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">공태훈</span><span data-l="en" lang="en">Tae Hoon Kong</span></p><p class="rl"><span data-l="ko">교수<br>이비인후과</span><span data-l="en" lang="en">Professor<br>Otorhinolaryngology</span></p></li></ul></div></div></section><section class="sec wrap team" id="basic"><div class="sg"><div class="sg-h rv" data-rv><h2><span class="mark" style="--c:var(--basic)" aria-hidden="true"></span>Basic Lab</h2><p class="note"><span data-l="ko"><span class="nw">기초팀 · 4명</span></span><span data-l="en" lang="en">Basic research <span class="nw">team · 4 members</span></span></p><p class="h-more"><a class="more" href="https://www.smilesnail.org/about-1" target="_top" data-path="/about-1"><span data-l="ko">Basic Lab 소개</span><span data-l="en" lang="en">About Basic Lab</span><i aria-hidden="true">→</i></a></p></div><div class="sg-b" data-rv><ul class="people rows"><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/SkXdr8pl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">이은수</p><p class="rl"><span data-l="ko">연구교수 / 팀장</span><span data-l="en" lang="en">Research Professor / Team&nbsp;Leader</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/i8G7rWPl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">Temuulen Batsaikhan</p><p class="rl"><span data-l="ko">Post-doc</span><span data-l="en" lang="en">Postdoctoral Researcher</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/MrCaFNtl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">이현수</span><span data-l="en" lang="en">Hyun Su Lee</span></p><p class="rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D.&nbsp;Student</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/8FpEVAFl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">양효경</p><p class="rl"><span data-l="ko">연구원</span><span data-l="en" lang="en">Researcher</span></p></li></ul></div></div></section><section class="sec wrap team" id="hearing"><div class="sg"><div class="sg-h rv" data-rv><h2><span class="mark" style="--c:var(--hearing)" aria-hidden="true"></span>Hearing Lab</h2><p class="note"><span data-l="ko"><span class="nw">참조표준팀 · 5명</span></span><span data-l="en" lang="en">Reference standard <span class="nw">team · 5 members</span></span></p><p class="h-more"><a class="more" href="https://www.smilesnail.org/hearing-lab" target="_top" data-path="/hearing-lab"><span data-l="ko">Hearing Lab 소개</span><span data-l="en" lang="en">About Hearing Lab</span><i aria-hidden="true">→</i></a></p></div><div class="sg-b" data-rv><ul class="people rows"><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/2Q56Mj7l.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">변유선</span><span data-l="en" lang="en">Yuseon Byun</span></p><p class="rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D.&nbsp;Student</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/J60sGwjl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">이동혁</span><span data-l="en" lang="en">Donghyeok Lee</span></p><p class="rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D.&nbsp;Student</span></p></li><li class="pc rv" data-rv><span class="ph"><span class="ini" aria-hidden="true">이</span></span><p class="nm">이동우</p><p class="rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D.&nbsp;Student</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/W89RCOUl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">전진희</span><span data-l="en" lang="en">Jinhui Jeon</span></p><p class="rl"><span data-l="ko">연구원</span><span data-l="en" lang="en">Researcher</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/Fb7yMsEl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">윤창희</p><p class="rl"><span data-l="ko">연구원</span><span data-l="en" lang="en">Researcher</span></p></li></ul></div></div></section><section class="sec wrap team" id="head"><div class="sg"><div class="sg-h rv" data-rv><h2><span class="mark" style="--c:var(--head)" aria-hidden="true"></span>HeAD Lab</h2><p class="note"><span data-l="ko"><span class="nw">데이터팀 · 6명</span></span><span data-l="en" lang="en">Data <span class="nw">team · 6 members</span></span></p><p class="h-more"><a class="more" href="https://www.smilesnail.org/head-lab" target="_top" data-path="/head-lab"><span data-l="ko">HeAD Lab 소개</span><span data-l="en" lang="en">About HeAD Lab</span><i aria-hidden="true">→</i></a></p></div><div class="sg-b" data-rv><ul class="people rows"><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/RC37iFml.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">윤철영</span><span data-l="en" lang="en">Chul Young Yoon</span></p><p class="rl"><span data-l="ko">팀장</span><span data-l="en" lang="en">Team&nbsp;Leader</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/7FVQZQel.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">김송이</p><p class="rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D.&nbsp;Student</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/yCSCJNdl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">김진수</p><p class="rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S.&nbsp;Student</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/bomh6knl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">임승미</p><p class="rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S.&nbsp;Student</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/F9YowOSl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">서연호</p><p class="rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S.&nbsp;Student</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/0PwvF5sl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">윤담</p><p class="rl"><span data-l="ko">학부연구원</span><span data-l="en" lang="en">Undergraduate Researcher</span></p></li></ul></div></div></section><section class="sec wrap team" id="admin"><div class="sg"><div class="sg-h rv" data-rv><h2><span class="mark" style="--c:var(--ink)" aria-hidden="true"></span><span data-l="ko">행정팀</span><span data-l="en" lang="en">Administration</span></h2><p class="note"><span data-l="ko"><span class="nw">4명</span></span><span data-l="en" lang="en"><span class="nw">4 members</span></span></p></div><div class="sg-b" data-rv><ul class="people rows"><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/WtpEoDzl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">김다희</p><p class="rl"><span data-l="ko">연구원</span><span data-l="en" lang="en">Researcher</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/SQ95MyNl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">서영란</p><p class="rl"><span data-l="ko">연구원</span><span data-l="en" lang="en">Researcher</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/MgDWUeKl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">채성현</p><p class="rl"><span data-l="ko">연구원</span><span data-l="en" lang="en">Researcher</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/tctARoMl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">김순정</p><p class="rl"><span data-l="ko">연구간호사</span><span data-l="en" lang="en">Research&nbsp;Nurse</span></p></li></ul></div></div></section><section class="sec wrap team" id="audiso"><div class="sg"><div class="sg-h rv" data-rv><h2><span class="mark" style="--c:var(--audiso)" aria-hidden="true"></span>Audiso</h2><p class="note"><span data-l="ko"><span class="nw">오디에스오(주) · 12명</span></span><span data-l="en" lang="en">Audiso Co., <span class="nw">Ltd. · 12 members</span></span></p><p class="h-more"><a class="more" href="https://www.smilesnail.org/audiso" target="_top" data-path="/audiso"><span data-l="ko">Audiso 소개</span><span data-l="en" lang="en">About Audiso</span><i aria-hidden="true">→</i></a></p></div><div class="sg-b" data-rv><ul class="people rows"><li class="pc rv" data-rv><span class="ph"><span class="ini" aria-hidden="true">김</span></span><p class="nm">김철영</p><p class="rl"><span data-l="ko">CTO</span><span data-l="en" lang="en">CTO</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/OelMBU2l.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm"><span data-l="ko">강철영</span><span data-l="en" lang="en">Chulyoung Kang</span></p><p class="rl"><span data-l="ko">팀장<br>개발</span><span data-l="en" lang="en">Team&nbsp;Leader<br>Development</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/IwDfyTrl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">손명석</p><p class="rl"><span data-l="ko">개발</span><span data-l="en" lang="en">Development</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/SF6uDfdl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">고재욱</p><p class="rl"><span data-l="ko">개발</span><span data-l="en" lang="en">Development</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/KVbmUMUl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">홍기현</p><p class="rl"><span data-l="ko">개발</span><span data-l="en" lang="en">Development</span></p></li><li class="pc rv" data-rv><span class="ph"><span class="ini" aria-hidden="true">김</span></span><p class="nm">김강현</p><p class="rl"><span data-l="ko">개발</span><span data-l="en" lang="en">Development</span></p></li><li class="pc rv" data-rv><span class="ph"><span class="ini" aria-hidden="true">이</span></span><p class="nm">이상윤</p><p class="rl"><span data-l="ko">AI개발</span><span data-l="en" lang="en">AI Development</span></p></li><li class="pc rv" data-rv><span class="ph"><span class="ini" aria-hidden="true">신</span></span><p class="nm">신동현</p><p class="rl"><span data-l="ko">영업</span><span data-l="en" lang="en">Sales</span></p></li><li class="pc rv" data-rv><span class="ph"><span class="ini" aria-hidden="true">홍</span></span><p class="nm">홍상의</p><p class="rl"><span data-l="ko">영업</span><span data-l="en" lang="en">Sales</span></p></li><li class="pc rv" data-rv><span class="ph"><span class="ini" aria-hidden="true">문</span></span><p class="nm">문진혁</p><p class="rl"><span data-l="ko">QA</span><span data-l="en" lang="en">QA</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/MU5lo9Pl.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">여인기</p><p class="rl"><span data-l="ko">인증</span><span data-l="en" lang="en">Certification</span></p></li><li class="pc rv" data-rv><span class="ph"><img src="https://i.imgur.com/7bDCrbol.jpeg" alt="" width="240" height="300" loading="lazy"></span><p class="nm">이재원</p><p class="rl"><span data-l="ko">전략</span><span data-l="en" lang="en">Strategy</span></p></li></ul></div></div></section></main>
+<header class="hero hero-in wrap"><p class="inst ld" style="--d:0"><span data-l="ko">연세대학교 원주세브란스기독병원</span><span data-l="en" lang="en">Yonsei University · Wonju Severance Christian Hospital</span></p><h1 class="ld" style="--d:1"><span data-l="ko">갤러리</span><span data-l="en" lang="en">Gallery</span></h1><div class="hline" aria-hidden="true" style="--off:1.5px"><i></i><svg class="coil" viewBox="0 0 48.40 56" width="48" height="56" aria-hidden="true" focusable="false"><path d="M0 54.50H17.71L19.64 54.44L21.55 54.26L23.44 53.96L25.29 53.55L27.10 53.02L28.86 52.39L30.57 51.65L32.22 50.81L33.80 49.87L35.32 48.84L36.75 47.73L38.11 46.53L39.38 45.26L40.55 43.93L41.64 42.53L42.63 41.07L43.52 39.56L44.31 38.01L45.00 36.43L45.58 34.81L46.06 33.17L46.43 31.51L46.69 29.85L46.85 28.18L46.90 26.51L46.85 24.86L46.70 23.22L46.44 21.60L46.09 20.02L45.63 18.47L45.09 16.95L44.46 15.49L43.74 14.08L42.94 12.72L42.06 11.43L41.10 10.20L40.08 9.04L38.99 7.95L37.85 6.94L36.65 6.01L35.40 5.16L34.11 4.40L32.78 3.72L31.42 3.13L30.03 2.63L28.63 2.22L27.21 1.91L25.78 1.68L24.35 1.54L22.93 1.50L21.51 1.54L20.10 1.68L18.72 1.90L17.36 2.20L16.03 2.59L14.74 3.05L13.48 3.59L12.27 4.21L11.11 4.90L10.00 5.65L8.95 6.47L7.96 7.35L7.02 8.28L6.16 9.26L5.36 10.29L4.63 11.36L3.98 12.46L3.40 13.60L2.90 14.76L2.47 15.95L2.12 17.15L1.85 18.37L1.65 19.59L1.54 20.82L1.50 22.04L1.54 23.25L1.65 24.46L1.84 25.64L2.10 26.81L2.43 27.94L2.83 29.05L3.29 30.13L3.82 31.16L4.41 32.16L5.06 33.11L5.76 34.01L6.51 34.86L7.31 35.66L8.15 36.40L9.03 37.09L9.94 37.71L10.89 38.27L11.86 38.77L12.86 39.20L13.88 39.56L14.91 39.86L15.95 40.10L17.00 40.26L18.05 40.36L19.10 40.39L20.14 40.36L21.17 40.26L22.18 40.10L23.18 39.88L24.15 39.60L25.10 39.26L26.02 38.86L26.91 38.40L27.76 37.90L28.58 37.35L29.35 36.75L30.08 36.10L30.77 35.42L31.40 34.70L31.99 33.95L32.52 33.16L33.00 32.35L33.42 31.52L33.79 30.66L34.11 29.79L34.36 28.91L34.56 28.01L34.71 27.12L34.79 26.22L34.82 25.32L34.79 24.43L34.71 23.55L34.57 22.68L34.38 21.82L34.14 20.99L33.84 20.17L33.50 19.39L33.11 18.63L32.68 17.89L32.21 17.20L31.69 16.53L31.14 15.91L30.56 15.32L29.94 14.78L29.29 14.28L28.62 13.82L27.93 13.41L27.21 13.05L26.48 12.73L25.73 12.46L24.98 12.24L24.21 12.07L23.44 11.95L22.67 11.88L21.91 11.85L21.14 11.88L20.39 11.95L19.64 12.06L18.91 12.23L18.19 12.44L17.50 12.69L16.82 12.98L16.17 13.31L15.54 13.68L14.95 14.09L14.38 14.53L13.84 15.00L13.34 15.50L12.88 16.03L12.45 16.58L12.06 17.16L11.70 17.75L11.39 18.37L11.12 18.99L10.89 19.63L10.70 20.28L10.56 20.94L10.45 21.60L10.39 22.25L10.37 22.91L10.39 23.57L10.45 24.21L10.55 24.85L10.69 25.48L10.87 26.09L11.08 26.69L11.33 27.27L11.62 27.83L11.94 28.36L12.28 28.87L12.66 29.36L13.06 29.82L13.49 30.25L13.95 30.65L14.42 31.02L14.91 31.35L15.42 31.65L15.95 31.92L16.49 32.15L17.03 32.35L17.59 32.51L18.15 32.64L18.71 32.73L19.28 32.78L19.84 32.80L20.40 32.78L20.96 32.73L21.51 32.64L22.04 32.52L22.57 32.37L23.08 32.18L23.57 31.97L24.05 31.73L24.51 31.45L24.95 31.16L25.37 30.83L25.76 30.49L26.13 30.12L26.47 29.73L26.79 29.33L27.07 28.90L27.33 28.47L27.56 28.02L27.76 27.56L27.93 27.09L28.07 26.61L28.17 26.13L28.25 25.65L28.30 25.16L28.31 24.68L28.30 24.20L28.25 23.73L28.18 23.26L28.07 22.80L27.94 22.35L27.79 21.91L27.60 21.48L27.39 21.07L27.16 20.68L26.91 20.31L26.63 19.95L26.33 19.61L26.02 19.30L25.68 19.00L25.34 18.73L24.97 18.49L24.60 18.27L24.21 18.07L23.82 17.90L23.42 17.75L23.01 17.64L22.60 17.54L22.19 17.48L21.77 17.44L21.36 17.43L20.95 17.44L20.54 17.48L20.14 17.54L19.74 17.63L19.36 17.74L18.98 17.88L18.62 18.03L18.27 18.21L17.93 18.41L17.61 18.63" pathLength="1"/></svg></div><p class="lead ld" style="--d:3"><span data-l="ko">학회와 수상, 그리고 연구소 사람들의 사진을 모았습니다.</span><span data-l="en" lang="en">Conferences, awards and the people of the institute.</span></p></header><main><section class="sec wrap sw" id="photos"><div class="sw-head rv" data-rv><h2><span data-l="ko">사진</span><span data-l="en" lang="en">Photos</span></h2></div><div class="sw-body rv" data-rv><!-- 사진: data/gallery.json에서 만들어집니다. --><div class="gl" data-gallery data-size="12" data-live><div class="tgs" role="group" aria-label="연도" data-aria-en="Year"><button type="button" class="tg" data-k="year" data-v="all" aria-pressed="true"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></button><button type="button" class="tg" data-k="year" data-v="2021" aria-pressed="false">2021</button><button type="button" class="tg" data-k="year" data-v="2020" aria-pressed="false">2020</button><button type="button" class="tg" data-k="year" data-v="2019" aria-pressed="false">2019</button><button type="button" class="tg" data-k="year" data-v="2018" aria-pressed="false">2018</button></div><div class="gl-grid"><figure class="gl-it" style="--r:1.5000" data-year="2021" data-full="https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fit/w_1600,h_1600,q_85,enc_auto/IMG_0168.jpg"><button type="button" class="gl-open" aria-label="크게 보기: 청각재활연구소 구성원" data-aria-en="View larger: Members of RIHE"><img src="https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_0168.jpg" alt="청각재활연구소 구성원" data-alt-en="Members of RIHE" width="600" height="400" srcset="https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_0168.jpg 600w, https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fit/w_1200,h_1200,q_85,enc_auto/IMG_0168.jpg 1200w" sizes="(max-width: 760px) 50vw, 420px" loading="lazy"></button><figcaption><span><span data-l="ko">청각재활연구소 구성원</span><span data-l="en" lang="en">Members of RIHE</span></span><span class="mono">2021</span></figcaption></figure><figure class="gl-it" style="--r:1.3333" data-year="2018" data-full="https://static.wixstatic.com/media/b8629b_a47d8b004c224e9db81668a906c2a0be~mv2.jpg/v1/fit/w_1600,h_1600,q_85,enc_auto/IMG_6300.jpg"><button type="button" class="gl-open" aria-label="크게 보기: International Congress of ORL-HNS 2018 참가" data-aria-en="View larger: At the International Congress of ORL-HNS 2018"><img src="https://static.wixstatic.com/media/b8629b_a47d8b004c224e9db81668a906c2a0be~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_6300.jpg" alt="International Congress of ORL-HNS 2018 참가" data-alt-en="At the International Congress of ORL-HNS 2018" width="600" height="450" srcset="https://static.wixstatic.com/media/b8629b_a47d8b004c224e9db81668a906c2a0be~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_6300.jpg 600w, https://static.wixstatic.com/media/b8629b_a47d8b004c224e9db81668a906c2a0be~mv2.jpg/v1/fit/w_1200,h_1200,q_85,enc_auto/IMG_6300.jpg 1200w" sizes="(max-width: 760px) 50vw, 420px" loading="lazy"></button><figcaption><span><span data-l="ko">International Congress of ORL-HNS 2018 참가</span><span data-l="en" lang="en">At the International Congress of ORL-HNS 2018</span></span></figcaption></figure><figure class="gl-it" style="--r:1.3333" data-year="2020" data-full="https://static.wixstatic.com/media/b8629b_1879f68df831411bb88c745064528cba~mv2.jpg/v1/fit/w_1600,h_1600,q_85,enc_auto/IMG_8510.jpg"><button type="button" class="gl-open" aria-label="크게 보기: 수상 기념" data-aria-en="View larger: Award ceremony"><img src="https://static.wixstatic.com/media/b8629b_1879f68df831411bb88c745064528cba~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_8510.jpg" alt="수상 기념" data-alt-en="Award ceremony" width="600" height="450" srcset="https://static.wixstatic.com/media/b8629b_1879f68df831411bb88c745064528cba~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_8510.jpg 600w, https://static.wixstatic.com/media/b8629b_1879f68df831411bb88c745064528cba~mv2.jpg/v1/fit/w_1200,h_1200,q_85,enc_auto/IMG_8510.jpg 1200w" sizes="(max-width: 760px) 50vw, 420px" loading="lazy"></button><figcaption><span><span data-l="ko">수상 기념</span><span data-l="en" lang="en">Award ceremony</span></span><span class="mono">2020</span></figcaption></figure><figure class="gl-it" style="--r:1.3333" data-year="2019" data-full="https://static.wixstatic.com/media/b8629b_d107d0475418488c954ff535c6c2d2ff~mv2.jpg/v1/fit/w_1600,h_1600,q_85,enc_auto/IMG_8219.jpg"><button type="button" class="gl-open" aria-label="크게 보기: KIMES 2019 수상" data-aria-en="View larger: Award at KIMES 2019"><img src="https://static.wixstatic.com/media/b8629b_d107d0475418488c954ff535c6c2d2ff~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_8219.jpg" alt="KIMES 2019 수상" data-alt-en="Award at KIMES 2019" width="600" height="450" srcset="https://static.wixstatic.com/media/b8629b_d107d0475418488c954ff535c6c2d2ff~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_8219.jpg 600w, https://static.wixstatic.com/media/b8629b_d107d0475418488c954ff535c6c2d2ff~mv2.jpg/v1/fit/w_1200,h_1200,q_85,enc_auto/IMG_8219.jpg 1200w" sizes="(max-width: 760px) 50vw, 420px" loading="lazy"></button><figcaption><span><span data-l="ko">KIMES 2019 수상</span><span data-l="en" lang="en">Award at KIMES 2019</span></span></figcaption></figure><figure class="gl-it" style="--r:1.3333" data-year="2019" data-full="https://static.wixstatic.com/media/b8629b_bf53ac157da349918148376a23f5ba6a~mv2.jpg/v1/fit/w_1600,h_1600,q_85,enc_auto/IMG_7721.jpg"><button type="button" class="gl-open" aria-label="크게 보기: 국가참조표준데이터센터 현판 · 한국인 청각 데이터센터" data-aria-en="View larger: National Reference Standard Data Center plaque · Data Center for Korean Hearing"><img src="https://static.wixstatic.com/media/b8629b_bf53ac157da349918148376a23f5ba6a~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_7721.jpg" alt="국가참조표준데이터센터 현판 · 한국인 청각 데이터센터" data-alt-en="National Reference Standard Data Center plaque · Data Center for Korean Hearing" width="600" height="450" srcset="https://static.wixstatic.com/media/b8629b_bf53ac157da349918148376a23f5ba6a~mv2.jpg/v1/fit/w_600,h_600,q_80,enc_auto/IMG_7721.jpg 600w, https://static.wixstatic.com/media/b8629b_bf53ac157da349918148376a23f5ba6a~mv2.jpg/v1/fit/w_1200,h_1200,q_85,enc_auto/IMG_7721.jpg 1200w" sizes="(max-width: 760px) 50vw, 420px" loading="lazy"></button><figcaption><span><span data-l="ko">국가참조표준데이터센터 현판 · 한국인 청각 데이터센터</span><span data-l="en" lang="en">National Reference Standard Data Center plaque · Data Center for Korean Hearing</span></span><span class="mono">2019</span></figcaption></figure><figure class="gl-it" style="--r:2.1076" data-year="" data-full="https://static.wixstatic.com/media/b8629b_ca5eb6b2de01472d8ff90fcc0174c221~mv2.png/v1/fit/w_1600,h_1600,q_85,enc_auto/21.jpg"><button type="button" class="gl-open" aria-label="크게 보기: 원주세브란스기독병원 전경" data-aria-en="View larger: Wonju Severance Christian Hospital campus"><img src="https://static.wixstatic.com/media/b8629b_ca5eb6b2de01472d8ff90fcc0174c221~mv2.png/v1/fit/w_600,h_600,q_80,enc_auto/21.jpg" alt="원주세브란스기독병원 전경" data-alt-en="Wonju Severance Christian Hospital campus" width="600" height="285" srcset="https://static.wixstatic.com/media/b8629b_ca5eb6b2de01472d8ff90fcc0174c221~mv2.png/v1/fit/w_600,h_600,q_80,enc_auto/21.jpg 600w, https://static.wixstatic.com/media/b8629b_ca5eb6b2de01472d8ff90fcc0174c221~mv2.png/v1/fit/w_1200,h_1200,q_85,enc_auto/21.jpg 1200w" sizes="(max-width: 760px) 50vw, 420px" loading="lazy"></button><figcaption><span><span data-l="ko">원주세브란스기독병원 전경</span><span data-l="en" lang="en">Wonju Severance Christian Hospital campus</span></span></figcaption></figure></div><nav class="pager" hidden aria-label="페이지" data-aria-en="Pages"><button type="button" data-p="-1" aria-label="이전 페이지" data-aria-en="Previous page" disabled>‹</button><span class="pg mono">1 / 1</span><button type="button" data-p="1" aria-label="다음 페이지" data-aria-en="Next page" disabled>›</button></nav><div class="gl-view" hidden role="dialog" aria-modal="true" tabindex="-1" aria-label="사진 보기" data-aria-en="Photo viewer"><div class="gl-vbox"><div class="gl-vimg"></div><div class="gl-vbar"><p class="gl-vcap" aria-live="polite"></p><span class="gl-vn mono"></span><button type="button" class="gl-prev" aria-label="이전 사진" data-aria-en="Previous photo">‹</button><button type="button" class="gl-next" aria-label="다음 사진" data-aria-en="Next photo">›</button><button type="button" class="gl-close"><span data-l="ko">닫기</span><span data-l="en" lang="en">Close</span></button></div></div></div></div></div></section><!-- 영상: data/videos.json에서 만들어집니다. 영상을 추가·삭제하려면 그 파일을 고치고 build.py를 다시 실행하세요. --><section class="sec wrap vids" id="videos" data-player><div class="sg"><div class="sg-h rv" data-rv><h2><span data-l="ko">영상</span><span data-l="en" lang="en">Videos</span></h2><ol class="playlist"><li><button type="button" aria-current="true" data-src="https://video.wixstatic.com/video/b8629b_ac3b700fe0a549b1a275c1ec461662ba/480p/mp4/file.mp4" data-poster="https://static.wixstatic.com/media/b8629b_ac3b700fe0a549b1a275c1ec461662baf001.jpg/v1/fill/w_1280,h_720,al_c,q_85,enc_auto/poster.jpg"><img src="https://static.wixstatic.com/media/b8629b_ac3b700fe0a549b1a275c1ec461662baf003.jpg/v1/fill/w_320,h_180,al_c,q_85,enc_auto/poster.jpg" alt="" width="84" height="47" loading="lazy"><span><span class="pt"><span data-l="ko">연구소 소개 영상</span><span data-l="en" lang="en">Institute introduction</span></span><span class="pm mono">2:29</span></span></button></li><li><button type="button" aria-current="false" data-src="https://video.wixstatic.com/video/b8629b_b4d81b25a9d641439ec983afe489fd43/480p/mp4/file.mp4" data-poster="https://static.wixstatic.com/media/b8629b_b4d81b25a9d641439ec983afe489fd43f002.jpg/v1/fill/w_1280,h_720,al_c,q_85,enc_auto/poster.jpg"><img src="https://static.wixstatic.com/media/b8629b_b4d81b25a9d641439ec983afe489fd43f002.jpg/v1/fill/w_320,h_180,al_c,q_85,enc_auto/poster.jpg" alt="" width="84" height="47" loading="lazy"><span><span class="pt"><span data-l="ko">청각빅데이터센터 홍보영상</span><span data-l="en" lang="en">Hearing Big-data Center</span></span><span class="pm mono">3:35</span></span></button></li><li><button type="button" aria-current="false" data-src="https://video.wixstatic.com/video/b8629b_68bf2f6a23b14a9d848577abec2c79ce/720p/mp4/file.mp4" data-poster="https://static.wixstatic.com/media/b8629b_68bf2f6a23b14a9d848577abec2c79cef003.jpg/v1/fill/w_1280,h_720,al_c,q_85,enc_auto/poster.jpg"><img src="https://static.wixstatic.com/media/b8629b_68bf2f6a23b14a9d848577abec2c79cef003.jpg/v1/fill/w_320,h_180,al_c,q_85,enc_auto/poster.jpg" alt="" width="84" height="47" loading="lazy"><span><span class="pt"><span data-l="ko">G1 강원민방 뉴스, 청각데이터센터 개관</span><span data-l="en" lang="en">G1 news: the data center opens</span></span><span class="pm mono">0:24 · 2019.01.09</span></span></button></li></ol></div><div class="sg-b" data-rv><div class="player rv"><div class="screen"><img class="poster" src="https://static.wixstatic.com/media/b8629b_ac3b700fe0a549b1a275c1ec461662baf001.jpg/v1/fill/w_1280,h_720,al_c,q_85,enc_auto/poster.jpg" alt="" width="1280" height="720" loading="lazy"><button type="button" class="play" aria-label="재생: 연구소 소개 영상" data-aria-en="Play: Institute introduction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5v17l14-8.5z"/></svg></button></div><p class="now"><span class="t"><span data-l="ko">연구소 소개 영상</span><span data-l="en" lang="en">Institute introduction</span></span><span class="mono">2:29</span></p></div></div></div></section></main>
 
 
 <script>
@@ -616,20 +616,292 @@ html[data-lang="en"] .pq blockquote p { line-height: 1.65; }
 })();
 
 
-/* ---------- in-page jump links: a #fragment click inside a cross-origin iframe does not scroll the Wix page,
-   but scrollIntoView does (it scrolls every ancestor, the parent page included). Focus follows for keyboard users. ---------- */
+/* ---------- video player: poster + playlist; plays only on click, native controls, fixed 16:9 box ---------- */
 (function () {
   'use strict';
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('.jump a[href^="#"]');
-    if (!a) return;
-    var el = document.getElementById(a.getAttribute('href').slice(1));
-    if (!el) return;
-    e.preventDefault();
-    try { el.scrollIntoView({ block: 'start', behavior: window.RIHE && RIHE.reduce ? 'auto' : 'smooth' }); } catch (err) { el.scrollIntoView(); }
-    var h = el.querySelector('h2') || el;
-    if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '-1');
-    try { h.focus({ preventScroll: true }); } catch (err) {}
+  var R = window.RIHE;
+  R.each('[data-player]', function (pl) {
+    var screen = pl.querySelector('.screen'), poster = screen.querySelector('.poster'), playBtn = screen.querySelector('.play');
+    var items = [].slice.call(pl.querySelectorAll('.playlist button')), cur = 0, video = null;
+    var nowT = pl.querySelector('.now .t'), nowM = pl.querySelector('.now .mono');
+    function title(b, l) { var n = b.querySelector('.pt [data-l="' + l + '"]'); return n ? n.textContent : ''; }
+    function sync() {
+      var b = items[cur]; if (!b) return;
+      nowT.innerHTML = b.querySelector('.pt').innerHTML;
+      nowM.textContent = b.querySelector('.pm').textContent;
+      playBtn.setAttribute('data-aria-ko', '재생: ' + title(b, 'ko'));
+      playBtn.setAttribute('data-aria-en', 'Play: ' + title(b, 'en'));
+      playBtn.setAttribute('aria-label', R.lang === 'en' ? 'Play: ' + title(b, 'en') : '재생: ' + title(b, 'ko'));
+    }
+    function stop() { if (video) { video.pause(); video.removeAttribute('src'); video.load(); screen.removeChild(video); video = null; } screen.classList.remove('on'); }
+    function start() {
+      var b = items[cur]; stop();
+      video = document.createElement('video');
+      video.controls = true; video.playsInline = true; video.preload = 'auto';
+      video.poster = b.getAttribute('data-poster'); video.src = b.getAttribute('data-src');
+      video.setAttribute('aria-label', title(b, R.lang));
+      screen.appendChild(video); screen.classList.add('on');
+      var p = video.play(); if (p && p.catch) p.catch(function () {});
+      try { video.focus({ preventScroll: true }); } catch (e) {}
+    }
+    function select(i, play) {
+      cur = i;
+      items.forEach(function (b, j) { b.setAttribute('aria-current', String(j === i)); });
+      stop(); poster.src = items[i].getAttribute('data-poster'); sync();
+      if (play) start();
+    }
+    playBtn.addEventListener('click', start);
+    items.forEach(function (b, i) { b.addEventListener('click', function () { select(i, true); }); });
+  });
+})();
+
+
+/* ---------- gallery: year toggles, 12 per page, in-place viewer (absolute, centred in the visible band).
+   The grid reserves the height of its tallest page and filter, so the page never moves.
+   Visible band: thin probes down the gallery, each watched by IntersectionObserver; the visible ones (intersectionRect)
+   give the part of the gallery inside the top-level viewport, also in a tall cross-origin iframe.
+   data-live: the photo list can be replaced by {type:'gallery', items:[...]} from Wix page code (handshake {type:'ready'}). ---------- */
+(function () {
+  'use strict';
+  var R = window.RIHE, doc = document;
+  function el(tag, cls, txt) { var n = doc.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; }
+  R.each('[data-gallery]', function (g) {
+    var grid = g.querySelector('.gl-grid'), all = [].slice.call(g.querySelectorAll('.gl-it')), size = +g.getAttribute('data-size') || 12;
+    var st = { year: 'all', page: 0 }, vis = all, keepPager = false;
+    var pager = g.querySelector('.pager'), pg = pager.querySelector('.pg'), prev = pager.querySelector('[data-p="-1"]'), next = pager.querySelector('[data-p="1"]');
+    var view = g.querySelector('.gl-view'), vimg = doc.createElement('img'), vcap = view.querySelector('.gl-vcap'), vn = view.querySelector('.gl-vn');
+    var cur = -1, opener = null, closing = 0;
+    function pick(y) { return all.filter(function (f) { return y === 'all' || f.getAttribute('data-year') === y; }); }
+    function show(list, p) {
+      all.forEach(function (f) { f.hidden = true; });
+      list.slice(p * size, p * size + size).forEach(function (f) { f.hidden = false; });
+    }
+    function apply() {
+      vis = pick(st.year);
+      var pages = Math.max(1, Math.ceil(vis.length / size));
+      if (st.page >= pages) st.page = pages - 1;
+      show(vis, st.page); justify();
+      pager.hidden = pages < 2 && !keepPager; pager.style.visibility = pages < 2 ? 'hidden' : '';
+      pg.textContent = (st.page + 1) + ' / ' + pages;
+      prev.disabled = st.page === 0; next.disabled = st.page >= pages - 1;
+      R.each('.tg', function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === st.year)); }, g);
+    }
+    /* balanced justified rows (desktop): choose the row breaks that keep every row closest to a target height
+       (the last row may stay short); without JS the CSS flex rows remain */
+    var narrow = window.matchMedia ? matchMedia('(max-width: 760px)') : { matches: false };
+    function justify() {
+      var fs = all.filter(function (f) { return !f.hidden; });
+      all.forEach(function (f) { f.style.flex = ''; });
+      grid.classList.remove('jx');
+      if (narrow.matches || !fs.length) return;
+      var W = grid.clientWidth - 1, gap = parseFloat(getComputedStyle(grid).columnGap) || 16;
+      var T = Math.max(220, Math.min(300, W * 0.24)), n = fs.length, rs = fs.map(function (f) { return parseFloat(f.style.getPropertyValue('--r')) || 4 / 3; });
+      var best = [0], from = [0];
+      for (var i = 1; i <= n; i++) {
+        best[i] = Infinity;
+        for (var j = i - 1, S = 0; j >= 0; j--) {
+          S += rs[j];
+          var h = (W - gap * (i - j - 1)) / S, c = (i === n && h > T) ? 0 : (h - T) * (h - T);
+          if (best[j] + c < best[i]) { best[i] = best[j] + c; from[i] = j; }
+          if (h < T * 0.45) break;
+        }
+      }
+      for (var e = n; e > 0; e = from[e]) {
+        var b = from[e], S2 = 0, k;
+        for (k = b; k < e; k++) S2 += rs[k];
+        var hh = Math.min((W - gap * (e - b - 1)) / S2, e === n ? T : Infinity);
+        for (k = b; k < e; k++) fs[k].style.flex = '0 0 ' + Math.floor(rs[k] * hh * 100) / 100 + 'px';
+      }
+      grid.classList.add('jx');
+    }
+    /* reserve: the grid keeps the height of its tallest page of any filter (and the pager keeps its line) */
+    function reserve() {
+      grid.style.minHeight = ''; keepPager = false;
+      var max = 0;
+      R.each('.tg', function (b) {
+        var l = pick(b.getAttribute('data-v')), n = Math.ceil(l.length / size);
+        if (n > 1) keepPager = true;
+        for (var p = 0; p < n; p++) { show(l, p); justify(); max = Math.max(max, Math.ceil(grid.getBoundingClientRect().height)); }
+      }, g);
+      if (!g.querySelector('.tg')) {
+        for (var p = 0, n = Math.ceil(all.length / size); p < n; p++) { show(all, p); justify(); max = Math.max(max, Math.ceil(grid.getBoundingClientRect().height)); }
+      }
+      if (max) grid.style.minHeight = max + 'px';
+      apply(); probes();
+    }
+    /* visible band from probes */
+    var io = null, pbs = [], seen = {}, step = 48;
+    if ('IntersectionObserver' in window) {
+      var th = [0, 0.25, 0.5, 0.75, 1];
+      io = new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+          var p = en.target, off = p._y, r = en.intersectionRect, b = en.boundingClientRect;
+          if (en.isIntersecting && r.height > 0) seen[p._i] = [off + r.top - b.top, off + r.bottom - b.top]; else delete seen[p._i];
+        });
+      }, { threshold: th });
+    }
+    function probes() {
+      if (!io) return;
+      pbs.forEach(function (p) { io.unobserve(p); g.removeChild(p); }); pbs = []; seen = {};
+      for (var y = 0, H = g.offsetHeight, i = 0; y < H; y += step, i++) {
+        var p = el('i', 'gl-pb'); p.setAttribute('aria-hidden', 'true');
+        p._y = y; p._i = i; p.style.top = y + 'px'; p.style.height = Math.min(step, H - y) + 'px';
+        g.appendChild(p); pbs.push(p); io.observe(p);
+      }
+    }
+    function band() {
+      var top = Infinity, bot = -Infinity;
+      for (var k in seen) { top = Math.min(top, seen[k][0]); bot = Math.max(bot, seen[k][1]); }
+      return top < bot ? { top: top, bottom: bot } : null;
+    }
+    function fill() {
+      var f = vis[cur];
+      vimg.src = f.getAttribute('data-full');
+      if (!vimg.parentNode) view.querySelector('.gl-vimg').appendChild(vimg);
+      vimg.alt = f.querySelector('img').alt;
+      vcap.innerHTML = f.querySelector('figcaption').innerHTML;
+      vn.textContent = (cur + 1) + ' / ' + vis.length;
+    }
+    /* height follows the photo (its ratio + the caption bar), capped by the visible band; centred in the band */
+    var lastC = 0;
+    function place(from) {
+      var W = g.offsetWidth, H = g.offsetHeight, bd = band(), gr = g.getBoundingClientRect();
+      var r = parseFloat(vis[cur].style.getPropertyValue('--r')) || 4 / 3;
+      if (W < 600) r = Math.max(r, 0.75);
+      var bar = view.querySelector('.gl-vbar').offsetHeight + 50;
+      var h = Math.min(H, W / r + bar, 720, Math.max(320, W * (W < 600 ? 1.6 : 0.62) + bar));
+      if (bd) h = Math.min(h, Math.max(320, bd.bottom - bd.top - 24));
+      var c = bd ? (bd.top + bd.bottom) / 2 : from ? (from.getBoundingClientRect().top + from.getBoundingClientRect().bottom) / 2 - gr.top : lastC;
+      lastC = c;
+      var top = Math.max(0, Math.min(H - h, c - h / 2));
+      view.style.top = Math.round(top) + 'px'; view.style.height = Math.round(h) + 'px';
+    }
+    function open(i, from) {
+      if (i < 0) return;
+      clearTimeout(closing); cur = i; opener = from; fill();
+      view.hidden = false; place(from);
+      requestAnimationFrame(function () { view.classList.add('on'); });
+      view.querySelector('.gl-close').focus({ preventScroll: true });
+    }
+    function close(stay) {   /* stay: focus remains on the control that was clicked (a year toggle or the pager) */
+      if (view.hidden) return;
+      view.classList.remove('on');
+      closing = setTimeout(function () { view.hidden = true; }, R.reduce ? 0 : 200);
+      if (!stay && opener && doc.contains(opener)) try { opener.focus({ preventScroll: true }); } catch (e) {}
+    }
+    function stepTo(dx) { cur = (cur + dx + vis.length) % vis.length; fill(); place(null); }
+    g.addEventListener('click', function (e) {
+      var tg = e.target.closest('.tg'), p = e.target.closest('.pager [data-p]'), o = e.target.closest('.gl-open');
+      if (tg || (p && !p.disabled)) close(true);   /* the viewer belongs to the list it was opened from */
+      if (tg) { st.year = tg.getAttribute('data-v'); st.page = 0; apply(); }
+      if (p && !p.disabled) { st.page += +p.getAttribute('data-p'); apply(); }
+      if (o) open(vis.indexOf(o.parentNode), o);
+      if (e.target.closest('.gl-close')) close(false);
+      if (e.target.closest('.gl-prev')) stepTo(-1);
+      if (e.target.closest('.gl-next')) stepTo(1);
+    });
+    view.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); stepTo(-1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); stepTo(1); }
+      else if (e.key === 'Tab') {   /* keep focus inside the open viewer */
+        var bs = [].slice.call(view.querySelectorAll('button')), i = bs.indexOf(doc.activeElement);
+        if (e.shiftKey && i <= 0) { e.preventDefault(); bs[bs.length - 1].focus({ preventScroll: true }); }
+        else if (!e.shiftKey && i === bs.length - 1) { e.preventDefault(); bs[0].focus({ preventScroll: true }); }
+      }
+    });
+    apply(); reserve();
+    var lastW = innerWidth, rt = 0;
+    window.addEventListener('resize', function () {
+      if (innerWidth === lastW) return; lastW = innerWidth;
+      clearTimeout(rt); rt = setTimeout(reserve, 150);
+    });
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(reserve);
+    R.onLang(reserve);
+
+    if (!g.hasAttribute('data-live')) return;
+    /* ---------- live list: {type:'gallery', items:[...]} replaces the baked photos ---------- */
+    var got = '';
+    function urls(it) {
+      var s = String(it.src || it.media || '').trim(), id = '', name = String(it.file || ''), w = +it.width || 0, h = +it.height || 0, m;
+      if ((m = /^wix:image:\/\/v1\/([^\/#]+)(?:\/([^#]*))?(?:#(.*))?$/.exec(s))) {
+        id = m[1];
+        try { name = name || decodeURIComponent(m[2] || ''); } catch (e) {}
+        var fw = /originWidth=(\d+)/.exec(m[3] || ''), fh = /originHeight=(\d+)/.exec(m[3] || '');
+        if (!w && fw) w = +fw[1]; if (!h && fh) h = +fh[1];
+      } else if ((m = /^https:\/\/static\.wixstatic\.com\/media\/([^\/?#\s]+)/.exec(s))) id = m[1];
+      else if (/^[\w.-]+~mv2\.[a-z]+$/i.test(s)) id = s;
+      else if (/^https:\/\/[^\s"'<>]+$/.test(s)) return { src: s, mid: '', full: s, w: w, h: h };
+      else return null;
+      var stem = encodeURIComponent(String(name || id).replace(/\.[^.]*$/, '')) || 'photo';
+      var u = function (px, q) { return 'https://static.wixstatic.com/media/' + id + '/v1/fit/w_' + px + ',h_' + px + ',q_' + q + ',enc_auto/' + stem + '.jpg'; };
+      return { src: u(600, 80), mid: u(1200, 85), full: u(1600, 85), w: w, h: h };
+    }
+    function pair(ko, en, lenOk) {
+      var a = el('span', '', ko), b = el('span', '', en);
+      a.setAttribute('data-l', 'ko'); b.setAttribute('data-l', 'en'); b.lang = lenOk ? 'en' : 'ko';
+      var s = el('span'); s.appendChild(a); s.appendChild(b); return s;
+    }
+    function figure(it) {
+      var u = urls(it); if (!u) return null;
+      var ko = String(it.caption_ko || '').trim(), enOk = !!String(it.caption_en || '').trim(), en = enOk ? String(it.caption_en).trim() : ko;
+      var y = (/\d{4}/.exec(String(it.year == null ? '' : it.year)) || [''])[0];
+      var r = u.w > 0 && u.h > 0 ? u.w / u.h : 4 / 3;
+      r = Math.min(4, Math.max(0.4, r));
+      var f = el('figure', 'gl-it');
+      f.style.setProperty('--r', r.toFixed(4)); f.setAttribute('data-year', y); f.setAttribute('data-full', u.full);
+      var b = el('button', 'gl-open'); b.type = 'button';
+      b.setAttribute('data-aria-ko', '크게 보기: ' + ko); b.setAttribute('data-aria-en', 'View larger: ' + en);
+      var im = el('img'); im.loading = 'lazy'; im.width = 600; im.height = Math.round(600 / r);
+      im.setAttribute('data-alt-ko', String(it.alt_ko || ko)); im.setAttribute('data-alt-en', String(it.alt_en || en));
+      if (u.mid) { im.sizes = '(max-width: 760px) 50vw, 420px'; im.srcset = u.src + ' 600w, ' + u.mid + ' 1200w'; }
+      im.src = u.src;
+      b.appendChild(im); f.appendChild(b);
+      var fc = el('figcaption'); fc.appendChild(pair(ko, en, enOk));
+      if (y && !(ko.indexOf(y) >= 0 && en.indexOf(y) >= 0)) fc.appendChild(el('span', 'mono', y));   /* no repeated year when the caption names it */
+      f.appendChild(fc);
+      return f;
+    }
+    function toggles(ys) {
+      var box = g.querySelector('.tgs');
+      if (!box) {
+        box = el('div', 'tgs'); box.setAttribute('role', 'group');
+        box.setAttribute('aria-label', '연도'); box.setAttribute('data-aria-en', 'Year');
+        g.insertBefore(box, grid);
+      }
+      box.innerHTML = '';
+      var a = el('button', 'tg'); a.type = 'button'; a.setAttribute('data-k', 'year'); a.setAttribute('data-v', 'all');
+      var k = el('span', '', '전체'), e2 = el('span', '', 'All');
+      k.setAttribute('data-l', 'ko'); e2.setAttribute('data-l', 'en'); e2.lang = 'en';
+      a.appendChild(k); a.appendChild(e2); box.appendChild(a);
+      ys.forEach(function (y) { var b = el('button', 'tg', y); b.type = 'button'; b.setAttribute('data-k', 'year'); b.setAttribute('data-v', y); box.appendChild(b); });
+      box.hidden = ys.length < 2;
+    }
+    function setItems(items) {
+      var sig; try { sig = JSON.stringify(items); } catch (e) { return; }
+      if (sig === got) return;
+      var figs = items.slice(0, 500).map(figure).filter(Boolean);
+      if (!figs.length) return;          /* nothing usable: keep the baked photos */
+      got = sig;
+      if (!view.hidden) { view.classList.remove('on'); view.hidden = true; }
+      grid.innerHTML = '';
+      figs.forEach(function (f) { grid.appendChild(f); });
+      all = figs;
+      var ys = []; figs.forEach(function (f) { var y = f.getAttribute('data-year'); if (y && ys.indexOf(y) < 0) ys.push(y); });
+      ys.sort(function (a, b) { return b.localeCompare(a); });
+      toggles(ys);
+      st = { year: 'all', page: 0 };
+      R.setLang(R.lang);                 /* alt and aria per language; its hook re-runs reserve() */
+      reserve();
+      g.setAttribute('data-source', 'live');
+    }
+    window.addEventListener('message', function (e) {
+      var d = e.data;
+      if (typeof d === 'string' && d.charAt(0) === '{') { try { d = JSON.parse(d); } catch (err) { return; } }
+      if (d && d.type === 'gallery' && Array.isArray(d.items)) setItems(d.items);
+    });
+    function ready() { try { if (window.parent && window.parent !== window && !got) window.parent.postMessage({ type: 'ready' }, '*'); } catch (e) {} }
+    ready(); setTimeout(ready, 1500); setTimeout(ready, 4000);
   });
 })();
 </script>

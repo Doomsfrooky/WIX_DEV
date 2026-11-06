@@ -1,0 +1,208 @@
+/* RIHE · Home hero · direction A, academic classic · /67 final (judge's synthesis).
+   Skeleton: lens 4 (prior art), the university video masthead: the institute's own clinical footage toned into one navy
+   family, the serif lockup on the navy side, a ruled ledger of the record, a labelled pause control (WCAG 2.2.2).
+   Grafts: the Oxford rule carrying RIHE, the italic "of" and the develop that spreads out of the patient's ear (lens 6),
+   the small-caps imprint line broken at its middle dot (lens 3), the CSS safety fade, thrift, forced-colors and print
+   rules (lens 5), frame-driven redraws (lens 1). No vh units anywhere: the hero is sized from the width. */
+
+html, body { margin: 0; }
+
+.hx {
+  --n950: #050e21; --n900: #081a38; --n800: #0d2650; --n700: #163469; --n500: #2c5596;
+  --n300: #8aa2c9; --n200: #bccae2; --n100: #e0e7f2; --paper: #f6f4ef;
+  --rule: rgba(224, 231, 242, .24); --rule-2: rgba(224, 231, 242, .44);
+  --serif: "Source Serif 4", "Noto Serif KR", "Nanum Myeongjo", Georgia, serif;
+  --pad: clamp(24px, 5vw, 96px);
+  --top: clamp(48px, 5.2vw, 80px);
+  --bot: clamp(24px, 2.6vw, 40px);
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  position: relative;
+  height: clamp(560px, 48.5vw, 700px);
+  overflow: hidden;
+  background: var(--n900);
+  color: var(--paper);
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  isolation: isolate;
+}
+.hx *, .hx *::before, .hx *::after { box-sizing: border-box; }
+.hx ::selection { background: var(--paper); color: var(--n900); }
+
+/* ---------------------------------------------------------------- media stack */
+.hx-media { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.hx-film, .hx-gl, .hx-shade, .hx-still { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hx-film { overflow: hidden; background: var(--n900); isolation: isolate; }
+/* the source has subtitles burned into its bottom 14 % (and caption labels just above them):
+   the frame is laid out 125 % tall from the top, so its lowest 20 % always falls outside the box */
+.hx-v {
+  position: absolute; left: 0; top: 0; width: 100%; height: 125%;
+  object-fit: cover; object-position: 62% 0%;
+  opacity: 0; filter: grayscale(1) contrast(1.22);
+  transition: opacity 1.7s cubic-bezier(.45, 0, .25, 1);
+}
+.hx-v.is-on { opacity: 1; }
+.hx-v.is-top { z-index: 2; }
+.hx-still {
+  background: var(--n800) no-repeat 72% 20% / cover;
+  filter: grayscale(1) contrast(1.16);
+  opacity: 0; transition: opacity 1.2s ease;
+}
+/* duotone in CSS for the paths without WebGL (phones, the still): multiply a light navy, then screen the ground navy */
+.hx-film::before, .hx-film::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0; transition: opacity 1.7s cubic-bezier(.45, 0, .25, 1); }
+.hx.is-live .hx-film::before, .hx.is-live .hx-film::after, .hx.is-still .hx-film::before, .hx.is-still .hx-film::after,
+html.rm .hx-film::before, html.rm .hx-film::after, html:not(.js) .hx-film::before, html:not(.js) .hx-film::after { opacity: 1; }
+.hx-film::before { background: #7d96c0; mix-blend-mode: multiply; }
+.hx-film::after { background: #081a38; mix-blend-mode: screen; }
+.hx-gl { display: block; z-index: 1; visibility: hidden; }
+.hx.is-gl .hx-gl { visibility: visible; }
+.hx.is-gl .hx-film::before, .hx.is-gl .hx-film::after { display: none; }
+
+/* the still (a composed group portrait of the institute's members) is fetched only when it is shown:
+   no script, reduced motion, a thrifty connection, or footage that never arrives */
+html:not(.js) .hx-still, html.rm .hx-still, .hx.is-still .hx-still {
+  background-image: url("https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fill/w_1440,h_720,al_t,q_85,enc_auto/x.jpg");
+  opacity: 1;
+}
+html:not(.js) .hx-v, html.rm .hx-v, .hx.is-still .hx-v { display: none; }
+
+/* the text side is the hero's own navy, not a darkened picture */
+.hx-shade {
+  z-index: 2;
+  background:
+    linear-gradient(0deg, rgba(5, 14, 33, .86) 0%, rgba(5, 14, 33, .48) 14%, rgba(5, 14, 33, 0) 32%),
+    linear-gradient(90deg, #081a38 0%, rgba(8, 26, 56, .95) 30%, rgba(8, 26, 56, .62) 48%, rgba(8, 26, 56, .16) 68%, rgba(8, 26, 56, 0) 82%);
+}
+/* with WebGL the picture already recedes into the ground by tone; the scrim only steadies the text */
+.hx.is-gl .hx-shade {
+  background:
+    linear-gradient(0deg, rgba(5, 14, 33, .8) 0%, rgba(5, 14, 33, .42) 13%, rgba(5, 14, 33, 0) 30%),
+    linear-gradient(90deg, rgba(8, 26, 56, .8) 0%, rgba(8, 26, 56, .66) 38%, rgba(8, 26, 56, .26) 58%, rgba(8, 26, 56, 0) 74%);
+}
+
+/* ---------------------------------------------------------------- the lockup: title / Oxford rule with RIHE / imprint */
+.hx-in { position: relative; z-index: 3; height: 100%; padding: 0 var(--pad); }
+.hx-copy { width: min(860px, 64vw); padding-top: var(--top); }
+.hx-lockup { width: fit-content; max-width: 100%; }
+
+.hx-title { margin: 0; font-weight: 600; color: var(--paper); text-rendering: optimizeLegibility; }
+.hx-title > span { display: block; }
+.hx-title [data-l="ko"] { font-size: clamp(56px, 7.1vw, 104px); line-height: 1.12; letter-spacing: -.028em; margin-left: -.045em; }
+.hx-title [data-l="en"] { font-size: clamp(40px, 4.6vw, 66px); line-height: 1.07; letter-spacing: -.014em; font-weight: 500; margin-left: -.035em; }
+.hx-title i { font-style: italic; font-weight: 400; letter-spacing: -.01em; padding-right: .04em; }
+/* SplitText line masks: give descenders room inside the clip */
+.hx-title .hx-ml-mask { padding-bottom: .14em; margin-bottom: -.14em; }
+
+/* the Oxford rule (a heavy line over a hairline) closes the name and carries the abbreviation, as on a title page */
+.hx-rule { display: flex; align-items: center; gap: 14px; margin: clamp(16px, 1.7vw, 24px) 0 clamp(13px, 1.3vw, 17px); }
+.hx-rule i { flex: 1 1 auto; height: 5px; border-top: 2px solid rgba(246, 244, 239, .8); border-bottom: 1px solid rgba(246, 244, 239, .46); transform-origin: 0 50%; }
+.hx-rule abbr { flex: none; font: 600 13px/1 var(--serif); letter-spacing: .24em; margin-right: -.24em; text-decoration: none; color: var(--n100); font-variant-numeric: lining-nums; }
+
+.hx-inst { margin: 0; font-size: 17px; line-height: 1.5; letter-spacing: .012em; color: var(--paper); }
+/* the English imprint in small capitals; it may only break at its middle dot */
+.hx-inst [data-l="en"] { font-size: 19px; font-weight: 500; font-variant-caps: all-small-caps; letter-spacing: .07em; }
+.hx-nw { white-space: nowrap; }
+
+.hx-lead { margin: clamp(18px, 1.8vw, 26px) 0 0; max-width: min(33em, 52vw); font-size: clamp(17px, 1.25vw, 19px); line-height: 1.78; color: var(--n200); word-break: keep-all; text-wrap: pretty; }
+.hx-lead [data-l="en"] { display: block; line-height: 1.62; max-width: min(34em, 52vw); }
+.hx-lead .hx-ml-mask { padding-bottom: .1em; margin-bottom: -.1em; }
+
+.hx-link {
+  display: inline-flex; align-items: center; gap: 12px; margin-top: clamp(16px, 1.6vw, 22px);
+  font-size: 16px; font-weight: 500; line-height: 1.4; color: var(--paper); text-decoration: none;
+}
+.hx-link-t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .34em; text-decoration-color: rgba(246, 244, 239, .42); transition: text-decoration-color .3s ease; }
+.hx-arrow { flex: none; transition: transform .45s var(--ease); }
+.hx-link:hover .hx-link-t { text-decoration-color: var(--paper); }
+.hx-link:hover .hx-arrow { transform: translateX(5px); }
+.hx-link:active .hx-arrow { transform: translateX(8px); transition-duration: .12s; }
+
+/* ---------------------------------------------------------------- ledger: the record */
+.hx-foot { position: absolute; left: var(--pad); right: var(--pad); bottom: var(--bot); }
+.hx-foot-rule { display: block; height: 1px; background: var(--rule); transform-origin: 0 50%; }
+.hx-ledger { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(820px, 68%); margin: 0; padding: 0; list-style: none; }
+.hx-ledger li { padding: 18px 18px 0 0; }
+.hx-ledger li + li { padding-left: 20px; border-left: 1px solid var(--rule); }
+.hx-num { display: block; font-size: clamp(30px, 2.9vw, 42px); line-height: 1; font-weight: 400; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; color: var(--paper); }
+.hx-num .hx-ml-mask { padding-bottom: .06em; margin-bottom: -.06em; }
+.hx-lab { display: block; margin-top: 9px; font-size: 13.5px; line-height: 1.4; color: var(--n200); word-break: keep-all; }
+
+/* ---------------------------------------------------------------- pause control (moving media longer than 5 s needs one) */
+.hx-ctl {
+  position: absolute; z-index: 4; right: var(--pad); bottom: var(--bot);
+  width: 36px; height: 36px; display: grid; place-items: center; padding: 0;
+  border: 1px solid var(--rule-2); border-radius: 0; background: transparent; color: var(--paper); cursor: pointer;
+  transition: border-color .25s ease, background-color .25s ease;
+}
+.hx-ctl[hidden] { display: none; }
+.hx-ctl:hover { border-color: var(--paper); background: rgba(246, 244, 239, .08); }
+.hx-ctl .i-play { display: none; }
+.hx-ctl.is-paused .i-play { display: inline; }
+.hx-ctl.is-paused .i-pause { display: none; }
+.hx a:focus-visible, .hx button:focus-visible { outline: 2px solid var(--paper); outline-offset: 4px; }
+
+/* ---------------------------------------------------------------- reveal (hidden only when motion runs) */
+html.js:not(.rm) .hx [data-a]:not(.on) { opacity: 0; }
+html.js:not(.rm) .hx .hx-foot-rule:not(.on) { opacity: 1; transform: scaleX(0); }
+/* first-screen budget: if the hero script has not claimed the hero (.is-run) by 1.7 s, CSS fades everything in by itself;
+   a late script then carries on from the opacity already reached instead of hiding it again */
+@keyframes hx-safe { to { opacity: 1; transform: none; } }
+html.js:not(.rm) .hx:not(.is-run) [data-a]:not(.on) { animation: hx-safe .7s cubic-bezier(.19, 1, .22, 1) 1.7s forwards; }
+
+/* ---------------------------------------------------------------- phone (Wix mobile renders this file at 320 px) */
+@media (max-width: 760px) {
+  .hx { --pad: 16px; --band: 184px; height: 552px; }
+  .hx-media { bottom: auto; height: var(--band); }
+  .hx-v { object-position: 64% 0%; }
+  .hx-shade { background: linear-gradient(180deg, rgba(8, 26, 56, 0) 0%, rgba(8, 26, 56, 0) 50%, rgba(8, 26, 56, .7) 84%, var(--n900) 100%); }
+  html:not(.js) .hx-still, html.rm .hx-still, .hx.is-still .hx-still {
+    background-image: url("https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fill/w_640,h_368,al_t,q_85,enc_auto/x.jpg");
+    background-position: 50% 20%;
+  }
+  /* the develop on phones: the picture opens out of the patient's ear as a widening circle (hero.js tweens --hx-r) */
+  .hx.is-dev .hx-film {
+    -webkit-mask-image: radial-gradient(circle at var(--hx-ex, 42%) var(--hx-ey, 40%), #000 calc(var(--hx-r, 0px) - 120px), transparent var(--hx-r, 0px));
+            mask-image: radial-gradient(circle at var(--hx-ex, 42%) var(--hx-ey, 40%), #000 calc(var(--hx-r, 0px) - 120px), transparent var(--hx-r, 0px));
+  }
+  .hx-in { display: flex; flex-direction: column; }
+  .hx-copy { width: auto; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; padding: calc(var(--band) + 16px) 0 16px; }
+  .hx-lockup { width: auto; }
+  .hx-title [data-l="ko"] { font-size: 41px; line-height: 1.16; letter-spacing: -.03em; }
+  .hx-title [data-l="en"] { font-size: 26px; line-height: 1.12; letter-spacing: -.01em; }
+  .hx-rule { margin: 12px 0 10px; gap: 10px; }
+  .hx-rule i { height: 4px; border-top-width: 1.5px; }
+  .hx-rule abbr { font-size: 11.5px; }
+  .hx-inst { font-size: 14px; line-height: 1.45; }
+  .hx-inst [data-l="en"] { font-size: 15px; letter-spacing: .04em; }
+  .hx-lead { margin: 14px 0 16px; max-width: none; font-size: 15.5px; line-height: 1.74; }
+  .hx-lead [data-l="en"] { max-width: none; font-size: 14.5px; line-height: 1.55; }
+  /* the link closes the masthead as a ruled row: the same bottom edge in both languages */
+  .hx-link { margin-top: auto; align-self: stretch; justify-content: space-between; padding-top: 13px; border-top: 1px solid var(--rule); font-size: 14.5px; }
+  .hx-link-t { text-decoration: none; }
+  .hx-foot { display: none; }
+  .hx-ctl { top: calc(var(--band) - 48px); bottom: auto; right: 8px; width: 40px; height: 40px; }
+}
+
+/* ---------------------------------------------------------------- surfaces nobody designs for */
+@media (prefers-contrast: more) {
+  .hx { --n200: #e6ecf5; --rule: rgba(224, 231, 242, .5); }
+}
+@media (forced-colors: active) {
+  .hx-media, .hx-ctl { display: none; }          /* blend layers over a forced canvas colour would black out the text side */
+  .hx-lead, .hx-lab, .hx-rule abbr { color: CanvasText; }
+  .hx-rule i { border-color: CanvasText; }
+  .hx-foot-rule { background: CanvasText; }
+  .hx-link { color: LinkText; }
+}
+@media print {
+  .hx { height: auto; padding-bottom: 24px; background: #fff; color: #081a38; }
+  .hx-media, .hx-ctl { display: none; }
+  .hx-title, .hx-inst, .hx-num, .hx-link { color: #081a38; }
+  .hx-lead, .hx-lab, .hx-rule abbr { color: #2a3a55; }
+  .hx-rule i { border-color: #081a38; }
+  .hx-foot { position: static; margin: 28px var(--pad) 0; }
+  .hx-foot-rule { background: #9aa6b8; }
+  .hx [data-a], .hx [data-ai] { opacity: 1 !important; transform: none !important; animation: none !important; }
+}

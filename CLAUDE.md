@@ -72,6 +72,7 @@ Wix HTML 요소는 내용 높이만큼 큰 iframe이고, 스크롤은 바깥 Wix
   3. Wix 설정 > 사용자 지정 코드(Body 끝)에서 부모 스크롤 값을 postMessage로 보내는 브리지(비공식). 실측해서 될 때만, **쓰기 전에 사용자에게 먼저 알린다.**
 - 사진·영상을 WebGL·캔버스에 넣을 때: static.wixstatic.com, video.wixstatic.com, i.imgur.com 모두 `access-control-allow-origin: *` 이고 캔버스가 오염되지 않음을 확인했다(2026-11-06). `crossorigin="anonymous"` 를 붙인다.
 - 성능·접근성: 화면 밖 애니메이션은 멈춘다. WebGL은 모바일에서 단순화하거나 정지 이미지로. 60fps, 첫 화면 2.5초 안. `prefers-reduced-motion` 이면 처음부터 정지 상태.
+- 영상 데이터: 청각빅데이터센터 홍보영상(`b8629b_b4d81b25...`, 480p만 있음)은 파일이 **21.2MB** 다. `preload="metadata"` 로 두고 쓰는 구간만 range 요청으로 받는다(`preload="auto"` 금지, 플레이어는 되도록 하나). 첫 화면 영상 전송량은 처음 10초에 3MB 이하를 목표로 하고, Save-Data·2g·3g는 정지 이미지로 대신한다. 이 영상에는 쓸 만한 Wix 자동 포스터가 없다(f000~f003이 모두 그래픽).
 - 콘텐츠가 숨은 채로 남으면 안 된다: 숨김 상태는 `html.js` 아래에서만, IO 콜백이 1.5초 안에 없으면 전부 표시, 스크립트 실패 시 CSS 타이머로 표시(2차 kit의 안전장치를 이어받는다).
 
 ## 라이브러리

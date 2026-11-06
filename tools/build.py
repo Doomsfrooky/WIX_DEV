@@ -11,7 +11,9 @@ A page whose module does not exist yet is skipped with a note.
 Checks on every page (the build fails on an error):
 - no em-dash characters in visible copy;
 - every data-l="en" element carries lang="en";
-- the file stays one self-contained document (no external scripts).
+- scripts load only from vendor/ by relative path (site/vendor/, npm packages pinned by version);
+- a robots meta is present (content pages: noindex, indexifembedded);
+- no viewport-height sizing (vh/svh/dvh/lvh, innerHeight): inside the Wix iframe these are the element height, not the screen.
 """
 import importlib.util
 import os
@@ -53,8 +55,14 @@ def check(name, doc):
         tag = m.group(0)
         if 'lang="en"' not in tag and not tag.startswith('<span data-l="en">'):
             errs.append(f'data-l="en" without lang="en": {tag[:80]}')
-    if re.search(r'<script[^>]+src=', doc):
-        errs.append('external <script src> is not allowed')
+    for src in re.findall(r'<script[^>]+src="([^"]*)"', doc):
+        if not re.match(r'^(\./|\.\./)*vendor/[\w.@/-]+\.m?js$', src):
+            errs.append(f'<script src="{src}">: only relative vendor/ paths are allowed')
+    if not re.search(r'<meta name="robots" content="[^"]*noindex', doc):
+        errs.append('robots meta (noindex) missing')
+    code = re.sub(r'<!--.*?-->', ' ', doc, flags=re.S)
+    for m in re.finditer(r'(?<![\w-])\d*\.?\d+[sdl]?vh\b|innerHeight', code):
+        errs.append(f'viewport-height unit in the page: ...{code[max(0, m.start() - 40):m.end() + 10].strip()}...')
     return errs
 
 

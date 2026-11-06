@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Probe · RIHE</title>
+<!--
+  주소 방식 실측 페이지. Wix HTML 요소(웹사이트 주소)에 이 페이지 주소를 넣고, 미리보기나 게시된 사이트에서 표를 봅니다.
+  Wix 페이지 코드(선택, 양방향 메시지 확인용):
+    $w.onReady(() => {
+      const h = $w('#html1');
+      h.onMessage((e) => h.postMessage({ type: 'echo', got: e.data }));
+      h.postMessage({ type: 'hello', lang: 'ko' });
+    });
+-->
+<style>
+  :root { --ink: #17202c; --mute: #5d6775; --line: #dfe3e9; --ok: #1f7a4d; --bad: #b3261e; --wait: #8a6d0b; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fff; color: var(--ink); font: 15px/1.6 system-ui, -apple-system, "Segoe UI", "Noto Sans KR", sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 20px 40px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p.lead { color: var(--mute); margin: 0 0 20px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 8px; border-top: 1px solid var(--line); }
+  th { width: 34%; font-weight: 600; }
+  td code, .mono { font: 12.5px/1.5 ui-monospace, Menlo, monospace; word-break: break-all; }
+  .st { display: inline-block; min-width: 46px; font-weight: 700; }
+  .ok { color: var(--ok); } .bad { color: var(--bad); } .wait { color: var(--wait); }
+  a.top { color: #1b3d6f; font-weight: 600; }
+  button { font: inherit; padding: 4px 10px; border: 1px solid var(--line); background: #f6f7f9; border-radius: 4px; cursor: pointer; }
+  .band { position: relative; height: 10px; background: #f0f2f5; border-radius: 5px; margin-top: 6px; overflow: hidden; }
+  .band i { position: absolute; top: 0; bottom: 0; background: #1b3d6f; border-radius: 5px; }
+  #snt { position: absolute; left: 0; top: 0; width: 1px; pointer-events: none; visibility: hidden; }
+  #snt b { position: absolute; left: 0; width: 1px; height: 100px; display: block; }
+  .tall { height: 1400px; border-top: 1px dashed var(--line); margin-top: 28px; color: var(--mute); padding-top: 10px; }
+  #target { height: 120px; margin-top: 900px; background: #eef2f7; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+<div id="snt" aria-hidden="true"></div>
+<main>
+  <h1>Wix 주소 방식 실측</h1>
+  <p class="lead">이 표는 이 페이지가 Wix 페이지 안 iframe으로 열렸을 때의 동작을 보여 줍니다. 스크롤하면서 값이 바뀌는지 보세요.</p>
+  <table>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="tall">아래로 스크롤해서 아래 상자가 화면에 들어올 때 IntersectionObserver 항목이 바뀌는지 확인하세요.
+    <div id="target">IO 대상 상자</div>
+  </div>
+</main>
+<script>
+(function () {
+  'use strict';
+  var rows = document.getElementById('rows');
+  var R = {};
+  function row(key, label) {
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<th>' + label + '</th><td><span class="st wait">대기</span> <span class="v"></span></td>';
+    rows.appendChild(tr); R[key] = tr;
+  }
+  function set(key, state, html) {
+    var tr = R[key]; if (!tr) return;
+    var st = tr.querySelector('.st');
+    st.className = 'st ' + (state === true ? 'ok' : state === false ? 'bad' : 'wait');
+    st.textContent = state === true ? '성공' : state === false ? '실패' : state === null ? '정보' : '대기';
+    tr.querySelector('.v').innerHTML = html;
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  row('frame', '실행 위치');
+  row('io', 'IntersectionObserver 동작');
+  row('rm', 'rootMargin 무시 여부');
+  row('band', '센티널로 추정한 보이는 구간');
+  row('in', '부모 → iframe postMessage 수신');
+  row('out', 'iframe → 부모 전송');
+  row('top', 'target="_top" 링크 이동');
+  row('vh', '화면 높이 단위 (100vh, innerHeight)');
+
+  /* 1. where are we */
+  var inFrame = window.top !== window.self, cross = false;
+  try { void window.top.location.href; } catch (e) { cross = true; }
+  var anc = (location.ancestorOrigins && location.ancestorOrigins.length) ? [].slice.call(location.ancestorOrigins).join(', ') : '(알 수 없음)';
+  set('frame', null, inFrame ? ('iframe 안 · ' + (cross ? '교차 출처' : '같은 출처') + '<br><span class="mono">부모: ' + esc(anc) + '<br>referrer: ' + esc(document.referrer || '-') + '<br>이 페이지: ' + esc(location.origin) + '</span>') : '최상위 창 (Wix 안이 아님)');
+
+  /* 2-3. IO and rootMargin */
+  var tgt = document.getElementById('target');
+  var plain = [], margin = [], rb = 'n/a';
+  function fmt(a) { return a.slice(-4).map(function (x) { return x ? 'in' : 'out'; }).join(' → ') || '-'; }
+  function upd() {
+    var n = plain.length;
+    set('io', n > 0 ? true : undefined, '콜백 ' + n + '회 · 최근: ' + fmt(plain) + ' · rootBounds: <code>' + esc(rb) + '</code>');
+    if (margin.length > 0 && plain.length > 0) {
+      var same = margin.length === plain.length && margin.every(function (v, i) { return v === plain[i]; });
+      var nullRb = rb === 'null';
+      set('rm', null, (same && nullRb ? '<b>무시됨</b> (rootMargin -45% 관찰자와 기본 관찰자의 결과가 같음, rootBounds = null)' : same ? '결과가 같음(대상이 아직 중앙을 지나지 않았을 수 있음)' : '<b>적용됨</b> (결과가 다름: 같은 출처이거나 최상위 창)') +
+        '<br><span class="mono">기본: ' + fmt(plain) + '<br>-45%: ' + fmt(margin) + '</span>');
+    }
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { es.forEach(function (e) { plain.push(e.isIntersecting); rb = e.rootBounds ? Math.round(e.rootBounds.width) + '×' + Math.round(e.rootBounds.height) : 'null'; }); upd(); }, { threshold: 0 }).observe(tgt);
+    new IntersectionObserver(function (es) { es.forEach(function (e) { margin.push(e.isIntersecting); }); upd(); }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' }).observe(tgt);
+  } else set('io', false, '지원하지 않는 브라우저');
+
+  /* 4. sentinel band: 100px sentinels down the whole document, thresholds every 1% */
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var box = document.getElementById('snt'), S = 100;
+    var H = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    box.style.height = H + 'px';
+    var th = []; for (var i = 0; i <= 100; i++) th.push(i / 100);
+    var vis = {};
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var k = e.target.getAttribute('data-i');
+        if (e.intersectionRatio > 0) vis[k] = [e.intersectionRect.top, e.intersectionRect.bottom]; else delete vis[k];
+      });
+      var t = Infinity, b = -Infinity;
+      for (var k in vis) { if (vis[k][0] < t) t = vis[k][0]; if (vis[k][1] > b) b = vis[k][1]; }
+      if (t === Infinity) { set('band', null, '보이는 부분 없음'); return; }
+      var pct = function (x) { return (x / H * 100).toFixed(2) + '%'; };
+      set('band', true, '문서 ' + Math.round(t) + 'px ~ ' + Math.round(b) + 'px (높이 ' + Math.round(b - t) + 'px, 문서 전체 ' + H + 'px)' +
+        '<div class="band"><i style="left:' + pct(t) + ';width:' + pct(b - t) + '"></i></div>');
+    }, { threshold: th });
+    for (var y = 0, n = 0; y < H; y += S, n++) {
+      var s = document.createElement('b'); s.style.top = y + 'px'; s.setAttribute('data-i', n); box.appendChild(s); io.observe(s);
+    }
+  })();
+
+  /* 5-6. messages */
+  var got = 0;
+  addEventListener('message', function (e) {
+    got++;
+    var d = e.data;
+    set('in', true, got + '회 · 마지막: <code>' + esc(JSON.stringify(d)) + '</code><br><span class="mono">origin: ' + esc(e.origin) + '</span>');
+    if (d && d.type === 'echo') set('out', true, '부모가 받은 메시지를 되돌려 보냄: <code>' + esc(JSON.stringify(d.got)) + '</code>');
+  });
+  var sent = 0;
+  function hello() { sent++; try { window.parent.postMessage({ type: 'probe-hello', n: sent }, '*'); } catch (e) {} if (!R.out.querySelector('.ok')) set('out', undefined, sent + '회 보냄. Wix 페이지 코드의 onMessage가 echo로 돌려주면 성공으로 바뀝니다. <button type="button" id="again">다시 보내기</button>'); }
+  hello(); setTimeout(hello, 1500); setTimeout(hello, 4000);
+  document.addEventListener('click', function (e) { if (e.target.id === 'again') hello(); });
+  set('in', undefined, 'Wix 페이지 코드가 보내는 메시지를 기다리는 중');
+
+  /* 7. _top link */
+  set('top', null, '<a class="top" href="https://www.smilesnail.org/about" target="_top">smilesnail.org/about 으로 이동</a><br>누르면 Wix 페이지 전체(주소창 포함)가 /about으로 바뀌어야 성공입니다. iframe 안만 바뀌면 실패입니다.');
+
+  /* 8. viewport units inside the iframe */
+  var probe = document.createElement('div'); probe.style.cssText = 'position:absolute;top:0;height:100vh;width:1px;visibility:hidden'; document.body.appendChild(probe);
+  set('vh', null, '100vh = ' + probe.offsetHeight + 'px · innerHeight = ' + innerHeight + 'px · 문서 높이 = ' + document.documentElement.scrollHeight + 'px · 폭 ' + innerWidth + 'px · DPR ' + devicePixelRatio +
+    '<br>iframe 안에서는 이 값이 화면 높이가 아니라 Wix에서 정한 요소 높이입니다.');
+})();
+</script>
+</body>
+</html>

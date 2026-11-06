@@ -29,6 +29,7 @@ SITE = 'https://www.smilesnail.org'
 # so /en/... returns 404 until it is enabled. Set EN_PREFIX = '' to keep English links on the Korean URLs.
 EN_PREFIX = '/en'
 PREVIEW = False          # build.py sets this; True adds the small KO/EN toggle
+ROBOTS = 'noindex, indexifembedded'   # content pages: indexed only inside smilesnail.org, never as github.io pages
 
 # Noto Sans KR (reading) and DM Mono (measurements) load normally. Hahmlet (display only) is requested with
 # Google Fonts' text= parameter: page() collects every character set in a serif element and asks for just those
@@ -2051,6 +2052,7 @@ def page(title, accent='navy', body='', data=None, hold=None, comment=''):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="{ROBOTS}">
 <title>{e(title)} · RIHE</title>
 <!--
   자동 생성 파일입니다. 직접 고치지 말고 data/*.json 또는 tools/pages/*.py, tools/kit.py를 고친 뒤

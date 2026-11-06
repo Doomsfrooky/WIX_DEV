@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Render a page at 1280 and 320, KO and EN, full-page PNGs plus an audit.
 //   node tools/verify/render.js site/home.html <outdir> [--frames] [--widths 1280,320] [--langs ko,en]
-// --frames also saves the first screen over time (0..2500 ms) at each width, to judge the load-in motion.
+// --frames also films the load-in and cuts frames at 400..3500 ms after navigation start (<w>-<lang>-tNNNN.png).
 // Prints JSON: per shot stillInvisible / brokenImages / errors (all must be 0), height, missing mirror URLs.
 'use strict';
 const V = require('./lib');
@@ -15,16 +15,12 @@ const V = require('./lib');
   const b = await V.launch();
   const report = [];
   for (const w of widths) for (const lang of langs) {
-    const p = await V.newPage(b, { width: w, height: w <= 400 ? 560 : 800 });
+    const frames = V.flag('frames');
+    const p = await V.newPage(b, { width: w, height: w <= 400 ? 560 : 800, record: frames ? `${out}/.rec` : '' });
     const u = V.withLang(base, lang);
-    const t0 = Date.now();
+    const tGo = Date.now();
     await p.goto(u, { waitUntil: 'load', timeout: 60000 });
-    if (V.flag('frames')) {
-      for (const ms of [0, 300, 700, 1200, 1800, 2500]) {
-        const wait = ms - (Date.now() - t0); if (wait > 0) await p.waitForTimeout(wait);
-        await p.screenshot({ path: `${out}/${w}-${lang}-t${String(ms).padStart(4, '0')}.png` });
-      }
-    }
+    if (frames) { const settle = V.FRAME_TIMES[V.FRAME_TIMES.length - 1] + 200 - (Date.now() - tGo); if (settle > 0) await p.waitForTimeout(settle); }
     await p.evaluate(() => document.fonts && document.fonts.ready);
     await V.scrollThrough(p);
     await p.evaluate(() => window.scrollTo(0, 0)); await p.waitForTimeout(300);
@@ -33,6 +29,7 @@ const V = require('./lib');
     report.push({ shot: `${w}-${lang}`, height: a.height, stillInvisible: a.stillInvisible.length, brokenImages: a.brokenImages.length, errors: p.log.errors.length + p.log.failed.length,
       detail: { stillInvisible: a.stillInvisible.slice(0, 10), brokenImages: a.brokenImages, errors: p.log.errors.concat(p.log.failed).slice(0, 10) }, notInMirror: p.log.missing });
     await p.ctx.close();
+    if (frames) await V.framesFromVideo(p, out, `${w}-${lang}-`, tGo, V.FRAME_TIMES);
   }
   await b.close(); await V.stop();
   console.log(JSON.stringify(report, null, 1));

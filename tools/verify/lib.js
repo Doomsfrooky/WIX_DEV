@@ -69,10 +69,13 @@ async function launch(opts = {}) {
 }
 
 // new page with error collection; device: 'desktop' | 'mobile' | {width,height}
-async function newPage(browser, { width = 1280, height = 800, reduced = false, js = true, scale = 1, mobile = false } = {}) {
+// record: a directory -> the page is filmed in real time (Playwright recordVideo); see framesFromVideo()
+async function newPage(browser, { width = 1280, height = 800, reduced = false, js = true, scale = 1, mobile = false, record = '' } = {}) {
   const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: scale, javaScriptEnabled: js,
-    reducedMotion: reduced ? 'reduce' : 'no-preference', isMobile: mobile, hasTouch: mobile });
+    reducedMotion: reduced ? 'reduce' : 'no-preference', isMobile: mobile, hasTouch: mobile,
+    ...(record ? { recordVideo: { dir: record, size: { width, height } } } : {}) });
   const page = await ctx.newPage();
+  page.recStart = Date.now();
   const log = { errors: [], failed: [], missing: [] };
   page.on('pageerror', (e) => log.errors.push('pageerror: ' + e.message));
   page.on('console', (m) => { if (m.type() === 'error') log.errors.push('console: ' + m.text().slice(0, 300)); });
@@ -136,8 +139,25 @@ const AUDIT = () => {
   return out;
 };
 
+// Time-ordered frames that show the real motion. Screenshots taken while a page animates stall its clock (GSAP's lag
+// smoothing then makes everything look late), so the load-in is filmed and frames are cut from the video afterwards.
+// Call after page.ctx.close(). tGo: Date.now() just before page.goto. times: ms after tGo.
+async function framesFromVideo(page, out, prefix, tGo, times) {
+  const v = page.video && page.video(); if (!v) return [];
+  const file = await v.path();
+  const files = [];
+  for (const ms of times) {
+    const sec = Math.max(0, (tGo - page.recStart + ms) / 1000);
+    const f = path.join(out, `${prefix}t${String(ms).padStart(4, '0')}.png`);
+    try { execFileSync('ffmpeg', ['-v', 'error', '-y', '-ss', sec.toFixed(3), '-i', file, '-frames:v', '1', f]); files.push(f); } catch (e) { /* ffmpeg missing or past the end */ }
+  }
+  try { fs.unlinkSync(file); } catch (e) {}
+  return files;
+}
+const FRAME_TIMES = [400, 800, 1200, 1800, 2500, 3500];
+
 function outDir(d) { fs.mkdirSync(d, { recursive: true }); return d; }
 function arg(name, def) { const i = process.argv.indexOf('--' + name); return i > 0 ? process.argv[i + 1] : def; }
 function flag(name) { return process.argv.includes('--' + name); }
 
-module.exports = { ROOT, OUTER, INNER, MIRROR_DIR, serve, stop, urlFor, portOf, withLang, mirrorName, launch, newPage, scrollThrough, AUDIT, outDir, arg, flag };
+module.exports = { ROOT, OUTER, INNER, MIRROR_DIR, FRAME_TIMES, framesFromVideo, serve, stop, urlFor, portOf, withLang, mirrorName, launch, newPage, scrollThrough, AUDIT, outDir, arg, flag };

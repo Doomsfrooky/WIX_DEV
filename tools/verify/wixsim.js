@@ -6,7 +6,8 @@
 //   node tools/verify/wixsim.js https://rawcdn.githack.com/.../site/home.html <outdir>   (inner from the web)
 // Output JSON: crossOrigin (must be true), stillInvisible (must be 0), errors, iframe height,
 // band accuracy if the page exposes RIHE.band ({top, bottom} in document px): max error against the true visible band.
-// PNGs: t0000..t2500 (first screen over time), s01..sNN (screens down the page while scrolling).
+// PNGs: t0400..t3500 (the first screen over time, cut from a real-time recording; ms after navigation start),
+//       s01..sNN (screens down the page while scrolling).
 'use strict';
 const V = require('./lib');
 (async () => {
@@ -24,16 +25,14 @@ const V = require('./lib');
     h = await m.evaluate(() => Math.ceil(document.documentElement.getBoundingClientRect().height)); await m.ctx.close();
   }
   const outer = `http://localhost:${V.portOf(V.OUTER)}/tools/wix-sim.html?hud=0&w=${mobile ? 320 : ''}&h=${h}&src=${encodeURIComponent(inner)}`;
-  const p = await V.newPage(b, mobile ? { width: 320, height: 693 } : { width: w, height: 900 });
-  const t0 = Date.now();
+  const p = await V.newPage(b, { ...(mobile ? { width: 320, height: 693 } : { width: w, height: 900 }), record: `${out}/.rec` });
+  const tGo = Date.now();
   await p.goto(outer, { waitUntil: 'load', timeout: 60000 });
   const fr = p.frames().find((f) => f !== p.mainFrame());
   if (!fr) { console.error('no iframe'); process.exit(1); }
   await fr.waitForLoadState('load');
-  for (const ms of [0, 300, 700, 1200, 1800, 2500]) {
-    const wait = ms - (Date.now() - t0); if (wait > 0) await p.waitForTimeout(wait);
-    await p.screenshot({ path: `${out}/t${String(ms).padStart(4, '0')}.png` });
-  }
+  // let the load-in play untouched while it is filmed (frames are cut from the video at the end)
+  const settle = V.FRAME_TIMES[V.FRAME_TIMES.length - 1] + 200 - (Date.now() - tGo); if (settle > 0) await p.waitForTimeout(settle);
   const crossOrigin = await fr.evaluate(() => { try { void window.top.location.href; return false; } catch (e) { return true; } });
   await p.waitForTimeout(300);
   const total = await p.evaluate(() => document.documentElement.scrollHeight - innerHeight);
@@ -53,6 +52,8 @@ const V = require('./lib');
     stillInvisible: a.stillInvisible.length, sample: a.stillInvisible.slice(0, 8), brokenImages: a.brokenImages,
     band: bandSamples ? { samples: bandSamples, maxErrorPx: Math.round(bandErr * 10) / 10 } : 'page has no RIHE.band',
     errors: p.log.errors.concat(p.log.failed).slice(0, 10) };
+  await p.ctx.close();
+  res.frames = (await V.framesFromVideo(p, out, '', tGo, V.FRAME_TIMES)).map((f) => require('path').basename(f));
   console.log(JSON.stringify(res, null, 1));
   if (!crossOrigin || res.stillInvisible || res.errors.length) process.exitCode = 1;
   await b.close(); await V.stop();

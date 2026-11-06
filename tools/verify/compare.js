@@ -37,7 +37,8 @@ const V = require('./lib');
 <table style="border-spacing:14px"><tr><td></td>${cols.map((c) => `<td style="font-size:18px">${c.toUpperCase()}</td>`).join('')}</tr>
 ${widths.map((w) => `<tr><td style="vertical-align:top">${w}px</td>${cols.map((c) => cell(c, w)).join('')}</tr>`).join('')}</table></body></html>`;
     const f = path.resolve(out, `compare-${kind}.html`); fs.writeFileSync(f, html);
-    const p = await V.newPage(b, { width: 1800, height: 1000 });
+    const colW = Math.max(...widths.map((w) => (kind === 'first' ? (w <= 400 ? 220 : 560) : (w <= 400 ? 120 : 300)))) + 30;
+    const p = await V.newPage(b, { width: Math.max(900, cols.length * colW + 140), height: 1000 });
     await p.goto('file://' + f); await p.waitForTimeout(500);
     await p.screenshot({ path: `${out}/compare-${kind}.png`, fullPage: true });
     await p.ctx.close();

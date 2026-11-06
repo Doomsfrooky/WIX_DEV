@@ -29,10 +29,10 @@ html, body { margin: 0; background: #fff; }
   --band: calc(var(--en-fs) * 2.12);
   --row: calc((var(--band) - var(--ko-fs) * .056) / 4);   /* four rows fill the name's band exactly */
   --n-fs: clamp(18px, 1.8vw, 26px);
-  --dt-fs: clamp(12.5px, 1.04vw, 14.5px);
-  --gap1: clamp(16px, 1.8vw, 26px);
+  --dt-fs: clamp(13px, 1vw, 14px);          /* the page's small step: ledger labels = readout labels */
+  --gap1: clamp(16px, 1.8vw, 24px);
   --gap2: clamp(36px, 3.3vw, 48px);
-  --gut: clamp(22px, 2.5vw, 36px);
+  --gut: clamp(24px, 2.5vw, 36px);
   --inst-fs: clamp(15px, 1.3vw, 18px);
   --lead-fs: clamp(14.5px, 1.24vw, 18px);
   --ar: 2.6;
@@ -335,7 +335,7 @@ html, body { margin: 0; background: #fff; }
 }
 .fp-pz {
   position: absolute;
-  right: 10px;
+  right: 12px;
   bottom: 12px;
   width: 30px;
   height: 30px;
@@ -370,7 +370,7 @@ html.rm .fp *, html.rm .fp *::before, html.rm .fp *::after { transition: none !i
     --top: round(clamp(36px, 4.4vw, 64px), 1px);
     --band: round(calc(var(--en-fs) * 2.12), 1px);
     --row: round(calc((var(--band) - var(--ko-fs) * .056) / 4), 1px);
-    --gap1: round(clamp(16px, 1.8vw, 26px), 1px);
+    --gap1: round(clamp(16px, 1.8vw, 24px), 1px);
   }
   .fp-ledger { margin-bottom: round(calc(var(--ko-fs) * .056), 1px); }
 }
@@ -388,8 +388,8 @@ html.rm .fp *, html.rm .fp *::before, html.rm .fp *::after { transition: none !i
 @media (max-width: 760px) {
   .fp {
     --pad: 16px;
-    --top: 30px;
-    --bot: 22px;
+    --top: 32px;
+    --bot: 20px;
     --ko-fs: 42px;
     --en-fs: 25px;
     --band: 54px;
@@ -403,16 +403,16 @@ html.rm .fp *, html.rm .fp *::before, html.rm .fp *::after { transition: none !i
   .fp-ko { letter-spacing: -0.03em; }
   .fp-ko .fp-sl-mask, .fp-en .fp-sl-mask:last-child { padding-bottom: .22em; margin-bottom: -.22em; }
   .fp-en { line-height: 1.06; letter-spacing: -0.02em; }
-  .fp-inst { order: 2; margin-top: 9px; line-height: 1.4; }
-  .fp-axis { order: 3; margin-top: 15px; }
+  .fp-inst { order: 2; margin-top: 8px; line-height: 1.4; }
+  .fp-axis { order: 3; margin-top: 16px; }
   .fp-tk { height: 5px; }
-  .fp-tk b { top: 8px; left: 4px; font-size: 9.5px; letter-spacing: 0; }
+  .fp-tk b { top: 8px; left: 4px; font-size: 10px; letter-spacing: 0; }   /* one micro size on the phone hero: axis = ledger labels */
   .fp-k6 b { left: auto; right: 4px; }
-  .fp-rd { top: 8px; padding: 0 4px 0 4px; font-size: 9.5px; letter-spacing: 0; }
+  .fp-rd { top: 8px; padding: 0 4px 0 4px; font-size: 10px; letter-spacing: 0; }
   .fp-u0 { display: inline; }
   .fp-u6 { display: none; }
   .fp-win { order: 4; margin-top: 28px; width: 100%; }
-  .fp-lead { order: 5; margin: 13px 0 14px; line-height: 1.58; }
+  .fp-lead { order: 5; margin: 12px 0; line-height: 1.58; }
   .fp-lead [data-l="ko"] { line-height: 1.66; }
   .fp-ledger {
     order: 6;
@@ -434,5 +434,5 @@ html.rm .fp *, html.rm .fp *::before, html.rm .fp *::after { transition: none !i
   .fp-row + .fp-row { padding-left: 7px; border-left: 1px solid var(--rule-2); }
   .fp-row dt { font-size: 10px; line-height: 1.25; white-space: normal; letter-spacing: 0; word-break: keep-all; }
   .fp-n { font-size: 19px; line-height: 1.05; }
-  .fp-link { order: 7; margin-top: 8px; font-size: 13.5px; gap: 10px; align-self: flex-start; }
+  .fp-link { order: 7; margin-top: 8px; font-size: 14px; gap: 10px; align-self: flex-start; }
 }

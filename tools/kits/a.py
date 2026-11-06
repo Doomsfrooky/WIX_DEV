@@ -71,7 +71,8 @@ def same_or_pair(ko, en, tag='span', cls=''):
 # ================================================================== outcomes (320 only; desktop: the hero's ledger)
 def outcomes():
     items = ''.join(f'<li>{num(n, "ao-num")}<span class="ao-lab">{tt(lab)}</span></li>' for n, lab in core.OUTCOMES)
-    return f'<section class="ao" aria-labelledby="hx-title"><ul class="ao-l" data-a>{items}</ul></section>'
+    # part of the masthead's record, not a region of its own (a section here was a second landmark named like the h1)
+    return f'<div class="ao"><ul class="ao-l" data-a>{items}</ul></div>'
 
 
 # ================================================================== Research: the publication list
@@ -137,11 +138,14 @@ def research():
     </div>
     <div class="a-main pl-main" data-a>
       <div class="pl-tk" data-ticks aria-hidden="true">{''.join(ticks)}</div>
-      <ol class="pl-items" data-items>{first}</ol>
-      <div class="pl-pg">
-        <button type="button" class="pl-prev" data-p="-1" aria-label="{e(core.UI['prev'][0])}" data-aria-en="{e(core.UI['prev'][1])}" disabled>{ARROW}</button>
-        <span class="pl-pi" data-pi>1 / {pages}</span>
-        <button type="button" class="pl-next" data-p="1" aria-label="{e(core.UI['next'][0])}" data-aria-en="{e(core.UI['next'][1])}">{ARROW}</button>
+      <div class="pl-box">
+        <ol class="pl-items" data-items>{first}</ol>
+        <div class="pl-pg">
+          <button type="button" class="pl-prev" data-p="-1" aria-label="{e(core.UI['prev'][0])}" data-aria-en="{e(core.UI['prev'][1])}" disabled>{ARROW}</button>
+          <span class="pl-pi" data-pi>1 / {pages}</span>
+          <button type="button" class="pl-next" data-p="1" aria-label="{e(core.UI['next'][0])}" data-aria-en="{e(core.UI['next'][1])}">{ARROW}</button>
+          <span class="sr" data-pl-live aria-live="polite" aria-atomic="true"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -175,12 +179,16 @@ def group(key, big):
 
 
 def people():
+    """The same side-heading structure as Research: the head in the rail, the groups in the main column starting on
+    the head's top line (each group's heading sits over its own row of prints)."""
     return f"""<section class="a-s a-ppl" id="people" aria-labelledby="people-h">
   <div class="a-wrap">
     <div class="a-rail">{head('people-h', core.PEOPLE_TITLE, core.PEOPLE_LEAD)}</div>
+    <div class="a-main pp-main">
+      {group('faculty', True)}
+      {group('head', False)}
+    </div>
   </div>
-  {group('faculty', True)}
-  {group('head', False)}
 </section>"""
 
 
@@ -235,7 +243,7 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 .a-h2 [data-l="ko"] { font-size: clamp(32px, 3.05vw, 46px); line-height: 1.26; letter-spacing: -.026em; word-break: keep-all; margin-left: -.03em; }
 .a-h2 [data-l="en"] { font-size: clamp(31px, 2.95vw, 44px); line-height: 1.12; letter-spacing: -.014em; font-weight: 500; margin-left: -.03em; }
 .a-h2 .a-ml-mask { padding-bottom: .16em; margin-bottom: -.16em; }
-.a-rule { display: flex; align-items: center; gap: 14px; margin: clamp(18px, 1.7vw, 24px) 0 clamp(18px, 1.7vw, 24px); }
+.a-rule { display: flex; align-items: center; gap: 12px; margin: clamp(16px, 1.7vw, 24px) 0; }
 .a-rule i { flex: 1 1 auto; height: 5px; border-top: 2px solid var(--a-ink); border-bottom: 1px solid rgba(8, 26, 56, .5); transform-origin: 0 50%; }
 .a-tag { flex: none; font-size: 13px; font-weight: 600; line-height: 1; letter-spacing: .12em; margin-right: -.12em; color: var(--a-ink-2); font-variant-numeric: lining-nums tabular-nums; }
 .a-lead { margin: 0; color: var(--a-ink-2); word-break: keep-all; text-wrap: pretty; max-width: 34em; }
@@ -243,24 +251,29 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 .a-lead [data-l="en"] { font-size: 18px; line-height: 1.6; }
 
 /* ---------------------------------------------------------------- facets: an index in the margin */
-.pl-f { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--a-gap); margin-top: clamp(36px, 3.6vw, 56px); padding-top: 18px; border-top: 1px solid var(--a-line-2); }
+.pl-f { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--a-gap); margin-top: clamp(36px, 3.6vw, 56px); padding-top: 16px; border-top: 1px solid var(--a-line-2); }
 .pl-g { display: flex; flex-direction: column; align-items: flex-start; }
-.pl-k { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; line-height: 1.6; letter-spacing: .1em; color: var(--a-ink-3); }
+.pl-k { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; line-height: 1.6; letter-spacing: .1em; color: var(--a-ink-3); }
 .pl-k [data-l="en"] { font-variant-caps: all-small-caps; font-size: 15px; letter-spacing: .09em; }
 .pl-g button {
   position: relative; appearance: none; -webkit-appearance: none; margin: 0; border: 0; border-radius: 0; background: none;
-  padding: 7px 0 8px; font: inherit; font-size: 16px; line-height: 1.45; color: var(--a-ink-2); text-align: left; cursor: pointer;
-  font-variant-numeric: lining-nums tabular-nums; transition: color .2s ease;
+  padding: 8px 0; font: inherit; font-size: 16px; line-height: 1.45; color: var(--a-ink-2); text-align: left; cursor: pointer;
+  font-variant-numeric: lining-nums tabular-nums; transition: color .2s ease, opacity .25s ease;
 }
 .pl-g button::after { content: ""; position: absolute; left: 0; right: 0; bottom: 5px; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: 0 50%; transition: transform .38s var(--a-draw), opacity .2s ease; }
-.pl-g button:hover { color: var(--a-ink); }
-.pl-g button:hover::after { transform: scaleX(1); opacity: .28; }
 .pl-g button[aria-pressed="true"] { color: var(--a-ink); }
 .pl-g button[aria-pressed="true"]::after { transform: scaleX(1); opacity: 1; }
-.pl-g button:active { transform: translateY(1px); }
+.pl-g button:active:not(:disabled) { transform: translateY(1px); }
+/* a value that would empty the list with the other facet's current value: still legible, plainly unavailable */
+.pl-g button:disabled { color: var(--a-ink-3); opacity: .45; cursor: default; }
+@media (hover: hover) {
+  .pl-g button:hover:not(:disabled) { color: var(--a-ink); }
+  .pl-g button:hover:not(:disabled)::after { transform: scaleX(1); opacity: .28; }
+  .pl-g button[aria-pressed="true"]:hover::after { opacity: 1; }
+}
 
 /* ---------------------------------------------------------------- tick strip: one mark per paper, newest on the left */
-.pl-tk { position: relative; display: flex; align-items: flex-end; height: 30px; margin: 4px 0 34px; }
+.pl-tk { position: relative; display: flex; align-items: flex-end; height: 32px; margin: 4px 0 36px; }
 .pl-tk i { position: relative; flex: 1 1 0; min-width: 0; height: 100%; }
 .pl-tk i::before { content: ""; position: absolute; left: 50%; bottom: 0; width: 1px; height: 100%; margin-left: -.5px; background: var(--a-ink); opacity: .17; transform: scaleY(.3); transform-origin: 50% 100%; transition: transform .42s var(--a-out), opacity .3s ease, background-color .2s ease; }
 .pl-tk i.on::before { opacity: .55; transform: scaleY(.52); }
@@ -272,24 +285,25 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 
 /* ---------------------------------------------------------------- the list: year | entry | team, ruled like a ledger */
 .pl-items { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--a-ink); }
-.pl-it { display: grid; grid-template-columns: 3.6em minmax(0, 1fr) 8.6em; column-gap: clamp(16px, 1.6vw, 26px); padding: 17px 0 18px; border-bottom: 1px solid var(--a-line); }
+.pl-it { display: grid; grid-template-columns: 3.6em minmax(0, 1fr) 8.6em; column-gap: clamp(16px, 1.6vw, 24px); padding: 16px 0 20px; border-bottom: 1px solid var(--a-line); }
 .pl-b { max-width: 42em; }
 .pl-y { font-size: 15px; font-weight: 600; line-height: 1.6; color: var(--a-ink); font-variant-numeric: lining-nums tabular-nums; transition: opacity .2s ease; }
 .pl-same .pl-y { opacity: 0; }
 .pl-ti { margin: 0; font-size: 17px; line-height: 1.5; color: var(--a-ink); text-wrap: pretty; overflow-wrap: anywhere; }
 .pl-ti[lang="ko"] { font-size: 16px; line-height: 1.72; word-break: keep-all; overflow-wrap: break-word; }
-.pl-au { margin: 5px 0 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); overflow-wrap: anywhere; }
+.pl-au { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); overflow-wrap: anywhere; }
 .pl-j { margin: 1px 0 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
 .pl-j cite { font-style: italic; }
 .pl-j cite[lang="ko"] { font-style: normal; }
 .pl-j cite.cap { font-variant-caps: all-small-caps; font-size: 15.5px; letter-spacing: .045em; }
-.pl-tm { padding-top: 2px; font-size: 13px; line-height: 22px; height: 24px; color: var(--a-ink-3); text-align: right; letter-spacing: .02em; white-space: nowrap; }
-.pl-tm, .pl-tm [data-l="en"] { font-variant-caps: all-small-caps; font-size: 15px; letter-spacing: .07em; }
+.pl-tm { padding-top: 2px; line-height: 22px; height: 24px; color: var(--a-ink-3); text-align: right; white-space: nowrap; }
+/* lab names in capitals and small capitals: the capitals stay capitals, so HeAD Lab never reads as "HEAD LAB" */
+.pl-tm, .pl-tm [data-l="en"] { font-variant-caps: small-caps; font-size: 14px; letter-spacing: .045em; }
 .pl-tm [data-l="ko"] { font-variant-caps: normal; font-size: 13px; letter-spacing: 0; }
 .pl-empty { padding: 28px 0; font-size: 16px; line-height: 24px; color: var(--a-ink-2); border-bottom: 1px solid var(--a-line); }
 
 /* ---------------------------------------------------------------- pager */
-.pl-pg { display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding-top: 14px; border-top: 1px solid var(--a-ink); }
+.pl-pg { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding-top: 16px; border-top: 1px solid var(--a-ink); }
 .pl-main { scroll-margin-top: 24px; }
 .pl-pi { min-width: 5.2em; text-align: center; font-size: 15px; color: var(--a-ink-2); font-variant-numeric: lining-nums tabular-nums; }
 .pl-pg button {
@@ -298,17 +312,20 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 }
 .pl-pg .a-arr { transition: transform .32s var(--a-out); }
 .pl-prev .a-arr { transform: scaleX(-1); }
-.pl-pg button:hover:not(:disabled) { border-color: var(--a-ink); background: rgba(8, 26, 56, .04); }
-.pl-next:hover:not(:disabled) .a-arr { transform: translateX(3px); }
-.pl-prev:hover:not(:disabled) .a-arr { transform: scaleX(-1) translateX(3px); }
+@media (hover: hover) {
+  .pl-pg button:hover:not(:disabled) { border-color: var(--a-ink); background: rgba(8, 26, 56, .04); }
+  .pl-next:hover:not(:disabled) .a-arr { transform: translateX(3px); }
+  .pl-prev:hover:not(:disabled) .a-arr { transform: scaleX(-1) translateX(3px); }
+}
 .pl-pg button:active:not(:disabled) { background: rgba(8, 26, 56, .08); }
 .pl-pg button:disabled { opacity: .32; cursor: default; }
 
 /* ---------------------------------------------------------------- people: prints in a navy duotone, mounted on paper */
-.pp-g { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--a-gap); align-items: start; margin-top: clamp(40px, 4vw, 64px); padding-top: clamp(22px, 2vw, 30px); border-top: 1px solid var(--a-line-2); }
-.pp-h { grid-column: 1 / span 4; margin: 0; font-size: 19px; font-weight: 600; line-height: 1.4; color: var(--a-ink); letter-spacing: -.005em; }
-.pp-h [data-l="en"] { font-variant-caps: all-small-caps; font-size: 21px; letter-spacing: .08em; }
-.pp-l { grid-column: 5 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(30px, 3vw, 44px) var(--a-gap); max-width: 960px; margin: 0; padding: 0; list-style: none; }
+/* the groups fill the main column from the head's top line; each group's heading sits over its own row of prints */
+.pp-g + .pp-g { margin-top: clamp(40px, 4vw, 64px); padding-top: clamp(24px, 2vw, 32px); border-top: 1px solid var(--a-line-2); }
+.pp-h { margin: 0 0 clamp(16px, 1.6vw, 24px); font-size: 19px; font-weight: 600; line-height: 1.4; color: var(--a-ink); letter-spacing: -.005em; }
+.pp-h [data-l="en"] { font-variant-caps: small-caps; font-size: 20px; letter-spacing: .05em; }
+.pp-l { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(32px, 3vw, 44px) var(--a-gap); max-width: 960px; margin: 0; padding: 0; list-style: none; }
 .pp-m { min-width: 0; }
 /* the frame's ground is black: through the duotone it becomes exactly the prints' darkest navy, so a print develops
    out of its own deepest tone (as the masthead footage develops out of the navy ground) */
@@ -319,7 +336,7 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 .pp-ph::after { background: var(--a-n800); mix-blend-mode: screen; }
 .pp-ini { display: grid; place-items: center; background: var(--a-n800); color: var(--a-n100); font-size: clamp(40px, 4vw, 64px); font-weight: 600; }
 .pp-ini::before, .pp-ini::after { display: none; }
-.pp-nm { margin: 15px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--a-ink); }
+.pp-nm { margin: 16px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--a-ink); }
 .pp-nm [data-l="en"], .pp-nm[lang="en"] { font-size: 18.5px; letter-spacing: -.005em; }
 .pp-rl { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); word-break: keep-all; }
 
@@ -338,7 +355,7 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   .pl-ti[lang="ko"] { font-size: 17px; }
   .pl-au, .pl-j { font-size: 15px; }
   .pl-j cite.cap { font-size: 16.5px; }
-  .pl-it { padding: 19px 0 20px; }
+  .pl-it { padding: 20px 0 24px; }
 }
 
 /* ---------------------------------------------------------------- up to 1200: the team label joins the entry, the entry gets the width */
@@ -347,18 +364,18 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   .pl-y { grid-area: y; } .pl-b { grid-area: b; }
   .pl-tm { grid-area: tm; padding-top: 3px; text-align: left; }
 }
-@media (max-width: 1100px) {
-  .pl-tk i[data-yl="c"]::after { display: none; }
+@media (max-width: 1279px) {
+  .pl-tk i[data-yl="c"]::after { display: none; }   /* below 1280 the 2015 label comes within 13 px of 2008 */
 }
 
 /* ---------------------------------------------------------------- 980 and below: one column, the facets as rows */
 @media (max-width: 960px) {
-  .a-rail, .a-main, .pp-h, .pp-l { grid-column: 1 / -1; }
+  .a-rail, .a-main { grid-column: 1 / -1; }
   .a-lead { max-width: 38em; }
-  .pl-f { grid-template-columns: 1fr; gap: 4px; margin: 30px 0 30px; padding-top: 14px; }
-  .pl-g { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 18px; }
+  .pl-f { grid-template-columns: 1fr; gap: 4px; margin: 32px 0; padding-top: 16px; }
+  .pl-g { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 20px; }
   .pl-k { width: 3.4em; margin: 0; }
-  .pp-l { margin-top: 22px; }
+  .pp-main { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--a-line-2); }
 }
 
 /* ---------------------------------------------------------------- phone (Wix mobile renders this file at 320) */
@@ -366,25 +383,25 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   :root { --a-pad: 16px; --a-sec: 56px; }
   .a-h2 [data-l="ko"] { font-size: 28px; line-height: 1.3; }
   .a-h2 [data-l="en"] { font-size: 27px; line-height: 1.15; }
-  .a-rule { margin: 14px 0 14px; gap: 10px; }
+  .a-rule { margin: 12px 0 16px; gap: 8px; }
   .a-rule i { height: 4px; border-top-width: 1.5px; }
   .a-tag { font-size: 12px; }
   .a-lead [data-l="ko"] { font-size: 15.5px; line-height: 1.8; }
   .a-lead [data-l="en"] { font-size: 16px; line-height: 1.58; }
-  .pl-f { margin: 24px 0 22px; }
-  .pl-g { column-gap: 14px; }
+  .pl-f { margin: 24px 0; }
+  .pl-g { column-gap: 16px; }
   .pl-k { width: 100%; margin: 4px 0 -2px; }
-  .pl-g-year { display: grid; grid-template-columns: repeat(4, max-content); column-gap: 22px; }
+  .pl-g-year { display: grid; grid-template-columns: repeat(4, max-content); column-gap: 24px; }
   .pl-g-year .pl-k { grid-column: 1 / -1; }
-  .pl-g button { font-size: 15px; padding: 9px 0 10px; }
+  .pl-g button { font-size: 15px; padding: 10px 0; }
   .pl-g button::after { bottom: 7px; }
-  .pl-tk { height: 26px; margin-bottom: 30px; }
+  .pl-tk { height: 28px; margin-bottom: 32px; }
   .pl-tk i.y0 { margin-left: 1px; }
-  .pl-it { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "y tm" "b b"; row-gap: 5px; padding: 15px 0 16px; }
+  .pl-it { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "y tm" "b b"; row-gap: 4px; padding: 16px 0; }
   .pl-y { grid-area: y; font-size: 14px; line-height: 22px; }
   .pl-same .pl-y { opacity: 1; }
   .pl-tm { grid-area: tm; padding-top: 0; height: 22px; text-align: right; }
-  .pl-tm, .pl-tm [data-l="en"] { font-size: 14px; }
+  .pl-tm, .pl-tm [data-l="en"] { font-size: 13.5px; }
   .pl-tm [data-l="ko"] { font-size: 12.5px; }
   .pl-b { grid-area: b; }
   .pl-ti { font-size: 15.5px; line-height: 1.48; }
@@ -392,22 +409,23 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   .pl-au, .pl-j { font-size: 13.5px; }
   .pl-pg { justify-content: space-between; padding-top: 12px; }
   .pl-main { scroll-margin-top: 156px; }   /* the Wix mobile header (140 px) is sticky */
-  .pp-g { margin-top: 36px; padding-top: 18px; }
+  .pp-main, .pp-g + .pp-g { margin-top: 36px; padding-top: 20px; }
   .pp-h { font-size: 17.5px; }
-  .pp-h [data-l="en"] { font-size: 19px; }
+  .pp-h [data-l="en"] { font-size: 18.5px; }
   /* faculty: a directory row each (print on the left, name and role beside it) */
-  .pp-big { grid-template-columns: 1fr; gap: 18px; margin-top: 18px; }
+  .pp-big { grid-template-columns: 1fr; gap: 16px; }
   .pp-big .pp-m { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 16px; align-items: end; }
   .pp-big .pp-ph { grid-row: 1 / span 2; }
   .pp-big .pp-nm { margin: 0; align-self: end; }
   .pp-big .pp-rl { align-self: start; padding-bottom: 2px; }
-  .pp-head .pp-l { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin-top: 18px; }
-  .pp-nm { margin-top: 11px; font-size: 16.5px; }
+  .pp-head .pp-l { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+  .pp-nm { margin-top: 12px; font-size: 16.5px; }
+  .pp-nm [data-l="en"], .pp-nm[lang="en"] { font-size: 17px; }   /* the desktop 18.5 px wrapped Chul Young Yoon in the 136 px column */
   .pp-rl { font-size: 13px; }
 
   .ao { display: block; padding: 0 16px 28px; background: var(--a-n900); color: var(--a-paper); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   .ao-l { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-bottom: 1px solid rgba(224, 231, 242, .24); }
-  .ao-l li { padding: 16px 12px 15px 0; border-top: 1px solid rgba(224, 231, 242, .24); }
+  .ao-l li { padding: 16px 12px 16px 0; border-top: 1px solid rgba(224, 231, 242, .24); }
   .ao-l li:nth-child(2n) { padding-left: 16px; border-left: 1px solid rgba(224, 231, 242, .24); }
   .ao-num { display: block; font-size: 38px; line-height: 1; font-weight: 400; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
   .ao-lab { display: block; margin-top: 8px; font-size: 13.5px; line-height: 1.4; color: var(--a-n200); word-break: keep-all; }
@@ -419,6 +437,7 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
 @media (forced-colors: active) {
   .pp-ph::before, .pp-ph::after, .pl-tk { display: none; }
   .pl-g button[aria-pressed="true"] { outline: 2px solid ButtonText; }
+  .pl-g button:disabled { color: GrayText; opacity: 1; }
 }
 @media print {
   .pl-tk, .pl-pg, .pl-f { display: none; }
@@ -461,9 +480,44 @@ function render(d) {
     '<p class="pl-j"><cite' + la(d.j) + caps(d.j) + '>' + esc(d.j) + '</cite></p></div>' +
     '<span class="pl-tm">' + team(d.team) + '</span></li>';
 }
+// a facet value that would empty the list (against the other facet's current value) is unavailable: 7 of the 30
+// team x year pairs have no paper, and finding that out by landing on an empty list is a dead end
+function pass(d, f) {
+  for (var k in f) {
+    var v = f[k];
+    if (v === 'all') continue;
+    if (v.charAt(0) === '~') { if (!(+d[k] <= +v.slice(1))) return false; }
+    else if (String(d[k]) !== v) return false;
+  }
+  return true;
+}
+function facets() {
+  var f = {}, bs = $$('.pl-g button', res);
+  bs.forEach(function (b) { if (b.getAttribute('aria-pressed') === 'true') f[b.getAttribute('data-k')] = b.getAttribute('data-v'); });
+  bs.forEach(function (b) {
+    var k = b.getAttribute('data-k'), v = b.getAttribute('data-v'), g = {}, x, any = false;
+    if (v === 'all' || b.getAttribute('aria-pressed') === 'true') { b.disabled = false; return; }
+    for (x in f) g[x] = f[x];
+    g[k] = v;
+    for (var i = 0; i < PL.items.length && !any; i++) any = pass(PL.items[i], g);
+    b.disabled = !any;
+  });
+}
+// the engine reserves the tallest page (over every filter) on the list itself; the reservation moves to the box around
+// the list and the pager, so the ledger closes (strong rule, page numbers) right under its last entry and the spare
+// paper falls after the closed ledger instead of inside it (a short filtered page left up to 2,000 px of blank paper
+// inside the list at 320). The page height is the same either way.
+var box = $('.pl-box', res), pgEl = $('.pl-pg', res);
+function hold(ul) {
+  var mh = parseFloat(ul.style.minHeight);
+  if (!mh || !box || !pgEl) return;
+  box.style.minHeight = Math.ceil(mh + pgEl.getBoundingClientRect().height) + 'px';
+  ul.style.minHeight = '';
+}
 // after every draw: the year is printed once per run of the same year (a ledger's ditto), the current page's marks
 // stand up in the strip, and a page change slides in from the side it was turned to
 function after(ul, why) {
+  hold(ul);
   var items = $$('.pl-it', ul), cur = {}, prev = null;
   items.forEach(function (li) {
     var y = li.querySelector('.pl-y').textContent;
@@ -471,6 +525,10 @@ function after(ul, why) {
     cur[li.getAttribute('data-i')] = 1;
   });
   ticks.forEach(function (x, i) { x.classList.toggle('cur', !!cur[i]); x.classList.remove('hov'); });
+  facets();
+  // a turned page is announced (the count beside the heading already announces a new filter)
+  var live = $('[data-pl-live]', res);
+  if (live && why === 'page') live.textContent = $('[data-pi]', res).textContent;
   if (why === 'page' && turnedAtFoot) {
     turnedAtFoot = false;
     var mainEl = $('.pl-main'), b = R.band, r = R.rect ? R.rect(mainEl) : null;
@@ -504,7 +562,19 @@ function equalize() {
   root.setAttribute('data-lang', cur === 'en' ? 'ko' : 'en');
   var b = els.map(function (el) { return el.getBoundingClientRect().height; });
   root.setAttribute('data-lang', cur);
-  els.forEach(function (el, i) { el.style.minHeight = Math.ceil(Math.max(a[i], b[i])) + 'px'; });
+  // members take their group's tallest height: one row pitch per group, so a row whose English name or role wraps
+  // does not open a wider gap under that row only (320 HeAD Lab: 52 px under the first row, 24 px under the second)
+  var m = els.map(function (el, i) { return Math.max(a[i], b[i]); }), grp = [];
+  els.forEach(function (el, i) {
+    if (!el.classList.contains('pp-m')) return;
+    for (var j = 0; j < grp.length; j++) if (grp[j][0] === el.parentNode) { grp[j][1] = Math.max(grp[j][1], m[i]); return; }
+    grp.push([el.parentNode, m[i]]);
+  });
+  els.forEach(function (el, i) {
+    var v = m[i];
+    if (el.classList.contains('pp-m')) grp.forEach(function (g) { if (g[0] === el.parentNode) v = g[1]; });
+    el.style.minHeight = Math.ceil(v) + 'px';
+  });
   geo++;
   // the sentinel band tiles the document as it was when fonts arrived; if the list or this pass changed the height
   // afterwards, let the runtime's own resize path re-tile it (it rebuilds only when the height really changed)

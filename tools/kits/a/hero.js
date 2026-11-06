@@ -112,7 +112,10 @@ var SHOTS = [
   { t0: 112.06, t1: 114.24, rate: 0.7, fx: 0.9, fy: 0.4, crop: [0, 0, 1, 0.78] }
 ];
 if (phone) SHOTS = SHOTS.slice(0, 1);
-var MIX = 1.7, DEVELOP = 2.8;     // seconds
+// the develop starts with the name (not after it) and front-loads its tones, so the picture is there inside the
+// first-screen budget (CLAUDE.md: 2.5 s); a smoothstep over 2.8 s showed almost nothing for its first second
+var MIX = 1.7, DEVELOP = 2.4, DEV_AT = 0.45;     // seconds
+function devCurve(x) { return 1 - Math.pow(1 - x, 2.2); }
 var vids = $$('.hx-v'), canvas = $('.hx-gl'), media = $('.hx-media'), film = $('.hx-film'), ctl = $('.hx-ctl');
 var userPaused = false, onScreen = true, tabOn = !doc.hidden, introAt = 0, failed = false;
 function still() {
@@ -215,7 +218,6 @@ var cur = 0, si = 0, mixing = false, mixT0 = 0, primed = [false, false], fresh =
 var R3 = null, raf = 0, devT0 = -1, lastSeed = 0, lastT = 0, started = false, developing = false, dimDirty = false;
 function now() { return (window.performance && performance.now ? performance.now() : Date.now()) / 1000; }
 function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-function sstep(t) { return t * t * (3 - 2 * t); }
 function nextOf(i) { return (i + 1) % SHOTS.length; }
 // where the image may come through in full: just right of the text column, measured, so it follows the language
 function measureFade() {
@@ -264,7 +266,7 @@ function frame() {
   ui.mix = ease(m);
   ui.va = view(shot, t); ui.vb = view(nShot, t); ui.ca = shot.crop; ui.cb = nShot.crop;
   var moving = mixing || (devT0 >= 0 && t - devT0 < 7);              // a transition is running: draw every frame
-  if (devT0 >= 0) ui.dev = sstep(Math.min(1, (t - devT0) / DEVELOP));
+  if (devT0 >= 0) ui.dev = devCurve(Math.min(1, (t - devT0) / DEVELOP));
   var k = 1 - Math.exp(-dt * 4), f0 = ui.fade[0];
   ui.fade[0] += (fadeTo[0] - ui.fade[0]) * k; ui.fade[1] += (fadeTo[1] - ui.fade[1]) * k;
   if (Math.abs(ui.fade[0] - f0) > 1e-4) moving = true;
@@ -306,13 +308,13 @@ function phoneDevelop() {
   hero.style.setProperty('--hx-ex', ex.toFixed(1) + 'px'); hero.style.setProperty('--hx-ey', ey.toFixed(1) + 'px');
   film.style.setProperty('--hx-r', '0px');
   hero.classList.add('is-dev');
-  G.to(film, { '--hx-r': Math.ceil(Math.sqrt(fx * fx + fy * fy) + 120) + 'px', duration: 2.6, ease: 'power2.inOut',
+  G.to(film, { '--hx-r': Math.ceil(Math.sqrt(fx * fx + fy * fy) + 120) + 'px', duration: 2.4, ease: 'power1.out',
     onComplete: function () { hero.classList.remove('is-dev'); film.style.removeProperty('--hx-r'); } });
 }
 // the first take develops only when it is decoded AND the title has had its first beat
 function develop() {
   if (developing || failed || !started || !introAt) return;
-  var wait = Math.max(0, introAt + 0.85 - now());     // after the name has mostly set
+  var wait = Math.max(0, introAt + DEV_AT - now());   // as the first characters of the name rise
   setTimeout(function () {
     if (developing || failed) return;
     developing = true; devT0 = now();

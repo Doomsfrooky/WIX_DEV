@@ -144,9 +144,15 @@ html:not(.js) .hx-v, html.rm .hx-v, .hx.is-still .hx-v { display: none; }
 }
 .hx-link-t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .34em; text-decoration-color: rgba(246, 244, 239, .42); transition: text-decoration-color .3s ease; }
 .hx-arrow { flex: none; transition: transform .45s var(--ease); }
-.hx-link:hover .hx-link-t { text-decoration-color: var(--paper); }
-.hx-link:hover .hx-arrow { transform: translateX(5px); }
+@media (hover: hover) {
+  .hx-link:hover .hx-link-t { text-decoration-color: var(--paper); }
+  .hx-link:hover .hx-arrow { transform: translateX(5px); }
+}
 .hx-link:active .hx-arrow { transform: translateX(8px); transition-duration: .12s; }
+/* desktop: a 44 px tall target around the 22 px line, without moving the line */
+@media (min-width: 761px) {
+  .hx-link { padding: 11px 0; margin-top: calc(clamp(16px, 1.6vw, 22px) - 11px); margin-bottom: -11px; }
+}
 
 /* ---------------------------------------------------------------- ledger: the record */
 .hx-foot { position: absolute; left: var(--pad); right: var(--pad); bottom: var(--bot); }
@@ -157,6 +163,7 @@ html:not(.js) .hx-v, html.rm .hx-v, .hx.is-still .hx-v { display: none; }
 .hx-num { display: block; font-size: clamp(30px, 2.9vw, 42px); line-height: 1; font-weight: 400; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; color: var(--paper); }
 .hx-num .hx-ml-mask { padding-bottom: .06em; margin-bottom: -.06em; }
 .hx-lab { display: block; margin-top: 9px; font-size: 13.5px; line-height: 1.4; color: var(--n200); word-break: keep-all; }
+@media (min-width: 1600px) { .hx-ledger { width: min(980px, 68%); } .hx-lab { font-size: 14.5px; } }   /* the page below steps up at 1600 too */
 
 /* ---------------------------------------------------------------- pause control (moving media longer than 5 s needs one) */
 .hx-ctl {
@@ -166,7 +173,7 @@ html:not(.js) .hx-v, html.rm .hx-v, .hx.is-still .hx-v { display: none; }
   transition: border-color .25s ease, background-color .25s ease;
 }
 .hx-ctl[hidden] { display: none; }
-.hx-ctl:hover { border-color: var(--paper); background: rgba(246, 244, 239, .08); }
+@media (hover: hover) { .hx-ctl:hover { border-color: var(--paper); background: rgba(246, 244, 239, .08); } }
 .hx-ctl .i-play { display: none; }
 .hx-ctl.is-paused .i-play { display: inline; }
 .hx-ctl.is-paused .i-pause { display: none; }
@@ -269,7 +276,7 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 .a-h2 [data-l="ko"] { font-size: clamp(32px, 3.05vw, 46px); line-height: 1.26; letter-spacing: -.026em; word-break: keep-all; margin-left: -.03em; }
 .a-h2 [data-l="en"] { font-size: clamp(31px, 2.95vw, 44px); line-height: 1.12; letter-spacing: -.014em; font-weight: 500; margin-left: -.03em; }
 .a-h2 .a-ml-mask { padding-bottom: .16em; margin-bottom: -.16em; }
-.a-rule { display: flex; align-items: center; gap: 14px; margin: clamp(18px, 1.7vw, 24px) 0 clamp(18px, 1.7vw, 24px); }
+.a-rule { display: flex; align-items: center; gap: 12px; margin: clamp(16px, 1.7vw, 24px) 0; }
 .a-rule i { flex: 1 1 auto; height: 5px; border-top: 2px solid var(--a-ink); border-bottom: 1px solid rgba(8, 26, 56, .5); transform-origin: 0 50%; }
 .a-tag { flex: none; font-size: 13px; font-weight: 600; line-height: 1; letter-spacing: .12em; margin-right: -.12em; color: var(--a-ink-2); font-variant-numeric: lining-nums tabular-nums; }
 .a-lead { margin: 0; color: var(--a-ink-2); word-break: keep-all; text-wrap: pretty; max-width: 34em; }
@@ -277,24 +284,29 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 .a-lead [data-l="en"] { font-size: 18px; line-height: 1.6; }
 
 /* ---------------------------------------------------------------- facets: an index in the margin */
-.pl-f { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--a-gap); margin-top: clamp(36px, 3.6vw, 56px); padding-top: 18px; border-top: 1px solid var(--a-line-2); }
+.pl-f { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--a-gap); margin-top: clamp(36px, 3.6vw, 56px); padding-top: 16px; border-top: 1px solid var(--a-line-2); }
 .pl-g { display: flex; flex-direction: column; align-items: flex-start; }
-.pl-k { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; line-height: 1.6; letter-spacing: .1em; color: var(--a-ink-3); }
+.pl-k { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; line-height: 1.6; letter-spacing: .1em; color: var(--a-ink-3); }
 .pl-k [data-l="en"] { font-variant-caps: all-small-caps; font-size: 15px; letter-spacing: .09em; }
 .pl-g button {
   position: relative; appearance: none; -webkit-appearance: none; margin: 0; border: 0; border-radius: 0; background: none;
-  padding: 7px 0 8px; font: inherit; font-size: 16px; line-height: 1.45; color: var(--a-ink-2); text-align: left; cursor: pointer;
-  font-variant-numeric: lining-nums tabular-nums; transition: color .2s ease;
+  padding: 8px 0; font: inherit; font-size: 16px; line-height: 1.45; color: var(--a-ink-2); text-align: left; cursor: pointer;
+  font-variant-numeric: lining-nums tabular-nums; transition: color .2s ease, opacity .25s ease;
 }
 .pl-g button::after { content: ""; position: absolute; left: 0; right: 0; bottom: 5px; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: 0 50%; transition: transform .38s var(--a-draw), opacity .2s ease; }
-.pl-g button:hover { color: var(--a-ink); }
-.pl-g button:hover::after { transform: scaleX(1); opacity: .28; }
 .pl-g button[aria-pressed="true"] { color: var(--a-ink); }
 .pl-g button[aria-pressed="true"]::after { transform: scaleX(1); opacity: 1; }
-.pl-g button:active { transform: translateY(1px); }
+.pl-g button:active:not(:disabled) { transform: translateY(1px); }
+/* a value that would empty the list with the other facet's current value: still legible, plainly unavailable */
+.pl-g button:disabled { color: var(--a-ink-3); opacity: .45; cursor: default; }
+@media (hover: hover) {
+  .pl-g button:hover:not(:disabled) { color: var(--a-ink); }
+  .pl-g button:hover:not(:disabled)::after { transform: scaleX(1); opacity: .28; }
+  .pl-g button[aria-pressed="true"]:hover::after { opacity: 1; }
+}
 
 /* ---------------------------------------------------------------- tick strip: one mark per paper, newest on the left */
-.pl-tk { position: relative; display: flex; align-items: flex-end; height: 30px; margin: 4px 0 34px; }
+.pl-tk { position: relative; display: flex; align-items: flex-end; height: 32px; margin: 4px 0 36px; }
 .pl-tk i { position: relative; flex: 1 1 0; min-width: 0; height: 100%; }
 .pl-tk i::before { content: ""; position: absolute; left: 50%; bottom: 0; width: 1px; height: 100%; margin-left: -.5px; background: var(--a-ink); opacity: .17; transform: scaleY(.3); transform-origin: 50% 100%; transition: transform .42s var(--a-out), opacity .3s ease, background-color .2s ease; }
 .pl-tk i.on::before { opacity: .55; transform: scaleY(.52); }
@@ -306,24 +318,25 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 
 /* ---------------------------------------------------------------- the list: year | entry | team, ruled like a ledger */
 .pl-items { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--a-ink); }
-.pl-it { display: grid; grid-template-columns: 3.6em minmax(0, 1fr) 8.6em; column-gap: clamp(16px, 1.6vw, 26px); padding: 17px 0 18px; border-bottom: 1px solid var(--a-line); }
+.pl-it { display: grid; grid-template-columns: 3.6em minmax(0, 1fr) 8.6em; column-gap: clamp(16px, 1.6vw, 24px); padding: 16px 0 20px; border-bottom: 1px solid var(--a-line); }
 .pl-b { max-width: 42em; }
 .pl-y { font-size: 15px; font-weight: 600; line-height: 1.6; color: var(--a-ink); font-variant-numeric: lining-nums tabular-nums; transition: opacity .2s ease; }
 .pl-same .pl-y { opacity: 0; }
 .pl-ti { margin: 0; font-size: 17px; line-height: 1.5; color: var(--a-ink); text-wrap: pretty; overflow-wrap: anywhere; }
 .pl-ti[lang="ko"] { font-size: 16px; line-height: 1.72; word-break: keep-all; overflow-wrap: break-word; }
-.pl-au { margin: 5px 0 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); overflow-wrap: anywhere; }
+.pl-au { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); overflow-wrap: anywhere; }
 .pl-j { margin: 1px 0 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
 .pl-j cite { font-style: italic; }
 .pl-j cite[lang="ko"] { font-style: normal; }
 .pl-j cite.cap { font-variant-caps: all-small-caps; font-size: 15.5px; letter-spacing: .045em; }
-.pl-tm { padding-top: 2px; font-size: 13px; line-height: 22px; height: 24px; color: var(--a-ink-3); text-align: right; letter-spacing: .02em; white-space: nowrap; }
-.pl-tm, .pl-tm [data-l="en"] { font-variant-caps: all-small-caps; font-size: 15px; letter-spacing: .07em; }
+.pl-tm { padding-top: 2px; line-height: 22px; height: 24px; color: var(--a-ink-3); text-align: right; white-space: nowrap; }
+/* lab names in capitals and small capitals: the capitals stay capitals, so HeAD Lab never reads as "HEAD LAB" */
+.pl-tm, .pl-tm [data-l="en"] { font-variant-caps: small-caps; font-size: 14px; letter-spacing: .045em; }
 .pl-tm [data-l="ko"] { font-variant-caps: normal; font-size: 13px; letter-spacing: 0; }
 .pl-empty { padding: 28px 0; font-size: 16px; line-height: 24px; color: var(--a-ink-2); border-bottom: 1px solid var(--a-line); }
 
 /* ---------------------------------------------------------------- pager */
-.pl-pg { display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding-top: 14px; border-top: 1px solid var(--a-ink); }
+.pl-pg { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding-top: 16px; border-top: 1px solid var(--a-ink); }
 .pl-main { scroll-margin-top: 24px; }
 .pl-pi { min-width: 5.2em; text-align: center; font-size: 15px; color: var(--a-ink-2); font-variant-numeric: lining-nums tabular-nums; }
 .pl-pg button {
@@ -332,17 +345,20 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 }
 .pl-pg .a-arr { transition: transform .32s var(--a-out); }
 .pl-prev .a-arr { transform: scaleX(-1); }
-.pl-pg button:hover:not(:disabled) { border-color: var(--a-ink); background: rgba(8, 26, 56, .04); }
-.pl-next:hover:not(:disabled) .a-arr { transform: translateX(3px); }
-.pl-prev:hover:not(:disabled) .a-arr { transform: scaleX(-1) translateX(3px); }
+@media (hover: hover) {
+  .pl-pg button:hover:not(:disabled) { border-color: var(--a-ink); background: rgba(8, 26, 56, .04); }
+  .pl-next:hover:not(:disabled) .a-arr { transform: translateX(3px); }
+  .pl-prev:hover:not(:disabled) .a-arr { transform: scaleX(-1) translateX(3px); }
+}
 .pl-pg button:active:not(:disabled) { background: rgba(8, 26, 56, .08); }
 .pl-pg button:disabled { opacity: .32; cursor: default; }
 
 /* ---------------------------------------------------------------- people: prints in a navy duotone, mounted on paper */
-.pp-g { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--a-gap); align-items: start; margin-top: clamp(40px, 4vw, 64px); padding-top: clamp(22px, 2vw, 30px); border-top: 1px solid var(--a-line-2); }
-.pp-h { grid-column: 1 / span 4; margin: 0; font-size: 19px; font-weight: 600; line-height: 1.4; color: var(--a-ink); letter-spacing: -.005em; }
-.pp-h [data-l="en"] { font-variant-caps: all-small-caps; font-size: 21px; letter-spacing: .08em; }
-.pp-l { grid-column: 5 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(30px, 3vw, 44px) var(--a-gap); max-width: 960px; margin: 0; padding: 0; list-style: none; }
+/* the groups fill the main column from the head's top line; each group's heading sits over its own row of prints */
+.pp-g + .pp-g { margin-top: clamp(40px, 4vw, 64px); padding-top: clamp(24px, 2vw, 32px); border-top: 1px solid var(--a-line-2); }
+.pp-h { margin: 0 0 clamp(16px, 1.6vw, 24px); font-size: 19px; font-weight: 600; line-height: 1.4; color: var(--a-ink); letter-spacing: -.005em; }
+.pp-h [data-l="en"] { font-variant-caps: small-caps; font-size: 20px; letter-spacing: .05em; }
+.pp-l { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(32px, 3vw, 44px) var(--a-gap); max-width: 960px; margin: 0; padding: 0; list-style: none; }
 .pp-m { min-width: 0; }
 /* the frame's ground is black: through the duotone it becomes exactly the prints' darkest navy, so a print develops
    out of its own deepest tone (as the masthead footage develops out of the navy ground) */
@@ -353,7 +369,7 @@ body { margin: 0; background: var(--a-paper); color: var(--a-ink); font-family: 
 .pp-ph::after { background: var(--a-n800); mix-blend-mode: screen; }
 .pp-ini { display: grid; place-items: center; background: var(--a-n800); color: var(--a-n100); font-size: clamp(40px, 4vw, 64px); font-weight: 600; }
 .pp-ini::before, .pp-ini::after { display: none; }
-.pp-nm { margin: 15px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--a-ink); }
+.pp-nm { margin: 16px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--a-ink); }
 .pp-nm [data-l="en"], .pp-nm[lang="en"] { font-size: 18.5px; letter-spacing: -.005em; }
 .pp-rl { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); word-break: keep-all; }
 
@@ -372,7 +388,7 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   .pl-ti[lang="ko"] { font-size: 17px; }
   .pl-au, .pl-j { font-size: 15px; }
   .pl-j cite.cap { font-size: 16.5px; }
-  .pl-it { padding: 19px 0 20px; }
+  .pl-it { padding: 20px 0 24px; }
 }
 
 /* ---------------------------------------------------------------- up to 1200: the team label joins the entry, the entry gets the width */
@@ -381,18 +397,18 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   .pl-y { grid-area: y; } .pl-b { grid-area: b; }
   .pl-tm { grid-area: tm; padding-top: 3px; text-align: left; }
 }
-@media (max-width: 1100px) {
-  .pl-tk i[data-yl="c"]::after { display: none; }
+@media (max-width: 1279px) {
+  .pl-tk i[data-yl="c"]::after { display: none; }   /* below 1280 the 2015 label comes within 13 px of 2008 */
 }
 
 /* ---------------------------------------------------------------- 980 and below: one column, the facets as rows */
 @media (max-width: 960px) {
-  .a-rail, .a-main, .pp-h, .pp-l { grid-column: 1 / -1; }
+  .a-rail, .a-main { grid-column: 1 / -1; }
   .a-lead { max-width: 38em; }
-  .pl-f { grid-template-columns: 1fr; gap: 4px; margin: 30px 0 30px; padding-top: 14px; }
-  .pl-g { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 18px; }
+  .pl-f { grid-template-columns: 1fr; gap: 4px; margin: 32px 0; padding-top: 16px; }
+  .pl-g { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 20px; }
   .pl-k { width: 3.4em; margin: 0; }
-  .pp-l { margin-top: 22px; }
+  .pp-main { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--a-line-2); }
 }
 
 /* ---------------------------------------------------------------- phone (Wix mobile renders this file at 320) */
@@ -400,25 +416,25 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   :root { --a-pad: 16px; --a-sec: 56px; }
   .a-h2 [data-l="ko"] { font-size: 28px; line-height: 1.3; }
   .a-h2 [data-l="en"] { font-size: 27px; line-height: 1.15; }
-  .a-rule { margin: 14px 0 14px; gap: 10px; }
+  .a-rule { margin: 12px 0 16px; gap: 8px; }
   .a-rule i { height: 4px; border-top-width: 1.5px; }
   .a-tag { font-size: 12px; }
   .a-lead [data-l="ko"] { font-size: 15.5px; line-height: 1.8; }
   .a-lead [data-l="en"] { font-size: 16px; line-height: 1.58; }
-  .pl-f { margin: 24px 0 22px; }
-  .pl-g { column-gap: 14px; }
+  .pl-f { margin: 24px 0; }
+  .pl-g { column-gap: 16px; }
   .pl-k { width: 100%; margin: 4px 0 -2px; }
-  .pl-g-year { display: grid; grid-template-columns: repeat(4, max-content); column-gap: 22px; }
+  .pl-g-year { display: grid; grid-template-columns: repeat(4, max-content); column-gap: 24px; }
   .pl-g-year .pl-k { grid-column: 1 / -1; }
-  .pl-g button { font-size: 15px; padding: 9px 0 10px; }
+  .pl-g button { font-size: 15px; padding: 10px 0; }
   .pl-g button::after { bottom: 7px; }
-  .pl-tk { height: 26px; margin-bottom: 30px; }
+  .pl-tk { height: 28px; margin-bottom: 32px; }
   .pl-tk i.y0 { margin-left: 1px; }
-  .pl-it { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "y tm" "b b"; row-gap: 5px; padding: 15px 0 16px; }
+  .pl-it { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "y tm" "b b"; row-gap: 4px; padding: 16px 0; }
   .pl-y { grid-area: y; font-size: 14px; line-height: 22px; }
   .pl-same .pl-y { opacity: 1; }
   .pl-tm { grid-area: tm; padding-top: 0; height: 22px; text-align: right; }
-  .pl-tm, .pl-tm [data-l="en"] { font-size: 14px; }
+  .pl-tm, .pl-tm [data-l="en"] { font-size: 13.5px; }
   .pl-tm [data-l="ko"] { font-size: 12.5px; }
   .pl-b { grid-area: b; }
   .pl-ti { font-size: 15.5px; line-height: 1.48; }
@@ -426,22 +442,23 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   .pl-au, .pl-j { font-size: 13.5px; }
   .pl-pg { justify-content: space-between; padding-top: 12px; }
   .pl-main { scroll-margin-top: 156px; }   /* the Wix mobile header (140 px) is sticky */
-  .pp-g { margin-top: 36px; padding-top: 18px; }
+  .pp-main, .pp-g + .pp-g { margin-top: 36px; padding-top: 20px; }
   .pp-h { font-size: 17.5px; }
-  .pp-h [data-l="en"] { font-size: 19px; }
+  .pp-h [data-l="en"] { font-size: 18.5px; }
   /* faculty: a directory row each (print on the left, name and role beside it) */
-  .pp-big { grid-template-columns: 1fr; gap: 18px; margin-top: 18px; }
+  .pp-big { grid-template-columns: 1fr; gap: 16px; }
   .pp-big .pp-m { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 16px; align-items: end; }
   .pp-big .pp-ph { grid-row: 1 / span 2; }
   .pp-big .pp-nm { margin: 0; align-self: end; }
   .pp-big .pp-rl { align-self: start; padding-bottom: 2px; }
-  .pp-head .pp-l { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin-top: 18px; }
-  .pp-nm { margin-top: 11px; font-size: 16.5px; }
+  .pp-head .pp-l { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+  .pp-nm { margin-top: 12px; font-size: 16.5px; }
+  .pp-nm [data-l="en"], .pp-nm[lang="en"] { font-size: 17px; }   /* the desktop 18.5 px wrapped Chul Young Yoon in the 136 px column */
   .pp-rl { font-size: 13px; }
 
   .ao { display: block; padding: 0 16px 28px; background: var(--a-n900); color: var(--a-paper); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   .ao-l { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-bottom: 1px solid rgba(224, 231, 242, .24); }
-  .ao-l li { padding: 16px 12px 15px 0; border-top: 1px solid rgba(224, 231, 242, .24); }
+  .ao-l li { padding: 16px 12px 16px 0; border-top: 1px solid rgba(224, 231, 242, .24); }
   .ao-l li:nth-child(2n) { padding-left: 16px; border-left: 1px solid rgba(224, 231, 242, .24); }
   .ao-num { display: block; font-size: 38px; line-height: 1; font-weight: 400; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; }
   .ao-lab { display: block; margin-top: 8px; font-size: 13.5px; line-height: 1.4; color: var(--a-n200); word-break: keep-all; }
@@ -453,6 +470,7 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
 @media (forced-colors: active) {
   .pp-ph::before, .pp-ph::after, .pl-tk { display: none; }
   .pl-g button[aria-pressed="true"] { outline: 2px solid ButtonText; }
+  .pl-g button:disabled { color: GrayText; opacity: 1; }
 }
 @media print {
   .pl-tk, .pl-pg, .pl-f { display: none; }
@@ -498,7 +516,7 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
   <button class="hx-ctl" type="button" hidden aria-label="배경 영상 일시정지" data-ko-on="배경 영상 일시정지" data-en-on="Pause background video" data-ko-off="배경 영상 재생" data-en-off="Play background video"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path class="i-pause" d="M3.25 1.5v9M8.75 1.5v9" stroke="currentColor" stroke-width="1.5" fill="none"/><path class="i-play" d="M3 1.4v9.2L10.4 6z" fill="currentColor"/></svg></button>
 </section>
 
-<section class="ao" aria-labelledby="hx-title"><ul class="ao-l" data-a><li><span class="ao-num" aria-hidden="true">120</span><span class="sr">120</span><span class="ao-lab"><span data-l="ko">학술지 논문</span><span data-l="en" lang="en">Journal articles</span></span></li><li><span class="ao-num" aria-hidden="true">94</span><span class="sr">94</span><span class="ao-lab"><span data-l="ko">학회 발표</span><span data-l="en" lang="en">Conference presentations</span></span></li><li><span class="ao-num" aria-hidden="true">80</span><span class="sr">80</span><span class="ao-lab"><span data-l="ko">특허 (출원·등록)</span><span data-l="en" lang="en">Patents (filed and granted)</span></span></li><li><span class="ao-num" aria-hidden="true">12</span><span class="sr">12</span><span class="ao-lab"><span data-l="ko">기술이전</span><span data-l="en" lang="en">Technology transfers</span></span></li></ul></section>
+<div class="ao"><ul class="ao-l" data-a><li><span class="ao-num" aria-hidden="true">120</span><span class="sr">120</span><span class="ao-lab"><span data-l="ko">학술지 논문</span><span data-l="en" lang="en">Journal articles</span></span></li><li><span class="ao-num" aria-hidden="true">94</span><span class="sr">94</span><span class="ao-lab"><span data-l="ko">학회 발표</span><span data-l="en" lang="en">Conference presentations</span></span></li><li><span class="ao-num" aria-hidden="true">80</span><span class="sr">80</span><span class="ao-lab"><span data-l="ko">특허 (출원·등록)</span><span data-l="en" lang="en">Patents (filed and granted)</span></span></li><li><span class="ao-num" aria-hidden="true">12</span><span class="sr">12</span><span class="ao-lab"><span data-l="ko">기술이전</span><span data-l="en" lang="en">Technology transfers</span></span></li></ul></div>
 <div class="rihe-sample" role="note"><span><span data-l="ko">시안 구간 · Research 페이지 일부</span><span data-l="en" lang="en">Sample · Part of the Research page</span></span></div>
 <section class="a-s a-res" id="research" aria-labelledby="research-h">
   <div class="a-wrap">
@@ -508,11 +526,14 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
     </div>
     <div class="a-main pl-main" data-a>
       <div class="pl-tk" data-ticks aria-hidden="true"><i class="on cur" data-y="2026" data-yl="a"></i><i class="on cur"></i><i class="on cur y0"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0" data-y="2020" data-yl="b"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0" data-y="2015" data-yl="c"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on y0"></i><i class="on y0"></i><i class="on y0"></i><i class="on y0"></i><i class="on y0"></i><i class="on y0" data-y="2008" data-yl="z"></i></div>
-      <ol class="pl-items" data-items><li class="pl-it" data-i="0"><span class="pl-y">2026</span><div class="pl-b"><p class="pl-ti" lang="en">Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening</p><p class="pl-au" lang="en">Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong</p><p class="pl-j"><cite lang="en">Hearing Research</cite></p></div><span class="pl-tm">Hearing Lab</span></li><li class="pl-it" data-i="1"><span class="pl-y">2026</span><div class="pl-b"><p class="pl-ti" lang="en">Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017</p><p class="pl-au" lang="en">Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., &amp; Jin, I. K.</p><p class="pl-j"><cite lang="en">American Journal of Audiology</cite></p></div><span class="pl-tm">Hearing Lab</span></li><li class="pl-it" data-i="2"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital</p><p class="pl-au" lang="en">Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...</p><p class="pl-j"><cite lang="en" class="cap">CRITICAL PUBLIC HEALTH</cite></p></div><span class="pl-tm">Hearing Lab</span></li><li class="pl-it" data-i="3"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Innovative surgical approaches for the Osia® 2 System</p><p class="pl-au" lang="en">Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon</p><p class="pl-j"><cite lang="en" class="cap">ACTA OTO-LARYNGOLOGICA</cite></p></div><span class="pl-tm">Basic Lab</span></li><li class="pl-it" data-i="4"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">A Retrospective Comparison of Clinical Characteristics of Post-Traumatic and Idiopathic Benign Paroxysmal Positional Vertigo</p><p class="pl-au" lang="en">Kim, Minheon, Jeon, Eun Kyung, Seo, Young Joon, Kong, Tae Hoon</p><p class="pl-j"><cite lang="en" class="cap">EAR AND HEARING</cite></p></div><span class="pl-tm"><span data-l="ko">협력·임상</span><span data-l="en" lang="en">Collab &amp; Medical</span></span></li><li class="pl-it" data-i="5"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data</p><p class="pl-au" lang="en">You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon</p><p class="pl-j"><cite lang="en" class="cap">HEARING RESEARCH</cite></p></div><span class="pl-tm">HeAD Lab</span></li><li class="pl-it" data-i="6"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Isolated Myxoma of the External Auditory Canal: A Rare Case Report</p><p class="pl-au" lang="ko">전은경, 김민헌, 권동환, 서영준</p><p class="pl-j"><cite lang="en">Journal of Audiology &amp; Otology</cite></p></div><span class="pl-tm">Basic Lab</span></li><li class="pl-it" data-i="7"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset</p><p class="pl-au" lang="en">Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho</p><p class="pl-j"><cite lang="en">Journal of Audiology &amp; Otology</cite></p></div><span class="pl-tm">HeAD Lab</span></li><li class="pl-it" data-i="8"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data</p><p class="pl-au" lang="en">Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun</p><p class="pl-j"><cite lang="en">Frontiers in Neurology</cite></p></div><span class="pl-tm">HeAD Lab</span></li><li class="pl-it" data-i="9"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System</p><p class="pl-au" lang="en">Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon</p><p class="pl-j"><cite lang="en">OTO Open</cite></p></div><span class="pl-tm">HeAD Lab</span></li></ol>
-      <div class="pl-pg">
-        <button type="button" class="pl-prev" data-p="-1" aria-label="이전 페이지" data-aria-en="Previous page" disabled><svg class="a-arr" viewBox="0 0 22 10" width="22" height="10" aria-hidden="true" focusable="false"><path d="M0 5h20.5M16.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></button>
-        <span class="pl-pi" data-pi>1 / 12</span>
-        <button type="button" class="pl-next" data-p="1" aria-label="다음 페이지" data-aria-en="Next page"><svg class="a-arr" viewBox="0 0 22 10" width="22" height="10" aria-hidden="true" focusable="false"><path d="M0 5h20.5M16.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></button>
+      <div class="pl-box">
+        <ol class="pl-items" data-items><li class="pl-it" data-i="0"><span class="pl-y">2026</span><div class="pl-b"><p class="pl-ti" lang="en">Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening</p><p class="pl-au" lang="en">Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong</p><p class="pl-j"><cite lang="en">Hearing Research</cite></p></div><span class="pl-tm">Hearing Lab</span></li><li class="pl-it" data-i="1"><span class="pl-y">2026</span><div class="pl-b"><p class="pl-ti" lang="en">Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017</p><p class="pl-au" lang="en">Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., &amp; Jin, I. K.</p><p class="pl-j"><cite lang="en">American Journal of Audiology</cite></p></div><span class="pl-tm">Hearing Lab</span></li><li class="pl-it" data-i="2"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital</p><p class="pl-au" lang="en">Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...</p><p class="pl-j"><cite lang="en" class="cap">CRITICAL PUBLIC HEALTH</cite></p></div><span class="pl-tm">Hearing Lab</span></li><li class="pl-it" data-i="3"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Innovative surgical approaches for the Osia® 2 System</p><p class="pl-au" lang="en">Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon</p><p class="pl-j"><cite lang="en" class="cap">ACTA OTO-LARYNGOLOGICA</cite></p></div><span class="pl-tm">Basic Lab</span></li><li class="pl-it" data-i="4"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">A Retrospective Comparison of Clinical Characteristics of Post-Traumatic and Idiopathic Benign Paroxysmal Positional Vertigo</p><p class="pl-au" lang="en">Kim, Minheon, Jeon, Eun Kyung, Seo, Young Joon, Kong, Tae Hoon</p><p class="pl-j"><cite lang="en" class="cap">EAR AND HEARING</cite></p></div><span class="pl-tm"><span data-l="ko">협력·임상</span><span data-l="en" lang="en">Collab &amp; Medical</span></span></li><li class="pl-it" data-i="5"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data</p><p class="pl-au" lang="en">You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon</p><p class="pl-j"><cite lang="en" class="cap">HEARING RESEARCH</cite></p></div><span class="pl-tm">HeAD Lab</span></li><li class="pl-it" data-i="6"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Isolated Myxoma of the External Auditory Canal: A Rare Case Report</p><p class="pl-au" lang="ko">전은경, 김민헌, 권동환, 서영준</p><p class="pl-j"><cite lang="en">Journal of Audiology &amp; Otology</cite></p></div><span class="pl-tm">Basic Lab</span></li><li class="pl-it" data-i="7"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset</p><p class="pl-au" lang="en">Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho</p><p class="pl-j"><cite lang="en">Journal of Audiology &amp; Otology</cite></p></div><span class="pl-tm">HeAD Lab</span></li><li class="pl-it" data-i="8"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data</p><p class="pl-au" lang="en">Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun</p><p class="pl-j"><cite lang="en">Frontiers in Neurology</cite></p></div><span class="pl-tm">HeAD Lab</span></li><li class="pl-it" data-i="9"><span class="pl-y">2025</span><div class="pl-b"><p class="pl-ti" lang="en">Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System</p><p class="pl-au" lang="en">Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon</p><p class="pl-j"><cite lang="en">OTO Open</cite></p></div><span class="pl-tm">HeAD Lab</span></li></ol>
+        <div class="pl-pg">
+          <button type="button" class="pl-prev" data-p="-1" aria-label="이전 페이지" data-aria-en="Previous page" disabled><svg class="a-arr" viewBox="0 0 22 10" width="22" height="10" aria-hidden="true" focusable="false"><path d="M0 5h20.5M16.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></button>
+          <span class="pl-pi" data-pi>1 / 12</span>
+          <button type="button" class="pl-next" data-p="1" aria-label="다음 페이지" data-aria-en="Next page"><svg class="a-arr" viewBox="0 0 22 10" width="22" height="10" aria-hidden="true" focusable="false"><path d="M0 5h20.5M16.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></button>
+          <span class="sr" data-pl-live aria-live="polite" aria-atomic="true"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -522,9 +543,11 @@ html.js:not(.rm) .a-s [data-ai]:not(.on) { opacity: 0; }
 <section class="a-s a-ppl" id="people" aria-labelledby="people-h">
   <div class="a-wrap">
     <div class="a-rail"><h2 class="a-h2" id="people-h" data-a><span data-l="ko">함께 연구하는 사람들</span><span data-l="en" lang="en">The people of RIHE</span></h2><div class="a-rule" data-a><i aria-hidden="true"></i></div><p class="a-lead" data-a><span data-l="ko">연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 구성원을 소개합니다.</span><span data-l="en" lang="en">Meet the members of the Research Institute of Hearing Enhancement.</span></p></div>
+    <div class="a-main pp-main">
+      <div class="pp-g pp-faculty"><h3 class="pp-h" data-a><span data-l="ko">교수진</span><span data-l="en" lang="en">Faculty</span></h3><ul class="pp-l pp-big" data-a><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/vIAp69Yl.jpeg" alt="서영준" data-alt-en="Young Joon Seo" width="640" height="800" srcset="https://i.imgur.com/vIAp69Ym.jpeg 320w, https://i.imgur.com/vIAp69Yl.jpeg 640w" sizes="(max-width: 760px) 140px, 30vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span data-l="ko">서영준</span><span data-l="en" lang="en">Young Joon Seo</span></p><p class="pp-rl"><span data-l="ko">교수 / 연구소장 · 이비인후과</span><span data-l="en" lang="en">Professor / Director · Otorhinolaryngology</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/6nGWxAVl.jpeg" alt="기재홍" data-alt-en="Jaehong Key" width="640" height="800" srcset="https://i.imgur.com/6nGWxAVm.jpeg 320w, https://i.imgur.com/6nGWxAVl.jpeg 640w" sizes="(max-width: 760px) 140px, 30vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span data-l="ko">기재홍</span><span data-l="en" lang="en">Jaehong Key</span></p><p class="pp-rl"><span data-l="ko">교수 · 생체공학과</span><span data-l="en" lang="en">Professor · Biomedical Engineering</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/kKOtOgOl.jpeg" alt="공태훈" data-alt-en="Tae Hoon Kong" width="640" height="800" srcset="https://i.imgur.com/kKOtOgOm.jpeg 320w, https://i.imgur.com/kKOtOgOl.jpeg 640w" sizes="(max-width: 760px) 140px, 30vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span data-l="ko">공태훈</span><span data-l="en" lang="en">Tae Hoon Kong</span></p><p class="pp-rl"><span data-l="ko">교수 · 이비인후과</span><span data-l="en" lang="en">Professor · Otorhinolaryngology</span></p></li></ul></div>
+      <div class="pp-g pp-head"><h3 class="pp-h" data-a><span data-l="ko">데이터팀 · HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></h3><ul class="pp-l" data-a><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/RC37iFml.jpeg" alt="윤철영" data-alt-en="Chul Young Yoon" width="640" height="800" srcset="https://i.imgur.com/RC37iFmm.jpeg 320w, https://i.imgur.com/RC37iFml.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span data-l="ko">윤철영</span><span data-l="en" lang="en">Chul Young Yoon</span></p><p class="pp-rl"><span data-l="ko">팀장</span><span data-l="en" lang="en">Team Leader</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/7FVQZQel.jpeg" alt="김송이" width="640" height="800" srcset="https://i.imgur.com/7FVQZQem.jpeg 320w, https://i.imgur.com/7FVQZQel.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">김송이</span></p><p class="pp-rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D. Student</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/yCSCJNdl.jpeg" alt="김진수" width="640" height="800" srcset="https://i.imgur.com/yCSCJNdm.jpeg 320w, https://i.imgur.com/yCSCJNdl.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">김진수</span></p><p class="pp-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/bomh6knl.jpeg" alt="임승미" width="640" height="800" srcset="https://i.imgur.com/bomh6knm.jpeg 320w, https://i.imgur.com/bomh6knl.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">임승미</span></p><p class="pp-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/F9YowOSl.jpeg" alt="서연호" width="640" height="800" srcset="https://i.imgur.com/F9YowOSm.jpeg 320w, https://i.imgur.com/F9YowOSl.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">서연호</span></p><p class="pp-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/0PwvF5sl.jpeg" alt="윤담" width="640" height="800" srcset="https://i.imgur.com/0PwvF5sm.jpeg 320w, https://i.imgur.com/0PwvF5sl.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">윤담</span></p><p class="pp-rl"><span data-l="ko">학부연구원</span><span data-l="en" lang="en">Undergraduate Researcher</span></p></li></ul></div>
+    </div>
   </div>
-  <div class="pp-g pp-faculty"><h3 class="pp-h" data-a><span data-l="ko">교수진</span><span data-l="en" lang="en">Faculty</span></h3><ul class="pp-l pp-big" data-a><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/vIAp69Yl.jpeg" alt="서영준" data-alt-en="Young Joon Seo" width="640" height="800" srcset="https://i.imgur.com/vIAp69Ym.jpeg 320w, https://i.imgur.com/vIAp69Yl.jpeg 640w" sizes="(max-width: 760px) 140px, 30vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span data-l="ko">서영준</span><span data-l="en" lang="en">Young Joon Seo</span></p><p class="pp-rl"><span data-l="ko">교수 / 연구소장 · 이비인후과</span><span data-l="en" lang="en">Professor / Director · Otorhinolaryngology</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/6nGWxAVl.jpeg" alt="기재홍" data-alt-en="Jaehong Key" width="640" height="800" srcset="https://i.imgur.com/6nGWxAVm.jpeg 320w, https://i.imgur.com/6nGWxAVl.jpeg 640w" sizes="(max-width: 760px) 140px, 30vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span data-l="ko">기재홍</span><span data-l="en" lang="en">Jaehong Key</span></p><p class="pp-rl"><span data-l="ko">교수 · 생체공학과</span><span data-l="en" lang="en">Professor · Biomedical Engineering</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/kKOtOgOl.jpeg" alt="공태훈" data-alt-en="Tae Hoon Kong" width="640" height="800" srcset="https://i.imgur.com/kKOtOgOm.jpeg 320w, https://i.imgur.com/kKOtOgOl.jpeg 640w" sizes="(max-width: 760px) 140px, 30vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span data-l="ko">공태훈</span><span data-l="en" lang="en">Tae Hoon Kong</span></p><p class="pp-rl"><span data-l="ko">교수 · 이비인후과</span><span data-l="en" lang="en">Professor · Otorhinolaryngology</span></p></li></ul></div>
-  <div class="pp-g pp-head"><h3 class="pp-h" data-a><span data-l="ko">데이터팀 · HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></h3><ul class="pp-l" data-a><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/RC37iFml.jpeg" alt="윤철영" data-alt-en="Chul Young Yoon" width="640" height="800" srcset="https://i.imgur.com/RC37iFmm.jpeg 320w, https://i.imgur.com/RC37iFml.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span data-l="ko">윤철영</span><span data-l="en" lang="en">Chul Young Yoon</span></p><p class="pp-rl"><span data-l="ko">팀장</span><span data-l="en" lang="en">Team Leader</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/7FVQZQel.jpeg" alt="김송이" width="640" height="800" srcset="https://i.imgur.com/7FVQZQem.jpeg 320w, https://i.imgur.com/7FVQZQel.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">김송이</span></p><p class="pp-rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D. Student</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/yCSCJNdl.jpeg" alt="김진수" width="640" height="800" srcset="https://i.imgur.com/yCSCJNdm.jpeg 320w, https://i.imgur.com/yCSCJNdl.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">김진수</span></p><p class="pp-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/bomh6knl.jpeg" alt="임승미" width="640" height="800" srcset="https://i.imgur.com/bomh6knm.jpeg 320w, https://i.imgur.com/bomh6knl.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">임승미</span></p><p class="pp-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/F9YowOSl.jpeg" alt="서연호" width="640" height="800" srcset="https://i.imgur.com/F9YowOSm.jpeg 320w, https://i.imgur.com/F9YowOSl.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">서연호</span></p><p class="pp-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></li><li class="pp-m" data-ai><div class="pp-ph"><img class="pp-img" src="https://i.imgur.com/0PwvF5sl.jpeg" alt="윤담" width="640" height="800" srcset="https://i.imgur.com/0PwvF5sm.jpeg 320w, https://i.imgur.com/0PwvF5sl.jpeg 640w" sizes="(max-width: 760px) 140px, 20vw" loading="lazy" decoding="async"></div><p class="pp-nm"><span lang="ko">윤담</span></p><p class="pp-rl"><span data-l="ko">학부연구원</span><span data-l="en" lang="en">Undergraduate Researcher</span></p></li></ul></div>
 </section>
 <script>
 (function () {
@@ -855,7 +878,10 @@ var SHOTS = [
   { t0: 112.06, t1: 114.24, rate: 0.7, fx: 0.9, fy: 0.4, crop: [0, 0, 1, 0.78] }
 ];
 if (phone) SHOTS = SHOTS.slice(0, 1);
-var MIX = 1.7, DEVELOP = 2.8;     // seconds
+// the develop starts with the name (not after it) and front-loads its tones, so the picture is there inside the
+// first-screen budget (CLAUDE.md: 2.5 s); a smoothstep over 2.8 s showed almost nothing for its first second
+var MIX = 1.7, DEVELOP = 2.4, DEV_AT = 0.45;     // seconds
+function devCurve(x) { return 1 - Math.pow(1 - x, 2.2); }
 var vids = $$('.hx-v'), canvas = $('.hx-gl'), media = $('.hx-media'), film = $('.hx-film'), ctl = $('.hx-ctl');
 var userPaused = false, onScreen = true, tabOn = !doc.hidden, introAt = 0, failed = false;
 function still() {
@@ -958,7 +984,6 @@ var cur = 0, si = 0, mixing = false, mixT0 = 0, primed = [false, false], fresh =
 var R3 = null, raf = 0, devT0 = -1, lastSeed = 0, lastT = 0, started = false, developing = false, dimDirty = false;
 function now() { return (window.performance && performance.now ? performance.now() : Date.now()) / 1000; }
 function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-function sstep(t) { return t * t * (3 - 2 * t); }
 function nextOf(i) { return (i + 1) % SHOTS.length; }
 // where the image may come through in full: just right of the text column, measured, so it follows the language
 function measureFade() {
@@ -1007,7 +1032,7 @@ function frame() {
   ui.mix = ease(m);
   ui.va = view(shot, t); ui.vb = view(nShot, t); ui.ca = shot.crop; ui.cb = nShot.crop;
   var moving = mixing || (devT0 >= 0 && t - devT0 < 7);              // a transition is running: draw every frame
-  if (devT0 >= 0) ui.dev = sstep(Math.min(1, (t - devT0) / DEVELOP));
+  if (devT0 >= 0) ui.dev = devCurve(Math.min(1, (t - devT0) / DEVELOP));
   var k = 1 - Math.exp(-dt * 4), f0 = ui.fade[0];
   ui.fade[0] += (fadeTo[0] - ui.fade[0]) * k; ui.fade[1] += (fadeTo[1] - ui.fade[1]) * k;
   if (Math.abs(ui.fade[0] - f0) > 1e-4) moving = true;
@@ -1049,13 +1074,13 @@ function phoneDevelop() {
   hero.style.setProperty('--hx-ex', ex.toFixed(1) + 'px'); hero.style.setProperty('--hx-ey', ey.toFixed(1) + 'px');
   film.style.setProperty('--hx-r', '0px');
   hero.classList.add('is-dev');
-  G.to(film, { '--hx-r': Math.ceil(Math.sqrt(fx * fx + fy * fy) + 120) + 'px', duration: 2.6, ease: 'power2.inOut',
+  G.to(film, { '--hx-r': Math.ceil(Math.sqrt(fx * fx + fy * fy) + 120) + 'px', duration: 2.4, ease: 'power1.out',
     onComplete: function () { hero.classList.remove('is-dev'); film.style.removeProperty('--hx-r'); } });
 }
 // the first take develops only when it is decoded AND the title has had its first beat
 function develop() {
   if (developing || failed || !started || !introAt) return;
-  var wait = Math.max(0, introAt + 0.85 - now());     // after the name has mostly set
+  var wait = Math.max(0, introAt + DEV_AT - now());   // as the first characters of the name rise
   setTimeout(function () {
     if (developing || failed) return;
     developing = true; devT0 = now();
@@ -1301,9 +1326,44 @@ function render(d) {
     '<p class="pl-j"><cite' + la(d.j) + caps(d.j) + '>' + esc(d.j) + '</cite></p></div>' +
     '<span class="pl-tm">' + team(d.team) + '</span></li>';
 }
+// a facet value that would empty the list (against the other facet's current value) is unavailable: 7 of the 30
+// team x year pairs have no paper, and finding that out by landing on an empty list is a dead end
+function pass(d, f) {
+  for (var k in f) {
+    var v = f[k];
+    if (v === 'all') continue;
+    if (v.charAt(0) === '~') { if (!(+d[k] <= +v.slice(1))) return false; }
+    else if (String(d[k]) !== v) return false;
+  }
+  return true;
+}
+function facets() {
+  var f = {}, bs = $$('.pl-g button', res);
+  bs.forEach(function (b) { if (b.getAttribute('aria-pressed') === 'true') f[b.getAttribute('data-k')] = b.getAttribute('data-v'); });
+  bs.forEach(function (b) {
+    var k = b.getAttribute('data-k'), v = b.getAttribute('data-v'), g = {}, x, any = false;
+    if (v === 'all' || b.getAttribute('aria-pressed') === 'true') { b.disabled = false; return; }
+    for (x in f) g[x] = f[x];
+    g[k] = v;
+    for (var i = 0; i < PL.items.length && !any; i++) any = pass(PL.items[i], g);
+    b.disabled = !any;
+  });
+}
+// the engine reserves the tallest page (over every filter) on the list itself; the reservation moves to the box around
+// the list and the pager, so the ledger closes (strong rule, page numbers) right under its last entry and the spare
+// paper falls after the closed ledger instead of inside it (a short filtered page left up to 2,000 px of blank paper
+// inside the list at 320). The page height is the same either way.
+var box = $('.pl-box', res), pgEl = $('.pl-pg', res);
+function hold(ul) {
+  var mh = parseFloat(ul.style.minHeight);
+  if (!mh || !box || !pgEl) return;
+  box.style.minHeight = Math.ceil(mh + pgEl.getBoundingClientRect().height) + 'px';
+  ul.style.minHeight = '';
+}
 // after every draw: the year is printed once per run of the same year (a ledger's ditto), the current page's marks
 // stand up in the strip, and a page change slides in from the side it was turned to
 function after(ul, why) {
+  hold(ul);
   var items = $$('.pl-it', ul), cur = {}, prev = null;
   items.forEach(function (li) {
     var y = li.querySelector('.pl-y').textContent;
@@ -1311,6 +1371,10 @@ function after(ul, why) {
     cur[li.getAttribute('data-i')] = 1;
   });
   ticks.forEach(function (x, i) { x.classList.toggle('cur', !!cur[i]); x.classList.remove('hov'); });
+  facets();
+  // a turned page is announced (the count beside the heading already announces a new filter)
+  var live = $('[data-pl-live]', res);
+  if (live && why === 'page') live.textContent = $('[data-pi]', res).textContent;
   if (why === 'page' && turnedAtFoot) {
     turnedAtFoot = false;
     var mainEl = $('.pl-main'), b = R.band, r = R.rect ? R.rect(mainEl) : null;
@@ -1344,7 +1408,19 @@ function equalize() {
   root.setAttribute('data-lang', cur === 'en' ? 'ko' : 'en');
   var b = els.map(function (el) { return el.getBoundingClientRect().height; });
   root.setAttribute('data-lang', cur);
-  els.forEach(function (el, i) { el.style.minHeight = Math.ceil(Math.max(a[i], b[i])) + 'px'; });
+  // members take their group's tallest height: one row pitch per group, so a row whose English name or role wraps
+  // does not open a wider gap under that row only (320 HeAD Lab: 52 px under the first row, 24 px under the second)
+  var m = els.map(function (el, i) { return Math.max(a[i], b[i]); }), grp = [];
+  els.forEach(function (el, i) {
+    if (!el.classList.contains('pp-m')) return;
+    for (var j = 0; j < grp.length; j++) if (grp[j][0] === el.parentNode) { grp[j][1] = Math.max(grp[j][1], m[i]); return; }
+    grp.push([el.parentNode, m[i]]);
+  });
+  els.forEach(function (el, i) {
+    var v = m[i];
+    if (el.classList.contains('pp-m')) grp.forEach(function (g) { if (g[0] === el.parentNode) v = g[1]; });
+    el.style.minHeight = Math.ceil(v) + 'px';
+  });
   geo++;
   // the sentinel band tiles the document as it was when fonts arrived; if the list or this pass changed the height
   // afterwards, let the runtime's own resize path re-tile it (it rebuilds only when the height really changed)

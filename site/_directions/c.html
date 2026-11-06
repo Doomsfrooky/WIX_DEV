@@ -31,7 +31,8 @@ html.all [data-a], html.all [data-ai] { opacity: 1 !important; transform: none !
 /* ---------------------------------------------------------------- tokens (one system: the hero and the reading zones) */
 :root {
   --ink: #0f0e0c; --ink-2: #4e4b47; --ink-3: #696660; --ink-r: rgba(15, 14, 12, .14); --ink-r2: rgba(15, 14, 12, .28);
-  --bone: #efe9dd; --bone-d: #e2dbcc; --bone-2: rgba(239, 233, 221, .86); --bone-3: rgba(239, 233, 221, .64); --rule: rgba(239, 233, 221, .2);
+  --bone: #efe9dd; --bone-2: rgba(239, 233, 221, .86); --bone-3: rgba(239, 233, 221, .64); --rule: rgba(239, 233, 221, .2);
+  --paper: #ebeae6; --paper-d: #dcdbd6;   /* the programme's paper: neutral stock with a trace of warmth (review 1: no cream) */
   --amber: #e3a640; --umber: #8a5a0e;
   --W: min(100vw, 1640px); --ox: max(0px, calc((100vw - 1640px) / 2)); --m: clamp(28px, 3.75vw, 72px);
   --fx: calc(var(--ox) + var(--W) * .34); --tx: calc(var(--ox) + var(--m)); --gut: clamp(20px, 2.4vw, 40px);
@@ -41,13 +42,13 @@ html.all [data-a], html.all [data-ai] { opacity: 1 !important; transform: none !
   --out: cubic-bezier(.16, 1, .3, 1);
 }
 @media (max-width: 760px) { :root { --m: 16px; } }
-html { background: var(--bone); }
-body { margin: 0; background: var(--bone); color: var(--ink); }
+html { background: var(--paper); }
+body { margin: 0; background: var(--paper); color: var(--ink); }
 ::selection { background: var(--amber); color: var(--ink); }
 .nw { white-space: nowrap; }
 
 /* ---------------------------------------------------------------- paper: the reading zones */
-.c-sec { position: relative; background: var(--bone); color: var(--ink); font-family: var(--ko); padding: clamp(64px, 6.6vw, 112px) 0 clamp(88px, 8.4vw, 140px);
+.c-sec { position: relative; background: var(--paper); color: var(--ink); font-family: var(--ko); padding: clamp(64px, 6.6vw, 112px) 0 clamp(88px, 8.4vw, 140px);
   -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 .c-sec *, .c-sec *::before, .c-sec *::after { box-sizing: border-box; }
 .c-sec [lang="en"] { font-family: var(--lat); }
@@ -64,7 +65,7 @@ body { margin: 0; background: var(--bone); color: var(--ink); }
 @media (min-width: 761px) { .c-h2--one .m { display: inline-block; vertical-align: top; } }
 
 .c-leadw { grid-column: 2; margin-top: clamp(24px, 2.6vw, 40px); }
-.c-lead { margin: 0; max-width: 35em; font-size: clamp(16px, 1.22vw, 18px); line-height: 1.78; color: var(--ink-2); word-break: keep-all; overflow-wrap: break-word; text-wrap: pretty; }
+.c-lead { margin: 0; max-width: 35em; font-size: clamp(16.5px, 1.22vw, 18px); line-height: 1.78; color: var(--ink-2); word-break: keep-all; overflow-wrap: break-word; text-wrap: pretty; }
 .c-lead[lang="en"] { line-height: 1.62; max-width: 37em; }
 
 /* the slit: a 1 px rule that opens each block (drawn in by the script) */
@@ -73,13 +74,13 @@ body { margin: 0; background: var(--bone); color: var(--ink); }
 /* ---------------------------------------------------------------- the publication list */
 .c-pubs { position: relative; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; margin-top: clamp(52px, 5.4vw, 88px); }
 .c-top { position: absolute; left: 0; top: -150px; width: 1px; height: 1px; pointer-events: none; }
-.c-ctl { grid-column: 1; align-self: start; padding-top: clamp(22px, 2vw, 30px); }
-.c-f + .c-f { margin-top: 26px; }
-.c-fl { margin: 0 0 6px; font-size: 12.5px; line-height: 1.4; letter-spacing: .02em; color: var(--ink-3); }
-.c-fb { position: relative; display: grid; justify-content: start; justify-items: start; column-gap: 22px; }
-.c-f--year .c-fb { grid-template-columns: repeat(4, max-content); }
-.c-fb button { appearance: none; -webkit-appearance: none; margin: 0; padding: 7px 0; border: 0; border-radius: 0; background: none; cursor: pointer;
-  font: 500 15.5px/1.3 var(--ko); color: var(--ink-3); text-align: left; transition: color .2s ease; }
+.c-ctl { grid-column: 1; align-self: start; padding-top: 18px; }   /* 18: the first label starts on the first title's line (optical) */
+.c-f + .c-f { margin-top: 24px; }
+.c-fl { margin: 0 0 4px; font-size: 12px; line-height: 1.4; letter-spacing: .02em; color: var(--ink-3); }
+.c-fb { position: relative; display: grid; justify-content: start; justify-items: start; column-gap: 24px; }
+.c-f--year .c-fb { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 288px; column-gap: 16px; }   /* one pitch for every year */
+.c-fb button { appearance: none; -webkit-appearance: none; margin: 0; padding: 8px 0; border: 0; border-radius: 0; background: none; cursor: pointer;
+  font: 500 15px/1.3 var(--ko); color: var(--ink-3); text-align: left; white-space: nowrap; transition: color .2s ease; }
 .c-fb button [lang="en"] { font-family: var(--lat); font-weight: 500; }
 .c-fb .c-num { font-family: var(--lat); font-stretch: 62%; font-weight: 640; font-size: 18px; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; }
 .c-fb button:hover, .c-fb button[aria-pressed="true"] { color: var(--ink); }
@@ -87,33 +88,40 @@ body { margin: 0; background: var(--bone); color: var(--ink); }
 .c-fb:not(.has-ind) button[aria-pressed="true"] .c-bl { box-shadow: 0 2px 0 var(--umber); }
 .c-ind { position: absolute; left: 0; top: 0; width: 0; height: 2px; background: var(--umber); pointer-events: none; }
 .c-fb:not(.has-ind) .c-ind { display: none; }
-.c-tally { margin: 34px 0 10px; overflow: hidden; font-size: 13px; line-height: 1.4; color: var(--ink-2); }
+/* an option's count under the other filter, set like an index's superscript; it turns over when the other filter changes */
+.c-bc { display: inline-block; vertical-align: top; font: 640 11px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em;
+  font-variant-numeric: tabular-nums lining-nums; color: var(--ink-3); }
+.c-fb button[aria-pressed="true"] .c-bc { color: var(--ink-2); }
+.c-tally { margin: 32px 0 8px; overflow: hidden; font-size: 13.5px; line-height: 1.4; color: var(--ink-2); }
 .c-tally [data-n] { display: inline-block; }
-.c-tally [lang="en"] { font-size: 13.5px; }
+/* the result count speaks with the pager's counter numerals */
+.c-cn { font: 640 18px/1 var(--lat); font-stretch: 62%; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; color: var(--ink); }
 /* the reel: one frame per publication, newest first; the filter lights its frames, the page on screen is umber */
 .c-reel { display: flex; align-items: flex-end; gap: 1px; height: 30px; }
 .c-reel i { flex: 1 1 0; min-width: 0; height: 100%; background: var(--ink); opacity: .13; transform-origin: 50% 100%; transform: scaleY(.42); }
 .c-reel i.on { opacity: .6; transform: none; }
 .c-reel i.cur { opacity: 1; background: var(--umber); }
 .c-reel.live i { transition: opacity .3s ease, transform .45s var(--out), background-color .3s ease; transition-delay: calc(var(--d, 0) * 1ms); }
-.c-reel-y { display: flex; justify-content: space-between; margin: 7px 0 0; font: 600 12px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.c-reel-y { display: flex; justify-content: space-between; margin: 8px 0 0; font: 640 12px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
 .c-lw { position: relative; grid-column: 2; min-width: 0; }
 .c-list { list-style: none; margin: 0; padding: 0; }
-.c-row { display: grid; grid-template-columns: 58px minmax(0, 1fr) 128px; grid-template-areas: "yr tx tm"; column-gap: 22px; padding: 17px 0 18px; border-bottom: 1px solid var(--ink-r); }
-.c-yr { grid-area: yr; padding-top: 1px; font: 640 17px/1.4 var(--lat); font-stretch: 62%; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; color: var(--ink); }
-.c-tx { grid-area: tx; min-width: 0; }
+/* year, title and team share the title's first baseline (no nudges); 16 above and below balances the line boxes */
+.c-row { display: grid; grid-template-columns: 58px minmax(0, 1fr) 128px; grid-template-areas: "yr tx tm"; align-items: baseline; column-gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--ink-r); }
+.c-yr { grid-area: yr; font: 640 18px/1.4 var(--lat); font-stretch: 62%; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; color: var(--ink); }
+.c-tx { grid-area: tx; min-width: 0; max-width: 680px; }
 .c-ti { margin: 0; font-size: 16.5px; line-height: 1.46; font-weight: 500; color: var(--ink); word-break: keep-all; overflow-wrap: anywhere; }
 .c-ti[lang="en"] { letter-spacing: -.004em; }
 .c-au { margin: 6px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); overflow-wrap: anywhere; }
 .c-jn { margin: 2px 0 0; font-size: 13.5px; line-height: 1.5; font-weight: 500; color: var(--ink); }
-.c-tm { grid-area: tm; padding-top: 2px; font-size: 12.5px; line-height: 1.45; color: var(--ink-3); text-align: right; white-space: nowrap; }
-.c-row--e { display: block; padding: 30px 0; font-size: 15px; color: var(--ink-2); }
-.c-pg { display: flex; align-items: center; gap: 10px; margin-top: 26px; }
+.c-tm { grid-area: tm; font-size: 12px; line-height: 1.45; color: var(--ink-3); text-align: right; white-space: nowrap; }
+.c-row--e { display: block; padding: 24px 0 28px; font-size: 18px; line-height: 1.45; font-weight: 500; color: var(--ink); word-break: keep-all; }
+.c-row--e [lang="en"] { letter-spacing: -.006em; }
+.c-pg { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
 .c-pg button { appearance: none; -webkit-appearance: none; width: 44px; height: 44px; margin: 0; padding: 0; display: grid; place-items: center; border: 1px solid var(--ink-r2); border-radius: 0;
   background: transparent; color: var(--ink); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .12s ease; }
 .c-pg svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform .3s var(--out); }
-.c-pg button:hover:not(:disabled) { background: var(--ink); border-color: var(--ink); color: var(--bone); }
+.c-pg button:hover:not(:disabled) { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .c-pg button[data-p="1"]:hover:not(:disabled) svg { transform: translateX(2px); }
 .c-pg button[data-p="-1"]:hover:not(:disabled) svg { transform: translateX(-2px); }
 .c-pg button:active:not(:disabled) { transform: scale(.94); }
@@ -125,39 +133,47 @@ body { margin: 0; background: var(--bone); color: var(--ink); }
 /* ---------------------------------------------------------------- people */
 .c-team { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; margin-top: clamp(56px, 5.8vw, 96px); }
 .c-team + .c-team { margin-top: clamp(60px, 6vw, 100px); }
-.c-team > .c-ln { margin-bottom: clamp(18px, 1.6vw, 24px); }
+.c-team > .c-ln { margin-bottom: clamp(16px, 1.6vw, 24px); }
 .c-h3 { grid-column: 1; margin: 0; font-weight: 400; align-self: start; color: var(--ink); }
 .c-h3-ko, .c-h3-en { display: block; }
 .c-h3-ko { font: 400 clamp(28px, 2.5vw, 40px)/1.12 var(--dsp); letter-spacing: -.01em; }
-.c-h3-en { font-family: var(--lat); font-stretch: 62%; font-weight: 860; font-size: clamp(30px, 2.7vw, 43px); line-height: 1.04; text-transform: uppercase; }
-.c-mems { grid-column: 2; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px clamp(16px, 1.7vw, 28px); }
-.c-team--lab .c-mems { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 32px clamp(12px, 1.2vw, 20px); }
+.c-h3-en { font-family: var(--lat); font-stretch: 62%; font-weight: 860; font-size: clamp(30px, 2.7vw, 43px); line-height: 1.04; letter-spacing: -.004em; }
+/* the grid holds the taller of its two languages (data-lk), the spare stays at its foot */
+.c-mems { grid-column: 2; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: 40px clamp(16px, 1.7vw, 28px); }
+/* the lab: each member takes three rows of the grid (portrait, name, role), so a name that wraps keeps every role of its
+   row on one line; the row gap becomes the member's bottom padding, and the last row gives it back */
+.c-team--lab .c-mems { --rg: 32px; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: clamp(12px, 1.2vw, 20px); row-gap: 0; margin-bottom: calc(-1 * var(--rg)); }
+.c-team--lab .c-mem { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; padding-bottom: var(--rg); }
+.c-team--lab .c-mt { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
 .c-mem { margin: 0; min-width: 0; }
-.c-ph { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bone-d); }
+.c-ph { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--paper-d); }
 .c-pp { position: absolute; left: 0; right: 0; top: -5%; height: 110%; }
 .c-im { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 26%; filter: saturate(.84) contrast(1.04);
   transition: filter .7s var(--out), transform .9s var(--out); }
 .c-mem:hover .c-im { filter: saturate(1) contrast(1); transform: scale(1.035); }
 .c-ini { position: absolute; inset: 0; display: grid; place-items: center; font: 400 clamp(40px, 4vw, 64px)/1 var(--dsp); color: var(--umber); }
 .c-ini [lang="en"] { font-family: var(--lat); font-stretch: 62%; font-weight: 860; }
-.c-mem .c-mt { margin-top: 14px; }
+.c-mem .c-mt { margin-top: 12px; }
 .c-nm { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 500; color: var(--ink); }
-.c-nm [lang="en"] { font-weight: 600; letter-spacing: -.006em; }
-.c-rl { margin: 4px 0 0; font-size: 13px; line-height: 1.46; color: var(--ink-2); word-break: keep-all; }
-.c-team--lab .c-nm { font-size: 16px; }
-.c-team--lab .c-rl { font-size: 12.5px; }
+.c-nm [lang="en"] { font-weight: 640; letter-spacing: -.006em; }
+.c-rl { margin: 4px 0 0; font-size: 13.5px; line-height: 1.46; color: var(--ink-2); word-break: keep-all; }
+.c-team--lab .c-nm { font-size: 16.5px; }
+.c-team--lab .c-rl { font-size: 12px; }
 
 /* ---------------------------------------------------------------- reveal states: hidden only when motion will run */
 html.js:not(.rm) .c-sec [data-a]:not(.on) { opacity: 0; }
 
 /* ---------------------------------------------------------------- tablet widths (Wix shows 980+ and 320; kept sound between) */
 @media (max-width: 1199px) {
-  .c-row { grid-template-columns: 52px minmax(0, 1fr) 112px; column-gap: 18px; }
-  .c-team--lab .c-nm { font-size: 14.5px; }
-  .c-team--lab .c-rl { font-size: 12px; }
+  .c-row { grid-template-columns: 52px minmax(0, 1fr) 112px; column-gap: 20px; }
+  .c-team--lab .c-nm { font-size: 15px; }
 }
-/* the lab stays one row of six on every desktop width, half the faculty's size (the hierarchy holds at 980) */
-@media (max-width: 899px) { .c-team--lab .c-mems { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* the lab stays one row of six on every desktop width, half the faculty's size (the hierarchy holds at 980); below 900
+   (not a Wix width) the left column is too narrow for four years with their counts */
+@media (max-width: 899px) {
+  .c-team--lab .c-mems { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .c-f--year .c-fb { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 
 /* ---------------------------------------------------------------- 320 (Wix mobile): one column, the same parts */
 @media (max-width: 760px) {
@@ -167,36 +183,34 @@ html.js:not(.rm) .c-sec [data-a]:not(.on) { opacity: 0; }
   .c-pubs, .c-team { grid-template-columns: minmax(0, 1fr); }
   .c-h2 { --hs: 34px; }
   .c-h2-en .l { font-size: calc(var(--hs) * 1.06); }
-  .c-leadw { margin-top: 18px; }
+  .c-leadw { margin-top: 16px; }
   .c-lead { font-size: 15px; line-height: 1.72; }
   .c-lead[lang="en"] { font-size: 15px; line-height: 1.58; }
   .c-pubs { margin-top: 40px; }
-  .c-ctl { padding-top: 18px; margin-bottom: 22px; }
-  .c-fb { column-gap: 14px; }
+  .c-ctl { padding-top: 16px; margin-bottom: 24px; }
+  .c-fb { column-gap: 16px; }
   .c-f--team .c-fb { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
-  .c-f--year .c-fb { grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
-  .c-fb button { padding: 9px 0; font-size: 14.5px; }
-  .c-fb .c-num { font-size: 17px; }
-  .c-f + .c-f { margin-top: 18px; }
-  .c-tally { margin: 22px 0 8px; }
+  .c-f--year .c-fb { grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; max-width: none; }
+  .c-fb button { padding: 12px 0; }
+  .c-f + .c-f { margin-top: 16px; }
+  .c-tally { margin: 24px 0 8px; }
   .c-reel { height: 24px; }
-  .c-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "yr tm" "tx tx"; row-gap: 5px; padding: 15px 0 16px; }
-  .c-yr { font-size: 15px; padding: 0; }
-  .c-tm { font-size: 12px; padding: 1px 0 0; }
+  .c-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "yr tm" "tx tx"; row-gap: 4px; padding: 16px 0; }
+  .c-yr { font-size: 15px; }
   .c-ti { font-size: 15px; line-height: 1.48; }
-  .c-au, .c-jn { font-size: 12.5px; }
+  .c-au, .c-jn { font-size: 12px; }
   .c-team { margin-top: 48px; }
-  .c-team + .c-team { margin-top: 52px; }
-  .c-h3 { margin-bottom: 18px; }
+  .c-team + .c-team { margin-top: 56px; }
+  .c-h3 { margin-bottom: 16px; }
   .c-h3-ko { font-size: 26px; }
   .c-h3-en { font-size: 28px; }
-  .c-team--fac .c-mems { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .c-team--fac .c-mems { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .c-team--fac .c-mem { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 16px; align-items: end; }
   .c-team--fac .c-mem .c-mt { margin: 0 0 2px; }
-  .c-team--lab .c-mems { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 10px; }
-  .c-team--lab .c-mem .c-mt { margin-top: 9px; }
-  .c-team--lab .c-nm { font-size: 14.5px; }
-  .c-team--lab .c-rl { font-size: 11.5px; line-height: 1.4; }
+  .c-team--lab .c-mems { --rg: 24px; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 8px; }
+  .c-team--lab .c-mem .c-mt { margin-top: 8px; }
+  .c-team--lab .c-nm { font-size: 15px; }
+  .c-team--lab .c-rl { font-size: 12px; line-height: 1.4; }
 }
 
 /* reduced motion: nothing moves, not even the hover transitions */
@@ -268,7 +282,7 @@ html.all .cx-edge, html.rm .cx-edge, .cx-done .cx-edge-t { display: none; }
 
 /* pause / play (WCAG 2.2.2) */
 .cx-pause {
-  position: absolute; z-index: 4; right: 18px; bottom: 18px;
+  position: absolute; z-index: 4; right: 16px; bottom: 16px;
   width: 40px; height: 40px; padding: 0; margin: 0;
   display: grid; place-items: center;
   border: 1px solid rgba(239, 233, 221, .4); border-radius: 0;
@@ -320,7 +334,7 @@ html.all .cx-edge, html.rm .cx-edge, .cx-done .cx-edge-t { display: none; }
 /* ---------------------------------------------------------------- under the frame line */
 .cx-low {
   position: absolute; z-index: 3;
-  top: calc(var(--fh) + clamp(22px, 2.5vw, 36px));
+  top: calc(var(--fh) + clamp(24px, 2.5vw, 36px));
   left: var(--tx);
   right: var(--m);
   display: grid;
@@ -332,24 +346,24 @@ html.all .cx-edge, html.rm .cx-edge, .cx-done .cx-edge-t { display: none; }
 }
 .cx-inst {
   grid-area: inst; margin: 0;
-  font-size: 14px; line-height: 1.45; font-weight: 500; letter-spacing: .005em;
+  font-size: 13.5px; line-height: 1.45; font-weight: 500; letter-spacing: .005em;
   color: var(--bone-2);
 }
-.cx-inst [lang="en"] { font-size: 13.5px; letter-spacing: .01em; }
+.cx-inst [lang="en"] { letter-spacing: .01em; }
 .cx-lead {
   grid-area: lead; margin: -.32em 0 0;
   max-width: 35em;
-  font-size: clamp(15.5px, 1.33vw, 18px); line-height: 1.72; font-weight: 400; letter-spacing: -.004em;
+  font-size: clamp(15px, 1.33vw, 18px); line-height: 1.72; font-weight: 400; letter-spacing: -.004em;
   color: var(--bone-2);
   word-break: keep-all; overflow-wrap: break-word;
   text-wrap: pretty;
 }
-.cx-lead[lang="en"] { font-size: clamp(15px, 1.29vw, 17.5px); line-height: 1.6; letter-spacing: 0; max-width: 36em; }
+.cx-lead[lang="en"] { font-size: clamp(15px, 1.29vw, 18px); line-height: 1.6; letter-spacing: 0; max-width: 36em; }
 .cx-nums {
   grid-area: nums;
-  list-style: none; margin: clamp(16px, 1.9vw, 26px) 0 0; padding: clamp(12px, 1.2vw, 16px) 0 0;
+  list-style: none; margin: clamp(16px, 1.9vw, 24px) 0 0; padding: clamp(12px, 1.2vw, 16px) 0 0;
   background: linear-gradient(var(--rule), var(--rule)) no-repeat 0 0 / var(--rs, 100%) 1px;   /* hairline drawn in with the numbers */
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(10px, 1.2vw, 18px);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(12px, 1.2vw, 16px);
 }
 .cx-nums li { display: block; margin: 0; padding: 0; }
 .cx-nums b {
@@ -365,22 +379,22 @@ html.all .cx-edge, html.rm .cx-edge, .cx-done .cx-edge-t { display: none; }
 .cx-strip { display: block; }
 .cx-strip > span { display: block; height: 1em; }
 .cx-nums li > span {
-  display: block; margin-top: 7px;
+  display: block; margin-top: 8px;
   font-size: 12px; line-height: 1.38; letter-spacing: 0;
   color: var(--bone-3);
   word-break: keep-all;
 }
-.cx-nums li > span[lang="en"] { font-size: 11.5px; font-stretch: 90%; letter-spacing: .005em; }
+.cx-nums li > span[lang="en"] { font-size: 11px; font-stretch: 90%; letter-spacing: .005em; }
 .cx .nw { white-space: nowrap; }
 .cx-more {
   grid-area: more; justify-self: start;
   display: inline-flex; align-items: center; gap: 12px;
   margin-top: clamp(12px, 1.4vw, 20px); padding: 8px 0;
   color: var(--bone); text-decoration: none;
-  font-size: 14.5px; line-height: 1.3; font-weight: 500; letter-spacing: .005em;
+  font-size: 15px; line-height: 1.3; font-weight: 500; letter-spacing: .005em;
 }
 .cx-more span { padding-bottom: 4px; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .35s cubic-bezier(.16, 1, .3, 1); }
-.cx-more span[lang="en"] { font-size: 14px; letter-spacing: .01em; }
+.cx-more span[lang="en"] { letter-spacing: .01em; }
 .cx-more svg { width: 20px; height: 10px; flex: none; fill: none; stroke: var(--amber); stroke-width: 1.5; transition: transform .35s cubic-bezier(.16, 1, .3, 1); }
 .cx-more:hover svg { transform: translateX(5px); }
 .cx-more:hover span { background-size: 100% 2px; }
@@ -401,21 +415,20 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
       linear-gradient(0deg, rgba(15, 14, 12, .9) 0%, rgba(15, 14, 12, .66) 30%, rgba(15, 14, 12, .3) 55%, rgba(15, 14, 12, 0) 76%),
       linear-gradient(90deg, rgba(15, 14, 12, .35) 0%, rgba(15, 14, 12, 0) 45%);
   }
-  .cx-pause { right: 10px; bottom: 10px; width: 36px; height: 36px; }
+  .cx-pause { right: 12px; bottom: 12px; width: 36px; height: 36px; }
   .cx-h { left: 16px; }
   .cx-h-ko { font-size: 62px; line-height: 1; transform: translateY(.07em); }
   .cx-h-en { font-size: 35px; line-height: .9; transform: translateY(.06em); }
-  .cx-low { top: calc(var(--fh) + 13px); left: 16px; right: 16px; display: flex; flex-direction: column; }
-  .cx-inst { order: 1; font-size: 12.5px; line-height: 1.4; }
+  .cx-low { top: calc(var(--fh) + 12px); left: 16px; right: 16px; display: flex; flex-direction: column; }
+  .cx-inst { order: 1; font-size: 12px; line-height: 1.4; }
   .cx-inst [lang="en"] { font-size: 12px; line-height: 1.38; }
-  .cx-lead { order: 2; margin: 10px 0 0; font-size: 14.5px; line-height: 1.6; max-width: none; }
+  .cx-lead { order: 2; margin: 8px 0 0; font-size: 15px; line-height: 1.6; max-width: none; }
   .cx-lead[lang="en"] { font-size: 13.5px; line-height: 1.48; max-width: none; }
-  .cx-nums { order: 3; margin-top: 14px; padding-top: 10px; column-gap: 8px; }
+  .cx-nums { order: 3; margin-top: 16px; padding-top: 8px; column-gap: 8px; }
   .cx-nums b { font-size: 25px; }
   .cx-nums li > span { margin-top: 4px; font-size: 11px; line-height: 1.27; }
   .cx-nums li > span[lang="en"] { font-size: 11px; letter-spacing: 0; }
-  .cx-more { order: 4; margin-top: 4px; padding: 8px 0 6px; font-size: 13.5px; }
-  .cx-more span[lang="en"] { font-size: 13px; }
+  .cx-more { order: 4; margin-top: 4px; padding: 8px 0; font-size: 13.5px; }
 }
 </style>
 <script src="../vendor/gsap@3.15.0/gsap.min.js" defer></script><script src="../vendor/gsap@3.15.0/SplitText.min.js" defer></script><script src="../vendor/gsap@3.15.0/CustomEase.min.js" defer></script>
@@ -464,9 +477,9 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
 <div class="c-pubs" data-a data-list>
   <i class="c-ln" aria-hidden="true"></i>
   <div class="c-ctl" data-lk>
-    <div class="c-f c-f--team" role="group" aria-label="팀" data-aria-en="Team"><p class="c-fl" aria-hidden="true"><span data-l="ko">팀</span><span data-l="en" lang="en">Team</span></p><div class="c-fb"><button type="button" data-k="team" data-v="all" aria-pressed="true"><span class="c-bl"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></span></button><button type="button" data-k="team" data-v="basic" aria-pressed="false"><span class="c-bl"><span data-l="ko">Basic Lab</span><span data-l="en" lang="en">Basic Lab</span></span></button><button type="button" data-k="team" data-v="hearing" aria-pressed="false"><span class="c-bl"><span data-l="ko">Hearing Lab</span><span data-l="en" lang="en">Hearing Lab</span></span></button><button type="button" data-k="team" data-v="head" aria-pressed="false"><span class="c-bl"><span data-l="ko">HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></span></button><button type="button" data-k="team" data-v="collab" aria-pressed="false"><span class="c-bl"><span data-l="ko">협력·임상</span><span data-l="en" lang="en">Collab &amp; Medical</span></span></button><i class="c-ind" aria-hidden="true"></i></div></div>
-    <div class="c-f c-f--year" role="group" aria-label="연도" data-aria-en="Year"><p class="c-fl" aria-hidden="true"><span data-l="ko">연도</span><span data-l="en" lang="en">Year</span></p><div class="c-fb"><button type="button" data-k="year" data-v="all" aria-pressed="true"><span class="c-bl"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></span></button><button type="button" data-k="year" data-v="2026" aria-pressed="false"><span class="c-bl"><span class="c-num">2026</span></span></button><button type="button" data-k="year" data-v="2025" aria-pressed="false"><span class="c-bl"><span class="c-num">2025</span></span></button><button type="button" data-k="year" data-v="2024" aria-pressed="false"><span class="c-bl"><span class="c-num">2024</span></span></button><button type="button" data-k="year" data-v="2023" aria-pressed="false"><span class="c-bl"><span class="c-num">2023</span></span></button><button type="button" data-k="year" data-v="2022" aria-pressed="false"><span class="c-bl"><span class="c-num">2022</span></span></button><button type="button" data-k="year" data-v="~2021" aria-pressed="false"><span class="c-bl"><span class="c-num">~2021</span></span></button><i class="c-ind" aria-hidden="true"></i></div></div>
-    <p class="c-tally" aria-live="polite"><span data-n><span data-l="ko">120건</span><span data-l="en" lang="en">120 items</span></span></p>
+    <div class="c-f c-f--team" role="group" aria-label="팀" data-aria-en="Team"><p class="c-fl" aria-hidden="true"><span data-l="ko">팀</span><span data-l="en" lang="en">Team</span></p><div class="c-fb"><button type="button" data-k="team" data-v="all" aria-pressed="true"><span class="c-bl"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></span> <span class="c-bc">120</span></button><button type="button" data-k="team" data-v="basic" aria-pressed="false"><span class="c-bl"><span data-l="ko">Basic Lab</span><span data-l="en" lang="en">Basic Lab</span></span> <span class="c-bc">41</span></button><button type="button" data-k="team" data-v="hearing" aria-pressed="false"><span class="c-bl"><span data-l="ko">Hearing Lab</span><span data-l="en" lang="en">Hearing Lab</span></span> <span class="c-bc">21</span></button><button type="button" data-k="team" data-v="head" aria-pressed="false"><span class="c-bl"><span data-l="ko">HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></span> <span class="c-bc">17</span></button><button type="button" data-k="team" data-v="collab" aria-pressed="false"><span class="c-bl"><span data-l="ko">협력·임상</span><span data-l="en" lang="en">Collab &amp; Medical</span></span> <span class="c-bc">41</span></button><i class="c-ind" aria-hidden="true"></i></div></div>
+    <div class="c-f c-f--year" role="group" aria-label="연도" data-aria-en="Year"><p class="c-fl" aria-hidden="true"><span data-l="ko">연도</span><span data-l="en" lang="en">Year</span></p><div class="c-fb"><button type="button" data-k="year" data-v="all" aria-pressed="true"><span class="c-bl"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></span> <span class="c-bc">120</span></button><button type="button" data-k="year" data-v="2026" aria-pressed="false"><span class="c-bl"><span class="c-num">2026</span></span> <span class="c-bc">2</span></button><button type="button" data-k="year" data-v="2025" aria-pressed="false"><span class="c-bl"><span class="c-num">2025</span></span> <span class="c-bc">12</span></button><button type="button" data-k="year" data-v="2024" aria-pressed="false"><span class="c-bl"><span class="c-num">2024</span></span> <span class="c-bc">8</span></button><button type="button" data-k="year" data-v="2023" aria-pressed="false"><span class="c-bl"><span class="c-num">2023</span></span> <span class="c-bc">15</span></button><button type="button" data-k="year" data-v="2022" aria-pressed="false"><span class="c-bl"><span class="c-num">2022</span></span> <span class="c-bc">9</span></button><button type="button" data-k="year" data-v="~2021" aria-pressed="false"><span class="c-bl"><span class="c-num">~2021</span></span> <span class="c-bc">74</span></button><i class="c-ind" aria-hidden="true"></i></div></div>
+    <p class="c-tally"><span data-n><span data-l="ko"><b class="c-cn">120</b>건</span><span data-l="en" lang="en"><b class="c-cn">120</b> items</span></span></p>
     <div class="c-reel" data-ticks aria-hidden="true"><i class="on" style="--d:0"></i><i class="on" style="--d:2"></i><i class="on" style="--d:4"></i><i class="on" style="--d:6"></i><i class="on" style="--d:8"></i><i class="on" style="--d:10"></i><i class="on" style="--d:12"></i><i class="on" style="--d:14"></i><i class="on" style="--d:16"></i><i class="on" style="--d:18"></i><i class="on" style="--d:20"></i><i class="on" style="--d:22"></i><i class="on" style="--d:24"></i><i class="on" style="--d:26"></i><i class="on" style="--d:28"></i><i class="on" style="--d:30"></i><i class="on" style="--d:32"></i><i class="on" style="--d:34"></i><i class="on" style="--d:36"></i><i class="on" style="--d:38"></i><i class="on" style="--d:40"></i><i class="on" style="--d:42"></i><i class="on" style="--d:44"></i><i class="on" style="--d:46"></i><i class="on" style="--d:48"></i><i class="on" style="--d:50"></i><i class="on" style="--d:52"></i><i class="on" style="--d:54"></i><i class="on" style="--d:56"></i><i class="on" style="--d:58"></i><i class="on" style="--d:60"></i><i class="on" style="--d:62"></i><i class="on" style="--d:64"></i><i class="on" style="--d:66"></i><i class="on" style="--d:68"></i><i class="on" style="--d:70"></i><i class="on" style="--d:72"></i><i class="on" style="--d:74"></i><i class="on" style="--d:76"></i><i class="on" style="--d:78"></i><i class="on" style="--d:80"></i><i class="on" style="--d:82"></i><i class="on" style="--d:84"></i><i class="on" style="--d:86"></i><i class="on" style="--d:88"></i><i class="on" style="--d:90"></i><i class="on" style="--d:92"></i><i class="on" style="--d:94"></i><i class="on" style="--d:96"></i><i class="on" style="--d:98"></i><i class="on" style="--d:100"></i><i class="on" style="--d:102"></i><i class="on" style="--d:104"></i><i class="on" style="--d:106"></i><i class="on" style="--d:108"></i><i class="on" style="--d:110"></i><i class="on" style="--d:112"></i><i class="on" style="--d:114"></i><i class="on" style="--d:116"></i><i class="on" style="--d:118"></i><i class="on" style="--d:120"></i><i class="on" style="--d:122"></i><i class="on" style="--d:124"></i><i class="on" style="--d:126"></i><i class="on" style="--d:128"></i><i class="on" style="--d:130"></i><i class="on" style="--d:132"></i><i class="on" style="--d:134"></i><i class="on" style="--d:136"></i><i class="on" style="--d:138"></i><i class="on" style="--d:140"></i><i class="on" style="--d:142"></i><i class="on" style="--d:144"></i><i class="on" style="--d:146"></i><i class="on" style="--d:148"></i><i class="on" style="--d:150"></i><i class="on" style="--d:152"></i><i class="on" style="--d:154"></i><i class="on" style="--d:156"></i><i class="on" style="--d:158"></i><i class="on" style="--d:160"></i><i class="on" style="--d:162"></i><i class="on" style="--d:164"></i><i class="on" style="--d:166"></i><i class="on" style="--d:168"></i><i class="on" style="--d:170"></i><i class="on" style="--d:172"></i><i class="on" style="--d:174"></i><i class="on" style="--d:176"></i><i class="on" style="--d:178"></i><i class="on" style="--d:180"></i><i class="on" style="--d:182"></i><i class="on" style="--d:184"></i><i class="on" style="--d:186"></i><i class="on" style="--d:188"></i><i class="on" style="--d:190"></i><i class="on" style="--d:192"></i><i class="on" style="--d:194"></i><i class="on" style="--d:196"></i><i class="on" style="--d:198"></i><i class="on" style="--d:200"></i><i class="on" style="--d:202"></i><i class="on" style="--d:204"></i><i class="on" style="--d:206"></i><i class="on" style="--d:208"></i><i class="on" style="--d:210"></i><i class="on" style="--d:212"></i><i class="on" style="--d:214"></i><i class="on" style="--d:216"></i><i class="on" style="--d:218"></i><i class="on" style="--d:220"></i><i class="on" style="--d:222"></i><i class="on" style="--d:224"></i><i class="on" style="--d:226"></i><i class="on" style="--d:228"></i><i class="on" style="--d:230"></i><i class="on" style="--d:232"></i><i class="on" style="--d:234"></i><i class="on" style="--d:236"></i><i class="on" style="--d:238"></i></div>
     <p class="c-reel-y" aria-hidden="true"><span>2026</span><span>2008</span></p>
   </div>
@@ -486,8 +499,8 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
 <div class="c-in">
 <h2 class="c-h2 c-h2--one" id="c-ppl-h" data-a><span class="c-h2-ko" data-l="ko"><span class="m"><span class="l">함께 연구하는</span></span> <span class="m"><span class="l">사람들</span></span></span><span class="c-h2-en" data-l="en" lang="en"><span class="m"><span class="l">The people</span></span> <span class="m"><span class="l">of RIHE</span></span></span></h2>
 <div class="c-leadw" data-a data-lk><p class="c-lead" data-l="ko">연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 구성원을 소개합니다.</p><p class="c-lead" data-l="en" lang="en">Meet the members of the Research Institute of Hearing Enhancement.</p></div>
-<div class="c-team c-team--fac" data-a><i class="c-ln" aria-hidden="true"></i><h3 class="c-h3"><span class="c-h3-ko" data-l="ko">교수진</span><span class="c-h3-en" data-l="en" lang="en">Faculty</span></h3><ul class="c-mems"><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/vIAp69Yl.jpeg" alt="서영준" data-alt-en="Young Joon Seo" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span data-l="ko">서영준</span><span data-l="en" lang="en">Young Joon Seo</span></p><p class="c-rl"><span data-l="ko">교수 / 연구소장 · 이비인후과</span><span data-l="en" lang="en">Professor / Director · Otorhinolaryngology</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/6nGWxAVl.jpeg" alt="기재홍" data-alt-en="Jaehong Key" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span data-l="ko">기재홍</span><span data-l="en" lang="en">Jaehong Key</span></p><p class="c-rl"><span data-l="ko">교수 · 생체공학과</span><span data-l="en" lang="en">Professor · Biomedical Engineering</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/kKOtOgOl.jpeg" alt="공태훈" data-alt-en="Tae Hoon Kong" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span data-l="ko">공태훈</span><span data-l="en" lang="en">Tae Hoon Kong</span></p><p class="c-rl"><span data-l="ko">교수 · 이비인후과</span><span data-l="en" lang="en">Professor · Otorhinolaryngology</span></p></div></li></ul></div>
-<div class="c-team c-team--lab" data-a><i class="c-ln" aria-hidden="true"></i><h3 class="c-h3"><span class="c-h3-ko" data-l="ko">데이터팀 · <span class="nw">HeAD Lab</span></span><span class="c-h3-en" data-l="en" lang="en">HeAD Lab</span></h3><ul class="c-mems"><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/RC37iFml.jpeg" alt="윤철영" data-alt-en="Chul Young Yoon" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span data-l="ko">윤철영</span><span data-l="en" lang="en">Chul Young Yoon</span></p><p class="c-rl"><span data-l="ko">팀장</span><span data-l="en" lang="en">Team Leader</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/7FVQZQel.jpeg" alt="김송이" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">김송이</span></p><p class="c-rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/yCSCJNdl.jpeg" alt="김진수" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">김진수</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/bomh6knl.jpeg" alt="임승미" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">임승미</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/F9YowOSl.jpeg" alt="서연호" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">서연호</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/0PwvF5sl.jpeg" alt="윤담" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">윤담</span></p><p class="c-rl"><span data-l="ko">학부연구원</span><span data-l="en" lang="en">Undergraduate Researcher</span></p></div></li></ul></div>
+<div class="c-team c-team--fac" data-a><i class="c-ln" aria-hidden="true"></i><h3 class="c-h3"><span class="c-h3-ko" data-l="ko">교수진</span><span class="c-h3-en" data-l="en" lang="en">Faculty</span></h3><ul class="c-mems" data-lk><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/vIAp69Yl.jpeg" alt="서영준" data-alt-en="Young Joon Seo" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span data-l="ko">서영준</span><span data-l="en" lang="en">Young Joon Seo</span></p><p class="c-rl"><span data-l="ko">교수 / 연구소장 · 이비인후과</span><span data-l="en" lang="en">Professor / Director · Otorhinolaryngology</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/6nGWxAVl.jpeg" alt="기재홍" data-alt-en="Jaehong Key" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span data-l="ko">기재홍</span><span data-l="en" lang="en">Jaehong Key</span></p><p class="c-rl"><span data-l="ko">교수 · 생체공학과</span><span data-l="en" lang="en">Professor · Biomedical Engineering</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/kKOtOgOl.jpeg" alt="공태훈" data-alt-en="Tae Hoon Kong" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span data-l="ko">공태훈</span><span data-l="en" lang="en">Tae Hoon Kong</span></p><p class="c-rl"><span data-l="ko">교수 · 이비인후과</span><span data-l="en" lang="en">Professor · Otorhinolaryngology</span></p></div></li></ul></div>
+<div class="c-team c-team--lab" data-a><i class="c-ln" aria-hidden="true"></i><h3 class="c-h3"><span class="c-h3-ko" data-l="ko">데이터팀 · <span class="nw">HeAD Lab</span></span><span class="c-h3-en" data-l="en" lang="en">HeAD Lab</span></h3><ul class="c-mems" data-lk><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/RC37iFml.jpeg" alt="윤철영" data-alt-en="Chul Young Yoon" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span data-l="ko">윤철영</span><span data-l="en" lang="en">Chul Young Yoon</span></p><p class="c-rl"><span data-l="ko">팀장</span><span data-l="en" lang="en">Team Leader</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/7FVQZQel.jpeg" alt="김송이" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span lang="ko">김송이</span></p><p class="c-rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/yCSCJNdl.jpeg" alt="김진수" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span lang="ko">김진수</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/bomh6knl.jpeg" alt="임승미" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span lang="ko">임승미</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/F9YowOSl.jpeg" alt="서연호" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span lang="ko">서연호</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/0PwvF5sl.jpeg" alt="윤담" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt"><p class="c-nm"><span lang="ko">윤담</span></p><p class="c-rl"><span data-l="ko">학부연구원</span><span data-l="en" lang="en">Undergraduate Researcher</span></p></div></li></ul></div>
 </div>
 </section>
 <script type="application/json" id="c-pubs-data">{"items": [{"i": 0, "year": 2026, "team": "hearing", "title": "Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening", "authors": "Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong", "journal": "Hearing Research"}, {"i": 1, "year": 2026, "team": "hearing", "title": "Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017", "authors": "Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., & Jin, I. K.", "journal": "American Journal of Audiology"}, {"i": 2, "year": 2025, "team": "hearing", "title": "Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital", "authors": "Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...", "journal": "CRITICAL PUBLIC HEALTH"}, {"i": 3, "year": 2025, "team": "basic", "title": "Innovative surgical approaches for the Osia® 2 System", "authors": "Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon", "journal": "ACTA OTO-LARYNGOLOGICA"}, {"i": 4, "year": 2025, "team": "collab", "title": "A Retrospective Comparison of Clinical Characteristics of Post-Traumatic and Idiopathic Benign Paroxysmal Positional Vertigo", "authors": "Kim, Minheon, Jeon, Eun Kyung, Seo, Young Joon, Kong, Tae Hoon", "journal": "EAR AND HEARING"}, {"i": 5, "year": 2025, "team": "head", "title": "Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data", "authors": "You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon", "journal": "HEARING RESEARCH"}, {"i": 6, "year": 2025, "team": "basic", "title": "Isolated Myxoma of the External Auditory Canal: A Rare Case Report", "authors": "전은경, 김민헌, 권동환, 서영준", "journal": "Journal of Audiology & Otology"}, {"i": 7, "year": 2025, "team": "head", "title": "Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset", "authors": "Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho", "journal": "Journal of Audiology & Otology"}, {"i": 8, "year": 2025, "team": "head", "title": "Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data", "authors": "Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun", "journal": "Frontiers in Neurology"}, {"i": 9, "year": 2025, "team": "head", "title": "Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System", "authors": "Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon", "journal": "OTO Open"}, {"i": 10, "year": 2025, "team": "head", "title": "Part 2. Current Status of Hearing Disability and Hearing Rehabilitation Devices in Korea Using National Data: NHIS-Database, 2010 to 2020; [2부. 국가 데이터를 활용한 한국의 청각장애 현황 및 청각재활장비 현황: NHIS-Database, 2010~2020]", "authors": "Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...", "journal": "Korean Journal of Otorhinolaryngology-Head and Neck Surgery"}, {"i": 11, "year": 2025, "team": "head", "title": "Seasonal variation in vestibular neuritis in Korea: a nationwide population-based cohort study", "authors": "Yoon Chul-Young, 서영준, 박지윤", "journal": "Research in Vestibular Science"}, {"i": 12, "year": 2025, "team": "head", "title": "Part 1. 전국 데이터를 이용한 우리나라 난청 환자 현황: National Health Insurance Service-데이터베이스, 2010 to 2020", "authors": "Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...", "journal": "대한이비인후-두경부외과학회지"}, {"i": 13, "year": 2025, "team": "head", "title": "Virtual reality-based vestibular rehabilitation therapy in patients with acute unilateral vestibulopathy: a randomized controlled trial", "authors": "Lee, Jae Woo, Yoon, Chul Young, Kim, Jae Ha, Seo, Young Joon, Kong, Tae Hoon", "journal": "Frontiers in Neurology"}, {"i": 14, "year": 2024, "team": "hearing", "title": "Efficacy of virtual reality pure-tone audiometry in training of hearing test for audiologist", "authors": "Kwak, Chanbeom, Kim, Jinsook, Jang, Hyunsook, Han, Woojae, Seo, Young Joon", "journal": "Heliyon"}, {"i": 15, "year": 2024, "team": "hearing", "title": "Understanding Standard Procedure in Auditory Brainstem Response: Importance of Normative Data", "authors": "Kwak Chanbeom, Byun Yuseon, You Sunghwa, Sagong Junghee, Kim Do-Yun, Cho Wan-...", "journal": "Journal of Audiology & Otology"}, {"i": 16, "year": 2024, "team": "hearing", "title": "Improving Accuracy and Reliability of Hearing Tests: Measurement Standards for Audiometric Devices", "authors": "Cho, Wan-Ho, Lee, Jihyun, Seo, Young Joon, Kong, Tae Hoon, Suh, Michelle J., ...", "journal": "Journal of Audiology and Otology"}, {"i": 17, "year": 2024, "team": "head", "title": "Importance of small vessel disease as a possible cause of sudden sensorineural hearing loss", "authors": "Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon", "journal": "PloS one"}, {"i": 18, "year": 2024, "team": "head", "title": "Clinical characteristics of the \"Gap\" between the prevalence and incidence of hearing loss using National Health Insurance Service data", "authors": "Lee Junhun, Yoon Chul Young, Lee Juhyung, Kong Tae Hoon, Seo Young Joon", "journal": "PLoS ONE"}, {"i": 19, "year": 2024, "team": "basic", "title": "Virtual reality simulators for temporal bone dissection: overcoming limitations of previous models", "authors": "Temuulen Batsaikhan, 서영준", "journal": "Research in Vestibular Science"}, {"i": 20, "year": 2024, "team": "basic", "title": "Vitamin D supplementation in preventing the recurrence of benign paroxysmal positional vertigo", "authors": "Kong, Tae Hoon, Jung, Su Young, Seo, Young Joon, Shim, Dae Bo", "journal": "LARYNGOSCOPE INVESTIGATIVE OTOLARYNGOLOGY"}, {"i": 21, "year": 2024, "team": "basic", "title": "Combination Therapy of Choline Alfoscerate With Ginkgo biloba Monotherapy in Age-Related Hearing Loss: Effects and Outcomes", "authors": "Kim Dae Hyun, Seo Young Joon", "journal": "Journal of Audiology & Otology"}, {"i": 22, "year": 2023, "team": "basic", "title": "Role of Kir4.1 Channels in Aminoglycoside-Induced Ototoxicity of Hair Cells", "authors": "Choi, Jin Sil, Ahn, Ye Ji, Lee, SuHoon, Park, Dong Jun, Park, JeongEun, Ha, S...", "journal": "BioMed Research International"}, {"i": 23, "year": 2023, "team": "basic", "title": "Meta-Analysis Exploring the Effects of Music Training in Cochlear Implant Users by Age", "authors": "Shukor Nor Farawaheeda Ab, Seo Young Joon, Han Woojae", "journal": "Journal of Audiology and Otology"}, {"i": 24, "year": 2023, "team": "hearing", "title": "Improving Accuracy and Reliability of Hearing Tests: An Exploration of International Standards", "authors": "Suh Michelle J., Lee Jihyun, Cho Wan-Ho, Jin In-Ki, Kong Tae Hoon, Oh Soo Hee...", "journal": "Journal of Audiology and Otology"}, {"i": 25, "year": 2023, "team": "basic", "title": "편도에 고립된 뇌간 경색의 희귀한 증례: 급작스러운 현훈의 임상적 특징 및 영상 소견", "authors": "Dong Hwan Kwon, Eun kyung Jeon, Young Joon Seo", "journal": "Research in Vestibular Science"}, {"i": 26, "year": 2023, "team": "head", "title": "Effect of changes in the hearing aid subsidy on the prevalence of hearing loss in South Korea", "authors": "Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon", "journal": "Frontiers in Neurology"}, {"i": 27, "year": 2023, "team": "head", "title": "A situational analysis of ear and hearing care in South Korea using WHO ear and Hearing Care Situation Analysis tool", "authors": "Lee, Juhyeong, Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Oh, Seung Ha, S...", "journal": "Frontiers in Public Health"}, {"i": 28, "year": 2023, "team": "head", "title": "건강 보험 데이터 분석을 통한 급성 전정신경염의 유병률 측정", "authors": "Chul Young Yoon, Seulgi Hong, Ji-Yun Park, Young Joon Seo", "journal": "Research in Vestibular Science"}, {"i": 29, "year": 2023, "team": "basic", "title": "효과적인 BAHAⓇ Attract의 이식술식", "authors": "Lee, Jeon Mi, Seo, Young Joon", "journal": "대한이비인후-두경부외과학회지"}, {"i": 30, "year": 2023, "team": "hearing", "title": "d-Galactose and Hypoxia Induce the Early Onset of Age-Related Hearing Loss Deterioration in a Mouse Model", "authors": "Batsaikhan Temuulen, Choi Jin Sil, Ha Sun Mok, Ahn Yeji, Seo Young Joon", "journal": "TISSUE ENGINEERING AND REGENERATIVE MEDICINE"}, {"i": 31, "year": 2023, "team": "basic", "title": "A nystagmus extraction system using artificial intelligence for video-nystagmography", "authors": "Lee, Yerin, Lee, Sena, Han, Junghun, 서영준, Yang, Sejung", "journal": "Scientific Reports"}, {"i": 32, "year": 2023, "team": "head", "title": "Learning curve comparable study of microscopic and endoscopic type 1 tympanoplasty", "authors": "Lee Hyun Su, Yoon Chul Young, 박대우, Lee Joo Hyung, 서영준, 공태훈", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 33, "year": 2023, "team": "head", "title": "Epidemiology of idiopathic sudden sensorineural hearing loss in the era of big data", "authors": "Yoon Chul Young, Kong, Tae Hoon, Lee Juhyung, Seo, Young Joon, Ahn, Jae Joon", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 34, "year": 2023, "team": "hearing", "title": "Contralateral bone conducted sound wave propagation on the skull bones in fresh frozen cadaver", "authors": "Lee, J., Cho, W.-H., Kong, T.H., Jung, S.-S., Han, W., Park, S., Seo, Y.J.", "journal": "Scientific Reports"}, {"i": 35, "year": 2023, "team": "basic", "title": "An eye-tracking algorithm for nystagmus detection in videonystagmography based on convolutional neural networks", "authors": "Lee, Y., Lee, S., Han, J., Wang, H.J., 서영준, Yang, S.", "journal": "Progress in Biomedical Optics and Imaging - Proceedings of SPIE"}, {"i": 36, "year": 2023, "team": "basic", "title": "Deep Learning Techniques for Ear Diseases Based on Segmentation of the Normal Tympanic Membrane", "authors": "Park, Y.S., Jeon, J.H., Kong, T.H., Chung, T.Y., Seo, Y.J.", "journal": "Clinical and Experimental Otorhinolaryngology"}, {"i": 37, "year": 2022, "team": "basic", "title": "Protection of Hearing Loss in Ototoxic Mouse Model Through SPIONs and Dexamethasone-Loaded PLGA Nanoparticle Delivery by Magnetic Attraction", "authors": "Park, Jeong-Eun, Kim, Woo Cheol, Kim, Sung Kyun, Ahn, Yeji, Ha, Sun Mok, Kim,...", "journal": "INTERNATIONAL JOURNAL OF NANOMEDICINE"}, {"i": 38, "year": 2022, "team": "basic", "title": "안진영상에서 안진기의 미끄러짐으로 유발된 동잡음 제거 알고리즘 개발", "authors": "Yerin Lee, Young Joon Seo, Sejung Yang", "journal": "Research in Vestibular Science"}, {"i": 39, "year": 2022, "team": "head", "title": "Association of dietary factors with noise-induced hearing loss in Korean population: A 3-year national cohort study", "authors": "Lee, H.J., Lee, J., Yoon, C., Park, Y., Joo, Y.-H., Park, J.-O., Seo, Y.J., P...", "journal": "PLOS ONE"}, {"i": 40, "year": 2022, "team": "basic", "title": "Circulatory disturbance of the cochlear spiral modiolar artery in a type 2 diabetic mouse model", "authors": "Seo Young Joon, Shim Dae Bo, Sharif Arazu, Samson Zeke, Takechi Ryu, Brown Da...", "journal": "Laryngoscope Investigative Otolaryngology"}, {"i": 41, "year": 2022, "team": "hearing", "title": "The value of having an initial word recognition score for a precise prognosis of idiopathic sudden sensorineural hearing loss", "authors": "Kwak, Chanbeom, Seo, Young Joon, Yoon, ChulYoung, Lee, JuHyung, Han, Woojae", "journal": "AURIS NASUS LARYNX"}, {"i": 42, "year": 2022, "team": "hearing", "title": "Analysis of the Knowledge, Attitudes, and Practice Model of Healthcare Professionals on Hearing Loss at Elderly Dementia Residences in Korea", "authors": "Kwak, C., Seo, Y.J., Park, K.H., Han, W.", "journal": "HEALTHCARE"}, {"i": 43, "year": 2022, "team": "head", "title": "Relationship between Nutrient Intake and Hearing Loss According to the Income Level of Working-Aged Adults: A Korean National Health and Nutrition Survey", "authors": "Lee, Juhyung, Lee, Ji-Hyeon, Yoon, Chulyoung, Kwak, Chanbeom, Jaejoon Ahn, Ko...", "journal": "NUTRIENTS"}, {"i": 44, "year": 2022, "team": "hearing", "title": "양성돌발체위현기증 진단을 위한 주성분 분석을 이용한 안진 자동패턴인식 기술: 예비 연구", "authors": "O-Hyeon Gwon, TAEHOON KONG, Jaehong Key, SEJUNG YANG, YOUNG JOON SEO", "journal": "Research in Vestibular Science"}, {"i": 45, "year": 2022, "team": "hearing", "title": "Observation of the vibration response on the skull bones by bone conduction with the fresh frozen cadaver", "authors": "Cho, Wan-Ho, Lee, Ji Hyeon, Seo, Young Joon", "journal": "Proceedings of the International Congress on Acoustics"}, {"i": 46, "year": 2021, "team": "basic", "title": "The risk of laryngitis with herpes zoster infection: A nested case-control study using data from the Korean National Sample Cohort", "authors": "Joo, Young-Hoon, Lee, Hyun-Jin, Park, Jun-Ook, Seo, Young Joon, Kong, Tae Hoo...", "journal": "PLOS ONE"}, {"i": 47, "year": 2021, "team": "basic", "title": "Protective effect of MSC-derived exosomes against cisplatin-induced apoptosis via heat shock protein 70 in auditory explant model", "authors": "Park, Dong Jun, Park, Jeong-Eun, Lee, Su Hoon, Eliceiri, Brian P., Choi, Jin ...", "journal": "NANOMEDICINE-NANOTECHNOLOGY BIOLOGY AND MEDICINE"}, {"i": 48, "year": 2021, "team": "basic", "title": "Hyperbaric Protocols for Idiopathic Sudden Sensorineural Hearing Loss Response", "authors": "Seo, Young Joon", "journal": "JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY"}, {"i": 49, "year": 2021, "team": "basic", "title": "Engineering of Extracellular Vesicles Based on Payload Changes for Tissue Regeneration", "authors": "Park Dong Jun, Seo Young Joon", "journal": "TISSUE ENGINEERING AND REGENERATIVE MEDICINE"}, {"i": 50, "year": 2021, "team": "basic", "title": "Usefulness of stress-related hormones as predictors and prognostic factors for idiopathic sudden sensorineural hearing loss", "authors": "Chae, H (Chae, Heesung), Lee, HS (Lee, Hyun Su), Lee, JH (Lee, Joo Hyung), Ki...", "journal": "ACTA OTO-LARYNGOLOGICA"}, {"i": 51, "year": 2021, "team": "basic", "title": "Alteration of payload in extracellular vesicles by crosstalk with mesenchymal stem cells from different origin", "authors": "DONGJUN PARK, JEONGEUN PARK, TAEHOON KONG, YOUNG JOON SEO", "journal": "JOURNAL OF NANOBIOTECHNOLOGY"}, {"i": 52, "year": 2021, "team": "basic", "title": "Effects of reactive oxygen species generation induced by Wonju City particulate matter on mitochondrial dysfunction in human middle ear cell", "authors": "SUHOON LEE, SUNMOKHA , MinJae JEONG, DONGJUN PARK, Polo, CN (Polo, Carlos Nor...", "journal": "ENVIRONMENTAL SCIENCE AND POLLUTION RESEARCH"}, {"i": 53, "year": 2021, "team": "basic", "title": "Crucial Music Components Needed for Speech Perception Enhancement of Pediatric Cochlear Implant Users: A Systematic Review and Meta-Analysis", "authors": "Ab Shukor, NF (Ab Shukor, Nor Farawaheeda), Han, W (Han, Woojae), JIHYEON LEE...", "journal": "AUDIOLOGY AND NEURO-OTOLOGY"}, {"i": 54, "year": 2021, "team": "basic", "title": "The Effectiveness of Hyperbaric Oxygen Therapy in Severe Idiopathic Sudden Sensorineural Hearing Loss", "authors": "YEJI AHN, YOUNG JOON SEO, Lee, YS (Lee, Young Sub)", "journal": "JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY"}, {"i": 55, "year": 2021, "team": "basic", "title": "Audiological benefits and performance improvements of Baha® attract implantation in patients with unilateral hearing loss", "authors": "TAEHOON KONG, JIHYEON LEE, Kwak C., Han W., Gwon O.-H., YOUNG JOON SEO", "journal": "Cochlear Implants International"}, {"i": 56, "year": 2021, "team": "basic", "title": "Biodistribution of poly clustered superparamagnetic iron oxide nanoparticle labeled mesenchymal stem cells in aminoglycoside induced ototoxic mouse model", "authors": "YEJI AHN, WAN SU YUN, JINSILCHOI , woochul kim, Su Hoon Lee, Dong Jun Park, J...", "journal": "Biomedical Engineering Letters"}, {"i": 57, "year": 2021, "team": "hearing", "title": "Efficacy of Music Training in Hearing Aid and Cochlear Implant Users: A Systematic Review and Meta-Analysis", "authors": "Ab Shukor, Nor Farawaheeda, Lee, Jihyeon, Seo, Young Joon, Han, Woojae", "journal": "CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY"}, {"i": 58, "year": 2021, "team": "hearing", "title": "Auditory Function Testing for Types of Dementia: Systematic Reviews and Meta-Analysis", "authors": "박시훈, 한우재, TAEHOON KONG, YOUNG JOON SEO, HANJAEHYUN , TAEHUI KIM", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 59, "year": 2021, "team": "basic", "title": "Usefulness of vertebrobasilar artery radiological finding as a predictive and prognostic factor for sudden sensorineural hearing loss", "authors": "Han, SM (Han, Sung Min), Lee, HS (Lee, Hyun Su), Chae, HS (Chae, Hee Sung), Y...", "journal": "AURIS NASUS LARYNX"}, {"i": 60, "year": 2021, "team": "collab", "title": "Familial Otosclerosis Associated with Osteogenesis Imperfecta: A Case Report", "authors": "Ha Neul Lee, Hyun Jong Jeon, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 61, "year": 2020, "team": "basic", "title": "Improvement of stem cell-derived exosome release efficiency by surface-modified nanoparticles", "authors": "박동준, Yun, W.S., Kim, W.C., Park, J.-E., Lee, S.H., Ha, S., Choi, J.S., Key, J...", "journal": "JOURNAL OF NANOBIOTECHNOLOGY"}, {"i": 62, "year": 2020, "team": "basic", "title": "In vitro time-lapse live-cell imaging to explore cell migration toward the organ of corti", "authors": "Park, J.-E., Lee, S.H., DONGJUN PARK, Seo, Y.J., Kim, S.K.", "journal": "JOVE-JOURNAL OF VISUALIZED EXPERIMENTS"}, {"i": 63, "year": 2020, "team": "basic", "title": "Circulating microRNAs as potentially new diagnostic biomarkers of idiopathic sudden sensorineural hearing loss", "authors": "SUNMOKHA , Hwang, KR (Hwang, Kyu Rin), ILHWAN PARK, Park, S (Park, Sunyoung),...", "journal": "ACTA OTO-LARYNGOLOGICA"}, {"i": 64, "year": 2020, "team": "collab", "title": "Non-invasive postoperative monitoring of pedicled rat skin flap using laser speckle contrast imaging", "authors": "Im, J., Kong, T.H., Choi, J.S., Seo, Y.J., Choi, E.C., Jung, B., Kim, J.-H.", "journal": "MICROVASCULAR RESEARCH"}, {"i": 65, "year": 2020, "team": "basic", "title": "Endocytic trafficking of polymeric clustered superparamagnetic iron oxide nanoparticles in mesenchymal stem cells", "authors": "Su Hoon Lee, Dong Jun Park, Wan Su Yun, Jeong-Eun Park, Jin Sil Choi, Jaehong...", "journal": "JOURNAL OF CONTROLLED RELEASE"}, {"i": 66, "year": 2020, "team": "basic", "title": "Induced short-term hearing loss due to stimulation of age-related factors by intermittent hypoxia, high-fat diet, and galactose injection", "authors": "박동준, Ha, S., Choi, J.S., Lee, S.H., Park, J.-E., Seo, Y.J.", "journal": "International Journal of Molecular Sciences"}, {"i": 67, "year": 2020, "team": "hearing", "title": "일측성 난청 환자에서 골전도 보청기의 효능", "authors": "이지현, 서영준", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 68, "year": 2020, "team": "collab", "title": "Sixth Cranial Nerve Palsy and Vertigo Caused by Vertebrobasilar Insufficiency", "authors": "Seung Won Paik, Hui Joon Yang, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 69, "year": 2020, "team": "collab", "title": "비디오두부충동검사와 온도안진검사 간의 비교분석", "authors": "한 준, 백승원, 양희준, 박상유, 이지현, 서영준", "journal": "Research in Vestibular Science"}, {"i": 70, "year": 2020, "team": "collab", "title": "미로내 신경초종 1예와 이전 국내에서 보고된 미로내 신경초종 증례의 문헌 고찰", "authors": "전현종, 채희성, 이하늘, 서영준", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 71, "year": 2020, "team": "collab", "title": "Engineered iron oxide nanoparticles to improve regenerative effects of mesenchymal stem cells", "authors": "Wan Su Yun, Susmita Aryal, YEJI AHN, YOUNG JOON SEO, Jaehong Key", "journal": "Biomedical Engineering Letters"}, {"i": 72, "year": 2020, "team": "collab", "title": "Sphenoid Sinus Fat Packing in Transsphenoidal Surgery: Long-Term Fate Assessment Using Magnetic Resonance Imaging", "authors": "황치상, 황금, 채희성, 이현수, 이중석, 서영준, 박동준", "journal": "Journal of Rhinology"}, {"i": 73, "year": 2020, "team": "collab", "title": "Experimental animal models for meniere's disease: A mini-review", "authors": "Seo Y.J., Brown D.", "journal": "Journal of Audiology & Otology"}, {"i": 74, "year": 2020, "team": "hearing", "title": "Better Understanding of Direct Bone-Conduction Measurement: Comparison with Frequency-Specific Bone-Conduction Tones and Brainstem Responses", "authors": "Kim, Yeoju, Han, Woojae, Park, Sihun, You, Sunghwa, Kwak, Chanbeom, YOUNG JOO...", "journal": "Journal of Audiology & Otology"}, {"i": 75, "year": 2020, "team": "hearing", "title": "Baha Attract Implantation Using a Small Incision: Initial Report of Surgical Technique and Surveillance", "authors": "Dong Su Jang, Dong Hyo Shin, Woojae Han, , YOUNG JOON SEO", "journal": "CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY"}, {"i": 76, "year": 2020, "team": "hearing", "title": "Measurement of Skull Size on Computed Tomography Images for Developing a Bone Conduction Headset Suitable for the Korean Standard Head Size", "authors": "Cheol Hyo Ku, Soo Won Kim, Ji Young Kim, Seung Won Paik, Hui Joon Yang, Ji Hy...", "journal": "Journal of Audiology & Otology"}, {"i": 77, "year": 2020, "team": "hearing", "title": "Reliability and validity of self-screening tool for hearing loss in older adults", "authors": "Sunghwa You, Woojae Han, Saea Kim, Sanga Maeng, YOUNG JOON SEO", "journal": "Clinical interventions in aging"}, {"i": 78, "year": 2019, "team": "hearing", "title": "Evaluation of wireless Bluetooth devices to improve recognition of speech and sentences when using a mobile phone in bone conduction device recipients", "authors": "Chanbeom Kwak, Woojae Han, YOUNG JOON SEO", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 79, "year": 2019, "team": "collab", "title": "Association of Dietary Factors with Presence and Severity of Tinnitus in Korean Adults with Normal Hearing", "authors": "Sung Kyun Kim, Yoon Ah Park, SANG-YOO PARK, YOUNG JOON SEO", "journal": "JOURNAL OF FOOD AND NUTRITION RESEARCH"}, {"i": 80, "year": 2019, "team": "basic", "title": "Strategies to enhance efficacy of SPION-labeled stem cell homing by magnetic attraction: a systemic review with meta-analysis", "authors": "Ye Ji Ahn, Tae Hoon Kong, Jin Sil Choi, Wan Su Yun, Jaehong Key, YOUNG JOON SEO", "journal": "INTERNATIONAL JOURNAL OF NANOMEDICINE"}, {"i": 81, "year": 2019, "team": "collab", "title": "Clinical Features of Fracture versus Concussion of the Temporal Bone after Head Trauma", "authors": "Jae Woo Lee, Yoon Ah Park, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 82, "year": 2018, "team": "collab", "title": "Surgical outcomes of tympanoplasty using a sterile acellular dermal allograft: a prospective randomised controlled study.", "authors": "Jeon Mi Lee, YOUNG JOON SEO, Dae Bo Shim, Hyun Jin Lee, sung huhn Kim", "journal": "ACTA OTORHINOLARYNGOLOGICA ITALICA"}, {"i": 83, "year": 2018, "team": "collab", "title": "A newly designed tympanostomy stent with TiO2 coating to reduce Pseudomonas aeruginosa biofilm formation", "authors": "Joe, H (Joe, Hosung), YOUNG JOON SEO", "journal": "JOURNAL OF BIOMATERIALS APPLICATIONS"}, {"i": 84, "year": 2018, "team": "collab", "title": "Pyoderma Gangrenosum of the Preauricular Area with Ulcerative Colitis: A Case Report and Review", "authors": "Hee Sung Chae, Sung Min Han, Ha Neul Lee, Hyun Jong Jeon, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 85, "year": 2018, "team": "basic", "title": "Circulating Serum miRNA-205 as a Diagnostic Biomarker for Ototoxicity in Mice Treated with Aminoglycoside Antibiotics", "authors": "Lee S.H., Ju H.M., Choi J.S., Ahn Y., Lee S., YOUNG JOON SEO", "journal": "INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES"}, {"i": 86, "year": 2018, "team": "basic", "title": "Enhanced homing technique of mesenchymal stem cells using iron oxide nanoparticles by magnetic attraction in olfactory-injured mouse models", "authors": "WANSU YUN, JINSILCHOI , HYUNMI JU, MIN HEE KIM, SEONG JIN CHOI, EunSeol Oh, Y...", "journal": "INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES"}, {"i": 87, "year": 2018, "team": "basic", "title": "Update on Bone-Conduction Auditory Brainstem Responses: A Review", "authors": "YOUNG JOON SEO, 곽찬범, 김세아, PARKYOONAH , 박경호, 한우재", "journal": "Journal of Audiology & Otology"}, {"i": 88, "year": 2018, "team": "collab", "title": "Monitoring blood-flow in the mouse cochlea using an endoscopic laser speckle contrast imaging system", "authors": "Yu, S (Yu, Sunkon), Jeong Pyo Bong, JINSILCHOI , YOUNG JOON SEO, Byung Jo Jung", "journal": "PLOS ONE"}, {"i": 89, "year": 2017, "team": "collab", "title": "외이도의 에크린 한선종", "authors": "이영섭, 한준, 구철효, YOUNG JOON SEO", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 90, "year": 2017, "team": "basic", "title": "A Simple Model for Inducing Optimal Increase of SDF-1 with Aminoglycoside Ototoxicity", "authors": "HYUNMI JU, SUNHEE LEE, JINSILCHOI , YOUNG JOON SEO", "journal": "BIOMED RESEARCH INTERNATIONAL"}, {"i": 91, "year": 2017, "team": "collab", "title": "Tracheal reconstruction with a free vascularized myofascial flap: Preclinical investigation in a porcine model to human clinical application", "authors": "Kim W.S., Chang J.W., Jang W.S., YOUNG JOON SEO, Kang M.-L., Sung H.-J., Kim ...", "journal": "SCIENTIFIC REPORTS"}, {"i": 92, "year": 2017, "team": "collab", "title": "Importance of adhesiolysis in revision surgery for vibrant soundbridge device failures at the short incus process", "authors": "PARKYOONAH , Tae Hoon Kong, Jin Soon Chang, YOUNG JOON SEO", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 93, "year": 2017, "team": "collab", "title": "Damage of Inner Ear Sensory Hair Cells via Mitochondrial Loss in a Murine Model of Sleep Apnea With Chronic Intermittent Hypoxia", "authors": "YOUNG JOON SEO, Ju, HM (Ju, Hyun Mi), Lee, SH (Lee, Sun Hee), Kwak, SH (Kwak,...", "journal": "SLEEP"}, {"i": 94, "year": 2017, "team": "collab", "title": "A sustained increase of plasma fibrinogen in sudden sensorineural hearing loss predicts worse outcome independently", "authors": "Park Y.A., Kong T.H., Seo Y.J.", "journal": "AMERICAN JOURNAL OF OTOLARYNGOLOGY"}, {"i": 95, "year": 2017, "team": "basic", "title": "Usefulness of Intravital Multiphoton Microscopy in Visualizing Study of Mouse Cochlea and Volume Changes in the Scala Media", "authors": "HYUNMI JU, SUNHEE LEE, , Kwon, SH (Kwon, Seung-Hae), JINSILCHOI , YOUNG JOON SEO", "journal": "FRONTIERS IN NEUROLOGY"}, {"i": 96, "year": 2017, "team": "collab", "title": "Kawasaki disease and labyrinthitis: An underdiagnosed complication", "authors": "Kim K.Y., Kim K.H., Park Y.A., Seo Y.J.", "journal": "Journal of Audiology & Otology"}, {"i": 97, "year": 2017, "team": "collab", "title": "Efficacy of Bone-Anchored Hearing Aids in Single-Sided Deafness: A Systematic Review", "authors": "Kim, G (Kim, Gaeun), HYUNMI JU, Lee, SH (Lee, Sun Hee), HEE SOON kIM , Kwon, ...", "journal": "OTOLOGY & NEUROTOLOGY"}, {"i": 98, "year": 2017, "team": "collab", "title": "Does Herpes Virus Reactivation Affect Prognosis in Idiopathic Sudden Sensorineural Hearing Loss?", "authors": "박상만, 한준, 이재우, 공태훈, 서영준", "journal": "CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY"}, {"i": 99, "year": 2017, "team": "basic", "title": "Image-guided implantation of the Bonebridge™ with a surgical navigation: A feasibility study", "authors": "Kong T.H., Park Y.A., YOUNG JOON SEO", "journal": "International Journal of Surgery Case Reports"}, {"i": 100, "year": 2016, "team": "basic", "title": "The change of hippocampal volume and its relevance with inner ear function in Meniere's disease patients", "authors": "YOUNG JOON SEO, Jinna Kim , sung huhn Kim", "journal": "AURIS NASUS LARYNX"}, {"i": 101, "year": 2016, "team": "basic", "title": "Head position and increased head velocity to optimize video head impulse test sensitivity", "authors": "YOUNG JOON SEO, PARKYOONAH , Tae Hoon Kong, MEE RAN BAE , sung huhn Kim", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 102, "year": 2016, "team": "collab", "title": "A mutation of the succinate dehydrogenase B gene in a Korean family with paraganglioma", "authors": "Borum Sagong, YOUNG JOON SEO, Hyun-Jin Lee, Mi Joo Kim , Un-Kyung Kim, In Seo...", "journal": "FAMILIAL CANCER"}, {"i": 103, "year": 2016, "team": "collab", "title": "Is Alcohol Swabbing Sufficient to Clean Otoscopes in Hospitals?", "authors": "Cheol Hyo Ku, Young Sub Lee, 서영준, Jeong Pyo Bong", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 104, "year": 2016, "team": "collab", "title": "Early deterioration of residual hearing in patients with SLC26A4 mutations", "authors": "Kim B.G., Roh K.J., Park A.Y., Lee S.C., Kang B.S., YOUNG JOON SEO, Lee J.D.,...", "journal": "LARYNGOSCOPE"}, {"i": 105, "year": 2016, "team": "collab", "title": "Correlation of vestibular aqueduct size with air-bone gap in enlarged vestibular aqueduct syndrome.", "authors": "YoungJoon Seo, Jinna Kim, jae young choi", "journal": "LARYNGOSCOPE"}, {"i": 106, "year": 2016, "team": "collab", "title": "Lowest Oxyhemoglobin Saturation May Be an Independent Factor Influencing Auditory Function in Severe Obstructive Sleep Apnea", "authors": "Seo, YJ (Seo, Young Joon), Park, SY (Park, Sang Yoo), Chung, HJ (Chung, Hyo J...", "journal": "JOURNAL OF CLINICAL SLEEP MEDICINE"}, {"i": 107, "year": 2016, "team": "collab", "title": "Clinical Features and Prognosis of Sudden Sensorineural Hearing Loss Secondary to Intralabyrinthine Hemorrhage", "authors": "이재우, 박윤아, Park SM, 공태훈, 박상유, Jeong Pyo Bong, DONG JOON PARK, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 108, "year": 2015, "team": "collab", "title": "Predictive value of neutrophil to lymphocyte ratio in first-time and recurrent idiopathic sudden sensorineural hearing loss", "authors": "Seo, YJ (Seo, Young Joon), Park, YA (Park, Yoon Ah), Bong, JP (Bong, Jeong Py...", "journal": "AURIS NASUS LARYNX"}, {"i": 109, "year": 2015, "team": "collab", "title": "Changes in Tinnitus After Middle Ear Implant Surgery: Comparisons With the Cochlear Implant", "authors": "YoungJoon Seo, Hyun Ji Kim, In Seok Moon, jae young choi", "journal": "EAR AND HEARING"}, {"i": 110, "year": 2015, "team": "collab", "title": "Association of hearing impairment with chronic kidney disease: a cross-sectional study of the Korean general population", "authors": "Seo, YJ (Seo, Young Joon), Ko, SB (Ko, Sang Baek), Ha, TH (Ha, Tae Hyung), Go...", "journal": "BMC NEPHROLOGY"}, {"i": 111, "year": 2015, "team": "collab", "title": "Genetic aspects and clinical characteristics of familial meniere's disease in a South Korean population", "authors": "Jeon Mi Lee, 김미주, Jinsei Jung, Hyun Ji Kim, YoungJoon Seo, sung huhn Kim", "journal": "LARYNGOSCOPE"}, {"i": 112, "year": 2015, "team": "collab", "title": "Expression and Localization of Aquaporin Water Channels in Human Middle Ear Epithelium", "authors": "Seo, YJ (Seo, Young Joon), Choi, JY (Choi, Jae Young)", "journal": "OTOLOGY & NEUROTOLOGY"}, {"i": 113, "year": 2015, "team": "collab", "title": "A Melting Method for RNA Extraction from the Mucosal Membrane of the Mouse Middle Ear", "authors": "YoungJoon Seo, sung huhn Kim , In Seok Moon , jae young choi", "journal": "YONSEI MEDICAL JOURNAL"}, {"i": 114, "year": 2014, "team": "collab", "title": "Neutrophil-to-Lymphocyte Ratio and Platelet-to-Lymphocyte Ratio: Novel Markers for Diagnosis and Prognosis in Patients with Idiopathic Sudden Sensorineural Hearing Loss", "authors": "YOUNG JOON SEO, JUNHUI JEONG, Jae Young Choi, In Seok Moon", "journal": "DISEASE MARKERS"}, {"i": 115, "year": 2013, "team": "collab", "title": "Visualization of endolymphatic hydrops and correlation with audio-vestibular functional testing in patients with definite Meniere's disease", "authors": "young joon Seo, Jinna Kim, jae young choi, WON SANG LEE", "journal": "AURIS NASUS LARYNX"}, {"i": 116, "year": 2012, "team": "collab", "title": "Cochlear implantation in a bilateral sensorineural hearing loss patient with relapsing polychondritis", "authors": "young joon Seo, jae young choi, Si Hong Kim, Kim, TJ (Kim, Tae-Jung)", "journal": "RHEUMATOLOGY INTERNATIONAL"}, {"i": 117, "year": 2011, "team": "collab", "title": "Radiologic characteristics of sinonasal fungus ball: an analysis of 119 cases", "authors": "young joon Seo, Jinna Kim, Kyubo Kim, JEUNG GWEON LEE, Chang-Hoon Kim, JOO HE...", "journal": "ACTA RADIOLOGICA"}, {"i": 118, "year": 2010, "team": "collab", "title": "혀에 발생한 신경초종 1예 및 고찰", "authors": "Won Il Lee, Hong Jun Kim, young joon Seo, Kyung Jin Roh, EUN CHANG CHOI, Hyun...", "journal": "대한두경부종양학회지"}, {"i": 119, "year": 2008, "team": "collab", "title": "메니에르병 환자에서 고실내 Gadolinium-diethylen-triamine pentaacetic acid 주입 후 자기공명영상을 통한 내림프공간의 시각화", "authors": "young joon Seo , Daebo Shim , Jinna Kim , WON SANG LEE", "journal": "대한평형의학회지"}], "teams": {"basic": ["Basic Lab", "Basic Lab"], "hearing": ["Hearing Lab", "Hearing Lab"], "head": ["HeAD Lab", "HeAD Lab"], "collab": ["협력·임상", "Collab &amp; Medical"]}, "empty": "<li class=\"c-row c-row--e\"><span data-l=\"ko\">해당 조건의 항목이 없습니다.<\/span><span data-l=\"en\" lang=\"en\">No items match this filter.<\/span><\/li>"}</script>
@@ -1187,7 +1200,8 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
   var g = window.gsap, ST = window.SplitText, CE = window.CustomEase, reduce = !!R.reduce;
   var $$ = function (s, c) { return [].slice.call((c || doc).querySelectorAll(s)); };
   var phone = function () { return !!(window.matchMedia && matchMedia('(max-width: 760px)').matches); };
-  if (g && CE) { g.registerPlugin(CE); CE.create('cxGate', 'M0,0 C0.5,0 0.14,1 1,1'); CE.create('cxDraw', 'M0,0 C0.65,0 0.35,1 1,1'); }
+  // the hero's script has made the projector curves already; make them only if it could not
+  if (g && CE && !CE.get('cxGate')) { g.registerPlugin(CE); CE.create('cxGate', 'M0,0 C0.5,0 0.14,1 1,1'); CE.create('cxDraw', 'M0,0 C0.65,0 0.35,1 1,1'); }
   var EGATE = g && CE ? 'cxGate' : 'expo.inOut', EDRAW = g && CE ? 'cxDraw' : 'power2.inOut';
 
   /* ---------------------------------------------------------------- one height for both languages
@@ -1222,8 +1236,26 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
       '<span class="c-tm"><span data-l="ko">' + tm[0] + '</span><span data-l="en" lang="en">' + tm[1] + '</span></span></li>';
   }
   var ticks = box.querySelector('[data-ticks]'), pi = box.querySelector('[data-pi]'), tally = box.querySelector('[data-n]');
-  var dir = 1, listShown = false;
-  box.addEventListener('click', function (ev) { var p = ev.target.closest && ev.target.closest('button[data-p]'); if (p) dir = +p.getAttribute('data-p'); }, true);
+  var dir = 1, listShown = false, pressed = null;
+  box.addEventListener('click', function (ev) { var p = ev.target.closest && ev.target.closest('button[data-p]'); if (p) { dir = +p.getAttribute('data-p'); pressed = p; } }, true);
+  // the engine reserves the tallest page on the list itself; hold that height on the list's wrapper instead, so the pager
+  // always follows the rows and a short page (or an empty result) leaves its spare height after the pager, at the end of
+  // the section, never as a hole between the rows and the pager. The total height is the same, so nothing below moves.
+  var lwrap = box.querySelector('.c-lw'), pgr = box.querySelector('.c-pg');
+  function reserve(ul) {
+    var mh = parseFloat(ul.style.minHeight) || 0;
+    if (!mh || !lwrap || !pgr) return;
+    ul.style.minHeight = '';
+    lwrap.style.minHeight = Math.ceil(mh + pgr.offsetHeight + (parseFloat(getComputedStyle(pgr).marginTop) || 0)) + 'px';
+  }
+  // the first or last page disables the button that was pressed: keep the keyboard on the pager (the other button)
+  function keepFocus() {
+    if (!pressed || !pressed.disabled) return;
+    var a = doc.activeElement;
+    if (a && a !== doc.body && a !== pressed) return;
+    var other = box.querySelector('button[data-p="' + (-dir) + '"]');
+    if (other && !other.disabled) { try { other.focus({ preventScroll: true }); } catch (e) {} }
+  }
   // the pressed filter: a 2 px umber bar slides under it (continuity: where the selection went)
   function indicators(anim) {
     $$('.c-fb', box).forEach(function (fb) {
@@ -1242,6 +1274,34 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
     if (!el || !g || reduce) return;
     g.fromTo(el, { yPercent: 85 * d, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: .5, ease: 'expo.out', overwrite: true, clearProps: 'transform,opacity,visibility' });
   }
+  // every option carries its count under the other filter (data, no words): a combination with nothing in it reads 0
+  // before it is pressed, and the numbers turn over like the hero's counters when the other filter changes
+  var opts = $$('button[data-k]', box);
+  function hit(d, f) {
+    for (var k in f) {
+      var v = f[k];
+      if (v === 'all') continue;
+      if (v.charAt(0) === '~') { if (!(+d[k] <= +v.slice(1))) return false; }
+      else if (String(d[k]) !== v) return false;
+    }
+    return true;
+  }
+  function counts(anim) {
+    var f = {};
+    opts.forEach(function (b) { if (b.getAttribute('aria-pressed') === 'true') f[b.getAttribute('data-k')] = b.getAttribute('data-v'); });
+    opts.forEach(function (b) {
+      var c = b.querySelector('.c-bc'), x = {}, n = 0, y;
+      if (!c) return;
+      for (y in f) x[y] = f[y];
+      x[b.getAttribute('data-k')] = b.getAttribute('data-v');
+      D.items.forEach(function (d) { if (hit(d, x)) n++; });
+      if (c.textContent !== String(n)) { c.textContent = n; if (anim) turn(c, 1); }
+    });
+  }
+  // the engine writes the count as plain text; give its number the counter numerals again
+  function tallyNum() {
+    $$('[data-l]', tally).forEach(function (s) { if (!s.querySelector('.c-cn')) s.innerHTML = s.textContent.replace(/^(\d+)/, '<b class="c-cn">$1</b>'); });
+  }
   // paging from the pager under the list: bring the list's top back on screen (the outer Wix page scrolls; the anchor sits
   // 150 px above the list so the phone's sticky Wix header does not cover the first row)
   var anchor = box.querySelector('.c-top');
@@ -1251,17 +1311,25 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
     if (above && anchor && anchor.scrollIntoView) anchor.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   }
   function after(ul, reason) {
+    if (reason === 'measure') reserve(ul);
     var cur = {};
     [].forEach.call(ul.children, function (li) { var i = li.getAttribute('data-i'); if (i !== null) cur[i] = 1; });
     for (var i = 0; i < ticks.children.length; i++) ticks.children[i].classList.toggle('cur', !!cur[i]);
+    tallyNum();
+    if (reason !== 'page') counts(reason !== 'measure' && !reduce && listShown);
     indicators(reason !== 'measure' && !reduce);
-    if (reason === 'page') toTop();
+    if (reason === 'page') { keepFocus(); toTop(); }
     if (reason === 'measure' || reduce || !g || !listShown) return;
     // the next page is a cut, not a crossfade: the rows come up in about 300 ms, top first
     g.fromTo(ul.children, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: .4, stagger: .018, ease: 'expo.out', overwrite: true, clearProps: 'transform,opacity,visibility' });
     if (reason === 'page') turn(pi, dir); else { turn(tally, 1); turn(pi, 1); }
   }
   R.list(box, { data: D.items, size: 10, render: row, empty: D.empty, after: after });
+  // the count and the page number speak when the visitor changes them, not while the page loads (the engine redraws on
+  // fonts.ready): the live regions are attached after that last redraw
+  (doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve()).then(function () {
+    setTimeout(function () { [box.querySelector('.c-tally'), box.querySelector('.c-pi')].forEach(function (el) { if (el) el.setAttribute('aria-live', 'polite'); }); }, 0);
+  });
 
   /* ---------------------------------------------------------------- motion (none under reduced motion or without GSAP) */
   if (!g || reduce) { listShown = true; return; }

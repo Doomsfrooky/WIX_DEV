@@ -88,9 +88,10 @@ def outcomes():
     key = (f'<span class="b-key"><i></i><b>{granted}</b>{dp(core.UI["등록"])}</span>'
            f'<span class="b-key"><i class="o"></i><b>{filed}</b>{dp(core.UI["출원"])}</span>')
     viz = [(chart(y_pub), ''), (chart(y_rep), ''), (units(granted, filed), key), (units(core.TECH_TRANSFERS), '')]
+    # the counted digits are hidden from screen readers (they pass through 0..n); the final value is read instead
     cells = ''.join(
         f'<div class="b-cell" data-ai><dt class="b-cl">{dp(pair, "span", "b-end")}</dt>'
-        f'<dd class="b-cn"><span class="b-c" data-count="{n}">{n}</span></dd>'
+        f'<dd class="b-cn"><span class="b-c" data-count="{n}" aria-hidden="true">{n}</span><span class="sr">{n}</span></dd>'
         f'<dd class="b-cv">{v}</dd><dd class="b-ft">{foot}</dd></div>'
         for (n, pair), (v, foot) in zip(core.OUTCOMES, viz))
     # the year in the sentence takes the teal of the same year on the chart axes (presentation only; the copy is unchanged)
@@ -154,7 +155,10 @@ def research():
     marks = ''.join(f'<span{" class=r" if first[y] / len(items) > .8 else ""} style="--x:{first[y] / len(items):.4f}">{y}</span>'
                     for y in range(top - top % 5, min(first), -5) if y in first and first[y] / len(items) <= .92)
     n0 = len(items)
-    head = (f'<div class="b-mh" data-a><div class="b-tb"><p class="b-n" data-n aria-live="polite"><span data-l="ko">{n0}건</span>'
+    # screen readers hear the list's state only when a filter or page changes (the visible count is redrawn on load, on
+    # font arrival and on a language switch too, so it is not a live region itself)
+    head = (f'<div class="b-mh" data-a><p class="sr" data-st aria-live="polite" aria-atomic="true"></p>'
+            f'<div class="b-tb"><p class="b-n" data-n><span data-l="ko">{n0}건</span>'
             f'<span data-l="en" lang="en">{n0} items</span></p>{pager("b-pg-t", pages)}</div>'
             f'<div class="b-map" aria-hidden="true"><div class="b-tk" data-ticks>{ticks}</div><div class="b-my">{marks}</div></div></div>')
     lst = f'<ul class="b-pubs" data-items data-a>{"".join(rows[:SIZE])}</ul>'
@@ -201,7 +205,16 @@ def member(m):
 def group(key, cls):
     _, ko, en = core.TEAM_META[key]
     ms = core.TEAMS[key]['members']
-    return (f'<div class="b-grp {cls}"><div class="b-gh">{d(ko, en, "h3", "b-h3")}<span class="b-gn">{len(ms)}</span></div>'
+    # the head count follows the visible name: it sits inside each language's half of the one-cell overlap (outside it,
+    # the cell is as wide as the longer name and the count drifts away, e.g. 'HeAD Lab' next to '데이터팀 · HeAD Lab').
+    # The list announces its own item count, so the digits are hidden from screen readers.
+    n = f'<span class="b-gn" aria-hidden="true">{len(ms)}</span>'
+    if ko == en:
+        lg = ' lang="ko"' if re.search('[가-힣]', ko) else ''
+        h3 = f'<h3 class="b-h3"{lg}>{ko}{n}</h3>'
+    else:
+        h3 = f'<h3 class="b-h3 b-d"><span data-l="ko">{ko}{n}</span><span data-l="en" lang="en">{en}{n}</span></h3>'
+    return (f'<div class="b-grp {cls}"><div class="b-gh">{h3}</div>'
             f'<ul class="b-pp-g" data-a>{"".join(member(m) for m in ms)}</ul></div>')
 
 
@@ -233,18 +246,18 @@ CSS = r"""
 
   --pad: clamp(16px, 4.4vw, 64px);
   --wmax: 1320px;
-  --gut: clamp(22px, 2.5vw, 36px);
-  --gap1: clamp(16px, 1.8vw, 26px);
+  --gut: clamp(24px, 2.5vw, 36px);
+  --gap1: clamp(16px, 1.8vw, 24px);
   --gap2: clamp(32px, 3.3vw, 48px);
   --sec: clamp(72px, 7.4vw, 112px);
   --h2: clamp(30px, 3.1vw, 44px);
   --h3: clamp(15px, 1.25vw, 18px);
   --lead: clamp(15px, 1.24vw, 18px);
-  --dt: clamp(12.5px, 1.04vw, 14.5px);
   --num: clamp(40px, 4.1vw, 60px);
   --body: clamp(15px, 1.18vw, 17px);
   --small: clamp(13px, 1vw, 14px);
   --micro: 12px;
+  --dt: var(--small);                    /* readout labels take the small step (no half-step of their own) */
 
   background: var(--paper);
   color: var(--ink);
@@ -271,18 +284,18 @@ CSS = r"""
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   border-top: 1px solid var(--rule-2);
-  padding: clamp(30px, 3.2vw, 46px) 0 clamp(56px, 5.6vw, 84px);
+  padding: clamp(32px, 3.2vw, 48px) 0 clamp(56px, 5.6vw, 80px);
 }
 .b-rec-lead {
   grid-column: 1 / 3;
   margin: 0;
   padding-right: var(--gut);
   font-size: var(--lead);
-  line-height: 1.6;
+  line-height: 1.66;                     /* the same lead measure as the hero and section leads */
   color: var(--ink-2);
   text-wrap: pretty;
 }
-.b-rec-lead [data-l="ko"] { word-break: keep-all; line-height: 1.7; }
+.b-rec-lead [data-l="ko"] { word-break: keep-all; line-height: 1.76; }
 .b-k { color: var(--teal); font-weight: 500; font-variant-numeric: tabular-nums; }
 .b-rec-g {
   grid-column: 3 / 7;
@@ -295,7 +308,7 @@ CSS = r"""
   flex-direction: column;
   min-width: 0;
   border-left: 1px solid var(--rule-2);
-  padding-left: clamp(14px, 1.5vw, 22px);
+  padding: 0 clamp(12px, 1.1vw, 16px) 0 clamp(16px, 1.5vw, 24px);   /* the bars and units stop short of the next rule */
 }
 .b-cl {
   display: flex;
@@ -309,7 +322,7 @@ CSS = r"""
 }
 .b-cl [data-l="ko"] { word-break: keep-all; }
 .b-cn {
-  margin: clamp(6px, .7vw, 10px) 0 0;
+  margin: clamp(4px, .6vw, 8px) 0 0;
   font-size: var(--num);
   line-height: 1;
   font-weight: 400;
@@ -317,16 +330,16 @@ CSS = r"""
   color: var(--ink);
   font-variant-numeric: tabular-nums lining-nums;
 }
-.b-cv { position: relative; margin: clamp(18px, 1.9vw, 26px) 0 0; height: 44px; }
+.b-cv { position: relative; margin: clamp(16px, 1.8vw, 24px) 0 0; height: 44px; }
 .b-ft {
   margin: 0;
-  min-height: 34px;
-  padding-top: 9px;
+  min-height: 32px;
+  padding-top: 8px;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
   column-gap: 12px;
-  row-gap: 5px;
+  row-gap: 4px;
   font-size: var(--micro);
   line-height: 1;
   color: var(--mute);
@@ -341,7 +354,7 @@ CSS = r"""
 @media (hover: hover) and (pointer: fine) { .b-yr { cursor: crosshair; } }     /* the chart can be read with the pointer */
 .b-yl {
   position: absolute;
-  top: calc(100% + 9px);
+  top: calc(100% + 8px);
   left: calc(var(--x) * 100%);
   transform: translateX(-50%);
   font-size: var(--micro);
@@ -360,8 +373,8 @@ CSS = r"""
 .b-rd {
   position: absolute;
   left: 0;
-  top: calc(100% + 9px);
-  padding: 0 5px;
+  top: calc(100% + 8px);
+  padding: 0 4px;
   background: var(--paper);
   color: var(--teal);
   font-size: var(--micro);
@@ -386,10 +399,10 @@ CSS = r"""
 .b-un i { aspect-ratio: 1; background: var(--teal); }
 .b-un i.o { background: transparent; box-shadow: inset 0 0 0 1px var(--teal); }
 .b-un i.off { background: var(--rule-2); box-shadow: none; }
-.b-key { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
-.b-key i { flex: none; width: 7px; height: 7px; background: var(--teal); }
+.b-key { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.b-key i { flex: none; width: 7px; height: 7px; background: var(--teal); }   /* the size of one unit square */
 .b-key i.o { background: transparent; box-shadow: inset 0 0 0 1px var(--teal); }
-.b-key b { font-weight: 500; color: var(--ink-2); margin-right: 1px; }
+.b-key b { font-weight: 500; color: var(--ink-2); }
 
 /* ---------- sections: a name on its axis, then the body on the octave grid ---------- */
 .b-sec { padding: var(--sec) 0; }
@@ -400,6 +413,7 @@ CSS = r"""
   font-weight: 600;
   letter-spacing: -0.022em;
   color: var(--ink);
+  text-wrap: balance;                    /* 320 EN: 'Research output / of the Institute', no orphan */
 }
 .b-h2 [data-l="ko"] { letter-spacing: -0.032em; word-break: keep-all; }
 .b-ax { position: relative; height: 1px; margin-top: var(--gap1); background: var(--rule); }
@@ -418,9 +432,9 @@ CSS = r"""
 
 /* ---------- research: filters | the record map and the list ---------- */
 .b-fls { margin-top: clamp(28px, 2.8vw, 40px); }
-.b-flt + .b-flt { margin-top: 26px; }
+.b-flt + .b-flt { margin-top: 24px; }
 .b-fl {
-  margin: 0 0 9px;
+  margin: 0 0 8px;
   font-size: var(--micro);
   line-height: 1.2;
   font-weight: 600;
@@ -431,14 +445,15 @@ CSS = r"""
 .b-opts { display: flex; flex-direction: column; border-top: 1px solid var(--rule-2); }
 .b-opt {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  display: grid;                         /* label and count share a baseline; the row is centred in the target */
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  align-content: center;
+  column-gap: 12px;
   width: 100%;
-  min-height: 38px;
+  min-height: 40px;
   margin: 0;
-  padding: 8px 10px 8px 14px;
+  padding: 8px 12px 8px 16px;
   border: 0;
   border-bottom: 1px solid var(--rule-2);
   border-radius: 0;
@@ -453,16 +468,16 @@ CSS = r"""
   content: "";
   position: absolute;
   left: 0;
-  top: 9px;
-  bottom: 9px;
-  width: 2px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;                            /* the cursor, standing on the chosen value */
   background: var(--teal);
   transform: scaleY(0);
   transition: transform .25s var(--ease);
 }
 .b-opt-l { min-width: 0; }
 .b-opt-n { flex: none; min-width: 3ch; text-align: right; font-size: var(--micro); color: var(--mute); font-variant-numeric: tabular-nums; transition: color .15s ease; }
-.b-opt:hover { background: var(--wash); color: var(--ink); }
+@media (hover: hover) { .b-opt:hover { background: var(--wash); color: var(--ink); } }   /* no sticky hover after a tap */
 .b-opt:active { background: #e6efee; transition-duration: .06s; }
 .b-opt[aria-pressed="true"] { color: var(--ink); background: var(--tint); }
 .b-opt[aria-pressed="true"]::before { transform: scaleY(1); }
@@ -470,7 +485,7 @@ CSS = r"""
 .b-opt.zero { color: var(--mute); }
 .b-opt:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; }
 
-.b-tb { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 38px; scroll-margin-top: 24px; }
+.b-tb { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; scroll-margin-top: 24px; }
 .b-n { margin: 0; font-size: var(--small); font-weight: 500; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .b-pg { display: flex; align-items: center; gap: 2px; }
 .b-pb {
@@ -487,13 +502,15 @@ CSS = r"""
   transition: border-color .15s ease, color .15s ease, background-color .15s ease;
 }
 .b-pb svg { display: block; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform .35s var(--ease); }
-.b-pb:hover:not(:disabled) { border-color: var(--teal); color: var(--teal-2); }
-.b-pb[data-p="1"]:hover:not(:disabled) svg { transform: translateX(2px); }
-.b-pb[data-p="-1"]:hover:not(:disabled) svg { transform: translateX(-2px); }
+@media (hover: hover) {
+  .b-pb:hover:not(:disabled) { border-color: var(--teal); color: var(--teal-2); }
+  .b-pb[data-p="1"]:hover:not(:disabled) svg { transform: translateX(2px); }
+  .b-pb[data-p="-1"]:hover:not(:disabled) svg { transform: translateX(-2px); }
+}
 .b-pb:active:not(:disabled) { background: var(--tint); transition-duration: .06s; }
 .b-pb:disabled { color: var(--mute-2); border-color: var(--rule-2); cursor: default; }
 .b-pb:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
-.b-pi { min-width: 66px; text-align: center; font-size: var(--small); color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.b-pi { min-width: 64px; text-align: center; font-size: var(--small); color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 .b-map { margin-top: 16px; }
 .b-tk { display: flex; align-items: flex-end; height: 16px; }
@@ -511,14 +528,14 @@ CSS = r"""
 }
 .b-tk i.on::before { background: var(--teal); }
 .b-tk i.cur::before { transform: scaleY(2); background: var(--teal-2); }
-.b-my { position: relative; height: 15px; margin-top: 4px; border-top: 1px solid var(--rule-2); }
+.b-my { position: relative; height: 16px; margin-top: 4px; border-top: 1px solid var(--rule-2); }
 .b-my span {
   position: absolute;
   top: -1px;
   left: calc(var(--x) * 100%);
-  padding: 4px 0 0 5px;
+  padding: 4px 0 0 4px;
   border-left: 1px solid var(--rule);
-  font-size: 11px;
+  font-size: var(--micro);
   line-height: 1;
   font-weight: 500;
   letter-spacing: .02em;
@@ -526,33 +543,33 @@ CSS = r"""
   font-variant-numeric: tabular-nums;
 }
 
-.b-my span.r { transform: translateX(-100%); padding: 4px 5px 0 0; border-left: 0; border-right: 1px solid var(--rule); }
-.b-pubs { list-style: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.b-my span.r { transform: translateX(-100%); padding: 4px 4px 0 0; border-left: 0; border-right: 1px solid var(--rule); }
+.b-pubs { list-style: none; margin: 16px 0 0; padding: 0; border-top: 1px solid var(--rule); }
 .b-pub {
   display: grid;
   grid-template-columns: clamp(92px, 8.6vw, 128px) minmax(0, 1fr);
-  padding: 17px 0 18px;
+  padding: 16px 0;
   border-bottom: 1px solid var(--rule-2);
 }
-.b-pub-m { margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding-right: 12px; }
+.b-pub-m { margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding-right: 12px; }
 .b-pub-y { font-size: var(--body); line-height: 1.45; font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
-.b-pub-tm { font-size: 12.5px; line-height: 1.35; color: var(--mute); }
+.b-pub-tm { font-size: var(--micro); line-height: 1.35; color: var(--mute); }
 .b-pub-b { min-width: 0; }
 .b-pub-t { margin: 0; font-size: var(--body); line-height: 1.45; font-weight: 500; color: var(--ink); text-wrap: pretty; overflow-wrap: anywhere; }
 .b-pub-t[lang="ko"] { word-break: keep-all; }
-.b-pub-a { margin: 6px 0 0; font-size: var(--small); line-height: 1.5; color: var(--mute); overflow-wrap: anywhere; }
-.b-pub-j { margin: 1px 0 0; font-size: var(--small); line-height: 1.5; font-weight: 500; color: var(--ink-2); }
+.b-pub-a { margin: 8px 0 0; font-size: var(--small); line-height: 1.5; color: var(--mute); overflow-wrap: anywhere; }
+.b-pub-j { margin: 0; font-size: var(--small); line-height: 1.5; font-weight: 500; color: var(--ink-2); }
 .b-pub-x { padding: 32px 0; font-size: var(--body); color: var(--mute); }
 .b-pub-x p { margin: 0; }
-.b-foot { display: flex; justify-content: flex-end; margin-top: 18px; }
+.b-foot { display: flex; justify-content: flex-end; margin-top: 16px; }
 .b-lw { display: flex; flex-direction: column; }
 
 /* ---------- people: portraits on the octave columns ---------- */
 .b-ppl .b-lead { grid-column: 1 / 4; padding-right: var(--gut); }
 .b-grp { margin-top: clamp(44px, 4.6vw, 68px); }
-.b-gh { display: flex; align-items: baseline; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--rule-2); }
+.b-gh { padding-bottom: 12px; border-bottom: 1px solid var(--rule-2); }
 .b-h3 { margin: 0; font-size: var(--h3); line-height: 1.3; font-weight: 600; color: var(--ink); }
-.b-gn { font-size: var(--micro); line-height: 1; font-weight: 500; color: var(--mute); font-variant-numeric: tabular-nums; }
+.b-gn { margin-left: 8px; font-family: var(--lat); font-size: var(--micro); line-height: 1; font-weight: 500; color: var(--mute); font-variant-numeric: tabular-nums; }
 .b-pp-g {
   list-style: none;
   margin: clamp(20px, 2vw, 28px) 0 0;
@@ -566,7 +583,7 @@ CSS = r"""
 .b-fac .b-pp { grid-column: span 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gut); }
 .b-pp-f { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 2px; background: var(--tint); isolation: isolate; }
 .b-pp-f::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(12, 30, 33, .06); pointer-events: none; }
-.b-pp-d { position: absolute; left: 0; right: 0; top: -3%; bottom: -3%; }   /* 6 % taller than the frame: room for the depth drift */
+.b-pp-d { position: absolute; inset: 0; }     /* the layer that settles into focus on entry (reading zone: no scroll drift) */
 .b-pp-d img {
   position: absolute;
   inset: 0;
@@ -612,16 +629,16 @@ html.rm .b *, html.rm .b *::before, html.rm .b *::after { transition: none !impo
     --pad: 16px;
     --gut: 12px;
     --gap1: 12px;
-    --gap2: 22px;
+    --gap2: 24px;
     --sec: 52px;
     --h2: 24px;
     --h3: 15px;
     --lead: 14px;
-    --dt: 11px;
     --num: 32px;
-    --body: 14.5px;
+    --body: 14px;
     --small: 12px;
     --micro: 11px;
+    --dt: var(--micro);
   }
   .b-rec-in { padding: 24px 0 44px; }
   .b-rec-lead, .b-rec-g, .b-side, .b-main, .b-ppl .b-lead { grid-column: 1 / -1; padding-right: 0; }
@@ -630,48 +647,40 @@ html.rm .b *, html.rm .b *::before, html.rm .b *::after { transition: none !impo
   .b-cell:nth-child(even) { border-left: 1px solid var(--rule-2); padding-left: 12px; padding-right: 0; }
   .b-cell:nth-child(n+3) { border-top: 1px solid var(--rule-2); }
   .b-cn { margin-top: 4px; letter-spacing: -0.03em; }
-  .b-cv { margin-top: 14px; height: 34px; }
-  .b-ft { min-height: 30px; padding-top: 7px; column-gap: 8px; row-gap: 4px; }
+  .b-cv { margin-top: 12px; height: 32px; }
+  .b-ft { min-height: 32px; column-gap: 8px; }
   .b-bars { gap: 1px; }
-  .b-yl, .b-rd { top: calc(100% + 7px); }
   .b-un { gap: 1.5px; }
   .b-key i { width: 6px; height: 6px; }
 
   .b-h2 { line-height: 1.22; }
-  .b-fls { margin-top: 22px; }
+  .b-fls { margin-top: 24px; }
   .b-flt + .b-flt { margin-top: 16px; }
-  .b-fl { margin-bottom: 7px; }
-  .b-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; border-top: 0; }
+  .b-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; border-top: 0; }
   .b-flt-y .b-opts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .b-opt:first-child { grid-column: 1 / -1; }
-  .b-opt { min-height: 34px; padding: 6px 8px 6px 10px; border: 1px solid var(--rule); border-radius: 2px; font-size: 12.5px; gap: 6px; }
-  .b-opt::before { top: 7px; bottom: 7px; }
-  .b-main { margin-top: 26px; }
+  .b-opt { padding: 4px 8px; border: 1px solid var(--rule); border-radius: 2px; font-size: 13px; column-gap: 4px; }   /* "Collab & Medical 41" stays on one line */
+  .b-main { margin-top: 24px; }
   .b-tb { scroll-margin-top: 156px; }       /* clear of the Wix sticky header (140 px) on phones */
   .b-pb { width: 40px; height: 40px; }
-  .b-pi { min-width: 54px; }
+  .b-pi { min-width: 56px; }
   .b-map { margin-top: 12px; }
-  .b-tk { height: 14px; }
-  .b-tk i::before { height: 7px; }
-  .b-pub { grid-template-columns: minmax(0, 1fr); padding: 14px 0 15px; }
+  .b-pub { grid-template-columns: minmax(0, 1fr); }
   .b-pub-m { flex-direction: row; align-items: baseline; gap: 8px; padding: 0 0 4px; }
   .b-pub-y { font-size: 13px; }
-  .b-pub-tm { font-size: 11.5px; }
   .b-pub-t { line-height: 1.42; }
-  .b-pub-a { margin-top: 5px; }
-  .b-foot { margin-top: 14px; }
+  .b-pub-a { margin-top: 4px; }
 
-  .b-grp { margin-top: 38px; }
-  .b-gh { padding-bottom: 10px; }
-  .b-pp-g { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 10px; row-gap: 18px; margin-top: 16px; }
+  .b-grp { margin-top: 40px; }
+  .b-pp-g { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 20px; margin-top: 16px; }
   .b-fac .b-pp-g { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
-  .b-fac .b-pp { grid-column: auto; grid-template-columns: 92px minmax(0, 1fr); column-gap: 14px; }
+  .b-fac .b-pp { grid-column: auto; grid-template-columns: 92px minmax(0, 1fr); column-gap: 16px; }
   .b-fac .b-pp-t, .b-fac .b-pp-t > [data-l] { align-self: center; }
   .b-pp-t { padding-top: 8px; }
-  .b-pp-n { font-size: 13.5px; }
+  .b-pp-n { font-size: 14px; }
   .b-fac .b-pp-n { font-size: 16px; }
-  .b-pp-r { margin-top: 2px; font-size: 11px; line-height: 1.4; }
-  .b-fac .b-pp-r { font-size: 12px; }
+  .b-pp-r { font-size: var(--micro); line-height: 1.4; }
+  .b-fac .b-pp-r { font-size: var(--small); }
 }
 """
 
@@ -723,7 +732,7 @@ JS = r"""
     if (!el || !src || !R.list) return;
     var data;
     try { data = JSON.parse(src.textContent); } catch (err) { return; }
-    var ticks = $$('[data-ticks] > i', el), head = $('.b-tb', el), bottom = $('.b-pg-b', el);
+    var ticks = $$('[data-ticks] > i', el), head = $('.b-tb', el), bottom = $('.b-pg-b', el), status = $('[data-st]', el);
     var lw = $('.b-lw', el), foot = $('.b-foot', el), fromBottom = false, headSeen = true;
     // the engine reserves the tallest page on the list itself; the reserve moves to the wrapper, so the foot pager follows
     // the last row (no gap above it) while the block, and the page, keep one height
@@ -765,6 +774,10 @@ JS = r"""
       $$('li[data-i]', ul).forEach(function (li) { cur[li.getAttribute('data-i')] = 1; });
       for (var i = 0; i < ticks.length; i++) ticks[i].classList.toggle('cur', !!cur[i]);
       counts();
+      if (status && (reason === 'page' || reason === 'filter')) {    // e.g. "41건 · 1 / 5", from the strings on screen
+        var nv = $('[data-n] [data-l="' + R.lang + '"]', el), pi = $('[data-pi]', el);
+        status.textContent = (nv ? nv.textContent : '') + (pi ? ' · ' + pi.textContent : '');
+      }
       if ((reason === 'page' || reason === 'filter') && window.gsap && !R.reduce) scanTween(ul, 0.42, 'power2.out', 90);
       // paging from the foot of the list while its head is off screen: bring the head (and the new page) into view
       if (reason === 'page' && fromBottom && !headSeen && head) head.scrollIntoView({ behavior: R.reduce ? 'auto' : 'smooth', block: 'start' });
@@ -820,7 +833,6 @@ JS = r"""
   record();
   listIn();
   people();
-  depth();
   scrub();
 
   /* ---------- section names rise out of their axis; the axis is drawn; the lead is scanned in ---------- */
@@ -856,7 +868,18 @@ JS = r"""
     var band = $('.b-rec', root);
     if (!band) return;
     var lead = $('.b-rec-lead', band), cells = $$('.b-cell', band);
-    R.inview(band, function () { Promise.all([heroDone, fontsP]).then(go); }, { threshold: 0.6, px: 190 });
+    // the band waits for the first screen's measurement only while that is on screen: a visitor who has already
+    // scrolled past it gets the band at once. The decision is taken after the current batch of observer callbacks
+    // (setTimeout 0): Chrome does not deliver them in creation order, so the hero's state of the same frame may come later.
+    // 'on screen' = at least a fifth of it showing (a sliver at the top edge is not watching the sweep); thresholds only
+    var heroEl = doc.getElementById('fp-hero'), heroOn = true;
+    if (heroEl && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { es.forEach(function (e) { heroOn = e.isIntersecting && e.intersectionRatio >= 0.2; }); },
+        { threshold: [0, 0.2] }).observe(heroEl);
+    }
+    R.inview(band, function () {
+      setTimeout(function () { (heroOn ? Promise.all([heroDone, fontsP]) : fontsP).then(go); }, 0);
+    }, { threshold: 0.6, px: 190 });
 
     function go() {
       var D = mobile ? 1.35 : 1.65, T0 = 0.32;
@@ -983,20 +1006,8 @@ JS = r"""
     });
   }
 
-  /* ---------- depth: on wide screens a portrait sits a little deeper than its frame while the outer page scrolls ---------- */
-  function depth() {
-    if (mobile || !G.quickTo) return;
-    var items = $$('.b-pp-d', root).map(function (l) { return { l: l, f: l.parentNode, y: G.quickTo(l, 'y', { duration: 0.8, ease: 'power3.out' }) }; });
-    if (!items.length) return;
-    R.onBand(function (b) {
-      items.forEach(function (o) {
-        var r = R.rect(o.f);
-        if (r.bottom < b.top - 120 || r.top > b.bottom + 120) return;     // off screen: leave it
-        var p = R.progress(r);
-        if (p != null) o.y((p - 0.5) * 2 * r.h * 0.025);
-      });
-    });
-  }
+  /* the members are a reading zone (PRODUCT.md principle 3): after their one entry they stay still. Scroll-linked depth
+     belongs to the first screen's window alone (hero.js), where it is a window onto a scene. */
 
   /* ---------- the year charts answer the pointer with the hero's cursor and readout (year · count) ---------- */
   function scrub() {
@@ -1036,7 +1047,7 @@ def render():
             f'{core.sample_mark("People 페이지 일부", "Part of the People page")}{people()}</div></main>')
     # Noto Sans KR 600 is only a text= subset (titles and names); 400/500 load as Google's unicode-range slices; Hanken
     # Grotesk for Latin and numerals. One stylesheet per weight, so the subset never shadows another face.
-    sub600 = core.chars_in(body, classes=('fp-title', 'b-h2', 'b-h3', 'b-pp-n'))
+    sub600 = core.chars_in(body, classes=('fp-title', 'b-h2', 'b-h3', 'b-pp-n', 'b-ini'))   # b-ini: initial tiles (600)
     fonts = []
     for line in _rd('fonts.txt').splitlines():
         line = line.strip()

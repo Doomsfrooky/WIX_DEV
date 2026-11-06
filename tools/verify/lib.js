@@ -19,10 +19,13 @@ const OUTER = 8001, INNER = 8002;
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json',
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.woff2': 'font/woff2', '.mp4': 'video/mp4', '.md': 'text/plain; charset=utf-8' };
 
-const servers = {};
+// Each run owns its servers. 8001 (outer) and 8002 (inner) are preferred; if another run holds them (agents working in
+// parallel), a free port is used instead, so one run closing its servers never breaks another.
+const servers = {}, PORTS = {};
 function serve(port) {
-  if (servers[port]) return servers[port];
-  servers[port] = new Promise((resolve, reject) => {
+  const kind = port === OUTER ? 'outer' : 'inner';
+  if (servers[kind]) return servers[kind];
+  servers[kind] = new Promise((resolve, reject) => {
     const s = http.createServer((req, res) => {
       const u = decodeURIComponent(new URL(req.url, 'http://x').pathname);
       let f = path.join(ROOT, u);
@@ -32,20 +35,23 @@ function serve(port) {
       res.writeHead(200, { 'content-type': TYPES[path.extname(f).toLowerCase()] || 'application/octet-stream', 'cache-control': 'no-store', 'access-control-allow-origin': '*' });
       fs.createReadStream(f).pipe(res);
     });
-    s.on('error', (e) => (e.code === 'EADDRINUSE' ? resolve(null) : reject(e)));   // someone (another run) already serves the repo there
-    s.listen(port, () => resolve(s));
+    let tried = false;
+    s.on('error', (e) => { if (e.code === 'EADDRINUSE' && !tried) { tried = true; s.listen(0); } else reject(e); });
+    s.on('listening', () => { PORTS[kind] = s.address().port; resolve(s); });
+    s.listen(port);
   });
-  return servers[port];
+  return servers[kind];
 }
-async function stop() { for (const p of Object.keys(servers)) { const s = await servers[p]; if (s) s.close(); delete servers[p]; } }
+async function stop() { for (const k of Object.keys(servers)) { const s = await servers[k]; if (s) s.close(); delete servers[k]; } }
+function portOf(port) { return PORTS[port === OUTER ? 'outer' : 'inner'] || port; }
 
-// repo path or URL -> URL served by the inner origin (127.0.0.1:8002)
+// repo path or URL -> URL served by the inner origin (127.0.0.1:8002) or the outer one (localhost:8001)
 async function urlFor(target, port = INNER) {
   if (/^https?:\/\//.test(target)) return target;
   await serve(port);
   const abs = path.resolve(ROOT, target);
   const host = port === OUTER ? 'localhost' : '127.0.0.1';
-  return `http://${host}:${port}/` + path.relative(ROOT, abs).split(path.sep).map(encodeURIComponent).join('/');
+  return `http://${host}:${portOf(port)}/` + path.relative(ROOT, abs).split(path.sep).map(encodeURIComponent).join('/');
 }
 function withLang(u, lang) { if (!lang) return u; const x = new URL(u); x.searchParams.set('lang', lang); return x.toString(); }
 
@@ -134,4 +140,4 @@ function outDir(d) { fs.mkdirSync(d, { recursive: true }); return d; }
 function arg(name, def) { const i = process.argv.indexOf('--' + name); return i > 0 ? process.argv[i + 1] : def; }
 function flag(name) { return process.argv.includes('--' + name); }
 
-module.exports = { ROOT, OUTER, INNER, MIRROR_DIR, serve, stop, urlFor, withLang, mirrorName, launch, newPage, scrollThrough, AUDIT, outDir, arg, flag };
+module.exports = { ROOT, OUTER, INNER, MIRROR_DIR, serve, stop, urlFor, portOf, withLang, mirrorName, launch, newPage, scrollThrough, AUDIT, outDir, arg, flag };

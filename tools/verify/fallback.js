@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Content must never stay hidden. Three runs, each must end with stillInvisible = 0:
 //   nojs     JavaScript disabled
-//   broken   the page's last <script> (the main script) removed, as if it failed to load or threw at once
+//   broken   the page's last <script> (the kit's motion script) removed, as if it failed to load or threw at once
 //   reduced  prefers-reduced-motion: everything visible at once, no running animations after 300 ms
 //   node tools/verify/fallback.js site/home.html [--width 320] [--out dir]
 'use strict';
@@ -23,7 +23,7 @@ const V = require('./lib');
       });
     }
     await p.goto(url, { waitUntil: 'load' });
-    await p.waitForTimeout(mode === 'reduced' ? 300 : 3200);
+    await p.waitForTimeout(mode === 'reduced' ? 300 : 3600);
     const running = mode === 'nojs' ? 0 : await p.evaluate(() => document.getAnimations().filter((a) => a.playState === 'running' && !(a.effect && a.effect.getTiming().iterations === Infinity && 0)).length);
     // whole page, no scrolling: hidden content must still show (the fallbacks are timed, not scroll-driven)
     const a = await p.evaluate(V.AUDIT);

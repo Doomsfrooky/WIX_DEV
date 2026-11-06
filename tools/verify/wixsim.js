@@ -23,7 +23,7 @@ const V = require('./lib');
     await m.goto(inner, { waitUntil: 'load' }); await m.evaluate(() => document.fonts && document.fonts.ready); await m.waitForTimeout(600);
     h = await m.evaluate(() => Math.ceil(document.documentElement.getBoundingClientRect().height)); await m.ctx.close();
   }
-  const outer = `http://localhost:${V.OUTER}/tools/wix-sim.html?hud=0&w=${mobile ? 320 : ''}&h=${h}&src=${encodeURIComponent(inner)}`;
+  const outer = `http://localhost:${V.portOf(V.OUTER)}/tools/wix-sim.html?hud=0&w=${mobile ? 320 : ''}&h=${h}&src=${encodeURIComponent(inner)}`;
   const p = await V.newPage(b, mobile ? { width: 320, height: 693 } : { width: w, height: 900 });
   const t0 = Date.now();
   await p.goto(outer, { waitUntil: 'load', timeout: 60000 });

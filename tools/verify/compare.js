@@ -14,8 +14,9 @@ const V = require('./lib');
   V.outDir(out);
   const b = await V.launch();
   const shots = {};
+  const nameOf = (pg) => { const n = path.basename(pg, '.html'); return n === 'index' ? path.basename(path.dirname(pg)) : n; };
   for (const pg of pages) {
-    const name = path.basename(pg, '.html');
+    const name = nameOf(pg);
     for (const w of widths) {
       const p = await V.newPage(b, { width: w, height: w <= 400 ? 560 : 800, scale: w <= 400 ? 2 : 1 });
       await p.goto(V.withLang(await V.urlFor(pg), lang), { waitUntil: 'load' });
@@ -31,7 +32,7 @@ const V = require('./lib');
   }
   // compose with a plain HTML grid
   for (const kind of ['first', 'full']) {
-    const cols = pages.map((pg) => path.basename(pg, '.html'));
+    const cols = pages.map(nameOf);
     const cell = (n, w) => `<td><img src="file://${path.resolve(out, `${n}-${w}-${kind}.png`)}" style="width:${kind === 'first' ? (w <= 400 ? 220 : 560) : (w <= 400 ? 120 : 300)}px"></td>`;
     const html = `<html><body style="margin:0;padding:16px;background:#eceef1;font:600 14px system-ui">
 <table style="border-spacing:14px"><tr><td></td>${cols.map((c) => `<td style="font-size:18px">${c.toUpperCase()}</td>`).join('')}</tr>

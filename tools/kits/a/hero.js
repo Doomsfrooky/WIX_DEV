@@ -1,12 +1,16 @@
 /* RIHE · Home hero · direction A, academic classic · /67 final (judge's synthesis on the lens 4 skeleton).
    1. Text: the serif name is set in stages behind line masks (SplitText), the Oxford rule is drawn with a ruling-pen
       ease and takes the abbreviation, the imprint and the lead follow, the ledger is ruled and its figures rise into
-      place (they never count, so a wrong number is never shown). Everything is set by about 2.6 s.
+      place. Direction A page: on desktop this ledger is the page's outcomes band, so the figures also count up while
+      they rise (0.95 s each, power3.out, final by about 2.3 s). Everything is set by about 2.6 s.
    2. Media: the institute's own footage (Hearing Big-data Center film) is toned into one navy family in WebGL. The
       first picture develops out of the ear under examination: a front travels outward from it, the brightest tones
       leading. Toward the text the picture recedes into the navy ground by tone, measured from the text column. Two
       real takes (the ear examination, hands on an audiometer) alternate through a luminance-keyed dissolve. Phones get
       the first take with a CSS duotone and a circular develop; reduced motion and thrifty connections get a still.
+      Data budget (CLAUDE.md, the film is 21.2 MB): the players never stream the film. Three byte ranges are fetched
+      (the moov, then each take's samples from the keyframe before it), repacked into small MP4 clips in memory and
+      played from Blob URLs: about 1.2 MB on desktop, 0.95 MB on phones, all within the first 3 s.
    3. A visible pause control (WCAG 2.2.2). Everything stops off-screen and in hidden tabs; the canvas redraws at film
       rate (24 fps) unless a transition is running.
    4. Scroll hand-off through RIHE.onBand only: the footage drifts and dims as the masthead leaves. */
@@ -72,6 +76,9 @@ function intro() {
   G.set([inst, link], { autoAlpha: 0, y: 10 });
   G.set(labs, { autoAlpha: 0, y: 6 });
   G.set(seps, { borderLeftColor: 'rgba(224, 231, 242, 0)' });    // the ledger's column rules come in after its baseline
+  // direction A: on desktop this ledger is the page's outcomes band, so its figures count up while they rise
+  // (tabular figures, so the columns never shift; done by about 2.5 s; the final value is in an .sr twin)
+  var counts = figs.map(function (f) { var n = parseInt(f.textContent, 10) || 0; f.textContent = '0'; return { el: f, n: n, v: 0 }; });
   showFinal();
   var tl = introTl = G.timeline({ defaults: { ease: EASE }, onComplete: function () {
     introDone = true; revertSplits();
@@ -87,6 +94,9 @@ function intro() {
     .to(link, { autoAlpha: 1, y: 0, duration: 0.85 }, 1.25)
     .to(labs, { autoAlpha: 1, y: 0, duration: 0.85, stagger: 0.08 }, 1.38);
   if (figs.length) tl.to(figs, { yPercent: 0, duration: 1, stagger: 0.08 }, 1.18);
+  counts.forEach(function (c, i) {
+    tl.to(c, { v: c.n, duration: 0.95, ease: 'power3.out', onUpdate: function () { c.el.textContent = String(Math.round(c.v)); } }, 1.18 + i * 0.06);
+  });
 }
 
 /* =============================================================== 2. media */
@@ -330,18 +340,132 @@ function bootMedia() {
     watchFrames(i);
   });
   var giveUp = setTimeout(function () { if (!started) still(); }, 9000);
-  vids[0].src = SRC;
-  prime(0, SHOTS[0], function () {
-    clearTimeout(giveUp);
+  // data budget (CLAUDE.md): the film is 21.2 MB and a playing <video> reads megabytes ahead of any seek, so the
+  // takes are fetched as byte ranges and repacked into small in-memory clips (about 1.1 MB in all, see clips())
+  var cl = clips(SRC);
+  cl.get(0).then(function (url) {
     if (failed) return;
-    started = true;
-    if (R3 && vids[0].readyState >= 2) { R3.upload(0, vids[0]); fresh[0] = false; R3.draw(0, 1, ui); }
-    develop();
-    // the second buffer fetches the next take while the first one plays
-    vids[1].preload = 'auto';
-    vids[1].src = SRC;
-    prime(1, SHOTS[nextOf(0)]);
-  });
+    vids[0].src = url;
+    prime(0, SHOTS[0], function () {
+      clearTimeout(giveUp);
+      if (failed) return;
+      started = true;
+      if (R3 && vids[0].readyState >= 2) { R3.upload(0, vids[0]); fresh[0] = false; R3.draw(0, 1, ui); }
+      develop();
+      // the second buffer gets the next take's clip while the first one plays (one more range request, or none on phones)
+      cl.get(nextOf(0)).then(function (u2) { if (failed) return; vids[1].src = u2; prime(1, SHOTS[nextOf(0)]); }, function () { if (SHOTS.length > 1) SHOTS = SHOTS.slice(0, 1); vids[1].src = url; prime(1, SHOTS[0]); });
+    });
+  }, function () { still(); });
+}
+
+/* ---- the takes as small clips. Only three byte ranges of the film are ever requested: the moov (sample tables),
+   then each take's video samples from the keyframe before it. They are written into a minimal MP4 (ftyp, moov
+   with one video track, mdat) and played from a Blob URL, so the players never touch the 21 MB file. A clip's time
+   starts at that keyframe: the take's t0/t1 are shifted to it. Any failure rejects (the caller shows the still). */
+function clips(src) {
+  var TE = new TextEncoder(), moov = null, made = {};
+  function get(a, b) {
+    return fetch(src, { headers: { Range: 'bytes=' + a + '-' + b }, credentials: 'omit' }).then(function (r) {
+      if (r.status !== 206) { try { r.body && r.body.cancel(); } catch (e) {} throw new Error('no range support: ' + r.status); }
+      return r.arrayBuffer();
+    }).then(function (ab) { return new Uint8Array(ab); });
+  }
+  function kids(u, s, e) {
+    var dv = new DataView(u.buffer, u.byteOffset, u.byteLength), out = [], i = s;
+    while (i + 8 <= e) {
+      var sz = dv.getUint32(i), hl = 8, t = String.fromCharCode(u[i + 4], u[i + 5], u[i + 6], u[i + 7]);
+      if (sz === 1) { sz = dv.getUint32(i + 8) * 4294967296 + dv.getUint32(i + 12); hl = 16; } else if (sz === 0) sz = e - i;
+      if (sz < hl) break;
+      out.push({ t: t, s: i, e: i + sz, b: i + hl }); i += sz;
+    }
+    return out;
+  }
+  function child(u, x, t) { var k = x ? kids(u, x.b, x.e) : []; for (var i = 0; i < k.length; i++) if (k[i].t === t) return k[i]; return null; }
+  function path(u, x, ts) { for (var i = 0; i < ts.length && x; i++) x = child(u, x, ts[i]); return x; }
+  // the video track's sample tables, flattened per sample
+  function parse(u, mv) {
+    var dv = new DataView(u.buffer, u.byteOffset, u.byteLength), tr = null;
+    kids(u, mv.b, mv.e).forEach(function (k) {
+      var h = k.t === 'trak' && path(u, k, ['mdia', 'hdlr']);
+      if (h && !tr && String.fromCharCode(u[h.b + 8], u[h.b + 9], u[h.b + 10], u[h.b + 11]) === 'vide') tr = k;
+    });
+    if (!tr) throw new Error('no video track');
+    var md = path(u, tr, ['mdia', 'mdhd']), tk = child(u, tr, 'tkhd'), st = path(u, tr, ['mdia', 'minf', 'stbl']), el = path(u, tr, ['edts', 'elst']);
+    var B = function (t) { return child(u, st, t); }, stsz = B('stsz'), stts = B('stts'), ctts = B('ctts'), stss = B('stss'), stsc = B('stsc'), stco = B('stco'), co64 = B('co64');
+    var o = { ts: dv.getUint32(md.b + (u[md.b] === 1 ? 20 : 12)), stsd: u.slice(B('stsd').s, B('stsd').e), wh: u.slice(tk.b + (u[tk.b] === 1 ? 88 : 76), tk.b + (u[tk.b] === 1 ? 96 : 84)) };
+    var n = dv.getUint32(stsz.b + 8), fx = dv.getUint32(stsz.b + 4), i, j, k, e, c;
+    o.n = n; o.size = []; o.dts = []; o.dur = []; o.cto = []; o.sync = null; o.off = [];
+    for (i = 0; i < n; i++) o.size.push(fx || dv.getUint32(stsz.b + 12 + 4 * i));
+    for (e = 0, k = 0, c = 0; e < dv.getUint32(stts.b + 4); e++) for (j = 0; j < dv.getUint32(stts.b + 8 + 8 * e) && k < n; j++, k++) { o.dts.push(c); o.dur.push(dv.getUint32(stts.b + 12 + 8 * e)); c += o.dur[k]; }
+    for (i = 0; i < n; i++) o.cto.push(0);
+    o.cv = ctts ? u[ctts.b] : 0;
+    if (ctts) for (e = 0, k = 0; e < dv.getUint32(ctts.b + 4); e++) for (j = 0; j < dv.getUint32(ctts.b + 8 + 8 * e) && k < n; j++, k++) o.cto[k] = o.cv === 1 ? dv.getInt32(ctts.b + 12 + 8 * e) : dv.getUint32(ctts.b + 12 + 8 * e);
+    if (stss) { o.sync = {}; for (e = 0; e < dv.getUint32(stss.b + 4); e++) o.sync[dv.getUint32(stss.b + 8 + 4 * e) - 1] = 1; }
+    var cb = stco || co64, nch = dv.getUint32(cb.b + 4), ent = [];
+    for (e = 0; e < dv.getUint32(stsc.b + 4); e++) ent.push([dv.getUint32(stsc.b + 8 + 12 * e) - 1, dv.getUint32(stsc.b + 12 + 12 * e)]);
+    for (var ch = 0, s = 0, q = 0; ch < nch && s < n; ch++) {
+      while (q + 1 < ent.length && ent[q + 1][0] <= ch) q++;
+      var at = stco ? dv.getUint32(cb.b + 8 + 4 * ch) : dv.getUint32(cb.b + 8 + 8 * ch) * 4294967296 + dv.getUint32(cb.b + 12 + 8 * ch);
+      for (j = 0; j < ent[q][1] && s < n; j++, s++) { o.off.push(at); at += o.size[s]; }
+    }
+    o.mt = 0;
+    if (el) o.mt = Math.max(0, u[el.b] === 1 ? dv.getUint32(el.b + 16) * 4294967296 + dv.getUint32(el.b + 20) : dv.getInt32(el.b + 12));
+    return o;
+  }
+  function be(x) { return [x >>> 24 & 255, x >>> 16 & 255, x >>> 8 & 255, x & 255]; }
+  function cat(parts) { var len = 0, i, o = 0; for (i = 0; i < parts.length; i++) len += parts[i].length; var out = new Uint8Array(len); for (i = 0; i < parts.length; i++) { out.set(parts[i], o); o += parts[i].length; } return out; }
+  function box(t, parts) { var body = cat(parts); return cat([new Uint8Array(be(body.length + 8)), TE.encode(t), body]); }
+  function full(t, vf, parts) { return box(t, [new Uint8Array(be(vf))].concat(parts)); }
+  function words(a) { var out = []; a.forEach(function (x) { out = out.concat(be(x)); }); return new Uint8Array(out); }
+  function runs(a) { var r = []; a.forEach(function (x) { if (r.length && r[r.length - 1][1] === x) r[r.length - 1][0]++; else r.push([1, x]); }); return r; }
+  var MAT = [0x10000, 0, 0, 0, 0x10000, 0, 0, 0, 0x40000000];
+  // one take: samples from the keyframe at or before t0 to everything decoded before t1 (+ B-frame margin)
+  function clip(o, shot) {
+    var pt = function (j) { return (o.dts[j] + o.cto[j] - o.mt) / o.ts; }, i0 = -1, i1, j;
+    for (j = 0; j < o.n && o.dts[j] / o.ts < shot.t0 + 1; j++) if ((!o.sync || o.sync[j]) && pt(j) <= shot.t0 + 1e-6) i0 = j;
+    if (i0 < 0) throw new Error('no keyframe');
+    for (i1 = i0; i1 + 1 < o.n && o.dts[i1 + 1] / o.ts < shot.t1 + 0.35; i1++);
+    var lo = Infinity, hi = 0;
+    for (j = i0; j <= i1; j++) { lo = Math.min(lo, o.off[j]); hi = Math.max(hi, o.off[j] + o.size[j]); }
+    return get(lo, hi - 1).then(function (raw) {
+      var N = i1 - i0 + 1, data = [], dur = 0, ctos = [], sync = [], sizes = [];
+      for (j = i0; j <= i1; j++) { data.push(raw.subarray(o.off[j] - lo, o.off[j] - lo + o.size[j])); dur += o.dur[j]; ctos.push(o.cto[j]); sizes.push(o.size[j]); if (!o.sync || o.sync[j]) sync.push(j - i0 + 1); }
+      var lead = o.cto[i0], show = Math.max(1, dur - lead), neg = ctos.some(function (x) { return x < 0; });
+      var stts = runs(o.dur.slice(i0, i1 + 1)), ctr = runs(ctos);
+      function moovFor(mdatAt) {
+        var stbl = box('stbl', [o.stsd,
+          full('stts', 0, [words([stts.length].concat([].concat.apply([], stts)))]),
+          full('ctts', neg ? 0x01000000 : 0, [words([ctr.length].concat([].concat.apply([], ctr.map(function (r) { return [r[0], r[1] >>> 0]; }))))]),
+          full('stss', 0, [words([sync.length].concat(sync))]),
+          full('stsc', 0, [words([1, 1, N, 1])]),
+          full('stsz', 0, [words([0, N].concat(sizes))]),
+          full('stco', 0, [words([1, mdatAt])])]);
+        var minf = box('minf', [full('vmhd', 1, [new Uint8Array(8)]), box('dinf', [full('dref', 0, [words([1]), full('url ', 1, [])])]), stbl]);
+        var mdia = box('mdia', [full('mdhd', 0, [words([0, 0, o.ts, dur]), new Uint8Array([0x55, 0xc4, 0, 0])]),
+          full('hdlr', 0, [words([0]), TE.encode('vide'), new Uint8Array(12), TE.encode('VideoHandler\u0000')]), minf]);
+        var trak = box('trak', [full('tkhd', 3, [words([0, 0, 1, 0, show, 0, 0, 0, 0]), words(MAT), o.wh]),
+          box('edts', [full('elst', 0, [words([1, show, lead, 0x10000])])]), mdia]);
+        return box('moov', [full('mvhd', 0, [words([0, 0, o.ts, show, 0x10000]), new Uint8Array([1, 0]), new Uint8Array(10), words(MAT), new Uint8Array(24), words([2])]), trak]);
+      }
+      var ftyp = box('ftyp', [TE.encode('isom'), new Uint8Array(be(512)), TE.encode('isomiso2avc1mp41')]);
+      var size0 = moovFor(0).length, mdat = cat(data);
+      var file = [ftyp, moovFor(ftyp.length + size0 + 8), new Uint8Array(be(mdat.length + 8)), TE.encode('mdat'), mdat];
+      var off = pt(i0);
+      shot.t0 -= off; shot.t1 -= off;          // clip time 0 is the keyframe's presentation time
+      return URL.createObjectURL(new Blob(file, { type: 'video/mp4' }));
+    });
+  }
+  function head() {
+    if (moov) return moov;
+    return (moov = get(0, 262143).then(function (u) {
+      var top = kids(u, 0, u.length), mv = null;
+      top.forEach(function (k) { if (k.t === 'moov') mv = k; });
+      if (!mv) throw new Error('moov not at the start');
+      if (mv.e <= u.length) return parse(u, mv);
+      return get(mv.s, mv.e - 1).then(function (m) { return parse(m, { t: 'moov', s: 0, e: m.length, b: mv.b - mv.s }); });
+    }));
+  }
+  return { get: function (k) { return made[k] || (made[k] = head().then(function (o) { return clip(o, SHOTS[k]); })); } };
 }
 
 /* =============================================================== 3. pause control, language, visibility */

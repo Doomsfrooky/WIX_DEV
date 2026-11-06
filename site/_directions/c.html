@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>C · 에디토리얼 시네마틱 · RIHE</title>
+<!--
+  자동 생성 파일입니다. 직접 고치지 말고 data/*.json, tools/kits/*.py, tools/core.py 를 고친 뒤 빌드하세요.
+  방향 C (에디토리얼 시네마틱) 시안. 설계: site/_directions/c.design.md, 영상 데이터: tools/kits/c/reel.py
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;display=swap&amp;text=%21%22%23%24%25%26%27%28%29%2A%2B%2C-.%2F0123456789%3A%3B%3C%3D%3E%3F%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~%C2%B7%E2%80%93%E2%80%98%E2%80%99%E2%80%9C%E2%80%9D%E2%80%A6%EA%B0%81%EA%B3%BC%EA%B5%90%EA%B5%AC%EA%BB%98%EB%8A%94%EB%8D%B0%EB%93%A4%EB%9E%8C%EC%82%AC%EC%84%B1%EC%86%8C%EC%88%98%EC%97%B0%EC%9D%98%EC%9D%B4%EC%9E%AC%EC%A7%84%EC%B2%AD%ED%84%B0%ED%8C%80%ED%95%98%ED%95%A8%ED%99%9C" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,400..900&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&amp;display=swap&amp;text=%20%21%22%23%24%25%26%27%28%29%2A%2B%2C-.%2F0123456789%3A%3B%3C%3D%3E%3F%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~%C2%AE%C2%B7%E2%80%93%E2%80%98%E2%80%99%E2%80%9C%E2%80%9D%E2%80%A6%E2%84%A2%E2%93%87%EA%B0%80%EA%B0%81%EA%B0%84%EA%B0%95%EA%B0%9C%EA%B1%B0%EA%B1%B4%EA%B2%80%EA%B2%AC%EA%B2%BD%EA%B3%84%EA%B3%A0%EA%B3%A8%EA%B3%B5%EA%B3%BC%EA%B3%BD%EA%B5%90%EA%B5%AC%EA%B5%AD%EA%B6%8C%EA%B7%80%EA%B8%88%EA%B8%89%EA%B8%B0%EA%B9%80%EA%B9%8C%EA%BB%98%EB%81%84%EB%82%98%EB%82%9C%EB%82%B4%EB%85%B8%EB%85%BC%EB%87%8C%EB%8A%94%EB%8A%98%EB%8A%A5%EB%8B%88%EB%8B%A4%EB%8B%A8%EB%8B%B4%EB%8B%B9%EB%8C%80%EB%8D%B0%EB%8F%84%EB%8F%85%EB%8F%8C%EB%8F%99%EB%90%98%EB%90%9C%EB%91%90%EB%93%A4%EB%93%B1%EB%94%94%EB%9D%BC%EB%9E%80%EB%9E%8C%EB%9F%AC%EB%A0%A5%EB%A1%80%EB%A1%9C%EB%A1%9D%EB%A3%8C%EB%A5%A0%EB%A5%B4%EB%A5%BC%EB%A6%AC%EB%A6%B0%EB%A6%BC%EB%A6%BD%EB%A7%8C%EB%A9%94%EB%AA%85%EB%AA%A9%EB%AC%B8%EB%AF%B8%EB%AF%BC%EB%B0%8F%EB%B0%94%EB%B0%95%EB%B0%9C%EB%B0%B1%EB%B2%94%EB%B2%A0%EB%B3%91%EB%B3%B4%EB%B6%80%EB%B6%84%EB%B8%8C%EB%B9%84%EB%B9%85%EC%82%AC%EC%83%81%EC%83%89%EC%83%9D%EC%84%9C%EC%84%9D%EC%84%A0%EC%84%AD%EC%84%B1%EC%84%B8%EC%86%8C%EC%86%A1%EC%88%98%EC%88%A0%EC%8A%A4%EC%8A%B5%EC%8A%B9%EC%8B%9C%EC%8B%9D%EC%8B%A0%EC%8B%A4%EC%95%84%EC%95%88%EC%95%8C%EC%95%A0%EC%96%91%EC%96%B8%EC%97%86%EC%97%90%EC%97%B0%EC%97%BC%EC%98%81%EC%98%88%EC%98%A4%EC%98%A8%EC%99%80%EC%99%B8%EC%9A%A9%EC%9A%B0%EC%9A%B4%EC%9B%90%EC%9C%84%EC%9C%A0%EC%9C%A4%EC%9C%BC%EC%9D%80%EC%9D%84%EC%9D%8C%EC%9D%98%EC%9D%B4%EC%9D%B8%EC%9D%BC%EC%9E%84%EC%9E%85%EC%9E%90%EC%9E%91%EC%9E%A1%EC%9E%A5%EC%9E%AC%EC%A0%81%EC%A0%84%EC%A0%95%EC%A0%9C%EC%A1%B0%EC%A2%85%EC%A3%BC%EC%A4%80%EC%A4%91%EC%A6%98%EC%A6%9D%EC%A7%80%EC%A7%84%EC%A7%90%EC%A7%95%EC%B0%AC%EC%B0%B0%EC%B1%84%EC%B2%A0%EC%B2%AD%EC%B2%B4%EC%B4%88%EC%B5%9C%EC%B6%9C%EC%B6%A9%EC%B8%A1%EC%B9%98%ED%81%AC%ED%83%95%ED%83%9C%ED%84%B0%ED%84%B4%ED%86%B5%ED%8A%B9%ED%8C%80%ED%8C%A8%ED%8E%98%ED%8E%B8%ED%8F%89%ED%91%9C%ED%94%84%ED%95%98%ED%95%99%ED%95%9C%ED%95%A8%ED%95%A9%ED%95%AD%ED%95%B4%ED%97%88%ED%97%8C%ED%97%98%ED%98%80%ED%98%84%ED%98%91%ED%98%95%ED%98%B8%ED%99%8D%ED%99%94%ED%99%98%ED%99%9C%ED%99%A9%ED%9A%8C%ED%9A%A8%ED%9B%84%ED%9B%88%ED%9D%AC" rel="stylesheet">
+<script>(function(d){try{d.classList.add('js');var m=/[?&]lang=(en|ko)/.exec(location.search);if(m){d.setAttribute('data-lang',m[1]);d.lang=m[1];}if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('rm');}catch(e){}})(document.documentElement);</script>
+<style>
+[data-lang="ko"] [data-l="en"], [data-lang="en"] [data-l="ko"] { display: none !important; }
+.sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* reveal safety. A kit hides [data-a] blocks (and [data-ai] items inside them) under html.js:not(.rm) until they get .on. If the main script never
+   reaches setup (.ready), a CSS timer shows everything 2.6 s after first style; html.all shows everything at once. */
+@keyframes rihe-show { to { opacity: 1; transform: none; clip-path: none; filter: none; visibility: visible; } }
+html.js:not(.ready) [data-a], html.js:not(.ready) [data-ai] { animation: rihe-show .01s linear 2.6s forwards; }
+html.all [data-a], html.all [data-ai] { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; visibility: visible !important; }
+#rihe-band { position: absolute; left: 0; top: 0; width: 1px; pointer-events: none; visibility: hidden; }
+#rihe-band i { position: absolute; left: 0; width: 1px; display: block; }
+.rihe-lang { position: absolute; top: 10px; right: 10px; z-index: 30; display: flex; gap: 2px; padding: 2px; background: rgba(255,255,255,.92); border: 1px solid rgba(0,0,0,.12); border-radius: 4px; }
+.rihe-lang button { font: 500 11px/1 ui-monospace, Menlo, monospace; letter-spacing: .04em; border: 0; background: none; color: #555; padding: 6px 9px; border-radius: 3px; cursor: pointer; }
+.rihe-lang button[aria-pressed="true"] { background: #222; color: #fff; }
+
+.rihe-sample { margin: 0; padding: 22px 16px; display: flex; align-items: center; gap: 14px; background: #fff; color: #8a8f98; font: 500 11px/1.4 ui-monospace, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; }
+.rihe-sample::before, .rihe-sample::after { content: ""; flex: 1; border-top: 1px dashed #c9cdd3; }
+
+/* ---------------------------------------------------------------- tokens (one system: the hero and the reading zones) */
+:root {
+  --ink: #0f0e0c; --ink-2: #4e4b47; --ink-3: #696660; --ink-r: rgba(15, 14, 12, .14); --ink-r2: rgba(15, 14, 12, .28);
+  --bone: #efe9dd; --bone-d: #e2dbcc; --bone-2: rgba(239, 233, 221, .86); --bone-3: rgba(239, 233, 221, .64); --rule: rgba(239, 233, 221, .2);
+  --amber: #e3a640; --umber: #8a5a0e;
+  --W: min(100vw, 1640px); --ox: max(0px, calc((100vw - 1640px) / 2)); --m: clamp(28px, 3.75vw, 72px);
+  --fx: calc(var(--ox) + var(--W) * .34); --tx: calc(var(--ox) + var(--m)); --gut: clamp(20px, 2.4vw, 40px);
+  --ko: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --lat: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --dsp: 'Black Han Sans', var(--ko);
+  --out: cubic-bezier(.16, 1, .3, 1);
+}
+@media (max-width: 760px) { :root { --m: 16px; } }
+html { background: var(--bone); }
+body { margin: 0; background: var(--bone); color: var(--ink); }
+::selection { background: var(--amber); color: var(--ink); }
+.nw { white-space: nowrap; }
+
+/* ---------------------------------------------------------------- paper: the reading zones */
+.c-sec { position: relative; background: var(--bone); color: var(--ink); font-family: var(--ko); padding: clamp(64px, 6.6vw, 112px) 0 clamp(88px, 8.4vw, 140px);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.c-sec *, .c-sec *::before, .c-sec *::after { box-sizing: border-box; }
+.c-sec [lang="en"] { font-family: var(--lat); }
+.c-sec [lang="ko"] { font-family: var(--ko); }
+/* the hero's axis: the left column ends one gutter before the frame's left edge (34% of the width) */
+.c-in { position: relative; max-width: 1640px; margin: 0 auto; padding: 0 var(--m); display: grid;
+  grid-template-columns: calc(var(--W) * .34 - var(--m) - var(--gut)) minmax(0, 1fr); column-gap: var(--gut); }
+
+.c-h2 { grid-column: 1 / -1; margin: 0; font-weight: 400; color: var(--ink); --hs: clamp(50px, 6.3vw, 104px); font-size: var(--hs); }
+.c-h2 .m { display: block; height: calc(var(--hs) * 1.04); overflow: hidden; padding: .06em .05em 0; margin: -.06em -.05em 0; }
+.c-h2 .l { display: block; white-space: nowrap; line-height: calc(var(--hs) * 1.04); }
+.c-h2-ko .l { font-family: var(--dsp); font-size: var(--hs); letter-spacing: -.012em; }
+.c-h2-en .l { font-family: var(--lat); font-stretch: 62%; font-weight: 860; font-size: calc(var(--hs) * 1.08); text-transform: uppercase; letter-spacing: -.004em; }
+@media (min-width: 761px) { .c-h2--one .m { display: inline-block; vertical-align: top; } }
+
+.c-leadw { grid-column: 2; margin-top: clamp(24px, 2.6vw, 40px); }
+.c-lead { margin: 0; max-width: 35em; font-size: clamp(16px, 1.22vw, 18px); line-height: 1.78; color: var(--ink-2); word-break: keep-all; overflow-wrap: break-word; text-wrap: pretty; }
+.c-lead[lang="en"] { line-height: 1.62; max-width: 37em; }
+
+/* the slit: a 1 px rule that opens each block (drawn in by the script) */
+.c-ln { grid-column: 1 / -1; display: block; height: 1px; background: var(--ink); transform-origin: 0 50%; }
+
+/* ---------------------------------------------------------------- the publication list */
+.c-pubs { position: relative; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; margin-top: clamp(52px, 5.4vw, 88px); }
+.c-top { position: absolute; left: 0; top: -150px; width: 1px; height: 1px; pointer-events: none; }
+.c-ctl { grid-column: 1; align-self: start; padding-top: clamp(22px, 2vw, 30px); }
+.c-f + .c-f { margin-top: 26px; }
+.c-fl { margin: 0 0 6px; font-size: 12.5px; line-height: 1.4; letter-spacing: .02em; color: var(--ink-3); }
+.c-fb { position: relative; display: grid; justify-content: start; justify-items: start; column-gap: 22px; }
+.c-f--year .c-fb { grid-template-columns: repeat(4, max-content); }
+.c-fb button { appearance: none; -webkit-appearance: none; margin: 0; padding: 7px 0; border: 0; border-radius: 0; background: none; cursor: pointer;
+  font: 500 15.5px/1.3 var(--ko); color: var(--ink-3); text-align: left; transition: color .2s ease; }
+.c-fb button [lang="en"] { font-family: var(--lat); font-weight: 500; }
+.c-fb .c-num { font-family: var(--lat); font-stretch: 62%; font-weight: 640; font-size: 18px; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; }
+.c-fb button:hover, .c-fb button[aria-pressed="true"] { color: var(--ink); }
+.c-fb button:focus-visible { outline: 2px solid var(--umber); outline-offset: 2px; }
+.c-fb:not(.has-ind) button[aria-pressed="true"] .c-bl { box-shadow: 0 2px 0 var(--umber); }
+.c-ind { position: absolute; left: 0; top: 0; width: 0; height: 2px; background: var(--umber); pointer-events: none; }
+.c-fb:not(.has-ind) .c-ind { display: none; }
+.c-tally { margin: 34px 0 10px; overflow: hidden; font-size: 13px; line-height: 1.4; color: var(--ink-2); }
+.c-tally [data-n] { display: inline-block; }
+.c-tally [lang="en"] { font-size: 13.5px; }
+/* the reel: one frame per publication, newest first; the filter lights its frames, the page on screen is umber */
+.c-reel { display: flex; align-items: flex-end; gap: 1px; height: 30px; }
+.c-reel i { flex: 1 1 0; min-width: 0; height: 100%; background: var(--ink); opacity: .13; transform-origin: 50% 100%; transform: scaleY(.42); }
+.c-reel i.on { opacity: .6; transform: none; }
+.c-reel i.cur { opacity: 1; background: var(--umber); }
+.c-reel.live i { transition: opacity .3s ease, transform .45s var(--out), background-color .3s ease; transition-delay: calc(var(--d, 0) * 1ms); }
+.c-reel-y { display: flex; justify-content: space-between; margin: 7px 0 0; font: 600 12px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+.c-lw { position: relative; grid-column: 2; min-width: 0; }
+.c-list { list-style: none; margin: 0; padding: 0; }
+.c-row { display: grid; grid-template-columns: 58px minmax(0, 1fr) 128px; grid-template-areas: "yr tx tm"; column-gap: 22px; padding: 17px 0 18px; border-bottom: 1px solid var(--ink-r); }
+.c-yr { grid-area: yr; padding-top: 1px; font: 640 17px/1.4 var(--lat); font-stretch: 62%; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; color: var(--ink); }
+.c-tx { grid-area: tx; min-width: 0; }
+.c-ti { margin: 0; font-size: 16.5px; line-height: 1.46; font-weight: 500; color: var(--ink); word-break: keep-all; overflow-wrap: anywhere; }
+.c-ti[lang="en"] { letter-spacing: -.004em; }
+.c-au { margin: 6px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); overflow-wrap: anywhere; }
+.c-jn { margin: 2px 0 0; font-size: 13.5px; line-height: 1.5; font-weight: 500; color: var(--ink); }
+.c-tm { grid-area: tm; padding-top: 2px; font-size: 12.5px; line-height: 1.45; color: var(--ink-3); text-align: right; white-space: nowrap; }
+.c-row--e { display: block; padding: 30px 0; font-size: 15px; color: var(--ink-2); }
+.c-pg { display: flex; align-items: center; gap: 10px; margin-top: 26px; }
+.c-pg button { appearance: none; -webkit-appearance: none; width: 44px; height: 44px; margin: 0; padding: 0; display: grid; place-items: center; border: 1px solid var(--ink-r2); border-radius: 0;
+  background: transparent; color: var(--ink); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .12s ease; }
+.c-pg svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform .3s var(--out); }
+.c-pg button:hover:not(:disabled) { background: var(--ink); border-color: var(--ink); color: var(--bone); }
+.c-pg button[data-p="1"]:hover:not(:disabled) svg { transform: translateX(2px); }
+.c-pg button[data-p="-1"]:hover:not(:disabled) svg { transform: translateX(-2px); }
+.c-pg button:active:not(:disabled) { transform: scale(.94); }
+.c-pg button:disabled { opacity: .3; cursor: default; }
+.c-pg button:focus-visible { outline: 2px solid var(--umber); outline-offset: 3px; }
+.c-pi { display: inline-block; overflow: hidden; min-width: 4.6em; text-align: center; font: 640 18px/44px var(--lat); font-stretch: 62%; letter-spacing: .02em; font-variant-numeric: tabular-nums lining-nums; }
+.c-pi > span { display: inline-block; }
+
+/* ---------------------------------------------------------------- people */
+.c-team { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; margin-top: clamp(56px, 5.8vw, 96px); }
+.c-team + .c-team { margin-top: clamp(60px, 6vw, 100px); }
+.c-team > .c-ln { margin-bottom: clamp(18px, 1.6vw, 24px); }
+.c-h3 { grid-column: 1; margin: 0; font-weight: 400; align-self: start; color: var(--ink); }
+.c-h3-ko, .c-h3-en { display: block; }
+.c-h3-ko { font: 400 clamp(28px, 2.5vw, 40px)/1.12 var(--dsp); letter-spacing: -.01em; }
+.c-h3-en { font-family: var(--lat); font-stretch: 62%; font-weight: 860; font-size: clamp(30px, 2.7vw, 43px); line-height: 1.04; text-transform: uppercase; }
+.c-mems { grid-column: 2; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px clamp(16px, 1.7vw, 28px); }
+.c-team--lab .c-mems { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 32px clamp(12px, 1.2vw, 20px); }
+.c-mem { margin: 0; min-width: 0; }
+.c-ph { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bone-d); }
+.c-pp { position: absolute; left: 0; right: 0; top: -5%; height: 110%; }
+.c-im { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 26%; filter: saturate(.84) contrast(1.04);
+  transition: filter .7s var(--out), transform .9s var(--out); }
+.c-mem:hover .c-im { filter: saturate(1) contrast(1); transform: scale(1.035); }
+.c-ini { position: absolute; inset: 0; display: grid; place-items: center; font: 400 clamp(40px, 4vw, 64px)/1 var(--dsp); color: var(--umber); }
+.c-ini [lang="en"] { font-family: var(--lat); font-stretch: 62%; font-weight: 860; }
+.c-mem .c-mt { margin-top: 14px; }
+.c-nm { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 500; color: var(--ink); }
+.c-nm [lang="en"] { font-weight: 600; letter-spacing: -.006em; }
+.c-rl { margin: 4px 0 0; font-size: 13px; line-height: 1.46; color: var(--ink-2); word-break: keep-all; }
+.c-team--lab .c-nm { font-size: 16px; }
+.c-team--lab .c-rl { font-size: 12.5px; }
+
+/* ---------------------------------------------------------------- reveal states: hidden only when motion will run */
+html.js:not(.rm) .c-sec [data-a]:not(.on) { opacity: 0; }
+
+/* ---------------------------------------------------------------- tablet widths (Wix shows 980+ and 320; kept sound between) */
+@media (max-width: 1199px) {
+  .c-row { grid-template-columns: 52px minmax(0, 1fr) 112px; column-gap: 18px; }
+  .c-team--lab .c-nm { font-size: 14.5px; }
+  .c-team--lab .c-rl { font-size: 12px; }
+}
+/* the lab stays one row of six on every desktop width, half the faculty's size (the hierarchy holds at 980) */
+@media (max-width: 899px) { .c-team--lab .c-mems { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ---------------------------------------------------------------- 320 (Wix mobile): one column, the same parts */
+@media (max-width: 760px) {
+  .c-sec { padding: 56px 0 72px; }
+  .c-in { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
+  .c-h2, .c-leadw, .c-pubs, .c-team, .c-ln, .c-ctl, .c-lw, .c-h3, .c-mems { grid-column: 1; }
+  .c-pubs, .c-team { grid-template-columns: minmax(0, 1fr); }
+  .c-h2 { --hs: 34px; }
+  .c-h2-en .l { font-size: calc(var(--hs) * 1.06); }
+  .c-leadw { margin-top: 18px; }
+  .c-lead { font-size: 15px; line-height: 1.72; }
+  .c-lead[lang="en"] { font-size: 15px; line-height: 1.58; }
+  .c-pubs { margin-top: 40px; }
+  .c-ctl { padding-top: 18px; margin-bottom: 22px; }
+  .c-fb { column-gap: 14px; }
+  .c-f--team .c-fb { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .c-f--year .c-fb { grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
+  .c-fb button { padding: 9px 0; font-size: 14.5px; }
+  .c-fb .c-num { font-size: 17px; }
+  .c-f + .c-f { margin-top: 18px; }
+  .c-tally { margin: 22px 0 8px; }
+  .c-reel { height: 24px; }
+  .c-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "yr tm" "tx tx"; row-gap: 5px; padding: 15px 0 16px; }
+  .c-yr { font-size: 15px; padding: 0; }
+  .c-tm { font-size: 12px; padding: 1px 0 0; }
+  .c-ti { font-size: 15px; line-height: 1.48; }
+  .c-au, .c-jn { font-size: 12.5px; }
+  .c-team { margin-top: 48px; }
+  .c-team + .c-team { margin-top: 52px; }
+  .c-h3 { margin-bottom: 18px; }
+  .c-h3-ko { font-size: 26px; }
+  .c-h3-en { font-size: 28px; }
+  .c-team--fac .c-mems { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .c-team--fac .c-mem { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 16px; align-items: end; }
+  .c-team--fac .c-mem .c-mt { margin: 0 0 2px; }
+  .c-team--lab .c-mems { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 10px; }
+  .c-team--lab .c-mem .c-mt { margin-top: 9px; }
+  .c-team--lab .c-nm { font-size: 14.5px; }
+  .c-team--lab .c-rl { font-size: 11.5px; line-height: 1.4; }
+}
+
+/* reduced motion: nothing moves, not even the hover transitions */
+html.rm .c-sec *, html.rm .c-sec *::before, html.rm .c-sec *::after { transition: none !important; }
+/* C · hero · editorial cinematic (the /67 final). A footage frame bleeds top and right; the stacked title stands on the
+   frame's bottom line and crosses its left edge; under that line, the institution and its record (left) and the statement
+   with one link (right, on the frame's axis). One amber accent: the projector's light. The slit that opens the frame keeps
+   its lower edge on the title's line as the reel's clock. No viewport-height units. Palette, type and grid tokens live on
+   :root in tools/kits/c.py (shared with the reading zones); page-level rules (body) live there too. */
+.cx {
+  --fh: min(64%, 428px);
+  position: relative;
+  display: block;
+  height: clamp(560px, calc(213px + 33.34vw), 664px);   /* 640 at 1280; capped at 664 so the whole frame and record fit a 900 px window under the Wix header */
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--ko);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.cx *, .cx *::before, .cx *::after { box-sizing: border-box; }
+.cx ::selection { background: var(--amber); color: var(--ink); }
+.cx [lang="en"] { font-family: var(--lat); }
+
+/* ---------------------------------------------------------------- the frame (people, then the field) */
+.cx-frame {
+  position: absolute; z-index: 1;
+  top: 0; right: 0; left: var(--fx);
+  height: var(--fh);
+  overflow: hidden;
+  background: #070605;
+}
+.cx-par { position: absolute; left: 0; right: 0; top: -9%; bottom: 0; will-change: transform; }
+.cx-media {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  filter: saturate(.8) contrast(1.06) brightness(.86);
+  transform-origin: 62% 50%;
+}
+.cx-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+.cx-v { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; visibility: hidden; display: block; }
+.cx-scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(15, 14, 12, .78) 0%, rgba(15, 14, 12, .42) 15%, rgba(15, 14, 12, 0) 36%),
+    linear-gradient(0deg, rgba(15, 14, 12, .55) 0%, rgba(15, 14, 12, 0) 34%),
+    radial-gradient(130% 100% at 64% 42%, rgba(7, 6, 5, 0) 58%, rgba(7, 6, 5, .4) 100%);
+}
+.cx-grain { position: absolute; inset: 0; pointer-events: none; opacity: .14; mix-blend-mode: overlay; background-repeat: repeat; background-size: 160px 160px; }
+
+/* the slit of light that opens the frame (drawn by CSS at first paint, then handed to the script). When the gate has
+   opened, the top edge has burned out and the lower edge rests on the frame's bottom line, where the title stands:
+   from then on it runs down through each shot as the reel's clock. */
+.cx-edge {
+  position: absolute; z-index: 2;
+  left: var(--fx); right: 0;
+  top: calc(var(--fh) / 2); height: 1px; margin-top: -.5px;
+  background: var(--amber);
+  transform-origin: 0 50%; transform: scaleX(0); opacity: 0;
+  pointer-events: none;
+}
+html.js:not(.rm) .cx-edge-t { animation: cx-draw .62s cubic-bezier(.65, 0, .35, 1) .08s both; }
+@keyframes cx-draw { from { transform: scaleX(0); opacity: 1; } to { transform: scaleX(1); opacity: 1; } }
+.cx-open .cx-edge-b { top: var(--fh); margin-top: -1px; }
+html.all .cx-edge, html.rm .cx-edge, .cx-done .cx-edge-t { display: none; }
+
+/* pause / play (WCAG 2.2.2) */
+.cx-pause {
+  position: absolute; z-index: 4; right: 18px; bottom: 18px;
+  width: 40px; height: 40px; padding: 0; margin: 0;
+  display: grid; place-items: center;
+  border: 1px solid rgba(239, 233, 221, .4); border-radius: 0;
+  background: rgba(15, 14, 12, .58); color: var(--bone);
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.cx-pause[hidden] { display: none; }
+.cx-pause:hover { background: rgba(15, 14, 12, .9); border-color: var(--bone); }
+.cx-pause:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.cx-pause svg { width: 14px; height: 14px; display: block; }
+.cx-pause .i-pause { fill: none; stroke: currentColor; stroke-width: 1.7; }
+.cx-pause .i-play { fill: currentColor; display: none; }
+.cx-pause.is-paused .i-play { display: block; }
+.cx-pause.is-paused .i-pause { display: none; }
+
+/* ---------------------------------------------------------------- title (stacked, stands on the frame's bottom line) */
+.cx-h {
+  position: absolute; z-index: 3;
+  left: var(--tx);
+  bottom: calc(100% - var(--fh));
+  margin: 0; padding: 0;
+  font-weight: 400;
+  color: var(--bone);
+  will-change: transform;
+}
+.cx-h-ko, .cx-h-en { display: block; }
+.cx-h .ln { display: block; overflow: hidden; padding: .07em .06em .03em; margin: -.07em -.06em -.03em; }
+.cx-done .cx-h .ln { overflow: visible; }
+.cx-h .li { display: inline-block; white-space: nowrap; }
+.cx-h-ko {
+  font-family: 'Black Han Sans', var(--ko);
+  font-size: clamp(96px, 11.7vw, 176px);
+  line-height: .98;
+  letter-spacing: -.012em;
+  transform: translateY(.075em);
+}
+.cx-h-en {
+  font-family: var(--lat);
+  font-stretch: 62%;
+  font-weight: 860;
+  font-size: clamp(54px, 6.75vw, 102px);
+  line-height: .9;
+  letter-spacing: -.004em;
+  text-transform: uppercase;
+  transform: translateY(.06em);
+}
+
+/* ---------------------------------------------------------------- under the frame line */
+.cx-low {
+  position: absolute; z-index: 3;
+  top: calc(var(--fh) + clamp(22px, 2.5vw, 36px));
+  left: var(--tx);
+  right: var(--m);
+  display: grid;
+  grid-template-columns: calc(var(--W) * .34 - var(--m) - var(--gut)) minmax(0, 1fr);
+  column-gap: var(--gut);
+  grid-template-areas: "inst lead" "nums lead" "nums more";
+  grid-template-rows: auto auto 1fr;
+  align-items: start;
+}
+.cx-inst {
+  grid-area: inst; margin: 0;
+  font-size: 14px; line-height: 1.45; font-weight: 500; letter-spacing: .005em;
+  color: var(--bone-2);
+}
+.cx-inst [lang="en"] { font-size: 13.5px; letter-spacing: .01em; }
+.cx-lead {
+  grid-area: lead; margin: -.32em 0 0;
+  max-width: 35em;
+  font-size: clamp(15.5px, 1.33vw, 18px); line-height: 1.72; font-weight: 400; letter-spacing: -.004em;
+  color: var(--bone-2);
+  word-break: keep-all; overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+.cx-lead[lang="en"] { font-size: clamp(15px, 1.29vw, 17.5px); line-height: 1.6; letter-spacing: 0; max-width: 36em; }
+.cx-nums {
+  grid-area: nums;
+  list-style: none; margin: clamp(16px, 1.9vw, 26px) 0 0; padding: clamp(12px, 1.2vw, 16px) 0 0;
+  background: linear-gradient(var(--rule), var(--rule)) no-repeat 0 0 / var(--rs, 100%) 1px;   /* hairline drawn in with the numbers */
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(10px, 1.2vw, 18px);
+}
+.cx-nums li { display: block; margin: 0; padding: 0; }
+.cx-nums b {
+  display: block;
+  font-family: var(--lat); font-stretch: 62%; font-weight: 640;
+  font-size: clamp(30px, 2.65vw, 40px); line-height: 1; letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--bone);
+}
+.cx-n { display: block; white-space: nowrap; }
+/* the record as counter wheels while it arrives (built by the script, then returned to plain text) */
+.cx-dg { display: inline-block; vertical-align: top; height: 1em; overflow: hidden; }
+.cx-strip { display: block; }
+.cx-strip > span { display: block; height: 1em; }
+.cx-nums li > span {
+  display: block; margin-top: 7px;
+  font-size: 12px; line-height: 1.38; letter-spacing: 0;
+  color: var(--bone-3);
+  word-break: keep-all;
+}
+.cx-nums li > span[lang="en"] { font-size: 11.5px; font-stretch: 90%; letter-spacing: .005em; }
+.cx .nw { white-space: nowrap; }
+.cx-more {
+  grid-area: more; justify-self: start;
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-top: clamp(12px, 1.4vw, 20px); padding: 8px 0;
+  color: var(--bone); text-decoration: none;
+  font-size: 14.5px; line-height: 1.3; font-weight: 500; letter-spacing: .005em;
+}
+.cx-more span { padding-bottom: 4px; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .35s cubic-bezier(.16, 1, .3, 1); }
+.cx-more span[lang="en"] { font-size: 14px; letter-spacing: .01em; }
+.cx-more svg { width: 20px; height: 10px; flex: none; fill: none; stroke: var(--amber); stroke-width: 1.5; transition: transform .35s cubic-bezier(.16, 1, .3, 1); }
+.cx-more:hover svg { transform: translateX(5px); }
+.cx-more:hover span { background-size: 100% 2px; }
+.cx-more:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
+
+/* ---------------------------------------------------------------- reveal states: hidden only when motion will run */
+html.js:not(.rm) .cx [data-a]:not(.on) { opacity: 0; }
+html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(50% 0 50% 0); }
+
+/* ---------------------------------------------------------------- 320 (Wix mobile) */
+@media (max-width: 760px) {
+  .cx { height: 560px; --fh: 250px; }
+  .cx-frame { left: 0; }
+  .cx-edge { left: 0; }
+  .cx-par { top: -6%; }
+  .cx-scrim {
+    background:
+      linear-gradient(0deg, rgba(15, 14, 12, .9) 0%, rgba(15, 14, 12, .66) 30%, rgba(15, 14, 12, .3) 55%, rgba(15, 14, 12, 0) 76%),
+      linear-gradient(90deg, rgba(15, 14, 12, .35) 0%, rgba(15, 14, 12, 0) 45%);
+  }
+  .cx-pause { right: 10px; bottom: 10px; width: 36px; height: 36px; }
+  .cx-h { left: 16px; }
+  .cx-h-ko { font-size: 62px; line-height: 1; transform: translateY(.07em); }
+  .cx-h-en { font-size: 35px; line-height: .9; transform: translateY(.06em); }
+  .cx-low { top: calc(var(--fh) + 13px); left: 16px; right: 16px; display: flex; flex-direction: column; }
+  .cx-inst { order: 1; font-size: 12.5px; line-height: 1.4; }
+  .cx-inst [lang="en"] { font-size: 12px; line-height: 1.38; }
+  .cx-lead { order: 2; margin: 10px 0 0; font-size: 14.5px; line-height: 1.6; max-width: none; }
+  .cx-lead[lang="en"] { font-size: 13.5px; line-height: 1.48; max-width: none; }
+  .cx-nums { order: 3; margin-top: 14px; padding-top: 10px; column-gap: 8px; }
+  .cx-nums b { font-size: 25px; }
+  .cx-nums li > span { margin-top: 4px; font-size: 11px; line-height: 1.27; }
+  .cx-nums li > span[lang="en"] { font-size: 11px; letter-spacing: 0; }
+  .cx-more { order: 4; margin-top: 4px; padding: 8px 0 6px; font-size: 13.5px; }
+  .cx-more span[lang="en"] { font-size: 13px; }
+}
+</style>
+<script src="../vendor/gsap@3.15.0/gsap.min.js" defer></script><script src="../vendor/gsap@3.15.0/SplitText.min.js" defer></script><script src="../vendor/gsap@3.15.0/CustomEase.min.js" defer></script>
+</head>
+<body>
+<div class="rihe-lang" role="group" aria-label="Language"><button type="button" data-set="ko" aria-pressed="true">KO</button><button type="button" data-set="en" aria-pressed="false">EN</button></div><section class="cx" aria-labelledby="cx-h">
+  <div class="cx-frame" data-a>
+    <div class="cx-par">
+      <div class="cx-media">
+        <img class="cx-still" src="https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fill/w_960,h_640,al_c,q_85,enc_auto/members.jpg" width="960" height="640" alt="청각재활연구소 구성원" data-alt-en="Members of RIHE" fetchpriority="high" decoding="async">
+        <video class="cx-v" muted playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"></video>
+      </div>
+    </div>
+    <div class="cx-scrim" aria-hidden="true"></div>
+    <div class="cx-grain" aria-hidden="true"></div>
+    <button class="cx-pause" type="button" hidden aria-label="배경 영상 일시정지" data-aria-en="Pause background video">
+      <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg>
+      <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.6v10.8L13.4 8z"/></svg>
+    </button>
+  </div>
+  <i class="cx-edge cx-edge-t" aria-hidden="true"></i><i class="cx-edge cx-edge-b" aria-hidden="true"></i>
+
+  <h1 class="cx-h" id="cx-h" data-a>
+    <span class="cx-h-ko" data-l="ko"><span class="ln"><span class="li">청각재활</span></span><span class="ln"><span class="li">연구소</span></span></span>
+    <span class="cx-h-en" data-l="en" lang="en"><span class="ln"><span class="li">Research </span></span><span class="ln"><span class="li">Institute of </span></span><span class="ln"><span class="li">Hearing </span></span><span class="ln"><span class="li">Enhancement</span></span></span>
+  </h1>
+
+  <div class="cx-low">
+    <p class="cx-inst" data-a><span data-l="ko">연세대학교 원주세브란스기독병원</span><span data-l="en" lang="en">Yonsei University · <span class="nw">Wonju Severance Christian Hospital</span></span></p>
+    <p class="cx-lead" data-a data-l="ko">난청의 기전에 대한 기초 연구를 바탕으로 치료제 개발, 임상 연구, 의료기기 개발까지 청각에 대한 전주기적 연구를 하는 연구소입니다. 난청 연구에서 세계 최고의 연구소가 되기 위해 노력합니다.</p><p class="cx-lead" data-a data-l="en" lang="en">Built on basic research into the mechanisms of hearing loss, we conduct full-cycle hearing research, from drug development and clinical research to medical devices, and strive to become the world’s best institute in hearing research.</p>
+    <ul class="cx-nums" data-a>
+      <li data-ai><b><span class="cx-n" data-n="120" aria-hidden="true">120</span><span class="sr">120</span></b><span data-l="ko">학술지 논문</span><span data-l="en" lang="en">Journal articles</span></li>
+      <li data-ai><b><span class="cx-n" data-n="94" aria-hidden="true">94</span><span class="sr">94</span></b><span data-l="ko">학회 발표</span><span data-l="en" lang="en">Conference presentations</span></li>
+      <li data-ai><b><span class="cx-n" data-n="80" aria-hidden="true">80</span><span class="sr">80</span></b><span data-l="ko">특허 <span class="nw">(출원·등록)</span></span><span data-l="en" lang="en">Patents (filed and granted)</span></li>
+      <li data-ai><b><span class="cx-n" data-n="12" aria-hidden="true">12</span><span class="sr">12</span></b><span data-l="ko">기술이전</span><span data-l="en" lang="en">Technology transfers</span></li>
+    </ul>
+    <a class="cx-more" href="https://www.smilesnail.org/project" target="_top" data-path="/project" data-a><span data-l="ko">논문·학회 발표·특허 보기</span><span data-l="en" lang="en">Publications, reports and patents</span><svg viewBox="0 0 20 10" aria-hidden="true"><path d="M0 5h18M14 1l4 4-4 4"/></svg></a>
+  </div>
+</section>
+
+<div class="rihe-sample" role="note"><span><span data-l="ko">시안 구간 · Research 페이지 일부</span><span data-l="en" lang="en">Sample · Part of the Research page</span></span></div>
+<section class="c-sec c-res" id="research" aria-labelledby="c-res-h">
+<div class="c-in">
+<h2 class="c-h2" id="c-res-h" data-a><span class="c-h2-ko" data-l="ko"><span class="m"><span class="l">청각재활연구소의</span></span> <span class="m"><span class="l">연구 성과</span></span></span><span class="c-h2-en" data-l="en" lang="en"><span class="m"><span class="l">Research output</span></span> <span class="m"><span class="l">of the Institute</span></span></span></h2>
+<div class="c-leadw" data-a data-lk><p class="c-lead" data-l="ko">기초 연구, 빅데이터·인공지능, 의료기기, 임상시험을 아우르는 연구를 합니다. 연구소와의 협력을 언제나 환영합니다.</p><p class="c-lead" data-l="en" lang="en">Our hearing research covers basic science, big data &amp; AI, medical devices and clinical trials. We always welcome collaborations with our laboratory.</p></div>
+<div class="c-pubs" data-a data-list>
+  <i class="c-ln" aria-hidden="true"></i>
+  <div class="c-ctl" data-lk>
+    <div class="c-f c-f--team" role="group" aria-label="팀" data-aria-en="Team"><p class="c-fl" aria-hidden="true"><span data-l="ko">팀</span><span data-l="en" lang="en">Team</span></p><div class="c-fb"><button type="button" data-k="team" data-v="all" aria-pressed="true"><span class="c-bl"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></span></button><button type="button" data-k="team" data-v="basic" aria-pressed="false"><span class="c-bl"><span data-l="ko">Basic Lab</span><span data-l="en" lang="en">Basic Lab</span></span></button><button type="button" data-k="team" data-v="hearing" aria-pressed="false"><span class="c-bl"><span data-l="ko">Hearing Lab</span><span data-l="en" lang="en">Hearing Lab</span></span></button><button type="button" data-k="team" data-v="head" aria-pressed="false"><span class="c-bl"><span data-l="ko">HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></span></button><button type="button" data-k="team" data-v="collab" aria-pressed="false"><span class="c-bl"><span data-l="ko">협력·임상</span><span data-l="en" lang="en">Collab &amp; Medical</span></span></button><i class="c-ind" aria-hidden="true"></i></div></div>
+    <div class="c-f c-f--year" role="group" aria-label="연도" data-aria-en="Year"><p class="c-fl" aria-hidden="true"><span data-l="ko">연도</span><span data-l="en" lang="en">Year</span></p><div class="c-fb"><button type="button" data-k="year" data-v="all" aria-pressed="true"><span class="c-bl"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></span></button><button type="button" data-k="year" data-v="2026" aria-pressed="false"><span class="c-bl"><span class="c-num">2026</span></span></button><button type="button" data-k="year" data-v="2025" aria-pressed="false"><span class="c-bl"><span class="c-num">2025</span></span></button><button type="button" data-k="year" data-v="2024" aria-pressed="false"><span class="c-bl"><span class="c-num">2024</span></span></button><button type="button" data-k="year" data-v="2023" aria-pressed="false"><span class="c-bl"><span class="c-num">2023</span></span></button><button type="button" data-k="year" data-v="2022" aria-pressed="false"><span class="c-bl"><span class="c-num">2022</span></span></button><button type="button" data-k="year" data-v="~2021" aria-pressed="false"><span class="c-bl"><span class="c-num">~2021</span></span></button><i class="c-ind" aria-hidden="true"></i></div></div>
+    <p class="c-tally" aria-live="polite"><span data-n><span data-l="ko">120건</span><span data-l="en" lang="en">120 items</span></span></p>
+    <div class="c-reel" data-ticks aria-hidden="true"><i class="on" style="--d:0"></i><i class="on" style="--d:2"></i><i class="on" style="--d:4"></i><i class="on" style="--d:6"></i><i class="on" style="--d:8"></i><i class="on" style="--d:10"></i><i class="on" style="--d:12"></i><i class="on" style="--d:14"></i><i class="on" style="--d:16"></i><i class="on" style="--d:18"></i><i class="on" style="--d:20"></i><i class="on" style="--d:22"></i><i class="on" style="--d:24"></i><i class="on" style="--d:26"></i><i class="on" style="--d:28"></i><i class="on" style="--d:30"></i><i class="on" style="--d:32"></i><i class="on" style="--d:34"></i><i class="on" style="--d:36"></i><i class="on" style="--d:38"></i><i class="on" style="--d:40"></i><i class="on" style="--d:42"></i><i class="on" style="--d:44"></i><i class="on" style="--d:46"></i><i class="on" style="--d:48"></i><i class="on" style="--d:50"></i><i class="on" style="--d:52"></i><i class="on" style="--d:54"></i><i class="on" style="--d:56"></i><i class="on" style="--d:58"></i><i class="on" style="--d:60"></i><i class="on" style="--d:62"></i><i class="on" style="--d:64"></i><i class="on" style="--d:66"></i><i class="on" style="--d:68"></i><i class="on" style="--d:70"></i><i class="on" style="--d:72"></i><i class="on" style="--d:74"></i><i class="on" style="--d:76"></i><i class="on" style="--d:78"></i><i class="on" style="--d:80"></i><i class="on" style="--d:82"></i><i class="on" style="--d:84"></i><i class="on" style="--d:86"></i><i class="on" style="--d:88"></i><i class="on" style="--d:90"></i><i class="on" style="--d:92"></i><i class="on" style="--d:94"></i><i class="on" style="--d:96"></i><i class="on" style="--d:98"></i><i class="on" style="--d:100"></i><i class="on" style="--d:102"></i><i class="on" style="--d:104"></i><i class="on" style="--d:106"></i><i class="on" style="--d:108"></i><i class="on" style="--d:110"></i><i class="on" style="--d:112"></i><i class="on" style="--d:114"></i><i class="on" style="--d:116"></i><i class="on" style="--d:118"></i><i class="on" style="--d:120"></i><i class="on" style="--d:122"></i><i class="on" style="--d:124"></i><i class="on" style="--d:126"></i><i class="on" style="--d:128"></i><i class="on" style="--d:130"></i><i class="on" style="--d:132"></i><i class="on" style="--d:134"></i><i class="on" style="--d:136"></i><i class="on" style="--d:138"></i><i class="on" style="--d:140"></i><i class="on" style="--d:142"></i><i class="on" style="--d:144"></i><i class="on" style="--d:146"></i><i class="on" style="--d:148"></i><i class="on" style="--d:150"></i><i class="on" style="--d:152"></i><i class="on" style="--d:154"></i><i class="on" style="--d:156"></i><i class="on" style="--d:158"></i><i class="on" style="--d:160"></i><i class="on" style="--d:162"></i><i class="on" style="--d:164"></i><i class="on" style="--d:166"></i><i class="on" style="--d:168"></i><i class="on" style="--d:170"></i><i class="on" style="--d:172"></i><i class="on" style="--d:174"></i><i class="on" style="--d:176"></i><i class="on" style="--d:178"></i><i class="on" style="--d:180"></i><i class="on" style="--d:182"></i><i class="on" style="--d:184"></i><i class="on" style="--d:186"></i><i class="on" style="--d:188"></i><i class="on" style="--d:190"></i><i class="on" style="--d:192"></i><i class="on" style="--d:194"></i><i class="on" style="--d:196"></i><i class="on" style="--d:198"></i><i class="on" style="--d:200"></i><i class="on" style="--d:202"></i><i class="on" style="--d:204"></i><i class="on" style="--d:206"></i><i class="on" style="--d:208"></i><i class="on" style="--d:210"></i><i class="on" style="--d:212"></i><i class="on" style="--d:214"></i><i class="on" style="--d:216"></i><i class="on" style="--d:218"></i><i class="on" style="--d:220"></i><i class="on" style="--d:222"></i><i class="on" style="--d:224"></i><i class="on" style="--d:226"></i><i class="on" style="--d:228"></i><i class="on" style="--d:230"></i><i class="on" style="--d:232"></i><i class="on" style="--d:234"></i><i class="on" style="--d:236"></i><i class="on" style="--d:238"></i></div>
+    <p class="c-reel-y" aria-hidden="true"><span>2026</span><span>2008</span></p>
+  </div>
+  <div class="c-lw"><i class="c-top" aria-hidden="true"></i>
+    <ol class="c-list" data-items><li class="c-row" data-i="0"><span class="c-yr">2026</span><div class="c-tx"><p class="c-ti" lang="en">Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening</p><p class="c-au" lang="en">Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong</p><p class="c-jn" lang="en">Hearing Research</p></div><span class="c-tm"><span data-l="ko">Hearing Lab</span><span data-l="en" lang="en">Hearing Lab</span></span></li><li class="c-row" data-i="1"><span class="c-yr">2026</span><div class="c-tx"><p class="c-ti" lang="en">Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017</p><p class="c-au" lang="en">Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., &amp; Jin, I. K.</p><p class="c-jn" lang="en">American Journal of Audiology</p></div><span class="c-tm"><span data-l="ko">Hearing Lab</span><span data-l="en" lang="en">Hearing Lab</span></span></li><li class="c-row" data-i="2"><span class="c-yr">2025</span><div class="c-tx"><p class="c-ti" lang="en">Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital</p><p class="c-au" lang="en">Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...</p><p class="c-jn" lang="en">CRITICAL PUBLIC HEALTH</p></div><span class="c-tm"><span data-l="ko">Hearing Lab</span><span data-l="en" lang="en">Hearing Lab</span></span></li><li class="c-row" data-i="3"><span class="c-yr">2025</span><div class="c-tx"><p class="c-ti" lang="en">Innovative surgical approaches for the Osia® 2 System</p><p class="c-au" lang="en">Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon</p><p class="c-jn" lang="en">ACTA OTO-LARYNGOLOGICA</p></div><span class="c-tm"><span data-l="ko">Basic Lab</span><span data-l="en" lang="en">Basic Lab</span></span></li><li class="c-row" data-i="4"><span class="c-yr">2025</span><div class="c-tx"><p class="c-ti" lang="en">A Retrospective Comparison of Clinical Characteristics of Post-Traumatic and Idiopathic Benign Paroxysmal Positional Vertigo</p><p class="c-au" lang="en">Kim, Minheon, Jeon, Eun Kyung, Seo, Young Joon, Kong, Tae Hoon</p><p class="c-jn" lang="en">EAR AND HEARING</p></div><span class="c-tm"><span data-l="ko">협력·임상</span><span data-l="en" lang="en">Collab &amp; Medical</span></span></li><li class="c-row" data-i="5"><span class="c-yr">2025</span><div class="c-tx"><p class="c-ti" lang="en">Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data</p><p class="c-au" lang="en">You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon</p><p class="c-jn" lang="en">HEARING RESEARCH</p></div><span class="c-tm"><span data-l="ko">HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></span></li><li class="c-row" data-i="6"><span class="c-yr">2025</span><div class="c-tx"><p class="c-ti" lang="en">Isolated Myxoma of the External Auditory Canal: A Rare Case Report</p><p class="c-au" lang="ko">전은경, 김민헌, 권동환, 서영준</p><p class="c-jn" lang="en">Journal of Audiology &amp; Otology</p></div><span class="c-tm"><span data-l="ko">Basic Lab</span><span data-l="en" lang="en">Basic Lab</span></span></li><li class="c-row" data-i="7"><span class="c-yr">2025</span><div class="c-tx"><p class="c-ti" lang="en">Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset</p><p class="c-au" lang="en">Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho</p><p class="c-jn" lang="en">Journal of Audiology &amp; Otology</p></div><span class="c-tm"><span data-l="ko">HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></span></li><li class="c-row" data-i="8"><span class="c-yr">2025</span><div class="c-tx"><p class="c-ti" lang="en">Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data</p><p class="c-au" lang="en">Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun</p><p class="c-jn" lang="en">Frontiers in Neurology</p></div><span class="c-tm"><span data-l="ko">HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></span></li><li class="c-row" data-i="9"><span class="c-yr">2025</span><div class="c-tx"><p class="c-ti" lang="en">Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System</p><p class="c-au" lang="en">Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon</p><p class="c-jn" lang="en">OTO Open</p></div><span class="c-tm"><span data-l="ko">HeAD Lab</span><span data-l="en" lang="en">HeAD Lab</span></span></li></ol>
+    <div class="c-pg">
+      <button type="button" data-p="-1" aria-label="이전 페이지" data-aria-en="Previous page" disabled><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+      <span class="c-pi"><span data-pi>1 / 12</span></span>
+      <button type="button" data-p="1" aria-label="다음 페이지" data-aria-en="Next page"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+<div class="rihe-sample" role="note"><span><span data-l="ko">시안 구간 · People 페이지 일부</span><span data-l="en" lang="en">Sample · Part of the People page</span></span></div>
+<section class="c-sec c-ppl" id="people" aria-labelledby="c-ppl-h">
+<div class="c-in">
+<h2 class="c-h2 c-h2--one" id="c-ppl-h" data-a><span class="c-h2-ko" data-l="ko"><span class="m"><span class="l">함께 연구하는</span></span> <span class="m"><span class="l">사람들</span></span></span><span class="c-h2-en" data-l="en" lang="en"><span class="m"><span class="l">The people</span></span> <span class="m"><span class="l">of RIHE</span></span></span></h2>
+<div class="c-leadw" data-a data-lk><p class="c-lead" data-l="ko">연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 구성원을 소개합니다.</p><p class="c-lead" data-l="en" lang="en">Meet the members of the Research Institute of Hearing Enhancement.</p></div>
+<div class="c-team c-team--fac" data-a><i class="c-ln" aria-hidden="true"></i><h3 class="c-h3"><span class="c-h3-ko" data-l="ko">교수진</span><span class="c-h3-en" data-l="en" lang="en">Faculty</span></h3><ul class="c-mems"><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/vIAp69Yl.jpeg" alt="서영준" data-alt-en="Young Joon Seo" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span data-l="ko">서영준</span><span data-l="en" lang="en">Young Joon Seo</span></p><p class="c-rl"><span data-l="ko">교수 / 연구소장 · 이비인후과</span><span data-l="en" lang="en">Professor / Director · Otorhinolaryngology</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/6nGWxAVl.jpeg" alt="기재홍" data-alt-en="Jaehong Key" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span data-l="ko">기재홍</span><span data-l="en" lang="en">Jaehong Key</span></p><p class="c-rl"><span data-l="ko">교수 · 생체공학과</span><span data-l="en" lang="en">Professor · Biomedical Engineering</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/kKOtOgOl.jpeg" alt="공태훈" data-alt-en="Tae Hoon Kong" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span data-l="ko">공태훈</span><span data-l="en" lang="en">Tae Hoon Kong</span></p><p class="c-rl"><span data-l="ko">교수 · 이비인후과</span><span data-l="en" lang="en">Professor · Otorhinolaryngology</span></p></div></li></ul></div>
+<div class="c-team c-team--lab" data-a><i class="c-ln" aria-hidden="true"></i><h3 class="c-h3"><span class="c-h3-ko" data-l="ko">데이터팀 · <span class="nw">HeAD Lab</span></span><span class="c-h3-en" data-l="en" lang="en">HeAD Lab</span></h3><ul class="c-mems"><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/RC37iFml.jpeg" alt="윤철영" data-alt-en="Chul Young Yoon" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span data-l="ko">윤철영</span><span data-l="en" lang="en">Chul Young Yoon</span></p><p class="c-rl"><span data-l="ko">팀장</span><span data-l="en" lang="en">Team Leader</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/7FVQZQel.jpeg" alt="김송이" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">김송이</span></p><p class="c-rl"><span data-l="ko">박사과정</span><span data-l="en" lang="en">Ph.D. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/yCSCJNdl.jpeg" alt="김진수" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">김진수</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/bomh6knl.jpeg" alt="임승미" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">임승미</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/F9YowOSl.jpeg" alt="서연호" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">서연호</span></p><p class="c-rl"><span data-l="ko">석사과정</span><span data-l="en" lang="en">M.S. Student</span></p></div></li><li class="c-mem"><div class="c-ph"><div class="c-pp"><img class="c-im" src="https://i.imgur.com/0PwvF5sl.jpeg" alt="윤담" width="640" height="800" loading="lazy" decoding="async"></div></div><div class="c-mt" data-lk><p class="c-nm"><span lang="ko">윤담</span></p><p class="c-rl"><span data-l="ko">학부연구원</span><span data-l="en" lang="en">Undergraduate Researcher</span></p></div></li></ul></div>
+</div>
+</section>
+<script type="application/json" id="c-pubs-data">{"items": [{"i": 0, "year": 2026, "team": "hearing", "title": "Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening", "authors": "Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong", "journal": "Hearing Research"}, {"i": 1, "year": 2026, "team": "hearing", "title": "Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017", "authors": "Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., & Jin, I. K.", "journal": "American Journal of Audiology"}, {"i": 2, "year": 2025, "team": "hearing", "title": "Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital", "authors": "Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...", "journal": "CRITICAL PUBLIC HEALTH"}, {"i": 3, "year": 2025, "team": "basic", "title": "Innovative surgical approaches for the Osia® 2 System", "authors": "Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon", "journal": "ACTA OTO-LARYNGOLOGICA"}, {"i": 4, "year": 2025, "team": "collab", "title": "A Retrospective Comparison of Clinical Characteristics of Post-Traumatic and Idiopathic Benign Paroxysmal Positional Vertigo", "authors": "Kim, Minheon, Jeon, Eun Kyung, Seo, Young Joon, Kong, Tae Hoon", "journal": "EAR AND HEARING"}, {"i": 5, "year": 2025, "team": "head", "title": "Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data", "authors": "You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon", "journal": "HEARING RESEARCH"}, {"i": 6, "year": 2025, "team": "basic", "title": "Isolated Myxoma of the External Auditory Canal: A Rare Case Report", "authors": "전은경, 김민헌, 권동환, 서영준", "journal": "Journal of Audiology & Otology"}, {"i": 7, "year": 2025, "team": "head", "title": "Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset", "authors": "Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho", "journal": "Journal of Audiology & Otology"}, {"i": 8, "year": 2025, "team": "head", "title": "Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data", "authors": "Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun", "journal": "Frontiers in Neurology"}, {"i": 9, "year": 2025, "team": "head", "title": "Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System", "authors": "Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon", "journal": "OTO Open"}, {"i": 10, "year": 2025, "team": "head", "title": "Part 2. Current Status of Hearing Disability and Hearing Rehabilitation Devices in Korea Using National Data: NHIS-Database, 2010 to 2020; [2부. 국가 데이터를 활용한 한국의 청각장애 현황 및 청각재활장비 현황: NHIS-Database, 2010~2020]", "authors": "Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...", "journal": "Korean Journal of Otorhinolaryngology-Head and Neck Surgery"}, {"i": 11, "year": 2025, "team": "head", "title": "Seasonal variation in vestibular neuritis in Korea: a nationwide population-based cohort study", "authors": "Yoon Chul-Young, 서영준, 박지윤", "journal": "Research in Vestibular Science"}, {"i": 12, "year": 2025, "team": "head", "title": "Part 1. 전국 데이터를 이용한 우리나라 난청 환자 현황: National Health Insurance Service-데이터베이스, 2010 to 2020", "authors": "Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...", "journal": "대한이비인후-두경부외과학회지"}, {"i": 13, "year": 2025, "team": "head", "title": "Virtual reality-based vestibular rehabilitation therapy in patients with acute unilateral vestibulopathy: a randomized controlled trial", "authors": "Lee, Jae Woo, Yoon, Chul Young, Kim, Jae Ha, Seo, Young Joon, Kong, Tae Hoon", "journal": "Frontiers in Neurology"}, {"i": 14, "year": 2024, "team": "hearing", "title": "Efficacy of virtual reality pure-tone audiometry in training of hearing test for audiologist", "authors": "Kwak, Chanbeom, Kim, Jinsook, Jang, Hyunsook, Han, Woojae, Seo, Young Joon", "journal": "Heliyon"}, {"i": 15, "year": 2024, "team": "hearing", "title": "Understanding Standard Procedure in Auditory Brainstem Response: Importance of Normative Data", "authors": "Kwak Chanbeom, Byun Yuseon, You Sunghwa, Sagong Junghee, Kim Do-Yun, Cho Wan-...", "journal": "Journal of Audiology & Otology"}, {"i": 16, "year": 2024, "team": "hearing", "title": "Improving Accuracy and Reliability of Hearing Tests: Measurement Standards for Audiometric Devices", "authors": "Cho, Wan-Ho, Lee, Jihyun, Seo, Young Joon, Kong, Tae Hoon, Suh, Michelle J., ...", "journal": "Journal of Audiology and Otology"}, {"i": 17, "year": 2024, "team": "head", "title": "Importance of small vessel disease as a possible cause of sudden sensorineural hearing loss", "authors": "Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon", "journal": "PloS one"}, {"i": 18, "year": 2024, "team": "head", "title": "Clinical characteristics of the \"Gap\" between the prevalence and incidence of hearing loss using National Health Insurance Service data", "authors": "Lee Junhun, Yoon Chul Young, Lee Juhyung, Kong Tae Hoon, Seo Young Joon", "journal": "PLoS ONE"}, {"i": 19, "year": 2024, "team": "basic", "title": "Virtual reality simulators for temporal bone dissection: overcoming limitations of previous models", "authors": "Temuulen Batsaikhan, 서영준", "journal": "Research in Vestibular Science"}, {"i": 20, "year": 2024, "team": "basic", "title": "Vitamin D supplementation in preventing the recurrence of benign paroxysmal positional vertigo", "authors": "Kong, Tae Hoon, Jung, Su Young, Seo, Young Joon, Shim, Dae Bo", "journal": "LARYNGOSCOPE INVESTIGATIVE OTOLARYNGOLOGY"}, {"i": 21, "year": 2024, "team": "basic", "title": "Combination Therapy of Choline Alfoscerate With Ginkgo biloba Monotherapy in Age-Related Hearing Loss: Effects and Outcomes", "authors": "Kim Dae Hyun, Seo Young Joon", "journal": "Journal of Audiology & Otology"}, {"i": 22, "year": 2023, "team": "basic", "title": "Role of Kir4.1 Channels in Aminoglycoside-Induced Ototoxicity of Hair Cells", "authors": "Choi, Jin Sil, Ahn, Ye Ji, Lee, SuHoon, Park, Dong Jun, Park, JeongEun, Ha, S...", "journal": "BioMed Research International"}, {"i": 23, "year": 2023, "team": "basic", "title": "Meta-Analysis Exploring the Effects of Music Training in Cochlear Implant Users by Age", "authors": "Shukor Nor Farawaheeda Ab, Seo Young Joon, Han Woojae", "journal": "Journal of Audiology and Otology"}, {"i": 24, "year": 2023, "team": "hearing", "title": "Improving Accuracy and Reliability of Hearing Tests: An Exploration of International Standards", "authors": "Suh Michelle J., Lee Jihyun, Cho Wan-Ho, Jin In-Ki, Kong Tae Hoon, Oh Soo Hee...", "journal": "Journal of Audiology and Otology"}, {"i": 25, "year": 2023, "team": "basic", "title": "편도에 고립된 뇌간 경색의 희귀한 증례: 급작스러운 현훈의 임상적 특징 및 영상 소견", "authors": "Dong Hwan Kwon, Eun kyung Jeon, Young Joon Seo", "journal": "Research in Vestibular Science"}, {"i": 26, "year": 2023, "team": "head", "title": "Effect of changes in the hearing aid subsidy on the prevalence of hearing loss in South Korea", "authors": "Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon", "journal": "Frontiers in Neurology"}, {"i": 27, "year": 2023, "team": "head", "title": "A situational analysis of ear and hearing care in South Korea using WHO ear and Hearing Care Situation Analysis tool", "authors": "Lee, Juhyeong, Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Oh, Seung Ha, S...", "journal": "Frontiers in Public Health"}, {"i": 28, "year": 2023, "team": "head", "title": "건강 보험 데이터 분석을 통한 급성 전정신경염의 유병률 측정", "authors": "Chul Young Yoon, Seulgi Hong, Ji-Yun Park, Young Joon Seo", "journal": "Research in Vestibular Science"}, {"i": 29, "year": 2023, "team": "basic", "title": "효과적인 BAHAⓇ Attract의 이식술식", "authors": "Lee, Jeon Mi, Seo, Young Joon", "journal": "대한이비인후-두경부외과학회지"}, {"i": 30, "year": 2023, "team": "hearing", "title": "d-Galactose and Hypoxia Induce the Early Onset of Age-Related Hearing Loss Deterioration in a Mouse Model", "authors": "Batsaikhan Temuulen, Choi Jin Sil, Ha Sun Mok, Ahn Yeji, Seo Young Joon", "journal": "TISSUE ENGINEERING AND REGENERATIVE MEDICINE"}, {"i": 31, "year": 2023, "team": "basic", "title": "A nystagmus extraction system using artificial intelligence for video-nystagmography", "authors": "Lee, Yerin, Lee, Sena, Han, Junghun, 서영준, Yang, Sejung", "journal": "Scientific Reports"}, {"i": 32, "year": 2023, "team": "head", "title": "Learning curve comparable study of microscopic and endoscopic type 1 tympanoplasty", "authors": "Lee Hyun Su, Yoon Chul Young, 박대우, Lee Joo Hyung, 서영준, 공태훈", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 33, "year": 2023, "team": "head", "title": "Epidemiology of idiopathic sudden sensorineural hearing loss in the era of big data", "authors": "Yoon Chul Young, Kong, Tae Hoon, Lee Juhyung, Seo, Young Joon, Ahn, Jae Joon", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 34, "year": 2023, "team": "hearing", "title": "Contralateral bone conducted sound wave propagation on the skull bones in fresh frozen cadaver", "authors": "Lee, J., Cho, W.-H., Kong, T.H., Jung, S.-S., Han, W., Park, S., Seo, Y.J.", "journal": "Scientific Reports"}, {"i": 35, "year": 2023, "team": "basic", "title": "An eye-tracking algorithm for nystagmus detection in videonystagmography based on convolutional neural networks", "authors": "Lee, Y., Lee, S., Han, J., Wang, H.J., 서영준, Yang, S.", "journal": "Progress in Biomedical Optics and Imaging - Proceedings of SPIE"}, {"i": 36, "year": 2023, "team": "basic", "title": "Deep Learning Techniques for Ear Diseases Based on Segmentation of the Normal Tympanic Membrane", "authors": "Park, Y.S., Jeon, J.H., Kong, T.H., Chung, T.Y., Seo, Y.J.", "journal": "Clinical and Experimental Otorhinolaryngology"}, {"i": 37, "year": 2022, "team": "basic", "title": "Protection of Hearing Loss in Ototoxic Mouse Model Through SPIONs and Dexamethasone-Loaded PLGA Nanoparticle Delivery by Magnetic Attraction", "authors": "Park, Jeong-Eun, Kim, Woo Cheol, Kim, Sung Kyun, Ahn, Yeji, Ha, Sun Mok, Kim,...", "journal": "INTERNATIONAL JOURNAL OF NANOMEDICINE"}, {"i": 38, "year": 2022, "team": "basic", "title": "안진영상에서 안진기의 미끄러짐으로 유발된 동잡음 제거 알고리즘 개발", "authors": "Yerin Lee, Young Joon Seo, Sejung Yang", "journal": "Research in Vestibular Science"}, {"i": 39, "year": 2022, "team": "head", "title": "Association of dietary factors with noise-induced hearing loss in Korean population: A 3-year national cohort study", "authors": "Lee, H.J., Lee, J., Yoon, C., Park, Y., Joo, Y.-H., Park, J.-O., Seo, Y.J., P...", "journal": "PLOS ONE"}, {"i": 40, "year": 2022, "team": "basic", "title": "Circulatory disturbance of the cochlear spiral modiolar artery in a type 2 diabetic mouse model", "authors": "Seo Young Joon, Shim Dae Bo, Sharif Arazu, Samson Zeke, Takechi Ryu, Brown Da...", "journal": "Laryngoscope Investigative Otolaryngology"}, {"i": 41, "year": 2022, "team": "hearing", "title": "The value of having an initial word recognition score for a precise prognosis of idiopathic sudden sensorineural hearing loss", "authors": "Kwak, Chanbeom, Seo, Young Joon, Yoon, ChulYoung, Lee, JuHyung, Han, Woojae", "journal": "AURIS NASUS LARYNX"}, {"i": 42, "year": 2022, "team": "hearing", "title": "Analysis of the Knowledge, Attitudes, and Practice Model of Healthcare Professionals on Hearing Loss at Elderly Dementia Residences in Korea", "authors": "Kwak, C., Seo, Y.J., Park, K.H., Han, W.", "journal": "HEALTHCARE"}, {"i": 43, "year": 2022, "team": "head", "title": "Relationship between Nutrient Intake and Hearing Loss According to the Income Level of Working-Aged Adults: A Korean National Health and Nutrition Survey", "authors": "Lee, Juhyung, Lee, Ji-Hyeon, Yoon, Chulyoung, Kwak, Chanbeom, Jaejoon Ahn, Ko...", "journal": "NUTRIENTS"}, {"i": 44, "year": 2022, "team": "hearing", "title": "양성돌발체위현기증 진단을 위한 주성분 분석을 이용한 안진 자동패턴인식 기술: 예비 연구", "authors": "O-Hyeon Gwon, TAEHOON KONG, Jaehong Key, SEJUNG YANG, YOUNG JOON SEO", "journal": "Research in Vestibular Science"}, {"i": 45, "year": 2022, "team": "hearing", "title": "Observation of the vibration response on the skull bones by bone conduction with the fresh frozen cadaver", "authors": "Cho, Wan-Ho, Lee, Ji Hyeon, Seo, Young Joon", "journal": "Proceedings of the International Congress on Acoustics"}, {"i": 46, "year": 2021, "team": "basic", "title": "The risk of laryngitis with herpes zoster infection: A nested case-control study using data from the Korean National Sample Cohort", "authors": "Joo, Young-Hoon, Lee, Hyun-Jin, Park, Jun-Ook, Seo, Young Joon, Kong, Tae Hoo...", "journal": "PLOS ONE"}, {"i": 47, "year": 2021, "team": "basic", "title": "Protective effect of MSC-derived exosomes against cisplatin-induced apoptosis via heat shock protein 70 in auditory explant model", "authors": "Park, Dong Jun, Park, Jeong-Eun, Lee, Su Hoon, Eliceiri, Brian P., Choi, Jin ...", "journal": "NANOMEDICINE-NANOTECHNOLOGY BIOLOGY AND MEDICINE"}, {"i": 48, "year": 2021, "team": "basic", "title": "Hyperbaric Protocols for Idiopathic Sudden Sensorineural Hearing Loss Response", "authors": "Seo, Young Joon", "journal": "JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY"}, {"i": 49, "year": 2021, "team": "basic", "title": "Engineering of Extracellular Vesicles Based on Payload Changes for Tissue Regeneration", "authors": "Park Dong Jun, Seo Young Joon", "journal": "TISSUE ENGINEERING AND REGENERATIVE MEDICINE"}, {"i": 50, "year": 2021, "team": "basic", "title": "Usefulness of stress-related hormones as predictors and prognostic factors for idiopathic sudden sensorineural hearing loss", "authors": "Chae, H (Chae, Heesung), Lee, HS (Lee, Hyun Su), Lee, JH (Lee, Joo Hyung), Ki...", "journal": "ACTA OTO-LARYNGOLOGICA"}, {"i": 51, "year": 2021, "team": "basic", "title": "Alteration of payload in extracellular vesicles by crosstalk with mesenchymal stem cells from different origin", "authors": "DONGJUN PARK, JEONGEUN PARK, TAEHOON KONG, YOUNG JOON SEO", "journal": "JOURNAL OF NANOBIOTECHNOLOGY"}, {"i": 52, "year": 2021, "team": "basic", "title": "Effects of reactive oxygen species generation induced by Wonju City particulate matter on mitochondrial dysfunction in human middle ear cell", "authors": "SUHOON LEE, SUNMOKHA , MinJae JEONG, DONGJUN PARK, Polo, CN (Polo, Carlos Nor...", "journal": "ENVIRONMENTAL SCIENCE AND POLLUTION RESEARCH"}, {"i": 53, "year": 2021, "team": "basic", "title": "Crucial Music Components Needed for Speech Perception Enhancement of Pediatric Cochlear Implant Users: A Systematic Review and Meta-Analysis", "authors": "Ab Shukor, NF (Ab Shukor, Nor Farawaheeda), Han, W (Han, Woojae), JIHYEON LEE...", "journal": "AUDIOLOGY AND NEURO-OTOLOGY"}, {"i": 54, "year": 2021, "team": "basic", "title": "The Effectiveness of Hyperbaric Oxygen Therapy in Severe Idiopathic Sudden Sensorineural Hearing Loss", "authors": "YEJI AHN, YOUNG JOON SEO, Lee, YS (Lee, Young Sub)", "journal": "JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY"}, {"i": 55, "year": 2021, "team": "basic", "title": "Audiological benefits and performance improvements of Baha® attract implantation in patients with unilateral hearing loss", "authors": "TAEHOON KONG, JIHYEON LEE, Kwak C., Han W., Gwon O.-H., YOUNG JOON SEO", "journal": "Cochlear Implants International"}, {"i": 56, "year": 2021, "team": "basic", "title": "Biodistribution of poly clustered superparamagnetic iron oxide nanoparticle labeled mesenchymal stem cells in aminoglycoside induced ototoxic mouse model", "authors": "YEJI AHN, WAN SU YUN, JINSILCHOI , woochul kim, Su Hoon Lee, Dong Jun Park, J...", "journal": "Biomedical Engineering Letters"}, {"i": 57, "year": 2021, "team": "hearing", "title": "Efficacy of Music Training in Hearing Aid and Cochlear Implant Users: A Systematic Review and Meta-Analysis", "authors": "Ab Shukor, Nor Farawaheeda, Lee, Jihyeon, Seo, Young Joon, Han, Woojae", "journal": "CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY"}, {"i": 58, "year": 2021, "team": "hearing", "title": "Auditory Function Testing for Types of Dementia: Systematic Reviews and Meta-Analysis", "authors": "박시훈, 한우재, TAEHOON KONG, YOUNG JOON SEO, HANJAEHYUN , TAEHUI KIM", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 59, "year": 2021, "team": "basic", "title": "Usefulness of vertebrobasilar artery radiological finding as a predictive and prognostic factor for sudden sensorineural hearing loss", "authors": "Han, SM (Han, Sung Min), Lee, HS (Lee, Hyun Su), Chae, HS (Chae, Hee Sung), Y...", "journal": "AURIS NASUS LARYNX"}, {"i": 60, "year": 2021, "team": "collab", "title": "Familial Otosclerosis Associated with Osteogenesis Imperfecta: A Case Report", "authors": "Ha Neul Lee, Hyun Jong Jeon, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 61, "year": 2020, "team": "basic", "title": "Improvement of stem cell-derived exosome release efficiency by surface-modified nanoparticles", "authors": "박동준, Yun, W.S., Kim, W.C., Park, J.-E., Lee, S.H., Ha, S., Choi, J.S., Key, J...", "journal": "JOURNAL OF NANOBIOTECHNOLOGY"}, {"i": 62, "year": 2020, "team": "basic", "title": "In vitro time-lapse live-cell imaging to explore cell migration toward the organ of corti", "authors": "Park, J.-E., Lee, S.H., DONGJUN PARK, Seo, Y.J., Kim, S.K.", "journal": "JOVE-JOURNAL OF VISUALIZED EXPERIMENTS"}, {"i": 63, "year": 2020, "team": "basic", "title": "Circulating microRNAs as potentially new diagnostic biomarkers of idiopathic sudden sensorineural hearing loss", "authors": "SUNMOKHA , Hwang, KR (Hwang, Kyu Rin), ILHWAN PARK, Park, S (Park, Sunyoung),...", "journal": "ACTA OTO-LARYNGOLOGICA"}, {"i": 64, "year": 2020, "team": "collab", "title": "Non-invasive postoperative monitoring of pedicled rat skin flap using laser speckle contrast imaging", "authors": "Im, J., Kong, T.H., Choi, J.S., Seo, Y.J., Choi, E.C., Jung, B., Kim, J.-H.", "journal": "MICROVASCULAR RESEARCH"}, {"i": 65, "year": 2020, "team": "basic", "title": "Endocytic trafficking of polymeric clustered superparamagnetic iron oxide nanoparticles in mesenchymal stem cells", "authors": "Su Hoon Lee, Dong Jun Park, Wan Su Yun, Jeong-Eun Park, Jin Sil Choi, Jaehong...", "journal": "JOURNAL OF CONTROLLED RELEASE"}, {"i": 66, "year": 2020, "team": "basic", "title": "Induced short-term hearing loss due to stimulation of age-related factors by intermittent hypoxia, high-fat diet, and galactose injection", "authors": "박동준, Ha, S., Choi, J.S., Lee, S.H., Park, J.-E., Seo, Y.J.", "journal": "International Journal of Molecular Sciences"}, {"i": 67, "year": 2020, "team": "hearing", "title": "일측성 난청 환자에서 골전도 보청기의 효능", "authors": "이지현, 서영준", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 68, "year": 2020, "team": "collab", "title": "Sixth Cranial Nerve Palsy and Vertigo Caused by Vertebrobasilar Insufficiency", "authors": "Seung Won Paik, Hui Joon Yang, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 69, "year": 2020, "team": "collab", "title": "비디오두부충동검사와 온도안진검사 간의 비교분석", "authors": "한 준, 백승원, 양희준, 박상유, 이지현, 서영준", "journal": "Research in Vestibular Science"}, {"i": 70, "year": 2020, "team": "collab", "title": "미로내 신경초종 1예와 이전 국내에서 보고된 미로내 신경초종 증례의 문헌 고찰", "authors": "전현종, 채희성, 이하늘, 서영준", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 71, "year": 2020, "team": "collab", "title": "Engineered iron oxide nanoparticles to improve regenerative effects of mesenchymal stem cells", "authors": "Wan Su Yun, Susmita Aryal, YEJI AHN, YOUNG JOON SEO, Jaehong Key", "journal": "Biomedical Engineering Letters"}, {"i": 72, "year": 2020, "team": "collab", "title": "Sphenoid Sinus Fat Packing in Transsphenoidal Surgery: Long-Term Fate Assessment Using Magnetic Resonance Imaging", "authors": "황치상, 황금, 채희성, 이현수, 이중석, 서영준, 박동준", "journal": "Journal of Rhinology"}, {"i": 73, "year": 2020, "team": "collab", "title": "Experimental animal models for meniere's disease: A mini-review", "authors": "Seo Y.J., Brown D.", "journal": "Journal of Audiology & Otology"}, {"i": 74, "year": 2020, "team": "hearing", "title": "Better Understanding of Direct Bone-Conduction Measurement: Comparison with Frequency-Specific Bone-Conduction Tones and Brainstem Responses", "authors": "Kim, Yeoju, Han, Woojae, Park, Sihun, You, Sunghwa, Kwak, Chanbeom, YOUNG JOO...", "journal": "Journal of Audiology & Otology"}, {"i": 75, "year": 2020, "team": "hearing", "title": "Baha Attract Implantation Using a Small Incision: Initial Report of Surgical Technique and Surveillance", "authors": "Dong Su Jang, Dong Hyo Shin, Woojae Han, , YOUNG JOON SEO", "journal": "CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY"}, {"i": 76, "year": 2020, "team": "hearing", "title": "Measurement of Skull Size on Computed Tomography Images for Developing a Bone Conduction Headset Suitable for the Korean Standard Head Size", "authors": "Cheol Hyo Ku, Soo Won Kim, Ji Young Kim, Seung Won Paik, Hui Joon Yang, Ji Hy...", "journal": "Journal of Audiology & Otology"}, {"i": 77, "year": 2020, "team": "hearing", "title": "Reliability and validity of self-screening tool for hearing loss in older adults", "authors": "Sunghwa You, Woojae Han, Saea Kim, Sanga Maeng, YOUNG JOON SEO", "journal": "Clinical interventions in aging"}, {"i": 78, "year": 2019, "team": "hearing", "title": "Evaluation of wireless Bluetooth devices to improve recognition of speech and sentences when using a mobile phone in bone conduction device recipients", "authors": "Chanbeom Kwak, Woojae Han, YOUNG JOON SEO", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 79, "year": 2019, "team": "collab", "title": "Association of Dietary Factors with Presence and Severity of Tinnitus in Korean Adults with Normal Hearing", "authors": "Sung Kyun Kim, Yoon Ah Park, SANG-YOO PARK, YOUNG JOON SEO", "journal": "JOURNAL OF FOOD AND NUTRITION RESEARCH"}, {"i": 80, "year": 2019, "team": "basic", "title": "Strategies to enhance efficacy of SPION-labeled stem cell homing by magnetic attraction: a systemic review with meta-analysis", "authors": "Ye Ji Ahn, Tae Hoon Kong, Jin Sil Choi, Wan Su Yun, Jaehong Key, YOUNG JOON SEO", "journal": "INTERNATIONAL JOURNAL OF NANOMEDICINE"}, {"i": 81, "year": 2019, "team": "collab", "title": "Clinical Features of Fracture versus Concussion of the Temporal Bone after Head Trauma", "authors": "Jae Woo Lee, Yoon Ah Park, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 82, "year": 2018, "team": "collab", "title": "Surgical outcomes of tympanoplasty using a sterile acellular dermal allograft: a prospective randomised controlled study.", "authors": "Jeon Mi Lee, YOUNG JOON SEO, Dae Bo Shim, Hyun Jin Lee, sung huhn Kim", "journal": "ACTA OTORHINOLARYNGOLOGICA ITALICA"}, {"i": 83, "year": 2018, "team": "collab", "title": "A newly designed tympanostomy stent with TiO2 coating to reduce Pseudomonas aeruginosa biofilm formation", "authors": "Joe, H (Joe, Hosung), YOUNG JOON SEO", "journal": "JOURNAL OF BIOMATERIALS APPLICATIONS"}, {"i": 84, "year": 2018, "team": "collab", "title": "Pyoderma Gangrenosum of the Preauricular Area with Ulcerative Colitis: A Case Report and Review", "authors": "Hee Sung Chae, Sung Min Han, Ha Neul Lee, Hyun Jong Jeon, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 85, "year": 2018, "team": "basic", "title": "Circulating Serum miRNA-205 as a Diagnostic Biomarker for Ototoxicity in Mice Treated with Aminoglycoside Antibiotics", "authors": "Lee S.H., Ju H.M., Choi J.S., Ahn Y., Lee S., YOUNG JOON SEO", "journal": "INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES"}, {"i": 86, "year": 2018, "team": "basic", "title": "Enhanced homing technique of mesenchymal stem cells using iron oxide nanoparticles by magnetic attraction in olfactory-injured mouse models", "authors": "WANSU YUN, JINSILCHOI , HYUNMI JU, MIN HEE KIM, SEONG JIN CHOI, EunSeol Oh, Y...", "journal": "INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES"}, {"i": 87, "year": 2018, "team": "basic", "title": "Update on Bone-Conduction Auditory Brainstem Responses: A Review", "authors": "YOUNG JOON SEO, 곽찬범, 김세아, PARKYOONAH , 박경호, 한우재", "journal": "Journal of Audiology & Otology"}, {"i": 88, "year": 2018, "team": "collab", "title": "Monitoring blood-flow in the mouse cochlea using an endoscopic laser speckle contrast imaging system", "authors": "Yu, S (Yu, Sunkon), Jeong Pyo Bong, JINSILCHOI , YOUNG JOON SEO, Byung Jo Jung", "journal": "PLOS ONE"}, {"i": 89, "year": 2017, "team": "collab", "title": "외이도의 에크린 한선종", "authors": "이영섭, 한준, 구철효, YOUNG JOON SEO", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 90, "year": 2017, "team": "basic", "title": "A Simple Model for Inducing Optimal Increase of SDF-1 with Aminoglycoside Ototoxicity", "authors": "HYUNMI JU, SUNHEE LEE, JINSILCHOI , YOUNG JOON SEO", "journal": "BIOMED RESEARCH INTERNATIONAL"}, {"i": 91, "year": 2017, "team": "collab", "title": "Tracheal reconstruction with a free vascularized myofascial flap: Preclinical investigation in a porcine model to human clinical application", "authors": "Kim W.S., Chang J.W., Jang W.S., YOUNG JOON SEO, Kang M.-L., Sung H.-J., Kim ...", "journal": "SCIENTIFIC REPORTS"}, {"i": 92, "year": 2017, "team": "collab", "title": "Importance of adhesiolysis in revision surgery for vibrant soundbridge device failures at the short incus process", "authors": "PARKYOONAH , Tae Hoon Kong, Jin Soon Chang, YOUNG JOON SEO", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 93, "year": 2017, "team": "collab", "title": "Damage of Inner Ear Sensory Hair Cells via Mitochondrial Loss in a Murine Model of Sleep Apnea With Chronic Intermittent Hypoxia", "authors": "YOUNG JOON SEO, Ju, HM (Ju, Hyun Mi), Lee, SH (Lee, Sun Hee), Kwak, SH (Kwak,...", "journal": "SLEEP"}, {"i": 94, "year": 2017, "team": "collab", "title": "A sustained increase of plasma fibrinogen in sudden sensorineural hearing loss predicts worse outcome independently", "authors": "Park Y.A., Kong T.H., Seo Y.J.", "journal": "AMERICAN JOURNAL OF OTOLARYNGOLOGY"}, {"i": 95, "year": 2017, "team": "basic", "title": "Usefulness of Intravital Multiphoton Microscopy in Visualizing Study of Mouse Cochlea and Volume Changes in the Scala Media", "authors": "HYUNMI JU, SUNHEE LEE, , Kwon, SH (Kwon, Seung-Hae), JINSILCHOI , YOUNG JOON SEO", "journal": "FRONTIERS IN NEUROLOGY"}, {"i": 96, "year": 2017, "team": "collab", "title": "Kawasaki disease and labyrinthitis: An underdiagnosed complication", "authors": "Kim K.Y., Kim K.H., Park Y.A., Seo Y.J.", "journal": "Journal of Audiology & Otology"}, {"i": 97, "year": 2017, "team": "collab", "title": "Efficacy of Bone-Anchored Hearing Aids in Single-Sided Deafness: A Systematic Review", "authors": "Kim, G (Kim, Gaeun), HYUNMI JU, Lee, SH (Lee, Sun Hee), HEE SOON kIM , Kwon, ...", "journal": "OTOLOGY & NEUROTOLOGY"}, {"i": 98, "year": 2017, "team": "collab", "title": "Does Herpes Virus Reactivation Affect Prognosis in Idiopathic Sudden Sensorineural Hearing Loss?", "authors": "박상만, 한준, 이재우, 공태훈, 서영준", "journal": "CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY"}, {"i": 99, "year": 2017, "team": "basic", "title": "Image-guided implantation of the Bonebridge™ with a surgical navigation: A feasibility study", "authors": "Kong T.H., Park Y.A., YOUNG JOON SEO", "journal": "International Journal of Surgery Case Reports"}, {"i": 100, "year": 2016, "team": "basic", "title": "The change of hippocampal volume and its relevance with inner ear function in Meniere's disease patients", "authors": "YOUNG JOON SEO, Jinna Kim , sung huhn Kim", "journal": "AURIS NASUS LARYNX"}, {"i": 101, "year": 2016, "team": "basic", "title": "Head position and increased head velocity to optimize video head impulse test sensitivity", "authors": "YOUNG JOON SEO, PARKYOONAH , Tae Hoon Kong, MEE RAN BAE , sung huhn Kim", "journal": "EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY"}, {"i": 102, "year": 2016, "team": "collab", "title": "A mutation of the succinate dehydrogenase B gene in a Korean family with paraganglioma", "authors": "Borum Sagong, YOUNG JOON SEO, Hyun-Jin Lee, Mi Joo Kim , Un-Kyung Kim, In Seo...", "journal": "FAMILIAL CANCER"}, {"i": 103, "year": 2016, "team": "collab", "title": "Is Alcohol Swabbing Sufficient to Clean Otoscopes in Hospitals?", "authors": "Cheol Hyo Ku, Young Sub Lee, 서영준, Jeong Pyo Bong", "journal": "대한이비인후과학회지 두경부외과학"}, {"i": 104, "year": 2016, "team": "collab", "title": "Early deterioration of residual hearing in patients with SLC26A4 mutations", "authors": "Kim B.G., Roh K.J., Park A.Y., Lee S.C., Kang B.S., YOUNG JOON SEO, Lee J.D.,...", "journal": "LARYNGOSCOPE"}, {"i": 105, "year": 2016, "team": "collab", "title": "Correlation of vestibular aqueduct size with air-bone gap in enlarged vestibular aqueduct syndrome.", "authors": "YoungJoon Seo, Jinna Kim, jae young choi", "journal": "LARYNGOSCOPE"}, {"i": 106, "year": 2016, "team": "collab", "title": "Lowest Oxyhemoglobin Saturation May Be an Independent Factor Influencing Auditory Function in Severe Obstructive Sleep Apnea", "authors": "Seo, YJ (Seo, Young Joon), Park, SY (Park, Sang Yoo), Chung, HJ (Chung, Hyo J...", "journal": "JOURNAL OF CLINICAL SLEEP MEDICINE"}, {"i": 107, "year": 2016, "team": "collab", "title": "Clinical Features and Prognosis of Sudden Sensorineural Hearing Loss Secondary to Intralabyrinthine Hemorrhage", "authors": "이재우, 박윤아, Park SM, 공태훈, 박상유, Jeong Pyo Bong, DONG JOON PARK, YOUNG JOON SEO", "journal": "Journal of Audiology & Otology"}, {"i": 108, "year": 2015, "team": "collab", "title": "Predictive value of neutrophil to lymphocyte ratio in first-time and recurrent idiopathic sudden sensorineural hearing loss", "authors": "Seo, YJ (Seo, Young Joon), Park, YA (Park, Yoon Ah), Bong, JP (Bong, Jeong Py...", "journal": "AURIS NASUS LARYNX"}, {"i": 109, "year": 2015, "team": "collab", "title": "Changes in Tinnitus After Middle Ear Implant Surgery: Comparisons With the Cochlear Implant", "authors": "YoungJoon Seo, Hyun Ji Kim, In Seok Moon, jae young choi", "journal": "EAR AND HEARING"}, {"i": 110, "year": 2015, "team": "collab", "title": "Association of hearing impairment with chronic kidney disease: a cross-sectional study of the Korean general population", "authors": "Seo, YJ (Seo, Young Joon), Ko, SB (Ko, Sang Baek), Ha, TH (Ha, Tae Hyung), Go...", "journal": "BMC NEPHROLOGY"}, {"i": 111, "year": 2015, "team": "collab", "title": "Genetic aspects and clinical characteristics of familial meniere's disease in a South Korean population", "authors": "Jeon Mi Lee, 김미주, Jinsei Jung, Hyun Ji Kim, YoungJoon Seo, sung huhn Kim", "journal": "LARYNGOSCOPE"}, {"i": 112, "year": 2015, "team": "collab", "title": "Expression and Localization of Aquaporin Water Channels in Human Middle Ear Epithelium", "authors": "Seo, YJ (Seo, Young Joon), Choi, JY (Choi, Jae Young)", "journal": "OTOLOGY & NEUROTOLOGY"}, {"i": 113, "year": 2015, "team": "collab", "title": "A Melting Method for RNA Extraction from the Mucosal Membrane of the Mouse Middle Ear", "authors": "YoungJoon Seo, sung huhn Kim , In Seok Moon , jae young choi", "journal": "YONSEI MEDICAL JOURNAL"}, {"i": 114, "year": 2014, "team": "collab", "title": "Neutrophil-to-Lymphocyte Ratio and Platelet-to-Lymphocyte Ratio: Novel Markers for Diagnosis and Prognosis in Patients with Idiopathic Sudden Sensorineural Hearing Loss", "authors": "YOUNG JOON SEO, JUNHUI JEONG, Jae Young Choi, In Seok Moon", "journal": "DISEASE MARKERS"}, {"i": 115, "year": 2013, "team": "collab", "title": "Visualization of endolymphatic hydrops and correlation with audio-vestibular functional testing in patients with definite Meniere's disease", "authors": "young joon Seo, Jinna Kim, jae young choi, WON SANG LEE", "journal": "AURIS NASUS LARYNX"}, {"i": 116, "year": 2012, "team": "collab", "title": "Cochlear implantation in a bilateral sensorineural hearing loss patient with relapsing polychondritis", "authors": "young joon Seo, jae young choi, Si Hong Kim, Kim, TJ (Kim, Tae-Jung)", "journal": "RHEUMATOLOGY INTERNATIONAL"}, {"i": 117, "year": 2011, "team": "collab", "title": "Radiologic characteristics of sinonasal fungus ball: an analysis of 119 cases", "authors": "young joon Seo, Jinna Kim, Kyubo Kim, JEUNG GWEON LEE, Chang-Hoon Kim, JOO HE...", "journal": "ACTA RADIOLOGICA"}, {"i": 118, "year": 2010, "team": "collab", "title": "혀에 발생한 신경초종 1예 및 고찰", "authors": "Won Il Lee, Hong Jun Kim, young joon Seo, Kyung Jin Roh, EUN CHANG CHOI, Hyun...", "journal": "대한두경부종양학회지"}, {"i": 119, "year": 2008, "team": "collab", "title": "메니에르병 환자에서 고실내 Gadolinium-diethylen-triamine pentaacetic acid 주입 후 자기공명영상을 통한 내림프공간의 시각화", "authors": "young joon Seo , Daebo Shim , Jinna Kim , WON SANG LEE", "journal": "대한평형의학회지"}], "teams": {"basic": ["Basic Lab", "Basic Lab"], "hearing": ["Hearing Lab", "Hearing Lab"], "head": ["HeAD Lab", "HeAD Lab"], "collab": ["협력·임상", "Collab &amp; Medical"]}, "empty": "<li class=\"c-row c-row--e\"><span data-l=\"ko\">해당 조건의 항목이 없습니다.<\/span><span data-l=\"en\" lang=\"en\">No items match this filter.<\/span><\/li>"}</script>
+<script>
+(function () {
+  'use strict';
+  var doc = document, root = doc.documentElement;
+  var R = window.RIHE = window.RIHE || {};
+  R.SITE = 'https://www.smilesnail.org'; R.ENP = '/en';
+  R.reduce = root.classList.contains('rm');
+  R.lang = 'ko'; R.hooks = []; R.showHooks = [];
+  R.each = function (sel, f, ctx) { [].forEach.call((ctx || doc).querySelectorAll(sel), f); };
+  R.onLang = function (f) { R.hooks.push(f); };
+  R.inFrame = (function () { try { return window.top !== window.self; } catch (e) { return true; } })();
+
+  /* ---------- safety: content never stays hidden ---------- */
+  R.showAll = function () {
+    if (root.classList.contains('all')) return;
+    root.classList.add('all');
+    R.each('[data-a]', function (el) { el.classList.add('on'); });
+    R.showHooks.forEach(function (f) { try { f(); } catch (e) {} });
+  };
+  R.motionReady = function () { R.motion = true; };
+  // the kit's motion module must call RIHE.motionReady() within 3 s (vendor scripts load deferred), else show everything
+  setTimeout(function () { if (!R.motion && doc.querySelector('[data-a]')) R.showAll(); }, 3000);
+
+  /* ---------- inview: IntersectionObserver with thresholds only. In a cross-origin iframe (Wix + github.io)
+     rootMargin is ignored and rootBounds is null; the implicit root is the top-level viewport. ---------- */
+  var ioAlive = false, ioCount = 0;
+  var TH = [0, .02, .05, .1, .15, .2, .25, .3, .4, .5, .6, .75, .9, 1];
+  // fn(el) once el is th visible (ratio) or at least px tall on screen (tall blocks never reach a high ratio)
+  R.inview = function (el, fn, o) {
+    o = o || {};
+    var th = o.threshold == null ? .15 : o.threshold, px = o.px == null ? 140 : o.px;
+    if (R.reduce || !('IntersectionObserver' in window)) { fn(el); return; }
+    ioCount++;
+    var io = new IntersectionObserver(function (es) {
+      ioAlive = true;
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        if (e.intersectionRatio >= th || e.intersectionRect.height >= px) { io.disconnect(); fn(el); }
+      });
+    }, { threshold: TH });
+    io.observe(el);
+  };
+  // fn(true|false) whenever el enters or leaves the screen: pause work off-screen
+  R.visible = function (el, fn) {
+    if (!('IntersectionObserver' in window)) { fn(true); return; }
+    new IntersectionObserver(function (es) { es.forEach(function (e) { fn(e.isIntersecting); }); }, { threshold: 0 }).observe(el);
+  };
+  setTimeout(function () { if (ioCount && !ioAlive) R.showAll(); }, 1500);
+  doc.addEventListener('visibilitychange', function () { R.hidden = doc.hidden; });
+
+  /* ---------- band: the visible part of this document, in document px, also inside a tall cross-origin iframe.
+     100 px sentinels tile the whole document; thresholds every 1 % make each straddling sentinel report its
+     intersectionRect at 1 px steps. band = {top, bottom, h, ok}. Subscribe with RIHE.onBand(fn). ---------- */
+  var band = R.band = { top: 0, bottom: 0, h: 0, ok: false, docH: 0 };
+  var bandFns = [], bandOn = false;
+  R.onBand = function (fn) { bandFns.push(fn); startBand(); if (band.ok) fn(band); };
+  function startBand() {
+    if (bandOn || !('IntersectionObserver' in window)) return;
+    bandOn = true;
+    var box = doc.createElement('div'); box.id = 'rihe-band'; box.setAttribute('aria-hidden', 'true');
+    doc.body.appendChild(box);
+    var S = 100, th = [], vis = {}, io = null, raf = 0;
+    for (var i = 0; i <= 100; i++) th.push(i / 100);
+    function emit() {
+      raf = 0;
+      var t = Infinity, b = -Infinity;
+      for (var k in vis) { if (vis[k][0] < t) t = vis[k][0]; if (vis[k][1] > b) b = vis[k][1]; }
+      band.ok = t !== Infinity;
+      if (band.ok) { band.top = t; band.bottom = b; band.h = b - t; }
+      for (var j = 0; j < bandFns.length; j++) { try { bandFns[j](band); } catch (e) {} }
+    }
+    function docH() { return Math.max(root.scrollHeight, doc.body.scrollHeight); }
+    function build() {
+      if (io) io.disconnect();
+      vis = {}; box.innerHTML = '';
+      var H = docH(); band.docH = H; box.style.height = H + 'px';
+      io = new IntersectionObserver(function (es) {
+        var sy = R.inFrame ? 0 : (window.scrollY || 0);   // top-level preview: rects are viewport-relative
+        es.forEach(function (e) {
+          var k = e.target.getAttribute('data-i');
+          if (e.isIntersecting && e.intersectionRatio > 0) vis[k] = [e.intersectionRect.top + sy, e.intersectionRect.bottom + sy];
+          else delete vis[k];
+        });
+        if (!raf) raf = requestAnimationFrame(emit);
+      }, { threshold: th });
+      for (var y = 0, n = 0; y < H; y += S, n++) {
+        var s = doc.createElement('i');
+        s.style.top = y + 'px'; s.style.height = Math.min(S, H - y) + 'px'; s.setAttribute('data-i', n);
+        box.appendChild(s); io.observe(s);
+      }
+    }
+    build();
+    var rz = 0;
+    window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (docH() !== band.docH) build(); }, 160); });
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { if (docH() !== band.docH) build(); });
+  }
+  // element box in document px (the iframe never scrolls, so this is stable while the outer page scrolls)
+  R.rect = function (el) { var r = el.getBoundingClientRect(), sy = R.inFrame ? 0 : (window.scrollY || 0); return { top: r.top + sy, bottom: r.bottom + sy, h: r.height }; };
+  // 0 when el's top meets the band's bottom edge (entering), 1 when its bottom meets the band's top edge (leaving)
+  R.progress = function (r) { if (!band.ok) return null; var p = (band.bottom - r.top) / (band.h + r.h); return p < 0 ? 0 : p > 1 ? 1 : p; };
+
+  /* ---------- language: ?lang=en|ko before first paint (head script), postMessage({lang}), preview toggle ---------- */
+  function setLang(l) {
+    R.lang = l === 'en' ? 'en' : 'ko';
+    var en = R.lang === 'en';
+    root.setAttribute('data-lang', R.lang); root.lang = R.lang;
+    R.each('[data-path]', function (a) { a.href = R.SITE + (en ? R.ENP : '') + a.getAttribute('data-path'); });
+    R.each('[data-alt-en]', function (im) {
+      if (!im.hasAttribute('data-alt-ko')) im.setAttribute('data-alt-ko', im.alt);
+      im.alt = im.getAttribute(en ? 'data-alt-en' : 'data-alt-ko');
+    });
+    R.each('[data-aria-en]', function (x) {
+      if (!x.hasAttribute('data-aria-ko')) x.setAttribute('data-aria-ko', x.getAttribute('aria-label') || '');
+      x.setAttribute('aria-label', x.getAttribute(en ? 'data-aria-en' : 'data-aria-ko'));
+    });
+    R.each('.rihe-lang button', function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === R.lang)); });
+    R.hooks.forEach(function (f) { try { f(R.lang); } catch (e) {} });
+  }
+  R.setLang = setLang;
+  // Wix page code: $w('#html1').postMessage({ lang: 'en' })
+  window.addEventListener('message', function (e) { var d = e.data; if (d && (d.lang === 'en' || d.lang === 'ko') && d.lang !== R.lang) setLang(d.lang); });
+  doc.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('.rihe-lang button'); if (b) setLang(b.getAttribute('data-set')); });
+  var m = /[?&]lang=(en|ko)/.exec(location.search);
+  setLang(m ? m[1] : (root.getAttribute('data-lang') || 'ko'));
+
+  /* ---------- smooth in-page jumps. A plain #fragment click inside the cross-origin iframe does not scroll the
+     Wix page; scrollIntoView does (it scrolls every ancestor scroller). ---------- */
+  R.jump = function (id) {
+    var el = doc.getElementById(id); if (!el) return;
+    el.scrollIntoView({ behavior: R.reduce ? 'auto' : 'smooth', block: 'start' });
+    var f = el.matches('h1,h2,h3,[tabindex]') ? el : (el.querySelector('h2,h3') || el);
+    if (!f.hasAttribute('tabindex')) f.setAttribute('tabindex', '-1');
+    try { f.focus({ preventScroll: true }); } catch (e) {}
+  };
+  doc.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a && a.getAttribute('href').length > 1 && !a.hasAttribute('data-no-jump')) { e.preventDefault(); R.jump(a.getAttribute('href').slice(1)); }
+  });
+
+  /* ---------- headless list: filter, paginate, and reserve the tallest page so the height never changes ----------
+     RIHE.list(el, {data, size, render(d) -> html, empty: html, after(ul, reason)}). Markup inside el:
+       [data-items] list element · button[data-k][data-v] filter toggles (aria-pressed) · button[data-p="-1"|"1"] pager
+       [data-n] count · [data-pi] "page / pages" (any number) · [data-ticks] container whose children get .on per item */
+  R.list = function (el, o) {
+    var data = o.data, size = o.size || 10, ul = el.querySelector('[data-items]');
+    var st = { page: 0, f: {} }, base = 0;
+    R.each('button[data-k]', function (b) { st.f[b.getAttribute('data-k')] = 'all'; }, el);
+    function pass(d) {
+      for (var k in st.f) {
+        var v = st.f[k];
+        if (v === 'all') continue;
+        if (v.charAt(0) === '~') { if (!(+d[k] <= +v.slice(1))) return false; }
+        else if (String(d[k]) !== v) return false;
+      }
+      return true;
+    }
+    function rows() { var r = []; data.forEach(function (d, i) { if (pass(d)) r.push(i); }); return r; }
+    function measure() {
+      ul.style.minHeight = '';
+      ul.innerHTML = data.map(o.render).join('') + o.empty;
+      var lis = ul.children, hs = [], total = ul.getBoundingClientRect().height, best = 0;
+      for (var i = 0; i < lis.length; i++) { hs.push(lis[i].getBoundingClientRect().height); total -= hs[i]; }
+      var empty = hs.pop(), keep = {}, k, combos = [{}];
+      for (k in st.f) keep[k] = st.f[k];
+      Object.keys(st.f).forEach(function (key) {
+        var vals = [].map.call(el.querySelectorAll('button[data-k="' + key + '"]'), function (b) { return b.getAttribute('data-v'); }), nx = [];
+        combos.forEach(function (c) { vals.forEach(function (v) { var x = {}; for (var y in c) x[y] = c[y]; x[key] = v; nx.push(x); }); });
+        combos = nx;
+      });
+      combos.forEach(function (c) {
+        st.f = c;
+        var r = rows();
+        if (!r.length) best = Math.max(best, empty);
+        for (var p = 0; p < r.length; p += size) {
+          var s = 0;
+          for (var j = p; j < Math.min(r.length, p + size); j++) s += hs[r[j]];
+          if (s > best) best = s;
+        }
+      });
+      st.f = keep; base = total;
+      ul.style.minHeight = Math.ceil(base + best - .01) + 'px';
+      draw('measure');
+    }
+    function draw(reason) {
+      var r = rows(), pages = Math.max(1, Math.ceil(r.length / size));
+      if (st.page >= pages) st.page = pages - 1;
+      var view = r.slice(st.page * size, st.page * size + size);
+      ul.innerHTML = view.length ? view.map(function (i) { return o.render(data[i]); }).join('') : o.empty;
+      var on = {}; r.forEach(function (i) { on[i] = 1; });
+      var tk = el.querySelector('[data-ticks]');
+      if (tk) for (var i = 0; i < tk.children.length; i++) tk.children[i].classList.toggle('on', !!on[i]);
+      R.each('[data-n]', function (n) { n.innerHTML = '<span data-l="ko">' + r.length + '건</span><span data-l="en" lang="en">' + r.length + (r.length === 1 ? ' item' : ' items') + '</span>'; }, el);
+      R.each('[data-pi]', function (n) { n.textContent = (st.page + 1) + ' / ' + pages; }, el);
+      R.each('button[data-p]', function (b) { var d = +b.getAttribute('data-p'); b.disabled = d < 0 ? st.page === 0 : st.page >= pages - 1; }, el);
+      R.each('button[data-k]', function (b) { b.setAttribute('aria-pressed', String(st.f[b.getAttribute('data-k')] === b.getAttribute('data-v'))); }, el);
+      if (o.after) o.after(ul, reason);
+    }
+    el.addEventListener('click', function (e) {
+      var tg = e.target.closest('button[data-k]'), p = e.target.closest('button[data-p]');
+      if (tg) { st.f[tg.getAttribute('data-k')] = tg.getAttribute('data-v'); st.page = 0; draw('filter'); }
+      if (p && !p.disabled) { st.page += +p.getAttribute('data-p'); draw('page'); }
+    });
+    var lastW = el.offsetWidth, rz = 0;
+    window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (el.offsetWidth !== lastW) { lastW = el.offsetWidth; measure(); } }, 200); });
+    R.onLang(measure);
+    measure();
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(measure);
+    return { redraw: draw, measure: measure };
+  };
+
+  root.classList.add('ready');
+})();
+</script>
+<script>document.addEventListener('DOMContentLoaded', function () { try {
+/* C · hero · editorial cinematic (the /67 final, ledger in site/_directions/_67/c/LEADERBOARD.md).
+   Load-in: a slit of light is drawn across the frame (CSS, first paint) -> the title lands syllable by syllable through line
+   masks -> as soon as the photograph of the institute's members is decoded (never onto an empty frame), the slit parts like
+   a projector gate: its top edge burns out, its lower edge settles on the frame's bottom line, where the title stands, and
+   stays there as the reel's clock -> rack focus on the people while the statement comes into focus line by line -> the
+   record turns over on counter wheels -> link, pause control.
+   Then the field: hard cuts through the institute's own footage (clinic, audiometer, data, team, earbud fitting; burned-in
+   subtitles cropped out), slow push-ins, back to the people. A shot that stalls is cut away, never held frozen.
+   Data (CLAUDE.md, video data): ONE player, preload="metadata". REEL (tools/kits/c/reel.json, injected by tools/kits/c.py)
+   lists the byte ranges of the five shots in the 21.2 MB promo; after the page's load event they are range-fetched
+   (about 1.4 MB) and assembled with a precomputed header into a small video-only MP4 that plays from a Blob, so every cut
+   is a local seek and nothing more is downloaded. If that fails (a browser that preflights Range, a changed file), the one
+   player seeks the original file and plays only the three shots that sit within 15 s of each other (Chrome reads about
+   3 MB ahead of a seek point). Save-Data, 2g and 3g get the photograph only.
+   Film grain on desktop, a small scroll parallax through RIHE.onBand. Everything pauses off-screen, in a hidden tab and with
+   the pause button. Reduced motion: the composed frame on the photograph at once; the button offers play. */
+(function () {
+  'use strict';
+  var R = window.RIHE, doc = document;
+  var hero = doc.querySelector('.cx');
+  if (!R || !hero) return;
+  var g = window.gsap;
+  var $ = function (s) { return hero.querySelector(s); };
+  var $$ = function (s) { return [].slice.call(hero.querySelectorAll(s)); };
+  var frame = $('.cx-frame'), par = $('.cx-par'), media = $('.cx-media'), still = $('.cx-still'), title = $('.cx-h');
+  var v = $('.cx-v'), btn = $('.cx-pause'), grain = $('.cx-grain');
+  var edgeT = $('.cx-edge-t'), edgeB = $('.cx-edge-b');
+  var reduce = !!R.reduce;
+  var phone = function () { return !!(window.matchMedia && matchMedia('(max-width: 760px)').matches); };
+  var wait = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+  var FILTER = 'saturate(0.8) contrast(1.06) brightness(0.86)';
+
+  R.motionReady();
+  if (!g) { R.showAll(); return; }
+  var ST = window.SplitText, CE = window.CustomEase;
+  g.registerPlugin.apply(g, [ST, CE].filter(Boolean));
+  var EGATE = 'expo.inOut', EDRAW = 'power2.inOut';
+  if (CE) {
+    CE.create('cxGate', 'M0,0 C0.5,0 0.14,1 1,1');   // a beat to part, a decisive opening, a long settle
+    CE.create('cxDraw', 'M0,0 C0.65,0 0.35,1 1,1');
+    EGATE = 'cxGate'; EDRAW = 'cxDraw';
+  }
+
+  /* ---------------------------------------------------------------- the reel */
+  var REEL = {"src":"https://video.wixstatic.com/video/b8629b_b4d81b25a9d641439ec983afe489fd43/480p/mp4/file.mp4","size":21192957,"w":854,"h":480,"head":"AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAABK4bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAWDcAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAEkR0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAWDcAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAA1YAAAHgAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAFg3AAAGAAABAAAAABG8bWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAwAAAEPABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAARZ21pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAESdzdGJsAAAAt3N0c2QAAAAAAAAAAQAAAKdhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA1YB4ABIAAAASAAAAAAAAAABF0xhdmM2Mi4xMS4xMDAgYmVhbXI0YXZjAAAAAAAAAAAAGP//AAAALWF2Y0MBTUgf/+EAFmdNSB+WUgGwe83CAAADAAIAAAMAYQgBAARo6ubyAAAAEHBhc3AAAAABAAAAAQAAABRidHJ0AAAAAAAKaA8ACmgPAAAAWHN0dHMAAAAAAAAACQAAAFcAAAIAAAAAAQAAQgAAAAA6AAACAAAAAAEAAHwAAAAANAAAAgAAAAABAACIAAAAAEAAAAIAAAAAAQAAcAAAAAA+AAACAAAACjhjdHRzAAAAAAAAAUUAAAABAAAGAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAACgAAAAABAAAGAAAAAAEAAAIAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAGAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAYAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAKAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAYAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAKAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAGAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAoAAAAAAQAABgAAAAABAAACAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAACAAAGAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAYAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAYAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAoAAAAAAQAABgAAAAABAAACAAAAAAEAAAoAAAAAAQAABgAAAAABAAACAAAAAAEAAAYAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAABgAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAACAAAGAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAADAAAAAABAAAGAAAAAAEAAAIAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAoAAAAAAQAABgAAAAABAAACAAAAAAEAAAoAAAAAAQAABgAAAAABAAACAAAAAAEAAAwAAAAAAQAABgAAAAABAAACAAAAAAEAAAQAAAAAAQAABgAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAAAEAAAoAAAAAAQAABgAAAAABAAACAAAAAAEAAAgAAAAAAQAABAAAAAABAAAMAAAAAAEAAAYAAAAAAQAAAgAAAAABAAAEAAAAADhzdHNzAAAAAAAAAAoAAAABAAAAMQAAAFkAAACJAAAAlAAAAMQAAADJAAAA+QAAAQoAAAE6AAAATHN0c2MAAAAAAAAABQAAAAEAAABYAAAAAQAAAAIAAAA7AAAAAQAAAAMAAAA1AAAAAQAAAAQAAABBAAAAAQAAAAUAAAA+AAAAAQAABTBzdHN6AAAAAAAAAAAAAAFHAACNNgAALmcAAAsvAAAF3QAABRAAACHbAAAJPAAABTgAAAOQAAAh8AAABjoAAANhAAAB2AAAIvYAAAhcAAAC+wAAA0oAAC6bAAAJ1QAABQQAAAVGAAAr7gAADTMAAAaeAAAE8gAAN5gAAAtWAAAF+gAABWQAAC2sAAALRQAABR8AAAP8AAAnagAADBQAAAVqAAAE4wAAMd0AAAoAAAAGLgAABUIAACTNAAAIdwAABdwAACVSAAAOpAAABZ4AAAU0AACFygAAGmkAAAXvAAADNwAAA8MAACRaAAAHUAAAA5kAAAOkAAAfNgAABpMAAAOJAAADmgAAIiUAAAaDAAADWgAAAlIAABnxAAAFsQAAAroAAAIfAAAYPgAABhcAAALIAAACCAAAF34AAAWcAAACuQAAAf0AABaZAAAD0AAAAgkAAAGGAAAZqAAABIEAAAILAAABRgAADtcAAATEAAAB+AAAmRIAAA9bAAAAkgAAASwAAABIAAAMZgAAAXoAAAC8AAAAkAAADYoAAAHOAAABFAAAADUAAA5VAAAA3gAAAFEAAAA+AAAZZAAAAPQAAAC8AAAALAAAD2sAAADpAAAApAAAAIIAAAzKAAAAoAAAAHgAAABZAAAHJwAAAIcAAAAeAAAAYwAACo8AAABCAAAAJgAAABoAAAbGAAAAMQAAAB8AAAArAAAJggAAAC0AAAAgAAAN5AAAACIAAADfAAAAHwAAwz8AAAg9AAAAtAAAAJ8AAABEAABeEwAAAFEAAAB2AABGUwAACB4AAAPOAADDRAAAH1MAAAMUAAAB0gAAAP4AABPRAAADHwAAARMAAACRAAAQSgAAAggAAAEVAAAALgAAEWQAAAF0AAAA4AAAADgAAAeUAAABFAAAACkAAAElAAALJgAAAq4AAADBAAAA1QAABggAAAE6AAAA8gAAAXEAACiiAAAA4wAAAEsAAADJAAANnAAAAbsAAADGAAABkQAAEMsAAATqAAABRwAAFJgAAAMBAAABxwAAAZcAABjbAAAGTQAAAVYAAACTAAC5RwAARO4AAFUxAAAJQgAACFMAAK1EAAAZMQAAARYAAABpAAAAawAAEwsAAACUAAAAQAAAAD4AAANMAAAAnwAAADcAAAB/AAAeeQAAARQAAAB/AAAAUwAAAm4AAADTAAAALQAAAJ0AACuqAABAawAABJ8AAAN+AAAC2gAAG0YAAAFSAAADQQAAAf8AABkOAAABOQAAAt4AAADYAAAXYwAAA3EAAAJuAAAAwwAACrEAAAK2AAACPwAAAS8AABRFAAACegAAAkAAABK8AAADGgAAAmwAAIGYAAAPHQAAAwMAAAIeAAACcgAAEoQAAAPxAAAA0AAAAuUAABC4AAAEhQAAArIAAAL5AAAkqAAALgcAAALHAAAD0wAAUl0AAB1sAAA6fAAABEUAAALZAAACUgAAI4gAAAPWAAAC3QAAAlwAAChCAAAIDgAAA4MAAAUtAAAmIQAACOkAAAZkAAADWwAAIQcAAAbjAAAD7gAAAukAAB+hAAAIuQAAA94AAAL9AAAegQAABk8AAAM4AAACNwAAGqsAAAR4AAAC+AAAAeQAAB7+AAADOwAAAugAAAGWAAAauwAABFUAAAJqAAAaWwAABowAAATQAAAc+QAACO0AAAd9AAAC4AAAaLUAABPWAAADFQAAAYMAAANeAAAP3wAAAxcAAAI/AAA3eAAAAtMAADSmAAABTQAAASYAAAD5AAAAJHN0Y28AAAAAAAAABQAAEuAABX/tAAhGZAALhkMADslpABJfGG1kYXQ=","ranges":[[18119993,18521582],[10866173,11078274],[8057608,8297561],[18891566,19138908],[19205729,19477161]],"pieces":[[0,36150,36463,11879,48888,2863,52313,1501,54386,1296,56269,8667,65226,2364,68223,1336,70227,912,71763,8688,81058,1594,82957,865,84415,472,85487,8950,95035,2140,97790,763,98845,842,100265,11931,112778,2517,115772,1284,117584,1350,119228,11246,131066,3379,135074,1694,137377,1266,139172,14232,153642,2902,157075,1530,159207,1380,161100,11692,173393,2885,176542,1311,178405,1020,180067,10090,190796,3092,194185,1386,196110,1251,197942,12765,211321,2560,214542,1582,216452,1346,218431,9421,228426,2167,231193,1500,233294,9554,243060,3748,247332,1438,249360,1332,251276,34250,286172,6761,293202,1519,295219,823,296812,963,298348,9306,308274,1872,310471,921,312054,932,313604,7990,322094,1683,324362,905,325580,922,327136,8741,336460,1667,338629,858,340110,594,341011,6641,348209,1457,350304,698,351672,543,352469,6206,359232,1559,361384,712,362751,520,363817,6014,370124,1436,372175,697,373487,509,374593,5785,380962,976,382226,521,383282,390,384251,6568,391426,1153,393155,523,393964,326,394896,3799,399276,1220,401086,504],[0,39186,39460,3931,43991,146,44776,300,45704,72,46384,3174,49864,378,50890,188,51701,144,52467,3466,56227,462,57231,276,58088,53,58718,3669,62983,222,63469,81,64018,62,64611,6500,71652,244,72554,188,73077,44,73728,3947,78213,233,78993,164,79883,130,80382,3274,84251,160,84903,120,85604,89,86177,1831,88267,135,88960,30,89588,99,90311,2703,93614,66,94090,38,94706,26,95196,1734,97480,49,97994,31,98289,43,98990,2434,101970,45,102586,32,103187,3556,107011,34,107614,223,108377,31,109032,49983,159318,2109,161996,180,162751,159,163521,68,164107,24083,188473,81,189129,118,189842,18003,208463,2078,211128,974],[0,49988,50340,8019,58969,788,60304,466,61389,254,62200,5073,67558,799,68898,275,69831,145,70691,4170,75330,520,76105,277,76908,46,77519,4452,82479,372,83125,224,83969,56,84627,1940,87152,276,87977,41,88273,293,89175,2854,92602,686,93873,193,94638,213,95128,1544,97236,314,98144,242,98995,369,99980,10402,110704,227,111543,75,112246,201,113050,3484,117099,443,117834,198,118590,401,119588,4299,124454,1258,126220,327,126859,5272,132728,769,134143,455,135190,407,136124,6363,142833,1613,145081,342,145924,147,146603,47431,194330,17646,212594,21809,234924,2370,237823,2131],[0,44356,44977,6449,52010,278,52865,105,53258,107,53831,4875,59267,148,59996,64,60642,62,60991,844,62423,159,63140,55,63786,127,64522,7801,72629,276,73483,127,74198,83,74846,622,76048,211,76545,45,77157,157,77859,11178,89535,16491,106297,1183,108090,894,109535,730,110921,6982,118604,338,119289,833,120738,511,121850,6414,128812,313,129619,734,130698,216,131435,5987,137978,881,139506,622,140791,195,141262,2737,144590,694,145854,575,146940,303,147818,5189,153346,634,154668,576,155903,4796,161273,794,162613,620,163544,33176,197353,3869,201881,771,203285,542,204443,626,205372,4740,210613,1009,212221,208,213039,741,214067,4280,218947,1157,220705,690,221961,761,223320,9384,232931,11783,245156,711,246364,979],[0,21085,21656,7532,29777,14972,45343,1093,46979,729,47931,594,49038,9096,58726,982,60330,733,61582,604,62460,10306,73356,2062,76000,899,77441,1325,79314,9761,89398,2281,92391,1636,94600,859,95997,8455,105017,1763,107140,1006,108854,745,110035,8097,118615,2233,121506,990,122770,765,124079,7809,132394,1615,134578,824,135964,567,136828,6827,144214,1144,145933,760,147278,484,148062,7934,156601,827,158013,744,159349,406,160374,6843,167443,1109,169008,618,170204,6747,177549,1676,179828,1232,181305,7417,189267,2285,192145,1917,194676,736,196080,26805,223136,5078,228750,789,230190,387,231141,862,232599,4063,236959,791,238371,575,239493,14200,254273,723,255599,13478,269361,333,270286,294,271184,249]],"fp":["00000016674d481f","00000016674d481f","00000016674d481f","00000016674d481f","00000016674d481f"],"bytes":1372422,"clip":1208816,"shots":[{"y0":0,"y1":0.76,"fx":0.64,"fy":0.42,"ax":0.6,"r":0.8,"near":1,"a":174.06,"b":177.35,"t0":0.06,"t1":3.35},{"y0":0,"y1":0.78,"fx":0.7,"fy":0.58,"ax":0.62,"r":0.8,"near":0,"a":112.1,"b":114.15,"t0":5.1,"t1":7.15},{"y0":0,"y1":0.84,"fx":0.8,"fy":0.3,"ax":0.7,"r":0.8,"near":0,"a":82.1,"b":83.88,"t0":10.1,"t1":11.88},{"y0":0,"y1":0.84,"fx":0.46,"fy":0.56,"ax":0.56,"r":0.8,"near":1,"a":182.98,"b":184.38,"t0":15.98,"t1":17.38},{"y0":0,"y1":0.84,"fx":0.5,"fy":0.5,"ax":0.58,"r":0.78,"near":1,"a":186.12,"b":188.25,"t0":20.12,"t1":22.25}]};
+  var SW = REEL ? REEL.w : 854, SH = REEL ? REEL.h : 480;
+  var STILL = { still: true, d: 3.2 };                 // the members of RIHE (d: seconds on screen)
+  var conn = navigator.connection || {};
+  var mode = (!REEL || !v || conn.saveData || /(^|-)(2g|3g)$/.test(conn.effectiveType || '')) ? 'lean' : 'clip';
+  var SHOTS = [STILL];
+  // clip: every shot, t0/t1 inside the assembled clip. seek: the original file, only the shots that sit close together.
+  function setShots() {
+    SHOTS = [STILL];
+    if (mode === 'lean') return;
+    REEL.shots.forEach(function (s) {
+      if (mode === 'seek' && !s.near) return;
+      var x = {}; for (var k in s) x[k] = s[k];
+      if (mode === 'seek') { x.t0 = s.a; x.t1 = s.b; }
+      SHOTS.push(x);
+    });
+  }
+  setShots();
+  function crop(s, W, H) {
+    var A = W / H, uy0 = s.y0 * SH, uh = (s.y1 - s.y0) * SH, cw, ch;
+    if (SW / uh > A) { ch = uh; cw = ch * A; } else { cw = SW; ch = cw / A; }
+    var cx = Math.max(0, Math.min(SW - cw, s.fx * SW - s.ax * cw));
+    var cy = Math.max(uy0, Math.min(uy0 + uh - ch, s.fy * SH - ch / 2));
+    var k = W / cw;
+    return { w: SW * k, h: SH * k, x: -cx * k, y: -cy * k, o: (s.fx * SW * k).toFixed(1) + 'px ' + (s.fy * SH * k).toFixed(1) + 'px' };
+  }
+  function nextIdx(i) { return (i + 1) % SHOTS.length; }
+  function nextFoot(i) { var j = nextIdx(i); return SHOTS[j].still ? nextIdx(j) : j; }
+
+  var slot = 0, onV = false;                     // shot on screen; whether the player is showing it (else the photograph)
+  var cue = -1, ready = false, cutting = -1, cutAt = 0, srcSet = false;
+  var want = !reduce, seen = true, live = false, begun = false, gateOpen = reduce, firstHold = true;
+  var raf = 0, clock = null, kbS = null, kbV = null, gLast = 0, grainOn = false;
+  var lastCT = -1, lastMove = 0, clockOn = false, lastK = -1, holding = false, primeT = 0;
+
+  // the assembled clip: header (ftyp + video-only moov + mdat header) + the video samples cut from each fetched range
+  function b64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+  function buildClip() {
+    if (!window.fetch || !window.Blob || !window.URL || !URL.createObjectURL) return Promise.reject(new Error('no fetch'));
+    return Promise.all(REEL.ranges.map(function (r) {
+      return fetch(REEL.src, { headers: { Range: 'bytes=' + r[0] + '-' + r[1] }, credentials: 'omit' }).then(function (res) {
+        var cr = res.headers.get('content-range') || '';
+        if (res.status !== 206 || cr.indexOf('bytes ' + r[0] + '-' + r[1] + '/' + REEL.size) !== 0) throw new Error('range');
+        return res.arrayBuffer();
+      });
+    })).then(function (bufs) {
+      var parts = [b64(REEL.head)];
+      bufs.forEach(function (buf, i) {
+        var pc = REEL.pieces[i], fp = new Uint8Array(buf, pc[0], 8), hex = '';
+        for (var k = 0; k < 8; k++) hex += (fp[k] < 16 ? '0' : '') + fp[k].toString(16);
+        if (hex !== REEL.fp[i]) throw new Error('file changed');       // the promo was re-encoded: do not play garbage
+        for (var j = 0; j < pc.length; j += 2) parts.push(new Uint8Array(buf, pc[j], pc[j + 1]));
+      });
+      return URL.createObjectURL(new Blob(parts, { type: 'video/mp4' }));
+    });
+  }
+  function fallback() {                          // clip failed -> seek the original; seek failed -> the photograph only
+    var was = mode;
+    mode = mode === 'clip' ? 'seek' : 'lean';
+    setShots(); cue = -1; ready = false; cutting = -1;
+    if (onV) toStill();
+    if (mode === 'seek') { v.src = REEL.src; srcSet = true; prepIdle(); }
+    else { try { v.removeAttribute('src'); v.load(); } catch (e) {} showClock(false); }
+    return was;
+  }
+  function attach() {                            // after the load event: the first screen never waits for footage
+    if (srcSet || mode === 'lean') return;
+    srcSet = true;
+    if (mode === 'clip') buildClip().then(function (u) { if (mode === 'clip') { v.src = u; prepIdle(); } }, function () { if (mode === 'clip') fallback(); });
+    else { v.src = REEL.src; prepIdle(); }
+  }
+  if (v) v.addEventListener('error', function () { if (srcSet && mode !== 'lean' && v.getAttribute('src')) fallback(); });
+
+  function place(i) {
+    var s = SHOTS[i];
+    if (!s || s.still || !media.clientWidth) return;
+    var c = crop(s, media.clientWidth, media.clientHeight);
+    g.set(v, { width: c.w, height: c.h, x: c.x, y: c.y, transformOrigin: c.o });
+  }
+  // position the one player on a shot's in point, paused; ready once that frame is decoded
+  function toCue(i) {
+    if (!v.getAttribute('src') || SHOTS[i].still) return;
+    cue = i; ready = false;
+    try { v.pause(); } catch (e) {}
+    if (v.readyState >= 1) { try { v.currentTime = SHOTS[i].t0; } catch (e) {} }
+    clearTimeout(primeT);
+    primeT = setTimeout(function () { prime(i); }, 1200);
+    check();
+  }
+  // some browsers (iOS Safari) decode no frame after a seek until the video has played once: play it unseen for a moment,
+  // then seek back to the in point. A shot that still cannot show is never cut to (the people hold the frame).
+  function prime(i) {
+    if (ready || cue !== i || onV || !want) return;
+    v.style.visibility = 'visible';
+    var back = function () {
+      if (onV || cue !== i) return;
+      try { v.pause(); v.currentTime = SHOTS[i].t0; } catch (e) {}
+      v.style.visibility = '';
+    };
+    var pr = v.play();
+    if (pr && pr.then) pr.then(function () { setTimeout(back, 120); }, back); else setTimeout(back, 120);
+  }
+  function check() {
+    if (cue < 0 || v.seeking || v.readyState < 2) return;
+    if (Math.abs(v.currentTime - SHOTS[cue].t0) < .35) {
+      ready = true;
+      if (cutting === cue) land(cue);
+    } else if (v.paused) { try { v.currentTime = SHOTS[cue].t0; } catch (e) {} }
+  }
+  if (v) {
+    v.addEventListener('loadedmetadata', function () { if (cue >= 0) { try { v.currentTime = SHOTS[cue].t0; } catch (e) {} } });
+    ['loadeddata', 'seeked', 'canplay'].forEach(function (ev) { v.addEventListener(ev, check); });
+  }
+  function prepIdle() {                          // while the photograph holds, cue the next shot
+    if (mode === 'lean' || !begun || !srcSet || onV) return;
+    var j = nextFoot(slot);
+    if (cue !== j) toCue(j);
+  }
+  function playV(r) {
+    v.defaultPlaybackRate = r; v.playbackRate = r;
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(function (e) { if (e && e.name === 'NotAllowedError') onBlocked(); });
+  }
+  // slow push-ins (Ken Burns on the photograph, a creep on the footage); none under reduced motion
+  function pushIn(el, dur) { return reduce ? null : g.fromTo(el, { scale: 1 }, { scale: 1.05, duration: dur, ease: 'none' }); }
+  function startStill(d) {
+    if (clock) clock.kill();
+    clock = g.to({}, { duration: d });
+    if (kbS) kbS.kill();
+    kbS = pushIn(still, d + 1.2);
+  }
+  // back to the people: hard cut to the photograph
+  function toStill() {
+    onV = false; slot = 0; cutting = -1;
+    g.set(v, { autoAlpha: 0 }); try { v.pause(); } catch (e) {}
+    if (kbV) { kbV.kill(); kbV = null; }
+    holding = false;
+    g.set(still, { scale: 1 });
+    startStill(STILL.d);
+    cue = -1; prepIdle();
+  }
+  // the cut lands on a decoded frame: crop, show, play
+  function land(j) {
+    cutting = -1;
+    var s = SHOTS[j], from = onV;
+    place(j);
+    onV = true; slot = j; holding = false;
+    g.set(v, { autoAlpha: 1, scale: 1 });
+    playV(s.r);
+    if (kbV) kbV.kill();
+    kbV = pushIn(v, (s.t1 - s.t0) / s.r + .3);
+    if (!from && kbS) { kbS.kill(); kbS = null; }
+    lastCT = -1; lastMove = performance.now();
+  }
+  // hard cut to the next shot; a shot that is not decoded yet is never cut to: the people hold the frame instead
+  function advance() {
+    var j = nextIdx(slot);
+    if (SHOTS[j].still) { toStill(); return; }
+    if (onV) {                                   // footage to footage: one player, so the cut is a seek (the last frame holds)
+      try { v.pause(); } catch (e) {}
+      cutting = j; cutAt = performance.now();
+      toCue(j);
+      return;
+    }
+    if (cue === j && ready) { land(j); return; }
+    if (clock) clock.kill(); clock = g.to({}, { duration: .25 });   // the people hold the frame (the clock rests)
+    holding = true;
+    prepIdle();
+  }
+  function shotProgress() {
+    var s = SHOTS[slot];
+    if (s.still) return clock ? clock.progress() : 0;
+    if (cutting >= 0) return 0;
+    return Math.max(0, Math.min(1, (v.currentTime - s.t0) / (s.t1 - s.t0)));
+  }
+  function paintClock() {                        // the reel's clock runs down through each shot, toward the title
+    if (!clockOn) return;
+    var k = holding ? 0 : Math.round((1 - shotProgress()) * 500) / 500;
+    if (k !== lastK) { lastK = k; edgeB.style.transform = 'scaleX(' + k + ')'; }
+  }
+  function loop() {
+    raf = requestAnimationFrame(loop);
+    var now = performance.now();
+    if (grainOn && now - gLast > 41) {           // 24 fps grain
+      gLast = now;
+      grain.style.backgroundPosition = ((Math.random() * 160) | 0) + 'px ' + ((Math.random() * 160) | 0) + 'px';
+    }
+    if (cutting >= 0) { if (now - cutAt > 900) toStill(); }           // the seek did not land: back to the people
+    else if (SHOTS[slot].still) { if (clock && clock.progress() >= 1) advance(); }
+    else if (onV) {
+      var ct = v.currentTime;
+      if (ct >= SHOTS[slot].t1) advance();                               // out point: never run into the promo's next cut
+      else if (ct !== lastCT) { lastCT = ct; lastMove = now; }
+      else if (now - lastMove > 900) { lastMove = now; toStill(); }    // stalled: cut away rather than hold a frozen frame
+    }
+    paintClock();
+  }
+  function run() {
+    if (!want || !seen || doc.hidden || !gateOpen) return;
+    if (!begun) begin();
+    if (SHOTS[slot].still) {
+      if (!clock) startStill(firstHold ? 2.2 : STILL.d);   // first time: the gate and rack focus already gave the people a second
+      else clock.resume();
+      firstHold = false;
+    } else if (onV && cutting < 0) playV(SHOTS[slot].r);
+    if (kbS) kbS.resume();
+    if (kbV) kbV.resume();
+    lastMove = performance.now();
+    if (!live) { live = true; loop(); }
+  }
+  function halt() {
+    live = false; cancelAnimationFrame(raf); raf = 0;
+    try { v.pause(); } catch (e) {}
+    if (clock) clock.pause();
+    if (kbS) kbS.pause();
+    if (kbV) kbV.pause();
+  }
+  function begin() {
+    if (begun) return; begun = true;
+    if (mode === 'lean') return;
+    if (doc.readyState === 'complete') attach(); else window.addEventListener('load', attach);
+  }
+  function showClock(on) {
+    clockOn = on && mode !== 'lean' && !reduce;
+    if (hero.classList.contains('cx-open')) g.to(edgeB, { autoAlpha: clockOn ? .72 : 0, duration: .5, overwrite: 'auto' });
+  }
+  function onBlocked() { want = false; halt(); setBtn(true); showClock(false); }
+
+  /* pause control */
+  function setBtn(paused) {
+    if (!btn) return;
+    btn.classList.toggle('is-paused', paused);
+    var ko = paused ? '배경 영상 재생' : '배경 영상 일시정지', en = paused ? 'Play background video' : 'Pause background video';
+    btn.setAttribute('data-aria-ko', ko); btn.setAttribute('data-aria-en', en);
+    btn.setAttribute('aria-label', R.lang === 'en' ? en : ko);
+  }
+  if (btn) {
+    btn.addEventListener('click', function () {
+      want = !want;
+      setBtn(!want);
+      if (want) { gateOpen = true; showClock(true); run(); } else halt();
+    });
+  }
+  R.visible(frame, function (on) { seen = on; if (on) run(); else halt(); });
+  doc.addEventListener('visibilitychange', function () { if (doc.hidden) halt(); else run(); });
+  var rz = 0;
+  window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (onV) place(slot); }, 120); });
+
+  /* ---------------------------------------------------------------- reduced motion: composed at once, the photograph */
+  if (reduce) {
+    if (btn) { btn.hidden = false; setBtn(true); }
+    return;
+  }
+
+  /* film grain (desktop only; phones keep the plain grade) */
+  (function makeGrain() {
+    if (!grain || phone()) return;
+    try {
+      var c = doc.createElement('canvas'), n = 160; c.width = c.height = n;
+      var x = c.getContext('2d'), d = x.createImageData(n, n), a = d.data;
+      for (var i = 0; i < a.length; i += 4) { var v = (Math.random() * 255) | 0; a[i] = a[i + 1] = a[i + 2] = v; a[i + 3] = 255; }
+      x.putImageData(d, 0, 0);
+      grain.style.backgroundImage = 'url(' + c.toDataURL('image/png') + ')';
+      grainOn = true;
+    } catch (e) {}
+  })();
+
+  /* scroll: the picture drifts slower than the page, the title a touch faster (sentinel band, never window scroll) */
+  // the band starts once fonts and the page's height locks have settled, so its sentinels are sized to the final document
+  var py = g.quickTo(par, 'y', { duration: .6, ease: 'power3.out' });
+  var ty = g.quickTo(title, 'y', { duration: .6, ease: 'power3.out' });
+  (doc.fonts && doc.fonts.ready ? Promise.race([doc.fonts.ready, wait(1500)]) : Promise.resolve()).then(function () {
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      R.onBand(function (b) {
+        if (!b.ok) return;
+        var r = R.rect(frame), d = Math.max(0, Math.min(b.top - r.top, r.h));
+        py(d * .09); ty(-d * .05);
+      });
+    }); });
+  });
+
+  /* ---------------------------------------------------------------- the title sequence */
+  var splits = [], tl = null, gtl = null, started = false, left = 2, asked = false;
+  var nums = $$('.cx-n');
+  // the gate opens only onto a decoded picture (1 s at most, then it opens anyway)
+  var stillIn = new Promise(function (res) {
+    var dec = function () { var q = still.decode ? still.decode() : null; if (q && q.then) q.then(res, res); else res(); };
+    if (still.complete && still.naturalWidth) dec();
+    else { still.addEventListener('load', dec, { once: true }); still.addEventListener('error', res, { once: true }); }
+  });
+  function gateTo(p) { var v = p.toFixed(2) + '%'; frame.style.clipPath = 'inset(' + v + ' 0% ' + v + ' 0%)'; }
+  // the record as counter wheels: every digit starts at 0 and lower places travel a full turn further, like a counter
+  function wheels() {
+    var out = [];
+    nums.forEach(function (n, ni) {
+      var s = n.getAttribute('data-n'), html = '';
+      for (var i = 0; i < s.length; i++) {
+        var k = i * 10 + (+s.charAt(i)), cells = '';
+        for (var j = 0; j <= k; j++) cells += '<span>' + (j % 10) + '</span>';
+        html += '<span class="cx-dg"><span class="cx-strip">' + cells + '</span></span>';
+      }
+      n.innerHTML = html;
+      [].forEach.call(n.querySelectorAll('.cx-strip'), function (st) {
+        var k = st.children.length - 1;
+        out.push({ el: st, to: -100 * k / (k + 1), n: ni });
+      });
+    });
+    return out;
+  }
+  function unwheel() { nums.forEach(function (n) { n.textContent = n.getAttribute('data-n'); }); }
+  function rescue() {
+    try { if (tl) tl.kill(); if (gtl) gtl.kill(); } catch (e) {}
+    try { splits.forEach(function (s) { s.revert(); }); } catch (e) {}
+    splits = [];
+    g.set($$('.cx-h .li, .cx-inst, .cx-lead, .cx-nums, .cx-nums li, .cx-more, .cx-pause, .cx-media'), { clearProps: 'transform,opacity,visibility,filter,--rs' });
+    frame.style.clipPath = '';
+    unwheel();
+    hero.classList.add('cx-done');
+    gateOpen = true; run();
+    R.showAll();
+  }
+  function done() {
+    if (--left > 0) return;
+    try { splits.forEach(function (s) { s.revert(); }); } catch (e) {}
+    splits = [];
+    unwheel();
+    frame.style.clipPath = '';
+    g.set(media, { clearProps: 'filter,transform' });
+    g.set($$('.cx-lead'), { clearProps: 'filter' });
+    hero.classList.add('cx-done');
+  }
+  // the gate has opened: the lower edge now rests on the frame's bottom line and becomes the reel's clock
+  function landed() {
+    hero.classList.add('cx-open');
+    g.set(edgeB, { clearProps: 'transform' });
+    edgeB.style.transform = 'scaleX(1)';
+    showClock(true);
+    gateOpen = true; run();
+  }
+  function openGate() {
+    if (asked) return; asked = true;
+    Promise.race([stillIn, wait(1000)]).then(function () { if (gtl && !gtl.progress()) gtl.play(); });
+  }
+  function intro() {
+    if (started) return; started = true; clearTimeout(safety);
+    var en = R.lang === 'en';
+    var lines = $$(en ? '.cx-h-en .li' : '.cx-h-ko .li');
+    var lead = $('.cx-lead[data-l="' + (en ? 'en' : 'ko') + '"]');
+    var inst = $('.cx-inst'), more = $('.cx-more'), list = $('.cx-nums'), items = $$('.cx-nums li');
+    var marks = lines, leadLines = null;
+    if (ST) {
+      if (!en) { var s1 = new ST(lines, { type: 'chars', charsClass: 'cx-ch' }); splits.push(s1); marks = s1.chars; }
+      // lines are only split once the text face is in (a late swap would re-break them inside their masks)
+      if (bodyReady(en, lead)) { var s2 = new ST(lead, { type: 'lines', mask: 'lines', linesClass: 'cx-ll' }); splits.push(s2); leadLines = s2.lines; }
+    }
+    // take the slit over from the CSS animation wherever it is now
+    var sx = 0, m = /matrix\(([-\d.e]+)/.exec(getComputedStyle(edgeT).transform || '');
+    if (m) sx = Math.max(0, Math.min(1, parseFloat(m[1])));
+    edgeT.style.animation = 'none';
+    g.set(edgeT, { scaleX: sx, autoAlpha: 1, y: 0 });
+    g.set(edgeB, { scaleX: 1, autoAlpha: 0, y: 0 });
+    // starting states, set before the blocks are released so nothing flashes
+    var wh = wheels();
+    g.set(marks, { yPercent: 118 });
+    if (leadLines) g.set(leadLines, { yPercent: 104, filter: 'blur(6px)' }); else g.set(lead, { autoAlpha: 0, y: 16, filter: 'blur(8px)' });
+    g.set([inst, more], { autoAlpha: 0, y: 14 });
+    g.set(items, { autoAlpha: 0, y: 12 });
+    g.set(list, { '--rs': '0%' });
+    gateTo(50);
+    g.set(media, { filter: FILTER + ' blur(' + (phone() ? 7 : 13) + 'px)', scale: 1.05 });
+    if (btn) { btn.hidden = false; g.set(btn, { autoAlpha: 0 }); setBtn(false); }
+    $$('[data-a]').forEach(function (el) { el.classList.add('on'); });
+
+    var draw = (1 - sx) * .45, open = Math.max(draw + .02, .2), half = function () { return frame.offsetHeight / 2; };
+    // the gate: the slit parts into the frame; the top edge burns out, the lower edge comes to rest on the title's line
+    var gate = { p: 50 };
+    gtl = g.timeline({ paused: true, onComplete: done })
+      .set(edgeB, { autoAlpha: 1 }, 0)
+      .to(gate, { p: 0, duration: 1.05, ease: EGATE, onUpdate: function () { gateTo(gate.p); } }, 0)
+      .to(edgeT, { y: function () { return -half(); }, duration: 1.05, ease: EGATE }, 0)
+      .to(edgeB, { y: function () { return half(); }, duration: 1.05, ease: EGATE }, 0)
+      .to(edgeT, { autoAlpha: 0, duration: .4, ease: 'power1.in' }, .55)
+      .to(edgeB, { autoAlpha: .72, duration: .6, ease: 'power1.out' }, .75)
+      .call(landed, null, 1.06)
+      // rack focus: the people come into focus as the title settles
+      .to(media, { filter: FILTER + ' blur(0px)', scale: 1, duration: 1.6, ease: 'power2.out' }, .05);
+    tl = g.timeline({ defaults: { ease: 'expo.out' }, onComplete: done });
+    tl.to(edgeT, { scaleX: 1, duration: draw, ease: EDRAW }, 0)
+      .to(marks, { yPercent: 0, duration: .92, stagger: en ? .075 : .05 }, .04)
+      .call(openGate, null, open)
+      .to(inst, { autoAlpha: 1, y: 0, duration: .8 }, open + .4)
+      // the statement comes into focus as it rises, an echo of the rack focus
+      .to(leadLines || lead, leadLines ? { yPercent: 0, filter: 'blur(0px)', duration: 1, stagger: .07 } : { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 1 }, open + .46)
+      .to(list, { '--rs': '100%', duration: .8, ease: EDRAW }, open + .5)
+      .to(items, { autoAlpha: 1, y: 0, duration: .7, stagger: .07 }, open + .6);
+    wh.forEach(function (w) { tl.to(w.el, { yPercent: w.to, duration: 1.4, ease: 'power4.out' }, open + .62 + w.n * .07); });
+    tl.to(more, { autoAlpha: 1, y: 0, duration: .7 }, open + .85);
+    if (btn) tl.to(btn, { autoAlpha: 1, duration: .6, ease: 'power1.out' }, open + 1.05);
+  }
+  function safe(fn) { return function () { try { fn(); } catch (e) { if (window.console) console.error(e); rescue(); } }; }
+  function finish() {
+    if (tl && tl.progress() < 1) tl.progress(1);
+    if (gtl && gtl.progress() < 1) gtl.progress(1);
+  }
+  R.onLang(finish);
+  R.showHooks.push(finish);
+  begin();
+
+  // Footage starts loading at the load event. The sequence waits only for the title face of the current language
+  // (a small text= subset, max .6 s) and for the hero on screen; text faces load alongside and are checked at split time.
+  function bodyReady(en, el) {
+    try { return !doc.fonts || doc.fonts.check(en ? '400 16px Archivo' : '400 16px "Noto Sans KR"', el.textContent.slice(0, 60)); }
+    catch (e) { return false; }
+  }
+  var safety = setTimeout(safe(intro), 2200);
+  var fload = function (f, s) {
+    try { var q = doc.fonts.load(f, s); return q && q.catch ? q.catch(function () {}) : Promise.resolve(); } catch (e) { return Promise.resolve(); }
+  };
+  var face = Promise.resolve();
+  if (doc.fonts && doc.fonts.load) {
+    var kt = fload('400 100px "Black Han Sans"', '청각재활연구소'), et = fload('860 100px Archivo', 'RESEARCH 0123456789');
+    fload('400 16px "Noto Sans KR"', ($('.cx-lead[data-l="ko"]') || {}).textContent || '');
+    fload('400 16px Archivo', 'Built on basic research');
+    face = R.lang === 'en' ? et : kt;
+  }
+  Promise.race([face, wait(600)]).then(function () {
+    R.inview(hero, safe(intro), { threshold: .1, px: 120 });
+  });
+})();
+
+
+(function () {
+  'use strict';
+  var R = window.RIHE, doc = document, root = doc.documentElement;
+  if (!R) return;
+  var g = window.gsap, ST = window.SplitText, CE = window.CustomEase, reduce = !!R.reduce;
+  var $$ = function (s, c) { return [].slice.call((c || doc).querySelectorAll(s)); };
+  var phone = function () { return !!(window.matchMedia && matchMedia('(max-width: 760px)').matches); };
+  if (g && CE) { g.registerPlugin(CE); CE.create('cxGate', 'M0,0 C0.5,0 0.14,1 1,1'); CE.create('cxDraw', 'M0,0 C0.65,0 0.35,1 1,1'); }
+  var EGATE = g && CE ? 'cxGate' : 'expo.inOut', EDRAW = g && CE ? 'cxDraw' : 'power2.inOut';
+
+  /* ---------------------------------------------------------------- one height for both languages
+     The Wix element has one fixed height for KO and EN. Each [data-lk] block reserves the taller of its two languages
+     (both measured in one synchronous pass, never painted), so switching the language never moves anything below it. */
+  function lock() {
+    var els = $$('[data-lk]');
+    els.forEach(function (el) { el.style.minHeight = ''; });
+    var cur = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko';
+    var a = els.map(function (el) { return el.getBoundingClientRect().height; });
+    root.setAttribute('data-lang', cur === 'en' ? 'ko' : 'en');
+    var b = els.map(function (el) { return el.getBoundingClientRect().height; });
+    root.setAttribute('data-lang', cur);
+    els.forEach(function (el, i) { el.style.minHeight = Math.ceil(Math.max(a[i], b[i])) + 'px'; });
+  }
+  lock();
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(lock);
+  var lw = root.clientWidth, lz = 0;
+  window.addEventListener('resize', function () { clearTimeout(lz); lz = setTimeout(function () { if (root.clientWidth !== lw) { lw = root.clientWidth; lock(); } }, 180); });
+
+  /* ---------------------------------------------------------------- the publication list (works without GSAP) */
+  var box = doc.querySelector('[data-list]');
+  var D = JSON.parse(doc.getElementById('c-pubs-data').textContent);
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;'); }
+  function la(s) { return /[가-힣]/.test(s) ? ' lang="ko"' : ' lang="en"'; }
+  function row(d) {
+    var tm = D.teams[d.team] || ['', ''];
+    return '<li class="c-row" data-i="' + d.i + '"><span class="c-yr">' + d.year + '</span><div class="c-tx">' +
+      '<p class="c-ti"' + la(d.title) + '>' + esc(d.title) + '</p>' +
+      '<p class="c-au"' + la(d.authors) + '>' + esc(d.authors) + '</p>' +
+      '<p class="c-jn"' + la(d.journal) + '>' + esc(d.journal) + '</p></div>' +
+      '<span class="c-tm"><span data-l="ko">' + tm[0] + '</span><span data-l="en" lang="en">' + tm[1] + '</span></span></li>';
+  }
+  var ticks = box.querySelector('[data-ticks]'), pi = box.querySelector('[data-pi]'), tally = box.querySelector('[data-n]');
+  var dir = 1, listShown = false;
+  box.addEventListener('click', function (ev) { var p = ev.target.closest && ev.target.closest('button[data-p]'); if (p) dir = +p.getAttribute('data-p'); }, true);
+  // the pressed filter: a 2 px umber bar slides under it (continuity: where the selection went)
+  function indicators(anim) {
+    $$('.c-fb', box).forEach(function (fb) {
+      var ind = fb.querySelector('.c-ind'), b = fb.querySelector('button[aria-pressed="true"]');
+      if (!ind || !b) return;
+      var lab = b.querySelector('.c-bl') || b;
+      var x = lab.offsetLeft, y = lab.offsetTop + lab.offsetHeight + 1, w = lab.offsetWidth;
+      fb.classList.add('has-ind');
+      if (g && anim) g.to(ind, { x: x, y: y, width: w, duration: .5, ease: 'expo.out', overwrite: true });
+      else if (g) g.set(ind, { x: x, y: y, width: w });
+      else { ind.style.transform = 'translate(' + x + 'px,' + y + 'px)'; ind.style.width = w + 'px'; }
+    });
+  }
+  // a number that changes turns over like the hero's counters
+  function turn(el, d) {
+    if (!el || !g || reduce) return;
+    g.fromTo(el, { yPercent: 85 * d, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: .5, ease: 'expo.out', overwrite: true, clearProps: 'transform,opacity,visibility' });
+  }
+  // paging from the pager under the list: bring the list's top back on screen (the outer Wix page scrolls; the anchor sits
+  // 150 px above the list so the phone's sticky Wix header does not cover the first row)
+  var anchor = box.querySelector('.c-top');
+  function toTop() {
+    var lw = box.querySelector('.c-lw'), b = R.band, top = R.rect(lw).top;
+    var above = b && b.ok ? top < b.top + 40 : lw.getBoundingClientRect().top < 0;
+    if (above && anchor && anchor.scrollIntoView) anchor.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  function after(ul, reason) {
+    var cur = {};
+    [].forEach.call(ul.children, function (li) { var i = li.getAttribute('data-i'); if (i !== null) cur[i] = 1; });
+    for (var i = 0; i < ticks.children.length; i++) ticks.children[i].classList.toggle('cur', !!cur[i]);
+    indicators(reason !== 'measure' && !reduce);
+    if (reason === 'page') toTop();
+    if (reason === 'measure' || reduce || !g || !listShown) return;
+    // the next page is a cut, not a crossfade: the rows come up in about 300 ms, top first
+    g.fromTo(ul.children, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: .4, stagger: .018, ease: 'expo.out', overwrite: true, clearProps: 'transform,opacity,visibility' });
+    if (reason === 'page') turn(pi, dir); else { turn(tally, 1); turn(pi, 1); }
+  }
+  R.list(box, { data: D.items, size: 10, render: row, empty: D.empty, after: after });
+
+  /* ---------------------------------------------------------------- motion (none under reduced motion or without GSAP) */
+  if (!g || reduce) { listShown = true; return; }
+  var tls = [];
+  function keep(tl) { tls.push(tl); return tl; }
+  function finishAll() { tls.forEach(function (tl) { try { tl.progress(1); } catch (e) {} }); }
+  R.showHooks.push(finishAll);
+  R.onLang(finishAll);
+  var fontsIn = (doc.fonts && doc.fonts.ready) ? Promise.race([doc.fonts.ready, new Promise(function (r) { setTimeout(r, 1500); })]) : Promise.resolve();
+  function safe(fn) { return function (el) { try { fn(el); } catch (err) { if (window.console) console.error(err); R.showAll(); } }; }
+
+  // headings: the authored lines rise through their masks (the hero's title, one step quieter: by line, not by syllable)
+  function heading(h) {
+    var ls = $$('[data-l="' + R.lang + '"] .l', h);
+    g.set(ls, { yPercent: 108 });
+    h.classList.add('on');
+    keep(g.to(ls, { yPercent: 0, duration: 1.05, stagger: .1, ease: 'expo.out', clearProps: 'transform' }));
+  }
+  // leads: lines rise into focus (the hero's statement and its rack focus)
+  function leadIn(w) {
+    fontsIn.then(safe(function () {
+      var p = w.querySelector('[data-l="' + R.lang + '"]') || w.firstElementChild;
+      var sp = ST ? new ST(p, { type: 'lines', mask: 'lines', linesClass: 'c-ll' }) : null;
+      var tg = sp ? sp.lines : [p];
+      g.set(tg, sp ? { yPercent: 100, filter: 'blur(6px)' } : { autoAlpha: 0, y: 14, filter: 'blur(6px)' });
+      w.classList.add('on');
+      keep(g.to(tg, { yPercent: 0, y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1, stagger: .08, ease: 'expo.out',
+        onComplete: function () { if (sp) sp.revert(); else g.set(tg, { clearProps: 'all' }); } }));
+    }));
+  }
+  // the list: the slit opens the block, the controls settle, the reel runs through its 120 frames, the first page comes up
+  function listIn(el) {
+    var ln = el.querySelector('.c-ln'), ctl = el.querySelector('.c-ctl'), rows = $$('.c-row', el), tk = $$('.c-reel i', el), pg = el.querySelector('.c-pg');
+    g.set(ln, { scaleX: 0 }); g.set([ctl, pg], { autoAlpha: 0, y: 10 }); g.set(rows, { autoAlpha: 0, y: 12 }); g.set(tk, { scaleY: 0 });
+    el.classList.add('on');
+    keep(g.timeline({ defaults: { ease: 'expo.out' }, onComplete: function () {
+      g.set([ln, ctl, pg].concat(rows, tk), { clearProps: 'transform,opacity,visibility' });
+      ticks.classList.add('live'); listShown = true;
+    } })
+      .to(ln, { scaleX: 1, duration: .8, ease: EDRAW }, 0)
+      .to(ctl, { autoAlpha: 1, y: 0, duration: .7 }, .12)
+      .to(tk, { scaleY: function (i) { return tk[i].classList.contains('on') ? 1 : .42; }, duration: .5, stagger: .003 }, .16)
+      .to(rows, { autoAlpha: 1, y: 0, duration: .7, stagger: .03 }, .15)
+      .to(pg, { autoAlpha: 1, y: 0, duration: .6 }, .45));
+  }
+  // people: every portrait opens like the hero's projector gate, with its rack focus; names follow
+  function decoded(ims, cap) {
+    return Promise.race([Promise.all(ims.map(function (im) {
+      if (!im || !im.decode) return null;
+      return im.decode().catch(function () {});
+    })), new Promise(function (r) { setTimeout(r, cap); })]);
+  }
+  function teamIn(el) {
+    var ln = el.querySelector('.c-ln'), h3 = el.querySelector('.c-h3'), mems = $$('.c-mem', el);
+    var phs = mems.map(function (m) { return m.querySelector('.c-ph'); });
+    var ims = mems.map(function (m) { return m.querySelector('.c-im, .c-ini'); });
+    var txs = mems.map(function (m) { return m.querySelector('.c-mt'); });
+    var all = [ln, h3].concat(phs, ims, txs), gate = null, over = false;
+    var clear = function () { g.set(all, { clearProps: 'transform,opacity,visibility,clipPath,filter' }); };
+    ims.forEach(function (im) { if (im && im.loading === 'lazy') im.loading = 'eager'; });
+    // the block's frame (its rule and the team's name) comes at once; the portraits wait for their pictures (600 ms at most)
+    g.set(ln, { scaleX: 0 }); g.set(h3, { autoAlpha: 0, y: 12 }); g.set(txs, { autoAlpha: 0, y: 10 });
+    g.set(phs, { clipPath: 'inset(50% 0% 50% 0%)' }); g.set(ims, { scale: 1.08, filter: 'blur(9px)' });
+    el.classList.add('on');
+    keep(g.timeline({ defaults: { ease: 'expo.out' } }).to(ln, { scaleX: 1, duration: .8, ease: EDRAW }, 0).to(h3, { autoAlpha: 1, y: 0, duration: .7 }, .1));
+    keep({ progress: function () { over = true; if (gate) gate.progress(1); else clear(); } });   // finished early (language switch, show all)
+    decoded(ims.filter(function (im) { return im && im.tagName === 'IMG'; }), 600).then(function () {
+      if (over) return;
+      gate = g.timeline({ defaults: { ease: 'expo.out' }, onComplete: clear })
+        .to(phs, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1, stagger: .08, ease: EGATE }, 0)
+        .to(ims, { scale: 1, filter: 'blur(0px)', duration: 1.4, stagger: .08, ease: 'power2.out' }, .04)
+        .to(txs, { autoAlpha: 1, y: 0, duration: .6, stagger: .08 }, .4);
+    }, clear);
+  }
+  $$('.c-h2').forEach(function (h) { R.inview(h, safe(heading), { threshold: .35, px: 60 }); });
+  $$('.c-leadw').forEach(function (w) { R.inview(w, leadIn, { threshold: .4, px: 50 }); });
+  $$('.c-pubs').forEach(function (el) { R.inview(el, safe(listIn), { threshold: .08, px: 160 }); });
+  $$('.c-team').forEach(function (el) { R.inview(el, teamIn, { threshold: .2, px: 180 }); });
+
+  // portraits start loading before they reach the screen (rootMargin is ignored in the Wix iframe: the sentinel band
+  // tells how far the visible part of the page is from the People section)
+  var pplTop = null, eager = false;
+  function bands() {
+    R.onBand(function (b) {
+      if (eager || !b.ok) return;
+      if (pplTop === null) { var s = doc.querySelector('.c-ppl'); pplTop = s ? R.rect(s).top : 0; }
+      if (b.bottom > pplTop - 1400) { eager = true; $$('.c-ppl img[loading="lazy"]').forEach(function (im) { im.loading = 'eager'; }); }
+    });
+    // faculty portraits drift a little against the page (desktop): the camera moves past the people, the frames stay put
+    if (phone()) return;
+    var pps = $$('.c-team--fac .c-pp').map(function (el) { return { el: el, to: g.quickTo(el, 'yPercent', { duration: .8, ease: 'power3.out' }) }; });
+    R.onBand(function (b) {
+      if (!b.ok) return;
+      pps.forEach(function (o) { var p = R.progress(R.rect(o.el.parentNode)); if (p !== null) o.to((.5 - p) * 7); });
+    });
+  }
+  // start after fonts, the language locks and the list's reserved height have settled (the sentinels tile the document)
+  fontsIn.then(function () { requestAnimationFrame(function () { requestAnimationFrame(bands); }); });
+})();
+
+} catch (err) { if (window.console) console.error(err); window.RIHE && RIHE.showAll(); } });</script>
+</body>
+</html>

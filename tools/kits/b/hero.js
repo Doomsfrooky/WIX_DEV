@@ -279,7 +279,8 @@
     var wanted = false, onScreen = true, userPaused = false, dead = false, raf = 0, lived = false, anyFrame = false;
     v.fpLoop = true;                                     // the hero now owns the loop (the inline loader stops guarding it)
     v.muted = true;
-    if (!v.getAttribute('src')) { v.preload = 'metadata'; v.src = v.getAttribute('data-src'); }
+    // the inline loader fetches only the loop's bytes (v.fpClip, CLAUDE.md video budget); without it, the file itself
+    if (!v.getAttribute('src') && !v.fpClip) { v.preload = 'metadata'; v.src = v.getAttribute('data-src'); }
     function rate() { try { v.defaultPlaybackRate = S.rate; v.playbackRate = S.rate; } catch (e) {} }
     rate();
     v.addEventListener('loadedmetadata', rate);
@@ -323,7 +324,10 @@
     }
     function resume() { if (go()) { play(); loop(); } }
     function pause() { if (raf) cancelAnimationFrame(raf); raf = 0; if (!v.paused) v.pause(); }
-    v.addEventListener('error', function () { dead = true; pause(); win.classList.remove('fp-live'); v.classList.remove('on'); });
+    v.addEventListener('error', function () {
+      if (v.fpRetry) return;                             // the loader is retrying with the file itself
+      dead = true; pause(); win.classList.remove('fp-live'); v.classList.remove('on');
+    });
     R.visible(win, function (on) { onScreen = on; if (on) resume(); else pause(); });
     doc.addEventListener('visibilitychange', function () { if (doc.hidden) pause(); else resume(); });
     if (btn) btn.addEventListener('click', function () {

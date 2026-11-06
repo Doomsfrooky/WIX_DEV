@@ -594,3 +594,17 @@ def pub_teams(items):
 def lang_attr(s):
     """lang="ko" when the string has Hangul, else lang="en" (publication titles, authors, journals)."""
     return ' lang="ko"' if re.search('[가-힣]', str(s or '')) else ' lang="en"'
+
+
+def sample_mark(ko, en, sid=''):
+    """Neutral scaffolding band between the page samples on a direction page ('Research 페이지 일부').
+    Deliberately outside every design: grey mono label on a dotted rule. Not part of the design being judged."""
+    i = f' id="{sid}"' if sid else ''
+    return (f'<div class="rihe-sample"{i} role="note"><span><span data-l="ko">시안 구간 · {ko}</span>'
+            f'<span data-l="en" lang="en">Sample · {en}</span></span></div>')
+
+
+CORE_CSS += r"""
+.rihe-sample { margin: 0; padding: 22px 16px; display: flex; align-items: center; gap: 14px; background: #fff; color: #8a8f98; font: 500 11px/1.4 ui-monospace, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; }
+.rihe-sample::before, .rihe-sample::after { content: ""; flex: 1; border-top: 1px dashed #c9cdd3; }
+"""

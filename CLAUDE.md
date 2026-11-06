@@ -108,6 +108,9 @@ wix-sim 320:   위 주소에 &w=320
 목록:          https://raw.githack.com/Doomsfrooky/WIX_DEV/<해시>/site/index.html  (wix-sim 링크를 자동으로 만든다)
 ```
 
+- githack은 브라우저로 HTML을 처음 열 때 "One more step / Open the page" 안내 화면을 띄운다(2026-11 확인). 이 화면은 `x-frame-options: SAMEORIGIN` 이라 iframe 안에서는 막힌다. **raw.githack.com 과 rawcdn.githack.com 에서 각각 한 번씩** 페이지를 직접 열고 "Open the page"를 누르면 `/Doomsfrooky/WIX_DEV/` 경로 쿠키가 생겨서, 이후로는 커밋이 바뀌어도 wix-sim이 바로 뜬다(두 호스트가 같은 사이트라 iframe에도 쿠키가 간다). 목록 페이지에 두 링크가 있다.
+- 같은 이유로 **Wix 안에는 githack 주소를 넣을 수 없다**(smilesnail.org 안에서는 쿠키가 가지 않아 안내 화면이 막힌다). Wix에서 확인할 때는 GitHub Pages 주소를 쓴다.
+
 ## 스킬 (`.claude/skills/`)
 
 design-taste-frontend(Leonxlnx/taste-skill), impeccable(pbakaus/impeccable, Apache 2.0, LICENSE·NOTICE.md 동봉), 67·aura-farming(Jakeschincariol/claude-illegal-codes, MIT). impeccable 엔진은 처음 실행할 때 `~/.impeccable` 로 내려받는다(저장소에 넣지 않음). 위 "결정한 것 4"가 스킬 규칙보다 우선한다.

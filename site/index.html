@@ -48,8 +48,9 @@
   var inner = here.replace('://raw.githack.com/', '://rawcdn.githack.com/');
   var sim = here.replace('://rawcdn.githack.com/', '://raw.githack.com/').replace(/site\/$/, 'tools/wix-sim.html');
   var crossOk = inner !== sim.replace(/tools\/wix-sim\.html$/, 'site/');
-  document.getElementById('where').textContent = /githack\.com/.test(location.host)
-    ? '미리보기 주소입니다. wix-sim은 바깥(raw.githack.com)과 안쪽(rawcdn.githack.com) 출처를 다르게 띄웁니다.'
+  document.getElementById('where').innerHTML = /githack\.com/.test(location.host)
+    ? '미리보기 주소입니다. wix-sim은 바깥(raw.githack.com)과 안쪽(rawcdn.githack.com) 출처를 다르게 띄웁니다.<br>' +
+      '처음 한 번만: <a href="' + inner + 'index.html" target="_blank">rawcdn 쪽 목록</a>을 열어 "Open the page"를 누르세요. 그 뒤로는 wix-sim 안 페이지가 바로 뜹니다.'
     : '로컬이면 wix-sim 링크 대신 node tools/verify/wixsim.js 를 쓰세요(바깥 localhost:8001, 안쪽 127.0.0.1:8002).';
   var html = '';
   LIST.forEach(function (g) {

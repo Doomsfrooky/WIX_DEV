@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Round-3 design directions: build site/_directions/<key>.html from tools/kits/<key>.py.
 
-    python3 tools/directions.py            # every kit in tools/kits/ (a, b, c)
+    python3 tools/directions.py            # every kit in KITS (a, b, c, cw)
     python3 tools/directions.py a c        # only these
     python3 tools/directions.py --hero DIR # assemble DIR/index.html from DIR/hero.html, hero.css, hero.js, fonts.txt
                                            # (used by the /67 hero exploration; DIR is under site/_directions/_67/)
@@ -20,7 +20,7 @@ sys.path.insert(0, HERE)
 import core  # noqa: E402
 from build import check  # noqa: E402
 
-KITS = ['a', 'b', 'c']
+KITS = ['a', 'b', 'c', 'cw']   # cw: direction C on a white ground (the user's follow-up)
 OUT = os.path.join(ROOT, 'site', '_directions')
 
 

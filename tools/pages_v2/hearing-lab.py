@@ -4,7 +4,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import kit  # noqa: E402
+import kit_v2 as kit  # noqa: E402
 import _lab  # noqa: E402
 
 DC_KO = ['한국인 연령별/성별 청각 참조데이터 수집 및 생산 (국내 유일)', '한국인 청각 참조데이터 평가를 통한 참조데이터 자체 등급부여',

@@ -5,8 +5,8 @@ photo comes from data/people.json.
 """
 import urllib.parse
 
-import kit
-from kit import t, sec, rv
+import kit_v2 as kit
+from kit_v2 import t, sec, rv
 
 MAP_Q = '원주세브란스기독병원'
 MAP_SRC = f'https://www.google.com/maps?q={urllib.parse.quote(MAP_Q)}&amp;z=15&amp;output=embed'

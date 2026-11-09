@@ -3,8 +3,8 @@
 Copy from tools/build_v1.py (research()); the KO area titles come from kit.AREAS (awaiting client confirmation).
 Lists are generated from data/publications.json, reports.json and patents.json: 10 per page, filters, tick ruler.
 """
-import kit
-from kit import t, sec
+import kit_v2 as kit
+from kit_v2 import t, sec
 
 # project images (round-1 research page), keyed by kit.AREAS key: (imgur id, width, height, alt ko, alt en)
 IMGS = {

@@ -3,8 +3,8 @@ Mission & Vision > organisation > products (images).
 
 Copy from tools/build_v1.py (audiso()). External links (audiso.co.kr, xr.audiso.co.kr) open in a new tab.
 """
-import kit
-from kit import t, sec, rv
+import kit_v2 as kit
+from kit_v2 import t, sec, rv
 
 SITE_A = 'https://audiso.co.kr/'
 SITE_XR = 'https://xr.audiso.co.kr/'

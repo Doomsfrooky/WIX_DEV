@@ -4,7 +4,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import kit  # noqa: E402
+import kit_v2 as kit  # noqa: E402
 import _lab  # noqa: E402
 
 DC_KO = ['CDM, NHANES, UK Biobank 등 국내외 의료 빅데이터 활용 연구', '순음청력검사(PTA) 및 청성뇌간반응검사(ABR) 데이터 표준화',

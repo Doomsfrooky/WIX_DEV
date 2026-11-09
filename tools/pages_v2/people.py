@@ -7,8 +7,8 @@ the four labs); 4:5 portraits in the content column, 4 columns on desktop and 2 
 Names in English come from kit.NAME_EN and roles from kit.ROLE_EN (both from build_v1.py); a member without a
 photo gets an initial tile.
 """
-import kit
-from kit import t, sec, more
+import kit_v2 as kit
+from kit_v2 import t, sec, more
 
 
 def _head(key):

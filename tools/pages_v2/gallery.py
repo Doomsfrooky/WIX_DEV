@@ -7,8 +7,8 @@ The photo list is baked into the HTML (so the page works with no message at all)
 the page posts {type: 'ready'} to window.parent, and Wix page code answers with {type: 'gallery', items: [...]}
 read from a CMS collection (see tools/pages/gallery.md for the Velo code).
 """
-import kit
-from kit import t
+import kit_v2 as kit
+from kit_v2 import t
 
 
 def render():

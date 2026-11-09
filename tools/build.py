@@ -18,6 +18,7 @@ Checks on every page (the build fails on an error):
 import importlib.util
 import os
 import re
+import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -77,6 +78,8 @@ def main():
             sys.exit(f'unknown page(s): {", ".join(bad)}; pages: {", ".join(PAGES)}')
     out_dir = os.path.join(ROOT, 'site-preview' if kit.PREVIEW else 'site')
     os.makedirs(out_dir, exist_ok=True)
+    if kit.PREVIEW:   # pages load GSAP from vendor/ next to themselves (relative path): give the previews the same pinned files
+        shutil.copytree(os.path.join(ROOT, 'site', 'vendor'), os.path.join(out_dir, 'vendor'), dirs_exist_ok=True)
     failed = False
     for name in only or PAGES:
         mod = load_page(name)

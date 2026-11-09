@@ -10,8 +10,8 @@ tools/build_v1.py) and calls render_lab(). Order:
   > Publication (team list from data/publications.json, year filter, + link to the Research page for reports)
   > Alumni (small portrait grid; initial tile when there is no photo; the section is left out when there are none)
 """
-import kit
-from kit import t, tt, sec, more
+import kit_v2 as kit
+from kit_v2 import t, tt, sec, more
 
 
 def _members_link(key):

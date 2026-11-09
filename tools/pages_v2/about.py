@@ -4,8 +4,8 @@ organisation > data centers > partners > gallery teaser.
 Copy from tools/build_v1.py (about()) and kit.DIRECTOR. The gallery teaser replaces the old small Wix Pro Gallery
 at the bottom of /about: it shows the first five photos of data/gallery.json and links to /gallery.
 """
-import kit
-from kit import t, sec, rv
+import kit_v2 as kit
+from kit_v2 import t, sec, rv
 
 # partner logos (round-1 About): (imgur file, alt ko, alt en, size and trim). w/h are the files' pixel sizes; crop trims
 # whitespace built into a file (top, right, bottom, left); kit.logos() then gives every mark the same visual area.

@@ -31,16 +31,17 @@
 <script>
 (function () {
   var LIST = [
-    ['디자인 방향 시안 (1단계)', [
+    ['디자인 방향 시안 (1단계, 기록용)', [
       ['_directions/a.html', 'A. 아카데믹 클래식', '남색 마스트헤드 위 세리프 제목, 남색으로 톤을 입힌 진료 영상, 대학 출판물 같은 본문'],
       ['_directions/b.html', 'B. 클리니컬 모던', '청력도 주파수 축이 그리드, 청록 커서가 지나가며 제목과 영상을 드러냄'],
       ['_directions/c.html', 'C. 에디토리얼 시네마틱', '영사기 게이트처럼 열리는 화면, 굵은 제목, 사람과 현장 영상'],
       ['_directions/cw.html', 'C2. 에디토리얼 시네마틱 · 흰 지면', 'C를 흰 바탕(Wix 헤더와 같은 #ffffff)으로: 먹선이 갈라지며 열리는 화면, 사진 위에서 흰색으로 바뀌는 제목']
     ]],
-    ['페이지 (2차 디자인, 3차로 바뀔 예정)', [
-      ['home.html', 'Home'], ['about.html', 'About'], ['research.html', 'Research'], ['people.html', 'People'],
-      ['basic-lab.html', 'Basic Lab'], ['hearing-lab.html', 'Hearing Lab'], ['head-lab.html', 'HeAD Lab'],
-      ['audiso.html', 'Audiso'], ['contact.html', 'Contact'], ['gallery.html', 'Gallery']
+    ['페이지 (3차 · C2, 2단계)', [
+      ['home.html', 'Home', '', 4850, 5370], ['about.html', 'About', '', 3350, 3950], ['research.html', 'Research', '', 5770, 9230],
+      ['people.html', 'People', '', 3920, 4690], ['basic-lab.html', 'Basic Lab', '', 4120, 5800], ['hearing-lab.html', 'Hearing Lab', '', 5310, 7130],
+      ['head-lab.html', 'HeAD Lab', '', 5480, 7590], ['audiso.html', 'Audiso', '', 3320, 4680], ['contact.html', 'Contact', '', 2200, 1910],
+      ['gallery.html', 'Gallery', '', 2530, 1830]
     ]],
     ['검증', [
       ['_probe.html', '주소 방식 실측 페이지', 'Wix HTML 요소(웹사이트 주소)에 넣어서 확인합니다.']
@@ -64,8 +65,8 @@
       html += '<tr><td>' + it[1] + (it[2] ? '<small>' + it[2] + '</small>' : '') + '</td><td>' +
         '<a href="' + it[0] + '">페이지</a>' +
         '<a href="' + it[0] + '?lang=en">EN</a>' +
-        (crossOk ? '<a href="' + sim + '?src=' + encodeURIComponent(src) + '">wix-sim</a>' +
-                   '<a href="' + sim + '?w=320&src=' + encodeURIComponent(src) + '">wix-sim 320</a>' : '') +
+        (crossOk ? '<a href="' + sim + '?' + (it[3] ? 'h=' + it[3] + '&' : '') + 'src=' + encodeURIComponent(src) + '">wix-sim</a>' +
+                   '<a href="' + sim + '?w=320&' + (it[4] ? 'h=' + it[4] + '&' : '') + 'src=' + encodeURIComponent(src) + '">wix-sim 320</a>' : '') +
         '</td></tr>';
     });
     html += '</table>';

@@ -163,6 +163,12 @@
     "role": "연구간호사",
     "dept": "",
     "photo": "https://i.imgur.com/tctARoM.jpeg"
+   },
+   {
+    "name": "최소윤",
+    "role": "",
+    "dept": "",
+    "photo": ""
    }
   ]
  },
@@ -179,7 +185,7 @@
    },
    {
     "name": "강철영",
-    "role": "팀장",
+    "role": "",
     "dept": "개발",
     "photo": "https://i.imgur.com/OelMBU2.jpeg"
    },
@@ -210,7 +216,7 @@
    {
     "name": "이상윤",
     "role": "",
-    "dept": "AI개발",
+    "dept": "AI",
     "photo": ""
    },
    {
@@ -223,6 +229,12 @@
     "name": "홍상의",
     "role": "",
     "dept": "영업",
+    "photo": ""
+   },
+   {
+    "name": "신중환",
+    "role": "",
+    "dept": "홍보",
     "photo": ""
    },
    {
@@ -240,8 +252,14 @@
    {
     "name": "이재원",
     "role": "",
-    "dept": "전략",
+    "dept": "PM",
     "photo": "https://i.imgur.com/7bDCrbo.jpeg"
+   },
+   {
+    "name": "김성훈",
+    "role": "",
+    "dept": "PL",
+    "photo": ""
    }
   ]
  }

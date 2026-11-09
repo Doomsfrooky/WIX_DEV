@@ -109,7 +109,8 @@ NAME_EN = {'서영준': 'Young Joon Seo', '공태훈': 'Tae Hoon Kong', '기재�
 ROLE_EN = {'교수': 'Professor', '연구소장': 'Director', '연구교수': 'Research Professor', '팀장': 'Team Leader', 'Post-doc': 'Postdoctoral Researcher',
            '박사과정': 'Ph.D. Student', '석사과정': 'M.S. Student', '학부연구원': 'Undergraduate Researcher', '연구원': 'Researcher',
            '연구간호사': 'Research Nurse', 'CTO': 'CTO', '개발': 'Development', 'AI개발': 'AI Development', '영업': 'Sales', 'QA': 'QA',
-           '인증': 'Certification', '전략': 'Strategy', '이비인후과': 'Otorhinolaryngology', '생체공학과': 'Biomedical Engineering'}
+           '인증': 'Certification', '전략': 'Strategy', '이비인후과': 'Otorhinolaryngology', '생체공학과': 'Biomedical Engineering',
+           '홍보': 'Public Relations', 'AI': 'AI', 'PM': 'Project Manager', 'PL': 'Project Leader'}
 # people.json team key -> (colour key, KO heading, EN heading)
 TEAM_META = {'faculty': ('navy', '교수진', 'Faculty'), 'basic': ('basic', '기초팀 · Basic Lab', 'Basic Lab'),
              'hearing': ('hearing', '참조표준팀 · Hearing Lab', 'Hearing Lab'), 'head': ('head', '데이터팀 · HeAD Lab', 'HeAD Lab'),
@@ -334,7 +335,9 @@ CORE_JS = r"""
       if (band.ok) { band.top = t; band.bottom = b; band.h = b - t; }
       for (var j = 0; j < bandFns.length; j++) { try { bandFns[j](band); } catch (e) {} }
     }
-    function docH() { return Math.max(root.scrollHeight, doc.body.scrollHeight); }
+    // the document height without the band itself (its sentinels count in scrollHeight: measured with them, a band
+    // built while the page was taller would hold the page at that height for good, a blank tail under the content)
+    function docH() { box.style.display = 'none'; var h = Math.max(root.scrollHeight, doc.body.scrollHeight); box.style.display = ''; return h; }
     function build() {
       if (io) io.disconnect();
       vis = {}; box.innerHTML = '';
@@ -356,8 +359,12 @@ CORE_JS = r"""
     }
     build();
     var rz = 0;
-    window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (docH() !== band.docH) build(); }, 160); });
+    function rebuild() { clearTimeout(rz); rz = setTimeout(function () { if (docH() !== band.docH) build(); }, 160); }
+    window.addEventListener('resize', rebuild);
     if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { if (docH() !== band.docH) build(); });
+    // any later change of the page's height (height locks, a list or gallery that reserves again) re-tiles the band;
+    // the band is absolutely positioned, so it never changes the body's own size (no loop)
+    if (window.ResizeObserver) new ResizeObserver(rebuild).observe(doc.body);
   }
   // element box in document px (the iframe never scrolls, so this is stable while the outer page scrolls)
   R.rect = function (el) { var r = el.getBoundingClientRect(), sy = R.inFrame ? 0 : (window.scrollY || 0); return { top: r.top + sy, bottom: r.bottom + sy, h: r.height }; };

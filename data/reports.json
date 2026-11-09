@@ -1,20 +1,62 @@
 [
  {
   "year": 2026,
-  "title": "Implementation of an App-Based Telemedicine Framework in Otolaryngology: Focusing on Remote Hearing Aid Fitting",
-  "authors": "YUSEON BYUN, DONGHYEOK LEE, JINHUI JEON, YOUNG JOON SEO",
-  "event": "ICORL 2026, Goyang, Korea, 2026,04"
+  "title": "OPTIMIZING PURE-TONE AUDIOMETRY: MINIMAL FREQUENCY SETS FOR ACCURATE HEARING THRESHOLD ESTIMATION",
+  "authors": "윤철영, 김송이, 김진수, 임승미, 서연호, 윤담, 서영준",
+  "event": "제32차 이비인후과 종합학술대회, 대한민국, 2026.10.22"
  },
  {
   "year": 2026,
-  "title": "ASSESSMENT OF AMBIENT NOISE EFFECTS ON KIOSK-BASED AUTOMATED AUDIOMETRY",
-  "authors": "DONGHYEOK LEE, CHANBEOM KWAK, JUNGHEE SAGONG1, YUSEON BYUN, YOUNG JOON SEO",
-  "event": "ICORL 2026, Goyang, Korea, 2026,04"
+  "title": "ENHANCING AUDIOMETRIC CALIBRATION RELIABILITY THROUGH ISO 17025-BASED KOLAS ACCREDITATION: THE ROLE OF MEASUREMENT UNCERTAINTY IN ESTABLISHING THE KOREAN AUDIOMETRIC ZERO",
+  "authors": "이동혁, 변유선, 서영준",
+  "event": "제32차 이비인후과 종합학술대회, 대한민국, 2026.10.22"
+ },
+ {
+  "year": 2026,
+  "title": "A RISK-ADJUSTED HEARING AGE FRAMEWORK USING NORMAL-HEARING REFERENCE AUDIOMETRIC DATA AND META-ANALYSIS-DERIVED RISK COEFFICIENTS",
+  "authors": "윤철영, 김송이, 김진수, 임승미, 서연호, 윤담, 서영준",
+  "event": "제32차 이비인후과 종합학술대회, 대한민국, 2026.10.22"
+ },
+ {
+  "year": 2026,
+  "title": "PREDICTING COGNITIVE DECLINE THROUGH WORD-SENTENCE DISCREPANCY AND AUDITORY-VISUAL INTEGRATION IN OLDER ADULTS WITH HEARING LOSS: A RETROSPECTIVE COHORT STUDY",
+  "authors": "변유선, 이동혁, 전진희, 윤창희, 서영준",
+  "event": "제32차 이비인후과 종합학술대회, 대한민국, 2026.10.22"
+ },
+ {
+  "year": 2026,
+  "title": "SEQUENTIAL INDIVIDUAL-TO-GROUP COGNITIVE BEHAVIORAL THERAPY FOR CHRONIC TINNITUS: A RANDOMIZED CONTROLLED TRIAL ON TREATMENT CONTINUITY AND ADHERENCE",
+  "authors": "이동우, 서영준",
+  "event": "제32차 이비인후과 종합학술대회, 대한민국, 2026.10.22"
+ },
+ {
+  "year": 2026,
+  "title": "DEXAMETHASONE PALMITATE-LOADED NANOEMULSION CAN ACTIVATE THE GLUCOCORTICOID RECEPTOR AND EXERT PROTECTIVE EFFECTS AGAINST AMINOGLYCOSIDE-INDUCED OTOTOXICITY IN HEI-OC1 CELLS AND EXPLANTED COCHLEAE",
+  "authors": "이현수, 이은수, 서영준",
+  "event": "제32차 이비인후과 종합학술대회, 대한민국, 2026.10.23"
+ },
+ {
+  "year": 2026,
+  "title": "METABOLIC DYSFUNCTION INCREASES COCHLEAR VULNERABILITY TO OTOTOXIC INJURY IN ASSOCIATION WITH ALTERED CERAMIDE METABOLISM",
+  "authors": "이은수, 이현수, 서영준",
+  "event": "제32차 이비인후과 종합학술대회, 대한민국, 2026.10.23"
  },
  {
   "year": 2026,
   "title": "Development and efficacy of virtual reality simulator in training of hearing test for audiologist",
   "authors": "Yuseon BYUN",
+  "event": "WCA 2026, Seoul, Korea, 2026.05"
+ },
+ {
+  "year": 2026,
+  "title": "AI-based analysis of tympanic membrane endoscopic images: Development of a diagnostic support model for otolaryngologists",
+  "authors": "Eun Kyung JEON",
+  "event": "WCA 2026, Seoul, Korea, 2026.05"
+ },
+ {
+  "year": 2026,
+  "title": "Comprehensive audiological outcomes of the Osia® 2 system",
+  "authors": "Young Joon SEO",
   "event": "WCA 2026, Seoul, Korea, 2026.05"
  },
  {
@@ -25,21 +67,75 @@
  },
  {
   "year": 2026,
+  "title": "Patient-reported outcome measures (PROMs) in audiology: A case study from South Korea",
+  "authors": "Chul Young YOON",
+  "event": "WCA 2026, Seoul, Korea, 2026.05"
+ },
+ {
+  "year": 2026,
+  "title": "Predicting five-year hearing in normal-hearing individuals: Integrating audiometry, deep learning, and national claims",
+  "authors": "Chul Young YOON",
+  "event": "WCA 2026, Seoul, Korea, 2026.05"
+ },
+ {
+  "year": 2026,
+  "title": "Audiso: Building an ecosystem for intelligent hearing screening and tele-consultation via kiosks",
+  "authors": "Young Joon SEO",
+  "event": "WCA 2026, Seoul, Korea, 2026.05"
+ },
+ {
+  "year": 2026,
+  "title": "Establishment of a nationally standardized Korean normal-hearing dataset and the need for accredited calibration in audiometry",
+  "authors": "Young Joon SEO",
+  "event": "WCA 2026, Seoul, Korea, 2026.05"
+ },
+ {
+  "year": 2026,
   "title": "Assessment of ambient noise effects on kiosk-based automated audiometry and its superior clinical utility for screening",
   "authors": "Donghyeok LEE",
   "event": "WCA 2026, Seoul, Korea, 2026.05"
  },
  {
   "year": 2026,
-  "title": "Comparison of remote and face-to-face hearing aid fitting in terms of satisfaction and outcomes",
-  "authors": "Yuseon BYUN",
-  "event": "WCA 2026, Seoul, Korea, 2026.05"
+  "title": "Implementation of an App-Based Telemedicine Framework in Otolaryngology: Focusing on Remote Hearing Aid Fitting",
+  "authors": "YUSEON BYUN, DONGHYEOK LEE, JINHUI JEON, YOUNG JOON SEO",
+  "event": "ICORL 2026, Goyang, Korea, 2026.04"
  },
  {
   "year": 2026,
-  "title": "Development and validation of kiosk-based audiometry as pioneer in digital health in audiology",
-  "authors": "Donghyeok LEE",
-  "event": "WCA 2026, Seoul, Korea, 2026.05"
+  "title": "ASSESSMENT OF AMBIENT NOISE EFFECTS ON KIOSK-BASED AUTOMATED AUDIOMETRY",
+  "authors": "DONGHYEOK LEE, CHANBEOM KWAK, JUNGHEE SAGONG1, YUSEON BYUN, YOUNG JOON SEO",
+  "event": "ICORL 2026, Goyang, Korea, 2026.04"
+ },
+ {
+  "year": 2026,
+  "title": "MAP SIMILARITY INDEX FOR NOISEHEARING MAPS",
+  "authors": "윤철영, 서영준",
+  "event": "ICORL 2026, Goyang, Korea, 2026.04"
+ },
+ {
+  "year": 2026,
+  "title": "VIRTUAL REALITY-BASED VESTIBULAR REHABILITATION THERAPY IN PATIENTS WITH ACUTE UNILATERAL VESTIBULOPATHY",
+  "authors": "공태훈",
+  "event": "ICORL 2026, Goyang, Korea, 2026.04"
+ },
+ {
+  "year": 2026,
+  "title": "A NOVEL ONE-STOP TYMPANOSTOMY STENT (TS18): STREAMLINING SURGICAL PROCEDURE AND ENHANCING PRECLINICAL EFFICACY",
+  "authors": "서영준",
+  "event": "ICORL 2026, Goyang, Korea, 2026.04"
+ },
+ {
+  "year": 2026,
+  "title": "HEARING SCREENING USING ARTIFICIAL INTELLIGENCE",
+  "authors": "서영준",
+  "event": "ICORL 2026, Goyang, Korea, 2026.04"
+ },
+ {
+  "year": 2026,
+  "title": "A CLINICALLY VALID MISSING DATA IMPUTATION WORKFLOW FOR EMR-BASED MACHINE LEARNING IN DIZZINESS PATIENTS",
+  "authors": "이정우, 김민경, 이동연, 안빈진, 공태훈",
+  "event": "ICORL 2026, Goyang, Korea, 2026.04"
  },
  {
   "year": 2026,

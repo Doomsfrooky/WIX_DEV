@@ -1365,6 +1365,8 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
   position: relative; isolation: isolate; background: var(--paper); padding-top: var(--fb);
 }
 html[data-lang="en"] .k-hero { --em: var(--em-en); --k: .41; }
+.k-hero--tone { --fh: clamp(150px, 13vw, 220px); }    /* a field with nothing in it stays low: it frames the title, no more */
+.k-hero--logo { --fh: clamp(200px, 17vw, 280px); }
 .k-hf { position: absolute; z-index: 2; top: var(--ft); left: var(--fl); right: var(--fr); height: var(--fh); overflow: hidden; background: var(--ink-2); }
 .k-hf--tone, .k-hf--logo { background: var(--tt); }
 .k-hf::after { content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; box-shadow: inset 0 1px 0 var(--ink-r), inset 1px 0 0 var(--ink-r), inset -1px 0 0 var(--ink-r); }
@@ -1543,6 +1545,8 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
   /* hero: the frame spans the width; the title starts at the margin */
   .k-hero { --ft: 16px; --fh: 196px; --fl: 0px; --fr: 0px; --fw: calc(100vw - 2 * var(--m)); --hmax: 54px; }
   html[data-lang="en"] .k-hero { --hmax: 46px; }
+  .k-hero--tone { --fh: 120px; }
+  .k-hero--logo { --fh: 168px; }
   .k-hw { left: var(--m); }
   .k-himg { object-position: var(--fpm, var(--fp, 50% 40%)); }
   .k-hlg { padding: 0 24px; }
@@ -1631,7 +1635,13 @@ KIT_JS = r"""
         var mh = parseFloat(ul.style.minHeight) || 0;
         if (!mh || !lwrap || !pgr) return;
         ul.style.minHeight = '';
-        var foot = box.querySelector('.k-ls-foot'), fh = foot ? foot.offsetHeight + (parseFloat(getComputedStyle(foot).marginTop) || 0) : 0;
+        var foot = box.querySelector('.k-ls-foot'), fh = 0;
+        if (foot) {   // the link under the pager, in the taller of its two languages
+          var cl = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko', f1 = foot.getBoundingClientRect().height;
+          root.setAttribute('data-lang', cl === 'en' ? 'ko' : 'en');
+          fh = Math.max(f1, foot.getBoundingClientRect().height) + (parseFloat(getComputedStyle(foot).marginTop) || 0);
+          root.setAttribute('data-lang', cl);
+        }
         lwrap.style.minHeight = Math.ceil(mh + pgr.offsetHeight + (parseFloat(getComputedStyle(pgr).marginTop) || 0) + fh) + 'px';
       }
       // the first or last page disables the pressed button: keep the keyboard on the pager
@@ -1674,8 +1684,18 @@ KIT_JS = r"""
         var above = b && b.ok ? top < b.top + 40 : lwrap.getBoundingClientRect().top < 0;
         if (above && anchor && anchor.scrollIntoView) anchor.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
       }
+      // the tallest page of both languages: the engine measures the language on screen; a second pass measures the
+      // other one (rows hold both languages, so nothing is re-rendered for it) and the list keeps the taller reserve
+      var api = null, other = false;
+      function both(ul) {
+        if (!api) return;
+        var mine = parseFloat(ul.style.minHeight) || 0, cur = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko';
+        other = true; root.setAttribute('data-lang', cur === 'en' ? 'ko' : 'en');
+        try { api.measure(); } finally { root.setAttribute('data-lang', cur); other = false; }
+        ul.style.minHeight = Math.max(mine, parseFloat(ul.style.minHeight) || 0) + 'px';
+      }
       function after(ul, reason) {
-        if (reason === 'measure') reserve(ul);
+        if (reason === 'measure') { if (other) return; both(ul); reserve(ul); }
         var cur = {};
         [].forEach.call(ul.children, function (li) { var i = li.getAttribute('data-i'); if (i !== null) cur[i] = 1; });
         if (ticks) for (var i = 0; i < ticks.children.length; i++) ticks.children[i].classList.toggle('cur', !!cur[i]);
@@ -1688,7 +1708,9 @@ KIT_JS = r"""
         g.fromTo(ul.children, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: .4, stagger: .018, ease: 'expo.out', overwrite: true, clearProps: 'transform,opacity,visibility' });
         if (reason === 'page') turn(pi, dir); else { turn(tally, 1); turn(pi, 1); }
       }
-      R.list(box, { data: J.items, size: J.size || 10, render: row, empty: J.empty, after: after });
+      api = R.list(box, { data: J.items, size: J.size || 10, render: row, empty: J.empty, after: after });
+      api.measure();   // the engine's first measure ran before api existed: once more with both languages
+      box._api = api;
       // the count and the page number speak when the visitor changes them, not while the page loads
       (doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve()).then(function () {
         setTimeout(function () { [box.querySelector('.k-tally'), box.querySelector('.k-pi')].forEach(function (el) { if (el) el.setAttribute('aria-live', 'polite'); }); }, 0);
@@ -1749,15 +1771,21 @@ KIT_JS = r"""
         }
         grid.classList.add('jx');
       }
+      // the tallest page of any year, in both languages (captions wrap differently), so nothing moves on a language switch
       function reserve() {
         grid.style.minHeight = ''; keepPager = false;
         var max = 0, ys = $$('button[data-k="year"]', gl).map(function (b) { return b.getAttribute('data-v'); });
+        var cl = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko';
         if (!ys.length) ys = ['all'];
-        ys.forEach(function (y) {
-          var l = pick(y), n = Math.ceil(l.length / size);
-          if (n > 1) keepPager = true;
-          for (var p = 0; p < n; p++) { show(l, p); justify(); max = Math.max(max, Math.ceil(grid.getBoundingClientRect().height)); }
+        [cl, cl === 'en' ? 'ko' : 'en'].forEach(function (l) {
+          root.setAttribute('data-lang', l);
+          ys.forEach(function (y) {
+            var li = pick(y), n = Math.ceil(li.length / size);
+            if (n > 1) keepPager = true;
+            for (var p = 0; p < n; p++) { show(li, p); justify(); max = Math.max(max, Math.ceil(grid.getBoundingClientRect().height)); }
+          });
         });
+        root.setAttribute('data-lang', cl);
         if (max) grid.style.minHeight = max + 'px';
         counts(); apply(false);
       }
@@ -1954,20 +1982,33 @@ KIT_JS = r"""
      (both measured in one synchronous pass, never painted), so switching the language never moves anything. Runs after
      the lists and the gallery have reserved their heights (their hooks are registered first). */
   run('lock', function () {
+    // innermost blocks first: a section is measured with its nested blocks (list controls) already locked, else the
+    // stacked column at 320 could outgrow the section's lock by what the nested lock adds
     function lock() {
-      var els = $$('[data-lk]');
+      var els = $$('[data-lk]'), cur = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko', top = 0;
       els.forEach(function (el) { el.style.minHeight = ''; });
-      var cur = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko';
-      var a = els.map(function (el) { return el.getBoundingClientRect().height; });
-      root.setAttribute('data-lang', cur === 'en' ? 'ko' : 'en');
-      var b = els.map(function (el) { return el.getBoundingClientRect().height; });
-      root.setAttribute('data-lang', cur);
-      els.forEach(function (el, i) { el.style.minHeight = Math.ceil(Math.max(a[i], b[i])) + 'px'; });
+      var lv = els.map(function (el) { var n = 0, x = el.parentElement; while (x) { if (x.hasAttribute('data-lk')) n++; x = x.parentElement; } top = Math.max(top, n); return n; });
+      for (var L = top; L >= 0; L--) {
+        var set = els.filter(function (el, i) { return lv[i] === L; });
+        var a = set.map(function (el) { return el.getBoundingClientRect().height; });
+        root.setAttribute('data-lang', cur === 'en' ? 'ko' : 'en');
+        var b = set.map(function (el) { return el.getBoundingClientRect().height; });
+        root.setAttribute('data-lang', cur);
+        set.forEach(function (el, i) { el.style.minHeight = Math.ceil(Math.max(a[i], b[i])) + 'px'; });
+      }
     }
     R.lock = lock;
     lock();
     if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(lock);
     R.onLang(lock);
+    // a face first needed by the other language (measured above while hidden) loads only now: measure again once it is in
+    if (doc.fonts && doc.fonts.addEventListener) {
+      var fl = 0;
+      doc.fonts.addEventListener('loadingdone', function () {
+        clearTimeout(fl);
+        fl = setTimeout(function () { $$('[data-list]').forEach(function (b) { if (b._api) b._api.measure(); }); lock(); }, 120);
+      });
+    }
     var lw = root.clientWidth, lz = 0;
     window.addEventListener('resize', function () { clearTimeout(lz); lz = setTimeout(function () { if (root.clientWidth !== lw) { lw = root.clientWidth; lock(); } }, 260); });
   });

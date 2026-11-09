@@ -39,7 +39,7 @@ def demo_main():
                          lead=('난청에 대한 기초 연구뿐만 아니라 의료기기 개발, 임상시험에 이르기까지 전주기적인 연구를 진행하는 연세대학교 공식 연구소입니다.',
                                'An official Yonsei University institute conducting full-cycle research, from basic research on hearing loss to '
                                'medical device development and clinical trials.'),
-                         image=kit.gallery_photo(0, '50% 32%'), extra=nav)
+                         image=kit.gallery_photo('IMG_0168', '50% 32%'), extra=nav)
     D = kit.DIRECTOR
     q = kit.quote(('“난청을 치료하는 임상의이자 난청을 연구하는 연구자로서, 청각재활연구소를 기반으로 융합 연구자의 길을 걸어왔습니다.”',
                    '“As a clinician who treats hearing loss and a researcher who studies it, I have walked the path of a '

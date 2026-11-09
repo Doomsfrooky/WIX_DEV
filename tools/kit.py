@@ -67,6 +67,7 @@ def tone_style(key):
 # ================================================================== small helpers
 AR = '<svg class="k-ar" viewBox="0 0 20 10" aria-hidden="true"><path d="M0 5h18M14 1l4 4-4 4"/></svg>'
 AR_X = '<svg class="k-ar k-ar--x" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 9.5l7-7M4 2.5h5.5V8"/></svg>'
+AR_M = '<svg class="k-ar k-ar--m" viewBox="0 0 20 14" aria-hidden="true"><path d="M1.5 1.5h17v11h-17zM1.5 1.5l8.5 6.5 8.5-6.5"/></svg>'   # mail
 CH_L = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>'
 CH_R = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>'
 
@@ -121,13 +122,14 @@ def sec(h, body, sid='', note='', aside='', cls='', wide=False, tone=None, link_
     optional note and aside) and the body column. h, note: (ko, en) tuples or html. wide=True: the heading row (with
     link_html at its right) and the body below it across both columns. tone: a TONES key; puts a short tab in the lab's
     deep tone on the cut line. If body has no reveal block ([data-a]) of its own, the body column reveals as one block.
-    lk: the section reserves the taller of its two languages (KO = EN height)."""
+    lk: the section reserves the taller of its two languages (KO = EN height); so does its heading column, so the body
+    never moves when the language changes (at 320 the body follows the heading)."""
     if not sid:
         raise ValueError('sec() needs a sid (section id)')
     hid = f'{sid}-h'
     n = f'<p class="k-note">{_h(note)}</p>' if note else ''
     a = f'<div class="k-aside">{aside}</div>' if aside else ''
-    head = (f'<div class="k-sh" data-a data-m="head"><h{level} class="k-h" id="{hid}"><span class="k-hm"><span class="k-hl">{_h(h)}</span></span>'
+    head = (f'<div class="k-sh" data-a data-m="head"{" data-lk" if lk else ""}><h{level} class="k-h" id="{hid}"><span class="k-hm"><span class="k-hl">{_h(h)}</span></span>'
             f'</h{level}>{n}{a}</div>')
     lnk = f'<div class="k-swl" data-a>{link_html}</div>' if link_html else ''
     ba = '' if 'data-a' in body else ' data-a'
@@ -184,7 +186,8 @@ def kv(rows):
 
 def ruled(items, cols=2, m2=False):
     """Ruled columns: each opened by a hairline that is drawn in, an h3 in the display face, the text.
-    items: [(h3 html or (ko, en), body html), ...]. cols 1-4 (one column at 320; m2=True keeps two at 320)."""
+    items: [(h3 html or (ko, en), body html), ...]. cols 1-4: three or four become two below 1100 px, one column at
+    320 (m2=True keeps two at 320); in a two-column grid an odd last item takes the whole row."""
     out = f'<div class="k-cols k-c{cols}{" k-m2" if m2 else ""}" data-a>'
     for h, b in items:
         out += (f'<div class="k-col"><i class="k-rule" aria-hidden="true"></i><h3 class="k-h3" data-ai>{_h(h)}</h3>'
@@ -357,7 +360,8 @@ def member(m, size='m'):
               f'<i class="k-cut" aria-hidden="true"></i></div>')
     rk, re_ = role_lines(m)
     rl = f'<p class="k-role">{t(rk, re_)}</p>' if rk else ''
-    return f'<li class="k-mem">{ph}<div class="k-mt" data-ai><p class="k-nm">{_name(m["name"])}</p>{rl}</div></li>'
+    # .k-mi (member info), not .k-mt: .k-mt is the underlined label of more()/btn()
+    return f'<li class="k-mem">{ph}<div class="k-mi" data-ai><p class="k-nm">{_name(m["name"])}</p>{rl}</div></li>'
 
 
 def people_grid(members, size='m', tone=None):
@@ -439,9 +443,21 @@ def quote(text, cite=None, photo=None):
     return f'<figure class="k-pq" data-a><blockquote data-ai>{tt(text, "p")}</blockquote>{c}</figure>'
 
 
+def _dk_h3(m):
+    """<h3 ...> -> the same tag with the class k-dk (its glyphs go into the display-face subset, DK_CLASSES)."""
+    a = m.group(1)
+    if re.search(r'\bclass="[^"]*\bk-dk\b', a):
+        return m.group(0)
+    if 'class="' in a:
+        return '<h3' + a.replace('class="', 'class="k-dk ', 1) + '>'
+    return f'<h3 class="k-dk"{a}>'
+
+
 def box(body, media='', cls='', tone=None):
-    """A panel: on a lab's tint (tone) or in a hairline frame. media: a badge or logo at the left (multiplied into the
-    tint), body at the right; at 320 the media sits above, smaller."""
+    """A panel: on a lab's tint (tone) or in a hairline frame. media: a badge or logo (multiplied into the tint) at the
+    left of the body; at 320 it sits above the body, 72 px wide, so the text keeps the full width. An h3 in body is set
+    in the display face (the kit marks it k-dk, so its glyphs are in the font subset)."""
+    body = re.sub(r'<h3\b([^>]*)>', _dk_h3, body)
     ts = f' style="{tone_style(tone)}"' if tone else ''
     c = 'k-box' + (' k-box--tone' if tone else '') + (' k-bx' if media else '') + (' ' + cls if cls else '')
     if not media:
@@ -488,14 +504,15 @@ def map_embed(src, title, link_href='', link_label=('지도에서 크게 보기'
 
 def contact_rows(items):
     """Team contacts as mailto rows on the lab-row pattern: lab name and team, the contact person with a small face,
-    the email; tab and hover tint in the lab's tone.
+    the email; tab and hover tint in the lab's tone. The row ends with an envelope, not the lab rows' arrow: it opens
+    the mail app, not a page.
     items: [dict(key=lab key, name='Basic Lab', team=(ko, en), person=(ko, en), email='...', photo=''), ...]."""
     out = '<ul class="k-labs k-ct" data-a>'
     for it in items:
         fc = img(imgur(it['photo'], 'm'), '', 40, 40) if it.get('photo') else ''
         inner = (f'<i class="k-rule" aria-hidden="true"></i><span class="k-lab-h"><b class="k-lab-n" lang="en">{it["name"]}</b>'
                  f'<span class="k-lab-t">{tt(it["team"])}</span></span><span class="k-lab-b k-ct-who">{fc}<span><span class="k-ct-p">{tt(it["person"])}</span>'
-                 f'<span class="k-ct-e">{it["email"]}</span></span></span><span class="k-lab-go">{AR}</span>')
+                 f'<span class="k-ct-e">{it["email"]}</span></span></span><span class="k-lab-go">{AR_M}</span>')
         out += f'<li class="k-lab" data-ai style="{tone_style(it["key"])}"><a href="mailto:{it["email"]}">{inner}</a></li>'
     return out + '</ul>'
 
@@ -533,9 +550,11 @@ def _list_row(kind, d, show_team):
         return (f'<li class="k-row k-row--pt" data-i="{d["i"]}"><span class="k-yr k-st">{st}</span><div class="k-tx">'
                 f'<p class="k-ti" lang="ko">{e(d["title"])}</p></div><span class="k-tm">{co}</span></li>')
     s = d['event'] if kind == 'report' else d['journal']
-    tm = ''
-    if kind == 'pub' and show_team and d.get('team') in TEAM_LABEL:
-        tm = mark(d['team']) + tt(TEAM_LABEL[d['team']])
+    if not (kind == 'pub' and show_team):   # no team column (reports, a lab's own list): the text takes its width
+        return (f'<li class="k-row k-row--nm" data-i="{d["i"]}"><span class="k-yr">{d["year"]}</span><div class="k-tx">'
+                f'<p class="k-ti"{lang_attr(d["title"])}>{e(d["title"])}</p><p class="k-au"{lang_attr(d["authors"])}>{e(d["authors"])}</p>'
+                f'<p class="k-jn"{lang_attr(s)}>{e(s)}</p></div></li>')
+    tm = mark(d['team']) + tt(TEAM_LABEL[d['team']]) if d.get('team') in TEAM_LABEL else ''
     return (f'<li class="k-row" data-i="{d["i"]}"><span class="k-yr">{d["year"]}</span><div class="k-tx">'
             f'<p class="k-ti"{lang_attr(d["title"])}>{e(d["title"])}</p><p class="k-au"{lang_attr(d["authors"])}>{e(d["authors"])}</p>'
             f'<p class="k-jn"{lang_attr(s)}>{e(s)}</p></div><span class="k-tm">{tm}</span></li>')
@@ -553,11 +572,24 @@ def _hit(d, f):
     return True
 
 
+# '~2021' (that year and earlier) reads naturally in Korean; in English a tilde reads 'about 2021', so the EN label is a
+# drawn less-or-equal mark (no font has to carry the glyph) before the year. Both say it in words to screen readers.
+LE = '<svg class="k-le" viewBox="0 0 10 13" aria-hidden="true"><path d="M8.6 1.6L1.6 5.3l7 3.7M1.6 11.6h7"/></svg>'
+
+
+def _year_label(y):
+    if not y.startswith('~'):
+        return f'<span class="k-num">{y}</span>'
+    n = y[1:]
+    return t(f'<span class="k-num" aria-hidden="true">~{n}</span><span class="sr">{n}년까지</span>',
+             f'<span class="k-num" aria-hidden="true">{LE}{n}</span><span class="sr">{n} and earlier</span>')
+
+
 def _filter_opts(kind, key, items):
     if key == 'team':
         return [(k, tt(TEAM_LABEL[k])) for k in TEAM_LABEL if any(d.get('team') == k for d in items)]
     if key == 'year':
-        return [(y, f'<span class="k-num">{y}</span>') for y in core.pub_years(items)]
+        return [(y, _year_label(y)) for y in core.pub_years(items)]
     if key == 'status':
         return [(s, tt(UI[s])) for s in ('등록', '출원') if any(d.get('status') == s for d in items)]
     if key == 'country':
@@ -590,9 +622,10 @@ def _list_parts(kind, items, filters, per_page, sid):
     pages = max(1, -(-n // per_page))
     reel = ''.join(f'<i class="on" style="--d:{i * 2}"></i>' for i in range(n))
     ys = sorted({d['year'] for d in data if d.get('year')}, reverse=True)
-    ylab = f'<p class="k-reel-y" aria-hidden="true"><span>{ys[0]}</span><span>{ys[-1]}</span></p>' if len(ys) > 1 else ''
+    # a short list (a lab's 17 to 41) keeps narrow frames (6 px at most) from the left, a tick strip, not a progress bar
+    ylab = f'<p class="k-reel-y" aria-hidden="true" style="--n:{n}"><span>{ys[0]}</span><span>{ys[-1]}</span></p>' if len(ys) > 1 else ''
     ctl += (f'<p class="k-tally"><span data-n>{t(f"<b class=\"k-cn\">{n}</b>건", f"<b class=\"k-cn\">{n}</b> items")}</span></p>'
-            f'<div class="k-reel" data-ticks aria-hidden="true">{reel}</div>{ylab}')
+            f'<div class="k-reel" data-ticks aria-hidden="true" style="--n:{n}">{reel}</div>{ylab}')
     first = ''.join(_list_row(kind, d, show_team) for d in data[:per_page])
     pager = (f'<div class="k-pg"><button type="button" data-p="-1" aria-label="{UI["prev"][0]}" data-aria-en="{UI["prev"][1]}" disabled>{CH_L}</button>'
              f'<span class="k-pi"><span data-pi>1 / {pages}</span></span>'
@@ -622,7 +655,7 @@ def list_sec(h, kind, items, sid, note='', filters=None, per_page=10, aside='', 
     ts = f' style="{tone_style(tone)}"' if tone else ''
     return (f'<section class="{c}" id="{sid}" aria-labelledby="{hid}" data-list{ts}><div class="k-in" data-lk>'
             f'<i class="k-ln" aria-hidden="true" data-a data-m="ln"></i>'
-            f'<div class="k-sh" data-a data-m="head"><h2 class="k-h" id="{hid}"><span class="k-hm"><span class="k-hl">{_h(h)}</span></span></h2>{n}'
+            f'<div class="k-sh" data-a data-m="head" data-lk><h2 class="k-h" id="{hid}"><span class="k-hm"><span class="k-hl">{_h(h)}</span></span></h2>{n}'
             f'<div class="k-ctl" data-a data-m="ctl" data-lk>{ctl}</div>{a}</div>'
             f'<div class="k-lw" data-a data-m="list"><i class="k-top" aria-hidden="true"></i><ol class="k-list" data-items>{first}</ol>{pager}{ft}</div>'
             f'{data}</div></section>')
@@ -667,7 +700,7 @@ def videos_sec(h=None, videos=None, sid='videos', note=''):
     return (f'<!-- 영상: data/videos.json에서 만들어집니다. -->'
             f'<section class="k-sec k-vid" id="{sid}" aria-labelledby="{hid}" data-player><div class="k-in" data-lk>'
             f'<i class="k-ln" aria-hidden="true" data-a data-m="ln"></i>'
-            f'<div class="k-sh" data-a data-m="head"><h2 class="k-h" id="{hid}"><span class="k-hm"><span class="k-hl">{_h(h)}</span></span></h2>{n}</div>'
+            f'<div class="k-sh" data-a data-m="head" data-lk><h2 class="k-h" id="{hid}"><span class="k-hm"><span class="k-hl">{_h(h)}</span></span></h2>{n}</div>'
             f'<div class="k-vl" data-a>{_vid_items(videos)}</div><div class="k-sb k-vs" data-a>{_vid_screen(videos)}</div></div></section>')
 
 
@@ -678,6 +711,43 @@ def video_player(videos=None):
 
 
 # ================================================================== gallery
+# data/gallery.json mixes two kinds (CLAUDE.md "사진"): Wix media {media, file, width, height, ...}, resized through
+# core.wix(), and repository copies {src: 'media/gallery/<year>/<year>-<nn>', widths: [480, 1024, 1600], width, height,
+# ...} whose files are '<src>-<width>.jpg' (never upscaled, so a small photo may have fewer widths).
+def _crop_ok(p, crop):
+    if crop and not p.get('media'):
+        raise ValueError('crop=(x, y, w, h) works only for Wix entries of data/gallery.json (a repository copy is cut by tools/media.py)')
+    return crop
+
+
+def photo_url(p, w, q=None, crop=None):
+    """URL of a gallery photo at about w px (Wix: fitted in w x w; repository: the smallest stored width >= w, else
+    the largest). crop=(x, y, w, h), in the original's pixels, Wix entries only: that part of the photo, filled to
+    w px wide (a banner with built-in margins or lettering, e.g. '21.png')."""
+    if _crop_ok(p, crop):
+        x, y, cw, ch = crop
+        stem = os.path.splitext(p['file'])[0]
+        return (f'https://static.wixstatic.com/media/{p["media"]}/v1/crop/x_{x},y_{y},w_{cw},h_{ch}'
+                f'/fill/w_{w},h_{round(w * ch / cw)},al_c,q_{q or (85 if w > 700 else 80)},enc_auto/{stem}.jpg')
+    if p.get('media'):
+        return wix(p['media'], p['file'], w, w, 'fit', q or (85 if w > 700 else 80))
+    ws = sorted(p.get('widths') or [])
+    if not ws:
+        return p['src']
+    pick = next((x for x in ws if x >= w), ws[-1])
+    return f'{p["src"]}-{pick}.jpg'
+
+
+def photo_srcset(p, ws=(600, 1200), crop=None):
+    """srcset for a gallery photo: Wix at the given widths (with crop: never wider than the cut), a repository copy at
+    its stored widths."""
+    if _crop_ok(p, crop):
+        return ', '.join(f'{photo_url(p, w, crop=crop)} {w}w' for w in sorted({min(w, crop[2]) for w in ws}))
+    if p.get('media'):
+        return ', '.join(f'{photo_url(p, w)} {w}w' for w in ws)
+    return ', '.join(f'{p["src"]}-{w}.jpg {w}w' for w in sorted(p.get('widths') or []))
+
+
 def _photo_alt(p):
     return (p.get('alt_ko') or p['caption_ko'], p.get('alt_en') or p['caption_en'])
 
@@ -692,9 +762,7 @@ def _cap_year(p):
 
 def _photo_frame(p, cls='', sizes='(max-width: 760px) 50vw, 420px'):
     r = p['width'] / p['height']
-    src = wix(p['media'], p['file'], 600, 600, 'fit', 80)
-    mid = wix(p['media'], p['file'], 1200, 1200, 'fit', 85)
-    im = img(src, '', 600, round(600 / r), 'k-im', srcset=f'{src} 600w, {mid} 1200w', sizes=sizes, attrs='decoding="async"')
+    im = img(photo_url(p, 600), '', 600, round(600 / r), 'k-im', srcset=photo_srcset(p), sizes=sizes, attrs='decoding="async"')
     return f'<span class="k-pp">{im}</span><i class="k-cut" aria-hidden="true"></i>', r
 
 
@@ -725,7 +793,7 @@ def gallery_grid(photos=None, per_page=12, years=True, live=False):
     at 320), 12 per page, the pager, and a viewer that opens in place over the grid (absolute, centred in the visible
     band of the tall Wix iframe, never position: fixed). The grid reserves its tallest page, so nothing moves.
     live=True: the baked list can be replaced from Wix page code ({type:'gallery', items:[...]}, handshake
-    {type:'ready'}; the Velo code is in tools/pages_v2/gallery.md). Put it in sec_wide()."""
+    {type:'ready'}; the Velo code and the heights are in tools/pages/gallery.md). Put it in sec_wide()."""
     photos = photos or GALLERY
     ys = sorted({str(p['year']) for p in photos if p.get('year')}, reverse=True)
     tg = ''
@@ -733,12 +801,12 @@ def gallery_grid(photos=None, per_page=12, years=True, live=False):
         btns = (f'<button type="button" data-k="year" data-v="all" aria-pressed="true"><span class="k-bl">{tt(UI["all"])}</span> <span class="k-bc">{len(photos)}</span></button>'
                 + ''.join(f'<button type="button" data-k="year" data-v="{y}" aria-pressed="false"><span class="k-bl"><span class="k-num">{y}</span></span> '
                           f'<span class="k-bc">{sum(1 for p in photos if str(p.get("year")) == y)}</span></button>' for y in ys))
-        tg = (f'<div class="k-f k-f--year k-gl-f" role="group" aria-label="{UI["year"][0]}" data-aria-en="{UI["year"][1]}"{"" if len(ys) > 1 else " hidden"}>'
+        tg = (f'<div class="k-f k-f--year k-gl-f" role="group" aria-label="{UI["year"][0]}" data-aria-en="{UI["year"][1]}" data-lk{"" if len(ys) > 1 else " hidden"}>'
               f'<p class="k-fl" aria-hidden="true">{tt(UI["year"])}</p><div class="k-fb">{btns}<i class="k-ind" aria-hidden="true"></i></div></div>')
     figs = ''
     for i, p in enumerate(photos):
         fr, r = _photo_frame(p)
-        full = wix(p['media'], p['file'], 1600, 1600, 'fit', 85)
+        full = photo_url(p, 1600)
         alt = _photo_alt(p)
         fr = fr.replace('alt=""', f'alt="{e(alt[0])}"' + (f' data-alt-en="{e(alt[1])}"' if alt[1] != alt[0] else ''), 1)
         hid = ' hidden' if i >= per_page else ''
@@ -758,25 +826,37 @@ def gallery_grid(photos=None, per_page=12, years=True, live=False):
             f'<div class="k-gl" data-gallery data-size="{per_page}"{" data-live" if live else ""} data-a>{tg}<div class="k-gl-grid">{figs}</div>{pager}{viewer}</div>')
 
 
-def gallery_photo(i, pos='50% 40%', pos_m=None):
-    """Hero image from data/gallery.json entry i (Wix media, fitted 640/1280 px, never upscaled). pos: the
-    object-position on desktop (the frame is wide), pos_m: at 320 (default: pos)."""
-    p = GALLERY[i]
-    w0, h0 = p['width'], p['height']
+def gallery_photo(i, pos='50% 40%', pos_m=None, crop=None):
+    """Hero image from data/gallery.json: i is a stable key (part of the entry's file, media or src, e.g. 'IMG_0168')
+    or an index (new photos are added at the front, so indexes move). pos: the object-position on desktop (the frame
+    is wide), pos_m: at 320 (default: pos). Wix photos are fitted to 640/1280 px, repository copies use their widths.
+    crop=(x, y, w, h): only that part of a Wix photo, in the original's pixels (Contact: '21.png' is a banner with a
+    transparent strip and baked-in lettering, so the hero takes the opaque rendering, crop=(96, 2, 1295, 524))."""
+    if isinstance(i, str):
+        p = next((g for g in GALLERY if i in (g.get('file', '') + ' ' + g.get('media', '') + ' ' + g.get('src', ''))), None)
+        if p is None:
+            raise KeyError(f'no gallery photo matches {i!r}')
+    else:
+        p = GALLERY[i]
+    w0, h0 = (crop[2], crop[3]) if _crop_ok(p, crop) else (p['width'], p['height'])
     k = min(1, 1280 / max(w0, h0))
     w, h = round(w0 * k), round(h0 * k)
-    src = wix(p['media'], p['file'], 1280, 1280, 'fit', 85)
-    small = wix(p['media'], p['file'], 640, 640, 'fit', 80)
-    return dict(src=src, srcset=f'{small} 640w, {src} 1280w', w=w, h=h, alt=_photo_alt(p), pos=pos, pos_m=pos_m or pos)
+    return dict(src=photo_url(p, min(1280, w0) if crop else 1280, crop=crop), srcset=photo_srcset(p, (640, 1280), crop), w=w, h=h, alt=_photo_alt(p),
+                pos=pos, pos_m=pos_m or pos)
 
 
 # ================================================================== heroes
+# the institution line under every hero: the English line breaks only after 'Yonsei University ·', never before a lone
+# 'Hospital' (measured at 1920, 1440 and 320 before the change)
+INST_LINE = (INST[0], INST[1].replace(' · ', ' · <span class="nw">', 1) + '</span>')
+
+
 def home_hero():
     """The Home hero (C2, tools/kit_assets/hero.*): the reel frame on the white sheet, the knockout title, the record
     (core.OUTCOMES on counter wheels), the lead and the link to the lists. Desktop: the frame's left edge cuts the
     title; 320: the photograph full width on top and its bottom edge crosses the title's first line."""
     h = re.sub(r'^\s*<!--.*?-->\s*', '', rd('hero.html'), count=1, flags=re.S)
-    inst_en = INST[1].replace(' · ', ' · <span class="nw">', 1) + '</span>'
+    inst_en = INST_LINE[1]
     ld = t(core.HOME_LEAD[0], core.HOME_LEAD[1], 'p', 'cx-lead', 'data-a')
     nums = '\n      '.join(
         f'<li data-ai><b><span class="cx-n" data-n="{n}" aria-hidden="true">{n}</span><span class="sr">{n}</span></b>'
@@ -804,7 +884,7 @@ def _em_ko(s):
     return sum(.827 if _HANGUL.match(c) else .284 if c == ' ' else _ADV.get(c.upper(), .5) for c in s) or 1
 
 
-def page_hero(title, alt='', lead='', *, image=None, tone='inst', logo=None, inst=INST, extra='', cls=''):
+def page_hero(title, alt='', lead='', *, image=None, tone='inst', logo=None, inst=INST_LINE, extra='', cls=''):
     """The inner-page hero: a frame on the white sheet from the 34% axis to the right margin, opened from an ink cut
     line (drawn, held for a beat, split). The title stands at the frame's left edge and the frame's bottom edge crosses
     its first line: over a photograph (image) the part inside the frame is paper white (a knockout), over a lab tint
@@ -812,7 +892,8 @@ def page_hero(title, alt='', lead='', *, image=None, tone='inst', logo=None, ins
     title: (ko, en) or a Latin string (a lab name). alt, lead: (ko, en) or html. image: gallery_photo(i) or a dict
     (src, w, h, alt=(ko, en), pos, pos_m, srcset). tone: TONES key of the frame (and the knockout) when there is no
     image. logo: dict(src, w, h) or (src, w, h): the lab's logo inside the tint frame instead of a visible title (the
-    h1 stays as screen-reader text). inst: the small line under the frame (default the hospital and university).
+    h1 stays as screen-reader text). inst: the small line under the frame (default INST_LINE: the hospital and
+    university, the English line kept whole after 'Yonsei University ·').
     extra: html under the lead (buttons, jump_nav(), record())."""
     if isinstance(title, tuple):
         ko_t, en_t = title
@@ -832,7 +913,12 @@ def page_hero(title, alt='', lead='', *, image=None, tone='inst', logo=None, ins
         media = f'<div class="k-hpar"><div class="k-hmed">{im}</div></div><div class="k-hsh" aria-hidden="true"></div>'
     elif logo:
         lg = img(logo['src'], '', logo['w'], logo['h'], 'k-hlogo', lazy=False, attrs='decoding="async"')
-        media = f'<div class="k-hlg">{lg}</div>'
+        # k-flat: alpha cubed, so the faint shadow baked into a transparent PNG (HeAD Lab's, alpha < .3: < 3%) fades out
+        # while strokes keep their weight even at 320 on a 1x screen (a hard threshold ate the logo's small line there);
+        # a logo on a white ground (Audiso's JPEG, no alpha) is multiplied and unchanged
+        media = (f'<div class="k-hlg">{lg}</div><svg class="k-flat" aria-hidden="true" focusable="false"><filter id="k-flat" '
+                 f'color-interpolation-filters="sRGB"><feComponentTransfer><feFuncA type="gamma" amplitude="1" exponent="3" offset="0"/>'
+                 f'</feComponentTransfer></filter></svg>')
     else:
         media = ''
     sr = ' sr' if logo else ''
@@ -878,7 +964,8 @@ def lab_page(key, *, tagline, intro, mission, subjects, manager, alt=None, logo=
     body += sec(('연구실 소개', 'About the lab'), prose([intro]), 'about', tone=key)
     if dc:
         body += sec(('데이터센터', 'Data center'), dc, 'data-center', tone=key)
-    body += sec(('미션 · 비전', 'Mission &amp; Vision'), ruled([(h, t(ko, en, 'p')) for h, ko, en in mission], len(mission)), 'mission', tone=key)
+    # two columns at most: a third item (HeAD Lab's core values) takes the row under them
+    body += sec(('미션 · 비전', 'Mission &amp; Vision'), ruled([(h, t(ko, en, 'p')) for h, ko, en in mission], min(len(mission), 2)), 'mission', tone=key)
     body += sec(('연구 주제', 'Research subjects'), ruled([((a, b) if a != b else a, t(c, d, 'p')) for a, b, c, d in subjects], 2), 'subjects', tone=key)
     body += sec(('조직', 'Organization'), org_chart(current=key), 'organization', tone=key)
     people = (director(short_en=False, quote=False)
@@ -932,6 +1019,9 @@ def page(title, body, tone='inst', comment='', full_ko=None):
         css += rd('hero.css')
         js = hero_js.replace('/*@REEL@*/null', json.dumps(reel, separators=(',', ':'))) + '\n' + js
     full = ('data-live' in body) if full_ko is None else full_ko
+    if PREVIEW:   # site-preview/ sits beside site/: repository photos (data paths 'media/...', relative to site/) live in ../site/media/
+        body = re.sub(r'((?:src|href|poster)=")media/', r'\1../site/media/', body)
+        body = re.sub(r'srcset="[^"]*"', lambda m: re.sub(r'(^srcset="|,\s*)media/', r'\1../site/media/', m.group(0)), body)
     note = '이 페이지는 tools/pages/<이름>.py 와 tools/kit.py 로 만듭니다: python3 tools/build.py' + (' · ' + comment if comment else '')
     return core.page_shell(f'{title} · RIHE', body, css=css, js=js, fonts=fonts_for(body, full), vendor=('gsap', 'split', 'ease'),
                            prefix='', robots=core.ROBOTS, lang_toggle=PREVIEW, comment=note)
@@ -940,6 +1030,8 @@ def page(title, body, tone='inst', comment='', full_ko=None):
 # ================================================================== CSS
 CSS = r"""
 /* ================================================================ tokens (DESIGN.md) ================================
+   Reading sizes are C2's scale: 11 · 12 · 13.5 · 15 · 16.5 · 18 px (Korean reading text sits .5 px above its English
+   twin at one step: 16.5 / 16, 15.5 / 15, 15 / 14.5). Display sizes are clamps of their own. Weights 400 · 500 · 640 · 860.
    One white sheet: the Wix header, ground and footer are #ffffff, so is every part of the page. Contrast on white:
    ink 19.3, ink-2 8.7, ink-3 5.7, umber 5.9 (the only text accent), amber 2.1 (never text: the selection only).
    Lab tones: --t-* pastel tints for surfaces, --d-* deep tones for text and lines (AA on white and on the tint). */
@@ -980,8 +1072,13 @@ main { display: block; padding-bottom: clamp(88px, 8.4vw, 140px); }
    The left column ends one gutter before the axis (the Home frame's left edge, 34% of the width); the body column
    starts on it. 320: one column. */
 .k-in { position: relative; max-width: 1640px; margin: 0 auto; padding: 0 var(--m); display: grid;
-  grid-template-columns: var(--c1) minmax(0, 1fr); column-gap: var(--gut); align-items: start; }
+  grid-template-columns: var(--c1) minmax(0, 1fr); column-gap: var(--gut); align-items: start; align-content: start; }
+/* align-content: the language lock's spare height (the shorter language) goes under the section, never into the gap
+   between its cut line and its heading */
 .k-sec { position: relative; padding-top: var(--sp); }
+/* in-page jumps (RIHE.jump: scrollIntoView, which honours scroll-margin across the cross-origin iframe) stop a little
+   below the top; at 320 below Wix mobile's sticky 140 px header */
+section[id] { scroll-margin-top: 24px; }
 /* the cut line: a 1 px ink rule across the grid that opens every section (drawn in by the script) */
 .k-ln { grid-column: 1 / -1; position: relative; display: block; height: 1px; background: var(--ink); transform-origin: 0 50%;
   margin-bottom: clamp(18px, 1.8vw, 28px); }
@@ -1018,14 +1115,16 @@ main { display: block; padding-bottom: clamp(88px, 8.4vw, 140px); }
 /* ================================================================ text ================================================ */
 .k-prose p { max-width: 36em; font-size: 16.5px; line-height: 1.85; color: var(--ink); text-wrap: pretty; }
 .k-prose p[lang="en"] { font-size: 16px; line-height: 1.66; max-width: 38em; }
-.k-prose p + p { margin-top: 1em; }
+/* t(ko, en, 'p') writes KO then EN for each paragraph: space only between paragraphs of one language (a plain p + p
+   would also push the first EN paragraph down behind its hidden KO twin) */
+.k-prose p[data-l="ko"] ~ p[data-l="ko"], .k-prose p[data-l="en"] ~ p[data-l="en"], .k-prose p:not([data-l]) + p:not([data-l]) { margin-top: 1em; }
 .k-bul { display: grid; gap: 8px; margin-top: 20px; }
 .k-bul li { position: relative; padding-left: 24px; font-size: 15px; line-height: 1.7; color: var(--ink-2); }
 .k-bul[lang="en"] li { line-height: 1.6; }
 .k-bul li::before { content: ""; position: absolute; left: 0; top: .8em; width: 12px; height: 2px; background: var(--td, var(--umber)); }
 .k-kv { display: grid; grid-template-columns: minmax(88px, 9em) minmax(0, 1fr); column-gap: 24px; }
-.k-kv dt, .k-kv dd { padding: 16px 0 17px; border-top: 1px solid var(--ink-r); }
-.k-kv dt { font-size: 12.5px; line-height: 1.75; letter-spacing: .02em; color: var(--ink-3); padding-top: 19px; }
+.k-kv dt, .k-kv dd { padding: 16px 0; border-top: 1px solid var(--ink-r); }
+.k-kv dt { font-size: 12px; line-height: 1.75; letter-spacing: .02em; color: var(--ink-3); padding-top: 19px; }
 .k-kv dd { font-size: 16.5px; line-height: 1.7; color: var(--ink); }
 .k-kv dd [lang="en"] { line-height: 1.6; }
 .k-kv dd .k-d, .k-kv dd p.k-d { margin-top: 4px; font-size: 13.5px; color: var(--ink-2); }
@@ -1037,6 +1136,7 @@ main { display: block; padding-bottom: clamp(88px, 8.4vw, 140px); }
 .k-mt { padding-bottom: 4px; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .35s var(--out); }
 .k-ar { width: 20px; height: 10px; flex: none; fill: none; stroke: var(--umber); stroke-width: 1.5; transition: transform .35s var(--out); }
 .k-ar--x { width: 12px; height: 12px; }
+.k-ar--m { width: 20px; height: 14px; stroke-linejoin: round; }
 .k-more:hover .k-ar, .k-btn:hover .k-ar { transform: translateX(5px); }
 .k-more:hover .k-ar--x, .k-btn:hover .k-ar--x { transform: translate(3px, -3px); }
 .k-more:hover .k-mt { background-size: 100% 2px; }
@@ -1049,15 +1149,20 @@ main { display: block; padding-bottom: clamp(88px, 8.4vw, 140px); }
 .k-btn:active { transform: scale(.97); }
 .k-mail { font-family: var(--lat); font-size: 15px; color: var(--ink); text-decoration: none; background: linear-gradient(var(--umber), var(--umber)) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; }
 .k-mail:hover { background-size: 100% 2px; }
+/* the target is taller than the line (24 px; 44 px at 320) without moving the text or its underline */
+.k-mail { position: relative; }
+.k-mail::after { content: ""; position: absolute; left: -2px; right: -2px; top: -4px; bottom: -4px; }
 .k-mk { display: inline-block; flex: none; width: 8px; height: 8px; background: var(--td); }
 
 /* ================================================================ ruled columns, figures ============================ */
 .k-cols { display: grid; grid-template-columns: repeat(var(--c, 2), minmax(0, 1fr)); gap: clamp(40px, 3.6vw, 56px) clamp(24px, 2.4vw, 40px); }
 .k-c1 { --c: 1; } .k-c3 { --c: 3; } .k-c4 { --c: 4; }
+/* an odd last item of a two-column text grid takes the whole row (never an empty half) */
+.k-c2:not(.k-figs) > .k-col:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .k-col { min-width: 0; }
 .k-rule { display: block; height: 1px; background: var(--ink-r2); transform-origin: 0 50%; }
 .k-h3 { margin-top: 18px; font: 400 clamp(21px, 1.7vw, 26px)/1.25 var(--dsp); letter-spacing: -.008em; color: var(--ink); }
-.k-h3 > [lang="en"], .k-h3[lang="en"] { font-family: var(--lat); font-stretch: 62%; font-weight: 820; font-size: 1.1em; line-height: 1.12; letter-spacing: -.002em; }
+.k-h3 > [lang="en"], .k-h3[lang="en"] { font-family: var(--lat); font-stretch: 62%; font-weight: 860; font-size: 1.1em; line-height: 1.12; letter-spacing: -.002em; }
 .k-d { margin-top: 10px; max-width: 32em; font-size: 15px; line-height: 1.75; color: var(--ink-2); }
 .k-d [lang="en"], .k-d[lang="en"] { line-height: 1.62; }
 .k-figs .k-fg { margin-top: 20px; }
@@ -1086,10 +1191,11 @@ a.k-plate:hover::after { box-shadow: inset 0 0 0 1px var(--ink); }
 .k-dg { display: inline-block; vertical-align: top; height: 1em; overflow: hidden; }
 .k-strip { display: block; }
 .k-strip > span { display: block; height: 1em; }
-.k-rec-l { display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.4; color: var(--ink-3); }
+.k-rec-l { display: block; margin-top: 8px; font-size: 12px; line-height: 1.4; color: var(--ink-3); }
 .k-rec-l [lang="en"] { font-size: 12px; font-stretch: 90%; }
-.k-rec a .k-rec-l > span { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .35s var(--out); }
-.k-rec a:hover .k-rec-l > span { background-size: 100% 1px; color: var(--ink); }
+/* a figure that jumps to its list says so at rest: a hairline under its label, ink and 2 px on hover */
+.k-rec a .k-rec-l > span { padding-bottom: 2px; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .35s var(--out), color .2s ease; }
+.k-rec a:hover .k-rec-l > span { background-size: 100% 2px; color: var(--ink); }
 
 /* ================================================================ labs, contact rows ================================= */
 .k-labs { border-bottom: 1px solid var(--ink-r2); }
@@ -1102,15 +1208,16 @@ a.k-plate:hover::after { box-shadow: inset 0 0 0 1px var(--ink); }
 .k-lab > a:hover::before, .k-lab > a:focus-visible::before, .k-lab.is-cur > a::before { opacity: 1; }
 .k-lab-n { display: block; font-family: var(--lat); font-stretch: 62%; font-weight: 860; font-size: clamp(28px, 2.3vw, 38px); line-height: 1.04; letter-spacing: -.004em; color: var(--ink); }
 .k-lab-t { display: block; margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--ink-3); }
-.k-lab-d { display: block; font-size: 16px; line-height: 1.7; color: var(--ink); }
+.k-lab-d { display: block; font-size: 16.5px; line-height: 1.7; color: var(--ink); }
 .k-lab-d [lang="en"] { line-height: 1.58; }
 .k-lab-go { justify-self: end; padding-top: 10px; }
 .k-lab > a:hover .k-ar { transform: translateX(5px); }
+.k-lab > a:hover .k-ar--m { transform: translateY(-2px); }
 .k-faces { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 14px; }
 .k-faces img, .k-fi { width: 32px; height: 32px; object-fit: cover; object-position: 50% 22%; filter: grayscale(1) contrast(1.04); background: var(--tint); transition: filter .5s var(--out); }
-.k-fi { display: grid; place-items: center; font: 500 13px/1 var(--ko); color: var(--td, var(--umber)); background: var(--paper); box-shadow: inset 0 0 0 1px var(--ink-r); filter: none; }   /* reading face: the display face makes a small 이 read as OI */
+.k-fi { display: grid; place-items: center; font: 500 13.5px/1 var(--ko); color: var(--td, var(--umber)); background: var(--paper); box-shadow: inset 0 0 0 1px var(--ink-r); filter: none; }   /* reading face: the display face makes a small 이 read as OI */
 .k-fi [lang="en"] { font-family: var(--lat); font-weight: 640; }
-.k-fx { margin-left: 6px; font: 640 13px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); }
+.k-fx { margin-left: 6px; font: 640 13.5px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); }
 .k-lab > a:hover .k-faces img { filter: grayscale(0) saturate(.9); }
 .k-ct-who { display: flex; align-items: center; gap: 14px; }
 .k-ct-who img { width: 40px; height: 40px; flex: none; object-fit: cover; object-position: 50% 20%; filter: grayscale(1) contrast(1.04); background: var(--tint); }
@@ -1153,8 +1260,8 @@ a.k-org-x:hover { background: var(--tt); }
 .k-org-l b { font-family: var(--lat); font-stretch: 62%; font-weight: 860; font-size: clamp(19px, 1.6vw, 24px); line-height: 1.08; white-space: nowrap; color: var(--ink); }
 .k-org-it.is-cur .k-org-l b { color: var(--td); }
 a.k-org-x:hover .k-ar { transform: translateX(4px); }
-.k-org-tm { display: block; margin-top: 6px; font-size: 13px; line-height: 1.5; color: var(--ink-3); }
-.k-org-here { display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.5; font-weight: 500; color: var(--td); }
+.k-org-tm { display: block; margin-top: 6px; font-size: 13.5px; line-height: 1.5; color: var(--ink-3); }
+.k-org-here { display: block; margin-top: 8px; font-size: 12px; line-height: 1.5; font-weight: 500; color: var(--td); }
 
 /* ================================================================ people ================================================ */
 .k-ppl { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: clamp(12px, 1.2vw, 20px); row-gap: 32px; align-content: start; }
@@ -1165,10 +1272,10 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-mem:hover .k-im { filter: saturate(1) contrast(1); transform: scale(1.035); }
 .k-ini { position: absolute; inset: 0; display: grid; place-items: center; font: 400 clamp(36px, 3.4vw, 56px)/1 var(--dsp); color: var(--td, var(--umber)); background: var(--tt, var(--tint)); }
 .k-ini [lang="en"] { font-family: var(--lat); font-stretch: 62%; font-weight: 860; }
-.k-mt { margin-top: 12px; }
+.k-mi { margin-top: 12px; }
 .k-nm { font-size: 16.5px; line-height: 1.35; font-weight: 500; color: var(--ink); }
 .k-nm [lang="en"] { font-weight: 640; letter-spacing: -.006em; }
-.k-role { margin-top: 4px; font-size: 12.5px; line-height: 1.46; color: var(--ink-2); }
+.k-role { margin-top: 4px; font-size: 12px; line-height: 1.46; color: var(--ink-2); }
 .k-ppl--l .k-nm { font-size: 18px; }
 .k-ppl--l .k-role { font-size: 13.5px; }
 .k-ppl--s .k-nm { font-size: 15px; }
@@ -1177,10 +1284,11 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-team .k-note { margin-top: 10px; }
 /* jump links */
 .k-jump ul { display: flex; flex-wrap: wrap; gap: 0 28px; }
-.k-jump a { display: inline-flex; align-items: center; gap: 10px; padding: 10px 0; color: var(--ink); text-decoration: none; font-size: 15px; line-height: 1.3; font-weight: 500; }
+.k-jump a { display: inline-flex; align-items: baseline; gap: 10px; padding: 10px 0; color: var(--ink); text-decoration: none; font-size: 15px; line-height: 1.3; font-weight: 500; }
+.k-jump .k-mk { align-self: center; }
 .k-jn-l { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; padding-bottom: 3px; transition: background-size .35s var(--out); }
 .k-jump a:hover .k-jn-l { background-size: 100% 1px; }
-.k-jn-c { align-self: flex-start; font: 640 11px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.k-jn-c { margin-left: -5px; font: 640 13.5px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); font-variant-numeric: tabular-nums; }   /* on the label's baseline, after a thin gap: a count, not a footnote */
 /* person feature */
 .k-ft { display: grid; grid-template-columns: clamp(156px, 15vw, 232px) minmax(0, 1fr); grid-template-areas: "pic who" "pic cv"; grid-template-rows: auto 1fr;
   column-gap: clamp(24px, 2.6vw, 44px); align-items: start; }
@@ -1190,10 +1298,10 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-ft-pic .k-ph { aspect-ratio: 4 / 5; }
 .k-ft-pic .k-im { object-position: 42% 28%; }
 .k-ft-q { grid-area: q; margin-bottom: 28px; max-width: 34em; }
-.k-ft-q p { font-size: clamp(16.5px, 1.3vw, 19px); line-height: 1.86; color: var(--ink); text-wrap: pretty; }
+.k-ft-q p { font-size: clamp(16.5px, 1.3vw, 18px); line-height: 1.86; color: var(--ink); text-wrap: pretty; }
 .k-ft-q p[lang="en"] { line-height: 1.66; }
 .k-ft-who { grid-area: who; }
-.k-ft-nm { font-size: 20px; line-height: 1.35; font-weight: 500; color: var(--ink); }
+.k-ft-nm { font-size: 18px; line-height: 1.35; font-weight: 500; color: var(--ink); }
 .k-ft-nm [lang="en"] { font-weight: 640; }
 .k-ft-rl { margin-left: 12px; font-size: 13.5px; font-weight: 400; color: var(--ink-3); }
 .k-ft-cv { grid-area: cv; }
@@ -1213,18 +1321,18 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-bx { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 32px; align-items: center; }
 .k-bx-m img { width: 100%; height: auto; mix-blend-mode: multiply; }
 .k-bx-b h3, .k-box h3 { font: 400 clamp(19px, 1.5vw, 22px)/1.3 var(--dsp); }
-.k-bx-b h3 [lang="en"], .k-box h3[lang="en"] { font-family: var(--lat); font-stretch: 62%; font-weight: 820; font-size: 1.1em; }
-.k-bx-b p, .k-box p { margin-top: 8px; font-size: 14.5px; line-height: 1.7; color: var(--ink-2); }
+.k-bx-b h3 [lang="en"], .k-box h3[lang="en"] { font-family: var(--lat); font-stretch: 62%; font-weight: 860; font-size: 1.1em; }
+.k-bx-b p, .k-box p { margin-top: 8px; font-size: 15px; line-height: 1.7; color: var(--ink-2); }
 .k-sb > * + .k-box, .k-sb > * + .k-dcb { margin-top: clamp(32px, 3vw, 44px); }
 .k-logos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink-r); }
 .k-logos li { display: grid; place-items: center; height: 112px; padding: 18px 22px; border-bottom: 1px solid var(--ink-r); }
-.k-logos img { max-height: 60px; width: auto; object-fit: contain; }
+.k-logos li > img { max-height: 60px; width: auto; object-fit: contain; }   /* a cropped logo (.k-lg) sizes its own img */
 .k-lg { position: relative; display: block; overflow: hidden; width: calc(var(--lw) * 1px); max-width: 100%; }
 .k-lg img { position: absolute; max-width: none; max-height: none; }
 .k-map { position: relative; aspect-ratio: 2 / 1; background: var(--tint); }
 .k-map::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px var(--ink-r); pointer-events: none; }
 .k-map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: saturate(.5) contrast(.97); }
-.k-map-ph { position: absolute; inset: 0; display: grid; place-items: center; font: 500 13px/1 var(--lat); letter-spacing: .04em; color: var(--ink-3); }
+.k-map-ph { position: absolute; inset: 0; display: grid; place-items: center; font: 500 13.5px/1 var(--lat); letter-spacing: .04em; color: var(--ink-3); }
 .k-sb > * + .k-map { margin-top: clamp(32px, 3vw, 44px); }
 .k-map-l { margin-top: 12px; }
 
@@ -1239,6 +1347,7 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
   font: 500 15px/1.3 var(--ko); color: var(--ink-3); text-align: left; white-space: nowrap; transition: color .2s ease; }
 .k-fb button [lang="en"] { font-family: var(--lat); font-weight: 500; }
 .k-num { font-family: var(--lat); font-stretch: 62%; font-weight: 640; font-size: 18px; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; }
+.k-le { display: inline-block; width: .5em; height: .68em; margin-right: .14em; vertical-align: -.01em; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: square; }
 .k-fb button:hover, .k-fb button[aria-pressed="true"] { color: var(--ink); }
 .k-fb:not(.has-ind) button[aria-pressed="true"] .k-bl { box-shadow: 0 2px 0 var(--umber); }
 .k-ind { position: absolute; left: 0; top: 0; width: 0; height: 2px; background: var(--umber); pointer-events: none; }
@@ -1249,6 +1358,7 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-tally [data-n] { display: inline-block; }
 .k-cn { font: 640 18px/1 var(--lat); font-stretch: 62%; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; color: var(--ink); }
 .k-reel { display: flex; align-items: flex-end; gap: 1px; height: 30px; }
+.k-reel, .k-reel-y { max-width: calc(var(--n, 999) * 7px - 1px); }
 .k-reel i { flex: 1 1 0; min-width: 0; height: 100%; background: var(--ink); opacity: .13; transform-origin: 50% 100%; transform: scaleY(.42); }
 .k-reel i.on { opacity: .6; transform: none; }
 .k-reel i.cur { opacity: 1; background: var(--umber); }
@@ -1258,10 +1368,13 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-top { position: absolute; left: 0; top: -150px; width: 1px; height: 1px; pointer-events: none; }
 .k-list { border-top: 1px solid var(--ink-r); }
 .k-row { display: grid; grid-template-columns: 58px minmax(0, 1fr) 128px; grid-template-areas: "yr tx tm"; align-items: baseline; column-gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--ink-r); }
+.k-row--nm { grid-template-columns: 58px minmax(0, 1fr); grid-template-areas: "yr tx"; }
 .k-yr { grid-area: yr; font: 640 18px/1.4 var(--lat); font-stretch: 62%; letter-spacing: .01em; font-variant-numeric: tabular-nums lining-nums; color: var(--ink); }
 .k-st { font: 500 13.5px/1.6 var(--ko); letter-spacing: 0; }
 .k-st [lang="en"] { font-family: var(--lat); }
 .k-tx { grid-area: tx; min-width: 0; max-width: 680px; }
+/* no one-word last lines in the reading parts (titles, authors, notes, descriptions, bullets, credentials, captions) */
+.k-ti, .k-au, .k-jn, .k-d, .k-note, .k-lab-d, .k-bul li, .k-ft-cv li, .k-pt, .k-cp, .k-role, .k-halt, .k-pq-by, .k-ct-p { text-wrap: pretty; }
 .k-ti { font-size: 16.5px; line-height: 1.46; font-weight: 500; color: var(--ink); overflow-wrap: anywhere; }
 .k-ti[lang="en"] { letter-spacing: -.004em; }
 .k-au { margin-top: 6px; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); overflow-wrap: anywhere; }
@@ -1301,7 +1414,7 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-play:focus-visible { outline: 2px solid var(--ink); outline-offset: 0; box-shadow: 0 0 0 4px var(--paper); }
 .k-now { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; margin-top: 16px; }
 .k-now-t { font-size: 16.5px; line-height: 1.4; font-weight: 500; }
-.k-now-m, .k-pm { font: 640 14px/1.3 var(--lat); font-stretch: 62%; letter-spacing: .02em; font-variant-numeric: tabular-nums; color: var(--ink-3); flex: none; }
+.k-now-m, .k-pm { font: 640 13.5px/1.3 var(--lat); font-stretch: 62%; letter-spacing: .02em; font-variant-numeric: tabular-nums; color: var(--ink-3); flex: none; }
 .k-plist { margin-top: clamp(24px, 2.4vw, 32px); border-top: 1px solid var(--ink-r); }
 .k-plist li { border-bottom: 1px solid var(--ink-r); }
 .k-plist button { position: relative; display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; align-items: center; width: 100%; padding: 14px 0 14px 14px;
@@ -1309,9 +1422,9 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-plist button::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 2px; background: var(--umber); transform: scaleY(0); transition: transform .4s var(--out); }
 .k-plist button[aria-current="true"]::before { transform: none; }
 .k-plist img { width: 96px; aspect-ratio: 16 / 9; object-fit: cover; background: var(--tint); filter: saturate(.86) contrast(.97); }
-.k-pt { display: block; font-size: 14.5px; line-height: 1.45; font-weight: 500; color: var(--ink-2); transition: color .2s ease; }
+.k-pt { display: block; font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--ink-2); transition: color .2s ease; }
 .k-plist button[aria-current="true"] .k-pt, .k-plist button:hover .k-pt { color: var(--ink); }
-.k-pm { display: block; margin-top: 4px; font-size: 13px; }
+.k-pm { display: block; margin-top: 4px; font-size: 13.5px; }
 .k-vstack .k-plist { margin-top: 24px; }
 
 /* ================================================================ gallery ================================================ */
@@ -1324,7 +1437,7 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-gt > a:hover .k-im { filter: saturate(1) contrast(1); transform: scale(1.02); }
 .k-gt figcaption, .k-gl-it figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 10px; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
 .k-gt > a:hover .k-cp { color: var(--ink); }
-.k-cy { flex: none; font: 640 14px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.k-cy { flex: none; font: 640 13.5px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .k-gl { position: relative; }
 .k-gl-f { margin-bottom: 28px; }
 .k-gl-f[hidden] { display: none; }
@@ -1345,11 +1458,11 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-gl-vimg { position: relative; min-height: 0; }
 .k-gl-vimg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .k-gl-vbar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
-.k-gl-vcap { flex: 1 1 16em; font-size: 14.5px; line-height: 1.5; color: var(--ink); }
+.k-gl-vcap { flex: 1 1 16em; font-size: 15px; line-height: 1.5; color: var(--ink); }
 .k-gl-vcap .k-cy { margin-left: 12px; }
 .k-gl-vn { font: 640 15px/1 var(--lat); font-stretch: 62%; letter-spacing: .02em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .k-gl-vbar button { height: 44px; min-width: 44px; padding: 0 14px; display: inline-grid; place-items: center; border: 1px solid var(--ink-r2); border-radius: 0; background: none; cursor: pointer;
-  color: var(--ink); font-size: 14px; font-weight: 500; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+  color: var(--ink); font-size: 15px; font-weight: 500; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
 .k-gl-vbar button:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 
 /* ================================================================ the inner-page hero ====================================
@@ -1381,7 +1494,8 @@ html[data-lang="en"] .k-hero { --em: var(--em-en); --k: .41; }
   background: linear-gradient(0deg, rgba(15, 14, 12, .52) 0%, rgba(15, 14, 12, .48) calc(var(--k) * 100% / (var(--k) + .5)), rgba(15, 14, 12, .16) 76%, rgba(15, 14, 12, 0) 100%);
   -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--hs) * .7), transparent 100%); mask-image: linear-gradient(90deg, #000 calc(100% - var(--hs) * .7), transparent 100%); pointer-events: none; }
 .k-hlg { position: absolute; inset: 0; display: flex; align-items: center; padding: 0 clamp(28px, 4vw, 64px); }
-.k-hlogo { height: clamp(64px, 30%, 112px); width: auto; max-width: 70%; object-fit: contain; mix-blend-mode: multiply; }
+.k-hlogo { height: clamp(72px, 40%, 120px); width: auto; max-width: 70%; object-fit: contain; mix-blend-mode: multiply; filter: url(#k-flat); }   /* 40% of the frame: the field reads as the logo's, not as an empty frame */
+.k-flat { position: absolute; width: 0; height: 0; overflow: hidden; }
 .k-hk, .k-hw { margin: 0; font-weight: 400; width: var(--fw); max-width: var(--fw); }
 .k-hin { row-gap: 0; }
 .k-hk { position: relative; z-index: 1; grid-column: 2; grid-row: 1; margin-top: calc(var(--hs) * var(--k) * -1); color: var(--ink); }
@@ -1394,10 +1508,10 @@ html[data-lang="en"] .k-hero { --em: var(--em-en); --k: .41; }
 .k-ht:lang(en) { font-family: var(--lat); font-stretch: 62%; font-weight: 860; line-height: .86; letter-spacing: -.004em; text-transform: uppercase; margin-left: -.03em; }
 .k-hinst { grid-column: 1; grid-row: 2; margin-top: 22px; font-size: 13.5px; line-height: 1.45; font-weight: 500; color: var(--ink-2); max-width: 22em; }
 .k-hlow { grid-column: 2; grid-row: 2; margin-top: 20px; min-width: 0; }
-.k-halt { font-size: clamp(17px, 1.35vw, 20px); line-height: 1.5; font-weight: 500; color: var(--ink); }
+.k-halt { font-size: clamp(16.5px, 1.3vw, 18px); line-height: 1.5; font-weight: 500; color: var(--ink); }
 .k-halt [lang="en"], .k-halt[lang="en"] { font-weight: 500; }
 .k-hlead { margin-top: 12px; }
-.k-hlead p { max-width: 35em; font-size: clamp(15.5px, 1.2vw, 17px); line-height: 1.75; color: var(--ink-2); text-wrap: pretty; }
+.k-hlead p { max-width: 35em; font-size: clamp(15px, 1.15vw, 16.5px); line-height: 1.75; color: var(--ink-2); text-wrap: pretty; }
 .k-hlead p[lang="en"] { line-height: 1.6; }
 .k-hx { margin-top: clamp(24px, 2.4vw, 32px); }
 .k-hx .k-rec { margin-top: 4px; }
@@ -1416,8 +1530,15 @@ html.js:not(.rm) .k-hf[data-a]:not(.on) { opacity: 1; clip-path: inset(50% 0 50%
 html.rm *, html.rm *::before, html.rm *::after { transition: none !important; animation: none !important; }
 
 /* ================================================================ desktop widths between (Wix shows 980+ and 320) ====== */
+@media (max-width: 1099px) {
+  /* 980 is the whole desktop view when the Wix element stays 980 wide: three or four columns there are 187 px, 13-14
+     Korean characters a line, so they become two */
+  .k-c3, .k-c4 { --c: 2; }
+  .k-c3:not(.k-figs) > .k-col:last-child:nth-child(odd), .k-c4:not(.k-figs) > .k-col:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
 @media (max-width: 1199px) {
   .k-row { grid-template-columns: 52px minmax(0, 1fr) 112px; column-gap: 20px; }
+  .k-row--nm { grid-template-columns: 52px minmax(0, 1fr); }
   .k-ppl--m .k-nm, .k-ppl--s .k-nm { font-size: 15px; }
 }
 @media (max-width: 899px) {
@@ -1430,6 +1551,7 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
 /* ================================================================ 320 (Wix mobile): one column, the same parts ========= */
 @media (max-width: 760px) {
   body { font-size: 15.5px; }
+  section[id] { scroll-margin-top: 152px; }
   .k-in { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
   .k-in > * { grid-column: 1 !important; }
   .k-sh { margin-bottom: 20px; }
@@ -1452,11 +1574,11 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
   .k-kv dt:last-of-type { border-bottom: 0; }
   .k-cols, .k-c3, .k-c4 { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .k-m2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 12px; }
-  .k-m2 .k-h3 { font-size: 16px; margin-top: 12px; }
-  .k-m2 .k-d { font-size: 13px; line-height: 1.6; }
+  .k-m2 .k-h3 { font-size: 16.5px; margin-top: 12px; }
+  .k-m2 .k-d { font-size: 13.5px; line-height: 1.6; }
   .k-m2 .k-figs .k-fg, .k-m2.k-figs .k-fg { margin-top: 12px; }
   .k-h3 { font-size: 21px; margin-top: 14px; }
-  .k-d { font-size: 14.5px; }
+  .k-d { font-size: 15px; }
   .k-rec { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 8px; padding-top: 10px; }
   .k-rec-n { font-size: 26px; }
   .k-rec-l { margin-top: 4px; font-size: 11px; line-height: 1.3; }
@@ -1486,32 +1608,34 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
   .k-org-x { padding: 12px 14px 14px; }
   .k-org-l b { font-size: 21px; }
   .k-ppl, .k-ppl--m { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 8px; row-gap: 24px; }
-  .k-ppl--m .k-mt { margin-top: 8px; }
-  .k-ppl--m .k-nm { font-size: 14.5px; }
-  .k-ppl--m .k-role { font-size: 11.5px; line-height: 1.4; }
+  .k-ppl--m .k-mi { margin-top: 8px; }
+  .k-ppl--m .k-nm { font-size: 15px; }
+  .k-ppl--m .k-role { font-size: 12px; line-height: 1.4; }
   .k-ppl--l, .k-ppl--s { grid-template-columns: minmax(0, 1fr); row-gap: 16px; }
   .k-ppl--l .k-mem, .k-ppl--s .k-mem { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 16px; align-items: end; }
   .k-ppl--s .k-mem { grid-template-columns: 64px minmax(0, 1fr); align-items: center; }
-  .k-ppl--l .k-mt, .k-ppl--s .k-mt { margin: 0 0 2px; }
+  .k-ppl--l .k-mi, .k-ppl--s .k-mi { margin: 0 0 2px; }
   .k-ppl--s .k-ini { font-size: 24px; }
   .k-jump ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
-  .k-jump a { font-size: 14px; padding: 9px 0; }
+  .k-jump a { font-size: 13.5px; padding: 10px 0; }
   .k-ft, .k-ft.has-q { grid-template-columns: 112px minmax(0, 1fr); grid-template-areas: "pic who" "cv cv"; grid-template-rows: auto; column-gap: 16px; align-items: end; }
   .k-ft.has-q { grid-template-areas: "pic who" "q q" "cv cv"; }
   .k-ft-q { margin: 24px 0 0; }
-  .k-ft-q p { font-size: 16px; line-height: 1.85; }
+  .k-ft-q p { font-size: 16.5px; line-height: 1.85; }
   .k-ft-nm { font-size: 18px; }
   .k-ft-rl { display: block; margin: 4px 0 0; }
   .k-ft-cv { margin-top: 18px; }
-  .k-ft-cv ul { margin-top: 0; font-size: 13px; }
-  .k-pq blockquote p { font-size: 17.5px; line-height: 1.8; }
-  .k-bx { grid-template-columns: 72px minmax(0, 1fr); gap: 18px; align-items: start; }
+  .k-ft-cv ul { margin-top: 0; font-size: 13.5px; }
+  .k-pq blockquote p { font-size: 18px; line-height: 1.8; }
+  .k-bx { grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; }   /* the media above the text, which keeps the full width */
+  .k-bx-m { width: 72px; }
   .k-box { padding: 20px 18px; }
   .k-logos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .k-logos li { height: 84px; padding: 14px; }
-  .k-logos img { max-height: 46px; }
+  .k-logos li > img { max-height: 46px; }
   .k-lg { width: calc(var(--lw) * .74px); }
   .k-map { aspect-ratio: 4 / 3; }
+  .k-mail::after { top: -13px; bottom: -13px; }
   .k-ctl { margin-top: 16px; margin-bottom: 24px; }
   .k-fb { column-gap: 16px; }
   .k-f--team .k-fb, .k-f--status .k-fb, .k-f--country .k-fb { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
@@ -1521,6 +1645,7 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
   .k-tally { margin: 24px 0 8px; }
   .k-reel { height: 24px; }
   .k-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "yr tm" "tx tx"; row-gap: 4px; padding: 16px 0; }
+  .k-row--nm { grid-template-columns: minmax(0, 1fr); grid-template-areas: "yr" "tx"; }
   .k-yr { font-size: 15px; }
   .k-ti { font-size: 15px; line-height: 1.48; }
   .k-au, .k-jn { font-size: 12px; }
@@ -1530,20 +1655,19 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
   .k-vl { order: 3; }
   .k-play { width: 52px; height: 52px; margin: -26px 0 0 -26px; }
   .k-play svg { width: 18px; height: 18px; }
-  .k-now { flex-direction: column; gap: 2px; margin-top: 12px; }
-  .k-now-t { font-size: 15.5px; }
+  .k-now { display: none; }   /* the playlist follows the player at 320: its first row would repeat this line (the umber bar marks the current video) */
   .k-plist { margin-top: 16px; }
   .k-gteaser { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 10px; }
   .k-gt-row { display: contents; }
   .k-gt { --r: 4 / 3; }
   .k-gt-row:first-child .k-gt:first-child { grid-column: 1 / -1; --r: 3 / 2; }
-  .k-gt figcaption, .k-gl-it figcaption { display: block; font-size: 12.5px; margin-top: 7px; }
+  .k-gt figcaption, .k-gl-it figcaption { display: block; font-size: 12px; margin-top: 8px; }
   .k-cy { display: block; margin-top: 3px; font-size: 12px; }
   .k-gl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 10px; }
   .k-gl-grid::after { display: none; }
   .k-gl-it { --r: 4 / 3; }
   .k-gl-open { aspect-ratio: 4 / 3; }
-  .k-gl-f .k-fb { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .k-gl-f .k-fb { display: flex; flex-wrap: wrap; column-gap: 14px; }   /* as many years as fit in a row (the live list sets the count) */
   /* hero: the frame spans the width; the title starts at the margin */
   .k-hero { --ft: 16px; --fh: 196px; --fl: 0px; --fr: 0px; --fw: calc(100vw - 2 * var(--m)); --hmax: 54px; --hl: var(--m); }
   html[data-lang="en"] .k-hero { --hmax: 46px; }
@@ -1578,6 +1702,15 @@ KIT_JS = r"""
   function la(s) { return /[가-힣]/.test(String(s || '')) ? ' lang="ko"' : ' lang="en"'; }
   function t2(p) { return '<span data-l="ko">' + p[0] + '</span><span data-l="en" lang="en">' + p[1] + '</span>'; }
   function run(name, fn) { try { fn(); } catch (err) { if (window.console) console.error('kit ' + name, err); R.showAll(); } }
+  // lay the page out in language l for a synchronous measurement, never painted. data-lang and lang change together, so
+  // text without a lang of its own (KO spans) is shaped and given fallback faces as on that language's page.
+  function asLang(l, fn) {
+    var cl = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko', ll = root.lang;
+    if (l === cl) return fn();
+    root.setAttribute('data-lang', l); root.lang = l;
+    try { return fn(); } finally { root.setAttribute('data-lang', cl); root.lang = ll; }
+  }
+  function otherLang() { return root.getAttribute('data-lang') === 'en' ? 'ko' : 'en'; }
   if (g) {
     var pl = [ST, CE].filter(Boolean);
     if (pl.length) g.registerPlugin.apply(g, pl);
@@ -1620,11 +1753,11 @@ KIT_JS = r"""
       function row(d) {
         if (kind === 'patent') return '<li class="k-row k-row--pt" data-i="' + d.i + '"><span class="k-yr k-st">' + lab(J.status, d.status) + '</span><div class="k-tx">' +
           '<p class="k-ti" lang="ko">' + esc(d.title) + '</p></div><span class="k-tm">' + (d.country ? lab(J.country, d.country) : '') + '</span></li>';
-        var s = kind === 'report' ? d.event : d.journal, tm = '';
-        if (kind === 'pub' && J.team && J.teams[d.team]) tm = '<i class="k-mk" style="--tt:var(--t-' + J.tones[d.team] + ');--td:var(--d-' + J.tones[d.team] + ')" aria-hidden="true"></i>' + t2(J.teams[d.team]);
-        return '<li class="k-row" data-i="' + d.i + '"><span class="k-yr">' + d.year + '</span><div class="k-tx">' +
+        var s = kind === 'report' ? d.event : d.journal, tm = '', nm = !(kind === 'pub' && J.team);   // nm: no team column (tools/kit.py _list_row)
+        if (!nm && J.teams[d.team]) tm = '<i class="k-mk" style="--tt:var(--t-' + J.tones[d.team] + ');--td:var(--d-' + J.tones[d.team] + ')" aria-hidden="true"></i>' + t2(J.teams[d.team]);
+        return '<li class="k-row' + (nm ? ' k-row--nm' : '') + '" data-i="' + d.i + '"><span class="k-yr">' + d.year + '</span><div class="k-tx">' +
           '<p class="k-ti"' + la(d.title) + '>' + esc(d.title) + '</p><p class="k-au"' + la(d.authors) + '>' + esc(d.authors) + '</p>' +
-          '<p class="k-jn"' + la(s) + '>' + esc(s) + '</p></div><span class="k-tm">' + tm + '</span></li>';
+          '<p class="k-jn"' + la(s) + '>' + esc(s) + '</p></div>' + (nm ? '' : '<span class="k-tm">' + tm + '</span>') + '</li>';
       }
       var ticks = box.querySelector('[data-ticks]'), pi = box.querySelector('[data-pi]'), tally = box.querySelector('[data-n]');
       var lwrap = box.querySelector('.k-lw'), pgr = box.querySelector('.k-pg'), anchor = box.querySelector('.k-top');
@@ -1638,10 +1771,8 @@ KIT_JS = r"""
         ul.style.minHeight = '';
         var foot = box.querySelector('.k-ls-foot'), fh = 0;
         if (foot) {   // the link under the pager, in the taller of its two languages
-          var cl = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko', f1 = foot.getBoundingClientRect().height;
-          root.setAttribute('data-lang', cl === 'en' ? 'ko' : 'en');
-          fh = Math.max(f1, foot.getBoundingClientRect().height) + (parseFloat(getComputedStyle(foot).marginTop) || 0);
-          root.setAttribute('data-lang', cl);
+          var f1 = foot.getBoundingClientRect().height, f2 = asLang(otherLang(), function () { return foot.getBoundingClientRect().height; });
+          fh = Math.max(f1, f2) + (parseFloat(getComputedStyle(foot).marginTop) || 0);
         }
         lwrap.style.minHeight = Math.ceil(mh + pgr.offsetHeight + (parseFloat(getComputedStyle(pgr).marginTop) || 0) + fh) + 'px';
       }
@@ -1690,9 +1821,9 @@ KIT_JS = r"""
       var api = null, other = false;
       function both(ul) {
         if (!api) return;
-        var mine = parseFloat(ul.style.minHeight) || 0, cur = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko';
-        other = true; root.setAttribute('data-lang', cur === 'en' ? 'ko' : 'en');
-        try { api.measure(); } finally { root.setAttribute('data-lang', cur); other = false; }
+        var mine = parseFloat(ul.style.minHeight) || 0;
+        other = true;
+        try { asLang(otherLang(), api.measure); } finally { other = false; }
         ul.style.minHeight = Math.max(mine, parseFloat(ul.style.minHeight) || 0) + 'px';
       }
       function after(ul, reason) {
@@ -1776,17 +1907,15 @@ KIT_JS = r"""
       function reserve() {
         grid.style.minHeight = ''; keepPager = false;
         var max = 0, ys = $$('button[data-k="year"]', gl).map(function (b) { return b.getAttribute('data-v'); });
-        var cl = root.getAttribute('data-lang') === 'en' ? 'en' : 'ko';
         if (!ys.length) ys = ['all'];
-        [cl, cl === 'en' ? 'ko' : 'en'].forEach(function (l) {
-          root.setAttribute('data-lang', l);
+        function every() {
           ys.forEach(function (y) {
             var li = pick(y), n = Math.ceil(li.length / size);
             if (n > 1) keepPager = true;
             for (var p = 0; p < n; p++) { show(li, p); justify(); max = Math.max(max, Math.ceil(grid.getBoundingClientRect().height)); }
           });
-        });
-        root.setAttribute('data-lang', cl);
+        }
+        every(); asLang(otherLang(), every);
         if (max) grid.style.minHeight = max + 'px';
         counts(); apply(false);
       }
@@ -1812,7 +1941,13 @@ KIT_JS = r"""
         if (b) h = Math.min(h, Math.max(320, b.bottom - b.top - 24));
         var c = b ? (b.top + b.bottom) / 2 : from ? (from.getBoundingClientRect().top + from.getBoundingClientRect().bottom) / 2 - gr.top : lastC;
         lastC = c;
-        var top = Math.max(0, Math.min(H - h, c - h / 2));
+        var top = c - h / 2;
+        if (b) {   // inside the visible band (12 px clear); it may leave the gallery box, z-index 6 covers what is under it
+          var lo = b.top + 12, hi = b.bottom - h - 12;
+          top = hi >= lo ? Math.max(lo, Math.min(hi, top)) : (b.top + b.bottom - h) / 2;
+          var dt = -R.rect(gl).top, dh = (R.band && R.band.docH) || root.scrollHeight;   // never past the document's ends
+          top = Math.max(dt, Math.min(dt + dh - h, top));
+        } else top = Math.max(0, Math.min(H - h, top));
         view.style.top = Math.round(top) + 'px'; view.style.height = Math.round(h) + 'px';
       }
       function open(i, from) {
@@ -1850,13 +1985,14 @@ KIT_JS = r"""
         }
       });
       apply(false); reserve();
+      gl._reserve = reserve;
       var lastW = gl.offsetWidth, rt = 0;
       window.addEventListener('resize', function () { if (gl.offsetWidth === lastW) return; lastW = gl.offsetWidth; clearTimeout(rt); rt = setTimeout(reserve, 150); });
       if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(reserve);
       R.onLang(reserve);
 
       if (!gl.hasAttribute('data-live')) return;
-      /* ---------- live list: {type:'gallery', items:[...]} replaces the baked photos (tools/pages_v2/gallery.md) ---------- */
+      /* ---------- live list: {type:'gallery', items:[...]} replaces the baked photos (tools/pages/gallery.md) ---------- */
       var got = '';
       function urls(it) {
         var s = String(it.src || it.media || '').trim(), id = '', name = String(it.file || ''), w = +it.width || 0, h = +it.height || 0, m;
@@ -1991,24 +2127,40 @@ KIT_JS = r"""
       var lv = els.map(function (el) { var n = 0, x = el.parentElement; while (x) { if (x.hasAttribute('data-lk')) n++; x = x.parentElement; } top = Math.max(top, n); return n; });
       for (var L = top; L >= 0; L--) {
         var set = els.filter(function (el, i) { return lv[i] === L; });
-        var a = set.map(function (el) { return el.getBoundingClientRect().height; });
-        root.setAttribute('data-lang', cur === 'en' ? 'ko' : 'en');
-        var b = set.map(function (el) { return el.getBoundingClientRect().height; });
-        root.setAttribute('data-lang', cur);
+        var hs = function () { return set.map(function (el) { return el.getBoundingClientRect().height; }); };
+        var a = hs(), b = asLang(cur === 'en' ? 'ko' : 'en', hs);
         set.forEach(function (el, i) { el.style.minHeight = Math.ceil(Math.max(a[i], b[i])) + 'px'; });
       }
     }
-    R.lock = lock;
+    // every reserve again, innermost first: lists and galleries, then the language locks
+    function remeasure() {
+      $$('[data-list]').forEach(function (b) { if (b._api) b._api.measure(); });
+      $$('[data-gallery]').forEach(function (gl) { if (gl._reserve) gl._reserve(); });
+      lock();
+    }
+    // a face used only by the hidden language never loads by itself (the live gallery's unicode-range Noto Sans KR
+    // slices on the English page; Black Han Sans when no Korean heading is shown), so the lock would measure that text in
+    // a fallback face and reserve too little. Load the hidden language's glyphs, then measure again.
+    function loadOther() {
+      if (!doc.fonts || !doc.fonts.load) return;
+      var o = otherLang(), seen = {}, txt = '';
+      $$('[data-l="' + o + '"]').forEach(function (el) {
+        var s = el.textContent;
+        for (var i = 0; i < s.length; i++) { var c = s.charAt(i); if (c > ' ' && !seen[c]) { seen[c] = 1; txt += c; } }
+      });
+      if (!txt) return;
+      var faces = o === 'ko' ? ['400 16px "Noto Sans KR"', '500 16px "Noto Sans KR"', '400 16px "Black Han Sans"'] : ['400 16px Archivo', '860 16px Archivo'];
+      Promise.all(faces.map(function (f) { try { return doc.fonts.load(f, txt).catch(function () {}); } catch (e) { return null; } }))
+        .then(function () { setTimeout(remeasure, 60); });
+    }
+    R.lock = lock; R.remeasure = remeasure;
     lock();
-    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(lock);
-    R.onLang(lock);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { lock(); loadOther(); });
+    R.onLang(function () { lock(); loadOther(); });
     // a face first needed by the other language (measured above while hidden) loads only now: measure again once it is in
     if (doc.fonts && doc.fonts.addEventListener) {
       var fl = 0;
-      doc.fonts.addEventListener('loadingdone', function () {
-        clearTimeout(fl);
-        fl = setTimeout(function () { $$('[data-list]').forEach(function (b) { if (b._api) b._api.measure(); }); lock(); }, 120);
-      });
+      doc.fonts.addEventListener('loadingdone', function () { clearTimeout(fl); fl = setTimeout(remeasure, 120); });
     }
     var lw = root.clientWidth, lz = 0;
     window.addEventListener('resize', function () { clearTimeout(lz); lz = setTimeout(function () { if (root.clientWidth !== lw) { lw = root.clientWidth; lock(); } }, 260); });
@@ -2020,6 +2172,29 @@ KIT_JS = r"""
     if (reduce) return;
     function safe(fn) { return function (el) { try { fn(el); } catch (err) { if (window.console) console.error(err); R.showAll(); } }; }
     var FILTER = 'saturate(0.86) contrast(0.97) brightness(1.02)';
+    // Order on load. (1) On an inner page nothing under the hero is revealed before the hero opens: the reveals that come
+    // due earlier wait for its frame to split (+.15 s), at most 1.4 s from now, so the next section's cut line is drawn
+    // as the frame opens. (2) A section's body follows its heading by .25 s (at most .9 s of waiting when the heading is
+    // off screen). Both only delay a reveal; the safety nets (1.5 s IO, 3 s motionReady, any error shows everything)
+    // are unchanged.
+    var heroWait = [], heroLeft = !!doc.querySelector('.k-hero');
+    function heroDone() { if (!heroLeft) return; heroLeft = false; var q = heroWait; heroWait = []; q.forEach(function (f) { f(); }); }
+    if (heroLeft) setTimeout(heroDone, 1400);
+    function afterHero(fn) { if (heroLeft) heroWait.push(fn); else fn(); }
+    var now = function () { return window.performance && performance.now ? performance.now() : Date.now(); };
+    function headStarts(h) {
+      h._t0 = now();
+      var q = h._wait || []; h._wait = null;
+      q.forEach(function (f) { setTimeout(f, 250); });
+    }
+    function afterHead(el, fn) {
+      var sc = el.closest('.k-sec'), h = sc && sc.querySelector('[data-m="head"], [data-m="chap"]');
+      if (!h || h === el || h.contains(el)) return fn();
+      if (h._t0 != null) { var d = 250 - (now() - h._t0); return d > 0 ? setTimeout(fn, d) : fn(); }
+      var once = function () { if (once.done) return; once.done = 1; fn(); };
+      (h._wait = h._wait || []).push(once);
+      setTimeout(once, 900);
+    }
     function decoded(ims, cap) {
       return Promise.race([Promise.all(ims.map(function (im) {
         if (!im || !im.decode) return null;
@@ -2062,11 +2237,12 @@ KIT_JS = r"""
       if (whole) tl.to(el, { autoAlpha: 1, y: 0, duration: .9 }, 0);
       if (ru.length) tl.to(ru, { scaleX: 1, duration: .8, stagger: .08, ease: EDRAW }, 0);
       if (early.length) tl.to(early, { autoAlpha: 1, y: 0, duration: .8, stagger: Math.min(.06, .5 / early.length) }, ru.length ? .12 : 0);
-      if (late.length) tl.to(late, { autoAlpha: 1, y: 0, duration: .6, stagger: Math.min(.08, .6 / late.length) }, .95);
+      if (late.length) tl.to(late, { autoAlpha: 1, y: 0, duration: .55, stagger: Math.min(.06, .5 / late.length) }, .75);   // names as the portraits open
       if (ph.length) cutOpen(el, ph, ru.length ? .1 : 0);
     }
     // a section head: the cut line across the grid is drawn, the heading rises through its mask, the note follows
     function head(el) {
+      headStarts(el);
       var inn = el.parentNode, ln = inn ? inn.querySelector(':scope > .k-ln') : null;
       var hl = el.querySelector('.k-hl'), rest = $$(':scope > :not(.k-h):not([data-a])', el);
       if (ln) { g.set(ln, { scaleX: 0 }); ln.classList.add('on'); }
@@ -2080,6 +2256,7 @@ KIT_JS = r"""
     }
     // chapter heading: the authored lines rise through their masks
     function chap(h) {
+      headStarts(h);
       var ls = $$('[data-l="' + R.lang + '"] .l', h);
       g.set(ls, { yPercent: 108 });
       h.classList.add('on');
@@ -2126,6 +2303,7 @@ KIT_JS = r"""
     }
     // the list: the controls settle, the reel runs through its frames, the first page comes up
     function listIn(lw) {
+      if (lw._in) return; lw._in = 1;
       var box = lw.closest('[data-list]'), ctl = box.querySelector('.k-ctl'), rows = $$('.k-row', lw), tk = $$('.k-reel i', box), pg = lw.querySelector('.k-pg'), ft = lw.querySelector('.k-ls-foot');
       var parts = [ctl, pg, ft].filter(Boolean);
       g.set(parts, { autoAlpha: 0, y: 10 }); g.set(rows, { autoAlpha: 0, y: 12 }); g.set(tk, { scaleY: 0 });
@@ -2193,7 +2371,7 @@ KIT_JS = r"""
       var tl = keep(g.timeline({ defaults: { ease: 'expo.out' }, onComplete: done }));
       tl.to(et, { scaleX: 1, duration: draw, ease: EDRAW }, 0);
       if (ma.length) tl.to(ma, { yPercent: 0, duration: .92, stagger: latin ? .07 : .05 }, .04).to(mb, { yPercent: 0, duration: .92, stagger: latin ? .07 : .05 }, .04);
-      tl.call(function () { Promise.race([pic, wait(1000)]).then(function () { if (!gtl.progress()) gtl.play(); }); }, null, open);
+      tl.call(function () { Promise.race([pic, wait(1000)]).then(function () { if (!gtl.progress()) gtl.play(); setTimeout(heroDone, 150); }); }, null, open);
       if (inst) tl.to(inst, { autoAlpha: 1, y: 0, duration: .8 }, open + .4);
       if (kids.length) tl.to(kids, { autoAlpha: 1, y: 0, duration: .9, stagger: .08 }, open + .46);
     }
@@ -2203,8 +2381,14 @@ KIT_JS = r"""
     $$('[data-a]').forEach(function (el) {
       if (el.closest('.cx')) return;                                           // the Home hero has its own script
       var m = el.getAttribute('data-m') || 'rise';
-      if (m === 'ln' || m === 'ctl' || m === 'hp') return;                     // drawn by their head, their list, their hero
-      R.inview(el, safe(MOT[m] || rise), OPT[m] || OPT.rise);
+      if (m === 'ctl') {   // the controls start their list's reveal too (at 320 they stand above the list, on screen first)
+        var lw = el.closest('[data-list]') && el.closest('[data-list]').querySelector('.k-lw');
+        if (lw) R.inview(el, function () { afterHero(function () { afterHead(lw, function () { safe(listIn)(lw); }); }); }, OPT.list);
+        return;
+      }
+      if (m === 'ln' || m === 'hp') return;                                    // drawn by their head, their hero
+      var fn = safe(MOT[m] || rise), head1 = m === 'head' || m === 'chap';
+      R.inview(el, function (x) { afterHero(function () { if (head1) fn(x); else afterHead(x, function () { fn(x); }); }); }, OPT[m] || OPT.rise);
     });
     var hero = doc.querySelector('.k-hero');
     if (hero) {

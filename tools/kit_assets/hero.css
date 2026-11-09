@@ -192,6 +192,9 @@ html.all .cx-edge, html.rm .cx-edge, .cx-done .cx-edge-t { display: none; }
   word-break: keep-all;
 }
 .cx-nums li > span[lang="en"] { font-size: 11px; font-stretch: 90%; letter-spacing: .005em; }
+/* 980 (the Wix desktop element) to 1080: a record column is 59-64 px and "presentations" is 61.8 px at 90%, so it broke
+   as "presentation / s". At 80% it is 56.3 px: every word stays whole (stage-2 review, measured 2026-11-09). */
+@media (min-width: 761px) and (max-width: 1080px) { .cx-nums li > span[lang="en"] { font-stretch: 80%; } }
 .cx .nw { white-space: nowrap; }
 .cx-more {
   grid-area: more; justify-self: start;
@@ -243,7 +246,7 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
   .cx-lead[lang="en"] { font-size: 13.5px; line-height: 1.48; max-width: none; }
   .cx-nums { order: 3; margin-top: 16px; padding-top: 8px; column-gap: 8px; }
   .cx-nums b { font-size: 25px; }
-  .cx-nums li > span { margin-top: 4px; font-size: 11px; line-height: 1.27; }
+  .cx-nums li > span { margin-top: 4px; font-size: 12px; line-height: 1.27; }   /* KO on the 12 px meta step (EN stays 11 px, below) */
   .cx-nums li > span[lang="en"] { font-size: 11px; letter-spacing: 0; }
   .cx-more { order: 4; margin-top: 4px; padding: 8px 0; font-size: 13.5px; }
 }

@@ -17,6 +17,10 @@ that are already on Wix or Imgur keep their URLs.
         falls back to the photo's EXIF date.
     python3 tools/media.py template <out.xlsx>
         the caption sheet to fill in.
+    python3 tools/media.py figure  <image> --slug <name> [--crop x,y,w,h]
+        a diagram or figure, never cropped unless --crop -> site/media/figures/<slug>-<w>.jpg in widths 800 / 1600
+        (never upscaled; the source width is used when it is smaller), quality 88 so lettering stays clean.
+        Prints the {src, widths, width, height} to put in the page.
 
 Paths in data are relative to site/ (the pages live there). Pages one level deeper resolve them through the
 page shell's prefix.
@@ -159,6 +163,27 @@ def gallery(args):
     shutil.rmtree(work, ignore_errors=True)
 
 
+FIGURE_WIDTHS = (800, 1600)
+
+
+def figure(args):
+    im, _ = load_image(args.image)
+    if args.crop:
+        x, y, w, h = (int(v) for v in args.crop.split(','))
+        im = im.crop((x, y, x + w, y + h))
+    stem = f'media/figures/{args.slug}'
+    widths = []
+    for w in FIGURE_WIDTHS:
+        tw = min(w, im.size[0])
+        if tw in widths:
+            break
+        size = save_jpeg(im.resize((tw, round(im.size[1] * tw / im.size[0])), Image.LANCZOS) if tw != im.size[0] else im,
+                         os.path.join(SITE, f'{stem}-{tw}.jpg'), q=88)
+        widths.append(tw)
+        print(f'site/{stem}-{tw}.jpg {size // 1024} KB')
+    print(json.dumps(dict(src=stem, widths=widths, width=im.size[0], height=im.size[1])))
+
+
 def template(args):
     import openpyxl
     from openpyxl.styles import Font
@@ -179,8 +204,9 @@ def main():
     p = sub.add_parser('people'); p.add_argument('image'); p.add_argument('--name', required=True); p.add_argument('--slug', required=True); p.add_argument('--crop')
     g = sub.add_parser('gallery'); g.add_argument('source'); g.add_argument('--sheet')
     t = sub.add_parser('template'); t.add_argument('out')
+    f = sub.add_parser('figure'); f.add_argument('image'); f.add_argument('--slug', required=True); f.add_argument('--crop')
     a = ap.parse_args()
-    {'people': people, 'gallery': gallery, 'template': template}[a.cmd](a)
+    {'people': people, 'gallery': gallery, 'template': template, 'figure': figure}[a.cmd](a)
 
 
 if __name__ == '__main__':

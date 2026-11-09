@@ -21,8 +21,20 @@ DC_TEXT = ('산업계와 연구자에게 청각 분야의 빅데이터를 전문
            'response records, we aim to provide comprehensive hearing big data linked with lifelog, reference-standard and health big data.')
 
 
+# the center's structure, cut from its overview graphic (the client sent it 2026-11-09):
+# python3 tools/media.py figure <file> --slug head-bigdata-center --crop 56,1306,1044,596
+DC_FIG = dict(src='media/figures/head-bigdata-center', widths=[800, 1044], width=1044, height=596)
+DC_FIG_ALT = ('청각 빅데이터센터 사업 구조도: 참여병원의 순음청력검사·청성뇌간반응검사 데이터가 병원내 DB 서버와 데이터 검증 위원회를 거쳐 '
+              '청각 빅데이터 DB 서버(300만 건)에 모이고, 산업체와 연구자에게 데이터 서비스로 제공됩니다. 라이프로그 빅데이터 플랫폼·청각 참조표준센터와 '
+              '연동하고, 건강보험공단 건강검진 청력데이터와의 연동을 추진합니다.',
+              'Structure of the Korea Hearing Big-data Center: pure-tone audiometry and ABR data from participating hospitals pass through '
+              'in-hospital DB servers and a data validation committee into the hearing big-data DB server (3 million records), which serves '
+              'industry and researchers. It is linked with a lifelog big-data platform and the hearing reference standard center; a link to '
+              'the NHIS health-screening hearing data is planned.')
+
+
 def render():
-    dc = kit.dc_box('head', kit.prose([DC_TEXT]) + kit.bullets(DC_KO, DC_EN))
+    dc = kit.dc_box('head', kit.prose([DC_TEXT]) + '<div class="k-dcb-fig">' + kit.figure_plate(DC_FIG, DC_FIG_ALT, sizes='(max-width: 760px) 100vw, 640px') + '</div>' + kit.bullets(DC_KO, DC_EN))
     return _lab.render_lab(
         'head',
         logo=('https://i.imgur.com/QV0SgF2.png', 981, 230),

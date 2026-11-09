@@ -30,6 +30,7 @@ embeds/                      1차(현재 게시된) Wix 코드 사본. fetch_liv
    - 주소 방식으로 바뀐 뒤에는 **main = 실제 사이트**다. 확정 전 작업은 브랜치에서만, 승인받은 것만 main에 머지한다. 머지 후 반영까지 최대 10분(Pages 배포 + max-age=600).
 2. 영상은 저장소에 넣지 않고 Wix 미디어(video.wixstatic.com) 주소를 참조한다. 이미 Wix·Imgur에 있는 사진도 그 주소를 그대로 쓴다.
    - **2026-11-09 바뀜(의뢰인: "관리가 쉬운 쪽으로"): 새 구성원 사진과 새 갤러리 사진은 저장소 `site/media/` 에 웹용 사본만 둔다.** 원본은 넣지 않는다. `python3 tools/media.py` 로만 넣는다(EXIF 회전 반영, 위치정보 등 메타데이터 제거, 크기 제한, 진행형 JPEG). Pages 한도(1GB, 월 100GB)를 생각해 사진 한 장은 수백 KB 안으로 둔다.
+   - 같은 날: Research 연구 분야 그림 네 장(1차의 imgur 그림)과 HeAD Lab 청각 빅데이터센터 구조도도 저장소 사본(`site/media/figures/`, `python3 tools/media.py figure`)이다. 의뢰인이 연구 페이지 그림이 안 보인다고 해서 imgur에 기대지 않게 옮겼다. imgur 원본 주소는 그대로 남아 있다.
 3. 디자인 판단은 사용자가 한다. 방향 시안을 보여 주고 고르게 한다.
 4. **스킬 규칙보다 이 프로젝트의 지시가 우선이다.** 부딪히면 지시를 따르고, 건너뛴 규칙을 보고에 적는다.
    - design-taste-frontend 의 업종별 셰이더·루프 영상·장면 효과 금지 규칙은 적용하지 않는다. 첫 화면은 "모션 목표"대로 만든다.
@@ -83,6 +84,7 @@ Wix HTML 요소는 내용 높이만큼 큰 iframe이고, 스크롤은 바깥 Wix
 python3 tools/media.py people  <사진> --name 김강현 --slug kim-ganghyun [--crop x,y,w,h]   # 4:5, 최대 640x800 -> site/media/people/<slug>.jpg, data/people.json photo 갱신
 python3 tools/media.py gallery <zip 또는 폴더> [--sheet 설명.xlsx]                          # 480/1024/1600 폭 -> site/media/gallery/<연도>/, data/gallery.json 맨 앞에 추가
 python3 tools/media.py template <설명.xlsx>                                                # 갤러리 설명 시트 양식(파일명, 연도, 설명 한국어, 설명 영어)
+python3 tools/media.py figure  <그림> --slug <이름> [--crop x,y,w,h]                          # 도표·그림(자르지 않음), 800/1600 폭 -> site/media/figures/<이름>-<폭>.jpg, 페이지는 kit.figure_plate()
 ```
 
 - data의 경로는 `site/` 기준 상대 경로(`media/people/x.jpg`)다. `site/` 보다 깊은 페이지(`site/_directions/`)는 `core.page_shell(prefix=...)` 가 자동으로 고친다.

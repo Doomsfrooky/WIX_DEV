@@ -218,6 +218,15 @@ def plate(src, alt=('', ''), w=1600, h=1000, href='', srcset='', sizes='(max-wid
     return f'<span class="k-plate k-ph"{pa}>{inner}</span>'
 
 
+def figure_plate(f, alt, sizes='(max-width: 760px) 100vw, 50vw', **kw):
+    """plate() for a repository figure made by `python3 tools/media.py figure`: f = {src, widths, width, height}
+    (what the command prints). The smallest copy is the src, all copies are the srcset, the largest opens full size."""
+    ws = f['widths']
+    srcset = ', '.join(f"{f['src']}-{w}.jpg {w}w" for w in ws)
+    return plate(f"{f['src']}-{ws[0]}.jpg", alt, f['width'], f['height'], href=f"{f['src']}-{ws[-1]}.jpg",
+                 srcset=srcset, sizes=sizes, **kw)
+
+
 def fig_cols(items, cols=2, m2=False):
     """ruled() with a figure: hairline, plate, h3, text. items: [(plate html, h3 html or (ko, en), body html), ...]."""
     out = f'<div class="k-cols k-figs k-c{cols}{" k-m2" if m2 else ""}" data-a>'
@@ -1241,6 +1250,7 @@ a.k-plate:hover::after { box-shadow: inset 0 0 0 1px var(--ink); }
 .k-dcb-b { margin-top: 20px; }
 .k-dcb .k-prose p { font-size: 15.5px; line-height: 1.8; }
 .k-dcb .k-prose p[lang="en"] { font-size: 15px; line-height: 1.62; }
+.k-dcb-fig { max-width: 640px; margin: clamp(20px, 2vw, 28px) 0 clamp(20px, 2vw, 28px); }
 
 /* ================================================================ organisation chart ===================================== */
 .k-org-nm { font: 400 clamp(22px, 1.8vw, 28px)/1.2 var(--dsp); letter-spacing: -.008em; }

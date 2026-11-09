@@ -8,17 +8,23 @@ come from kit.AREAS (awaiting the client's confirmation, DESIGN.md 12.8). Lists:
 data/reports.json, data/patents.json; new entries appear after `python3 tools/build.py`, with no edit here.
 """
 import kit
-from kit import t, sec
+from kit import t
 
-# project figures (round-1 research page), keyed by kit.AREAS key: (imgur id, width, height, alt ko, alt en)
-IMGS = {
-    'basic': ('JbUTgTe', 1389, 879, '산화철 나노입자를 줄기세포에 내재화해 호밍 효과를 높이는 연구 개요도',
+# project figures of the round-1 research page (imgur JbUTgTe, EgbUUiR, xqYPd2L, jNAHuk5), kept since 2026-11-09 as
+# repository copies (python3 tools/media.py figure <file> --slug research-<key>) so they no longer depend on imgur;
+# keyed by kit.AREAS key: (figure, alt ko, alt en)
+def _fig(key, w, h, full):
+    return dict(src=f'media/figures/research-{key}', widths=[800, full], width=w, height=h)
+
+
+FIGS = {
+    'basic': (_fig('basic', 1389, 879, 1389), '산화철 나노입자를 줄기세포에 내재화해 호밍 효과를 높이는 연구 개요도',
               'Diagram: iron oxide nanoparticles internalised in stem cells to improve homing'),
-    'data': ('EgbUUiR', 1320, 754, '청각 데이터 참조표준센터의 데이터 생산·평가·보급 체계도',
+    'data': (_fig('data', 1320, 754, 1320), '청각 데이터 참조표준센터의 데이터 생산·평가·보급 체계도',
              'Diagram: how the hearing reference standard data center produces, evaluates and distributes data'),
-    'device': ('xqYPd2L', 1100, 640, '의료기기 개발 사례: 시술 기구의 3D 모형과 안진검사 고글',
+    'device': (_fig('device', 1100, 640, 1100), '의료기기 개발 사례: 시술 기구의 3D 모형과 안진검사 고글',
                'Device examples: a 3D model of an instrument and nystagmography goggles'),
-    'clinical': ('jNAHuk5', 998, 676, '골전도 보청기(BAHA) 임상시험의 두 시험군 구성',
+    'clinical': (_fig('clinical', 998, 676, 998), '골전도 보청기(BAHA) 임상시험의 두 시험군 구성',
                  'Bone conduction hearing aid (BAHA) trial: the two study groups'),
 }
 
@@ -34,11 +40,8 @@ def record():
 def projects():
     items = []
     for a in kit.AREAS:
-        iid, w, h, ak, ae = IMGS[a['key']]
-        src = f'https://i.imgur.com/{iid}.jpeg'
-        fg = kit.plate(kit.imgur(src, 'l'), (ak, ae), w, h, href=src,
-                       srcset=f'{kit.imgur(src, "l")} 640w, {kit.imgur(src, "h")} 1024w')
-        items.append((fg, (a['ko'], a['en']), t(a['d_ko'], a['d_en'], 'p')))
+        f, ak, ae = FIGS[a['key']]
+        items.append((kit.figure_plate(f, (ak, ae)), (a['ko'], a['en']), t(a['d_ko'], a['d_en'], 'p')))
     return kit.fig_cols(items, 2)
 
 
@@ -47,8 +50,8 @@ def render():
     body = (
         hero
         + '<main>'
-        + sec(('연구 분야', 'Projects'), projects(), 'projects',
-              note=('그림을 누르면 원본 크기로 열립니다.', 'Select a figure to open it full size.'))
+        + kit.sec_wide(('연구 분야', 'Projects'), projects(), 'projects',
+                       note=('그림을 누르면 원본 크기로 열립니다.', 'Select a figure to open it full size.'))
         + '<!-- 논문·학회 발표·특허 목록: data/publications.json, reports.json, patents.json에서 만들어집니다. -->'
         + kit.list_sec(('논문', 'Publication'), 'pub', kit.PUBS, 'publication', note=kit.REEL_NOTE['pub'])
         + kit.list_sec(('학회 발표', 'Report'), 'report', kit.REPORTS, 'report', note=kit.REEL_NOTE['report'])

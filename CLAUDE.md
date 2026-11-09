@@ -28,7 +28,8 @@ embeds/                      1차(현재 게시된) Wix 코드 사본. fetch_liv
 
 1. Wix 요소는 **"웹사이트 주소"** 방식. 각 요소에 `https://doomsfrooky.github.io/WIX_DEV/site/<페이지>.html` 을 넣는다. 그 뒤 수정은 저장소에서만, Wix는 높이를 바꿀 때만 연다.
    - 주소 방식으로 바뀐 뒤에는 **main = 실제 사이트**다. 확정 전 작업은 브랜치에서만, 승인받은 것만 main에 머지한다. 머지 후 반영까지 최대 10분(Pages 배포 + max-age=600).
-2. 사진·영상은 저장소에 넣지 않는다. Wix 미디어(static.wixstatic.com, video.wixstatic.com)와 Imgur 주소를 그대로 참조한다(Pages 1GB, 월 100GB).
+2. 영상은 저장소에 넣지 않고 Wix 미디어(video.wixstatic.com) 주소를 참조한다. 이미 Wix·Imgur에 있는 사진도 그 주소를 그대로 쓴다.
+   - **2026-11-09 바뀜(의뢰인: "관리가 쉬운 쪽으로"): 새 구성원 사진과 새 갤러리 사진은 저장소 `site/media/` 에 웹용 사본만 둔다.** 원본은 넣지 않는다. `python3 tools/media.py` 로만 넣는다(EXIF 회전 반영, 위치정보 등 메타데이터 제거, 크기 제한, 진행형 JPEG). Pages 한도(1GB, 월 100GB)를 생각해 사진 한 장은 수백 KB 안으로 둔다.
 3. 디자인 판단은 사용자가 한다. 방향 시안을 보여 주고 고르게 한다.
 4. **스킬 규칙보다 이 프로젝트의 지시가 우선이다.** 부딪히면 지시를 따르고, 건너뛴 규칙을 보고에 적는다.
    - design-taste-frontend 의 업종별 셰이더·루프 영상·장면 효과 금지 규칙은 적용하지 않는다. 첫 화면은 "모션 목표"대로 만든다.
@@ -75,6 +76,18 @@ Wix HTML 요소는 내용 높이만큼 큰 iframe이고, 스크롤은 바깥 Wix
 - 성능·접근성: 화면 밖 애니메이션은 멈춘다. WebGL은 모바일에서 단순화하거나 정지 이미지로. 60fps, 첫 화면 2.5초 안. `prefers-reduced-motion` 이면 처음부터 정지 상태.
 - 영상 데이터: 청각빅데이터센터 홍보영상(`b8629b_b4d81b25...`, 480p만 있음)은 파일이 **21.2MB** 다. `preload="metadata"` 로 두고 쓰는 구간만 range 요청으로 받는다(`preload="auto"` 금지, 플레이어는 되도록 하나). 첫 화면 영상 전송량은 처음 10초에 3MB 이하를 목표로 하고, Save-Data·2g·3g는 정지 이미지로 대신한다. 이 영상에는 쓸 만한 Wix 자동 포스터가 없다(f000~f003이 모두 그래픽).
 - 콘텐츠가 숨은 채로 남으면 안 된다: 숨김 상태는 `html.js` 아래에서만, IO 콜백이 1.5초 안에 없으면 전부 표시, 스크립트 실패 시 CSS 타이머로 표시(2차 kit의 안전장치를 이어받는다).
+
+## 사진 (`site/media/`, `tools/media.py`)
+
+```
+python3 tools/media.py people  <사진> --name 김강현 --slug kim-ganghyun [--crop x,y,w,h]   # 4:5, 최대 640x800 -> site/media/people/<slug>.jpg, data/people.json photo 갱신
+python3 tools/media.py gallery <zip 또는 폴더> [--sheet 설명.xlsx]                          # 480/1024/1600 폭 -> site/media/gallery/<연도>/, data/gallery.json 맨 앞에 추가
+python3 tools/media.py template <설명.xlsx>                                                # 갤러리 설명 시트 양식(파일명, 연도, 설명 한국어, 설명 영어)
+```
+
+- data의 경로는 `site/` 기준 상대 경로(`media/people/x.jpg`)다. `site/` 보다 깊은 페이지(`site/_directions/`)는 `core.page_shell(prefix=...)` 가 자동으로 고친다.
+- `data/people.json` 의 `photo` 는 Imgur 주소이거나 `media/people/...` 다. `core.imgur(src, size)` 는 Imgur 주소에만 크기 접미사를 붙인다.
+- `data/gallery.json` 은 두 종류가 섞인다. Wix 사진: `{media, file, width, height, year, caption_ko, caption_en}`(크기는 `core.wix()`), 저장소 사진: `{src: "media/gallery/2026/2026-01", widths: [480, 1024, 1600], width, height, year, caption_ko, caption_en}` 이고 실제 파일은 `<src>-<폭>.jpg` 다(srcset을 widths로 만든다). 갤러리·미리보기 부품은 둘 다 그려야 한다.
 
 ## 라이브러리
 

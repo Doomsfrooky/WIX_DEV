@@ -201,8 +201,9 @@ def wix_poster(base, w=1280, h=720):
 
 
 def imgur(src, size=''):
-    """imgur variant: size 'b' = 160 px square crop, 'm' = 320 px, 'l' = 640 px, '' = original."""
-    if not size:
+    """imgur variant: size 'b' = 160 px square crop, 'm' = 320 px, 'l' = 640 px, '' = original.
+    Only i.imgur.com URLs get a size suffix; repository photos (media/...) and other URLs pass through unchanged."""
+    if not size or not str(src).startswith('https://i.imgur.com/'):
         return src
     root_, ext_ = os.path.splitext(src)
     return f'{root_}{size}{ext_}'
@@ -539,6 +540,9 @@ def page_shell(title, body, css='', js='', fonts=(), vendor=(), prefix='', robot
     scripts = ''.join(f'<script src="{prefix}vendor/{VENDOR.get(v, v)}" defer></script>' for v in vendor)
     toggle = ('<div class="rihe-lang" role="group" aria-label="Language"><button type="button" data-set="ko" aria-pressed="true">KO</button>'
               '<button type="button" data-set="en" aria-pressed="false">EN</button></div>') if lang_toggle else ''
+    if prefix:   # repository photos (data paths 'media/...', relative to site/) from pages that live deeper than site/
+        body = re.sub(r'((?:src|href|poster)=")media/', lambda m: m.group(1) + prefix + 'media/', body)
+        body = re.sub(r'srcset="[^"]*"', lambda m: re.sub(r'(^srcset="|,\s*)media/', lambda n: n.group(1) + prefix + 'media/', m.group(0)), body)
     kit_js = (f"document.addEventListener('DOMContentLoaded', function () {{ try {{\n{js}\n}} catch (err) {{ "
               f"if (window.console) console.error(err); window.RIHE && RIHE.showAll(); }} }});") if js else ''
     return f"""<!DOCTYPE html>

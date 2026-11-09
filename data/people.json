@@ -82,7 +82,7 @@
     "name": "이동우",
     "role": "박사과정",
     "dept": "",
-    "photo": ""
+    "photo": "media/people/lee-dongwoo.jpg"
    },
    {
     "name": "전진희",
@@ -181,7 +181,7 @@
     "name": "김철영",
     "role": "CTO",
     "dept": "",
-    "photo": ""
+    "photo": "media/people/kim-cheolyoung.jpg"
    },
    {
     "name": "강철영",
@@ -211,7 +211,7 @@
     "name": "김강현",
     "role": "",
     "dept": "개발",
-    "photo": ""
+    "photo": "media/people/kim-ganghyun.jpg"
    },
    {
     "name": "이상윤",
@@ -235,7 +235,7 @@
     "name": "문진혁",
     "role": "",
     "dept": "QA",
-    "photo": ""
+    "photo": "media/people/moon-jinhyuk.jpg"
    },
    {
     "name": "여인기",
@@ -253,7 +253,7 @@
     "name": "김성훈",
     "role": "",
     "dept": "PL",
-    "photo": ""
+    "photo": "media/people/kim-seonghun.jpg"
    }
   ]
  }

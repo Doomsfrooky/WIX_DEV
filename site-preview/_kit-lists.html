@@ -449,7 +449,7 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-hero {
   --ft: clamp(24px, 2.2vw, 32px); --fh: clamp(240px, 22vw, 340px); --fb: calc(var(--ft) + var(--fh));
   --fl: var(--fx); --fr: calc(var(--ox) + var(--m)); --fw: calc(var(--W) * .66 - var(--m));
-  --hmax: clamp(64px, 7.6vw, 132px); --em: var(--em-ko); --k: .39;
+  --hmax: clamp(64px, 7.6vw, 132px); --em: var(--em-ko); --k: .39; --hl: 0px;   /* --hl: the title's left inside the frame */
   --hs: min(var(--hmax), calc(var(--fw) * .94 / var(--em)));
   position: relative; isolation: isolate; background: var(--paper); padding-top: var(--fb);
 }
@@ -464,16 +464,18 @@ html[data-lang="en"] .k-hero { --em: var(--em-en); --k: .41; }
 .k-hmed { position: absolute; inset: 0; overflow: hidden; filter: saturate(.86) contrast(.97) brightness(1.02); transform-origin: 50% 60%; }
 .k-himg { width: 100%; height: 100%; object-fit: cover; object-position: var(--fp, 50% 40%); }
 /* a local shade under the white part of the title only (bottom-left of the photograph), never a scrim */
-.k-hsh { position: absolute; left: 0; bottom: 0; z-index: 1; width: calc(var(--em) * var(--hs) * 1.08 + 48px); max-width: 100%; height: calc(var(--hs) * (var(--k) + .55));
-  background: linear-gradient(0deg, rgba(15, 14, 12, .4) 0%, rgba(15, 14, 12, .3) 34%, rgba(15, 14, 12, .1) 70%, rgba(15, 14, 12, 0) 100%);
-  -webkit-mask-image: linear-gradient(90deg, #000 72%, transparent 100%); mask-image: linear-gradient(90deg, #000 72%, transparent 100%); pointer-events: none; }
+/* the white part of the title is the frame's lowest --k em: an even shade there (as dark at the letters' tops as at the
+   edge; a photograph's bottom is often white coats or a bright floor), fading out above it and past the title's end */
+.k-hsh { position: absolute; left: 0; bottom: 0; z-index: 1; width: calc(var(--hl, var(--m)) + var(--em) * var(--hs) + var(--hs) * .7); max-width: 100%; height: calc(var(--hs) * (var(--k) + .5));
+  background: linear-gradient(0deg, rgba(15, 14, 12, .52) 0%, rgba(15, 14, 12, .48) calc(var(--k) * 100% / (var(--k) + .5)), rgba(15, 14, 12, .16) 76%, rgba(15, 14, 12, 0) 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--hs) * .7), transparent 100%); mask-image: linear-gradient(90deg, #000 calc(100% - var(--hs) * .7), transparent 100%); pointer-events: none; }
 .k-hlg { position: absolute; inset: 0; display: flex; align-items: center; padding: 0 clamp(28px, 4vw, 64px); }
 .k-hlogo { height: clamp(64px, 30%, 112px); width: auto; max-width: 70%; object-fit: contain; mix-blend-mode: multiply; }
 .k-hk, .k-hw { margin: 0; font-weight: 400; width: var(--fw); max-width: var(--fw); }
 .k-hin { row-gap: 0; }
 .k-hk { position: relative; z-index: 1; grid-column: 2; grid-row: 1; margin-top: calc(var(--hs) * var(--k) * -1); color: var(--ink); }
 .k-hk.sr { position: absolute !important; }
-.k-hw { position: absolute; z-index: 3; left: calc(var(--tx) + var(--c1) + var(--gut) - var(--fl)); top: calc(var(--fh) - var(--hs) * var(--k)); color: var(--paper); pointer-events: none;
+.k-hw { position: absolute; z-index: 3; left: var(--hl); top: calc(var(--fh) - var(--hs) * var(--k)); color: var(--paper); pointer-events: none;
   text-shadow: 0 0 1px rgba(15, 14, 12, .24), 0 1px 10px rgba(15, 14, 12, .3); }
 .k-hf--tone .k-hw { color: var(--td); text-shadow: none; }
 .k-ht { display: block; font-size: var(--hs); }
@@ -632,11 +634,10 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
   .k-gl-open { aspect-ratio: 4 / 3; }
   .k-gl-f .k-fb { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   /* hero: the frame spans the width; the title starts at the margin */
-  .k-hero { --ft: 16px; --fh: 196px; --fl: 0px; --fr: 0px; --fw: calc(100vw - 2 * var(--m)); --hmax: 54px; }
+  .k-hero { --ft: 16px; --fh: 196px; --fl: 0px; --fr: 0px; --fw: calc(100vw - 2 * var(--m)); --hmax: 54px; --hl: var(--m); }
   html[data-lang="en"] .k-hero { --hmax: 46px; }
   .k-hero--tone { --fh: 120px; }
   .k-hero--logo { --fh: 168px; }
-  .k-hw { left: var(--m); }
   .k-himg { object-position: var(--fpm, var(--fp, 50% 40%)); }
   .k-hlg { padding: 0 24px; }
   .k-hlogo { height: 34%; max-width: 76%; }

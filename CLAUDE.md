@@ -19,6 +19,7 @@ site/_probe.html             Wix 주소 방식 실측 페이지
 tools/wix-sim.html           Wix 흉내(헤더 + 고정 높이 교차 출처 iframe)
 tools/verify/                검증 스크립트(아래)
 docs/wix-platform-facts.md   Wix 플랫폼 조사 결과(근거 포함)
+docs/wix-connect.md          Wix 연결 안내(쪽별 요소 ID·주소·높이·설명, 지울 요소, 갤러리 쪽 만들기, 영어판, 저장소 이전)
 embeds/                      1차(현재 게시된) Wix 코드 사본. fetch_live.py로 다시 받는다
 ```
 

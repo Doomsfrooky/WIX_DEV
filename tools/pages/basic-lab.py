@@ -6,6 +6,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _lab  # noqa: E402
+import kit  # noqa: E402
 
 
 def render():
@@ -28,6 +29,6 @@ def render():
                    '이독성 약물에 의한 내이 손상 기전 규명 및 보호 전략 연구', 'How ototoxic drugs damage the inner ear, and how to protect it'),
                   ('내이 세포 재생 연구', 'Inner-ear cell regeneration',
                    '유모세포 및 신경세포 재생을 위한 분자생물학적 접근', 'Molecular approaches to regenerating hair cells and neurons')],
-        manager=dict(photo='https://i.imgur.com/SkXdr8p.jpeg', name=('이은수', '이은수'),
+        manager=dict(photo='https://i.imgur.com/SkXdr8p.jpeg', name=kit.name_pair('이은수'),
                      lines=(['Basic Lab 팀장 · 연구교수'], ['Team Leader, Basic Lab · Research Professor'])),
         comment='논문 목록은 data/publications.json(team: basic), 구성원 수와 매니저 사진은 data/people.json에서 만들어집니다.')

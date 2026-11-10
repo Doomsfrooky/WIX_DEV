@@ -104,7 +104,8 @@ DATA_CENTERS = [
          d_en='Korea’s only provider of hearing big data for industry and researchers, with over 100,000 records.'),
 ]
 
-NAME_EN = {'서영준': 'Young Joon Seo', '공태훈': 'Tae Hoon Kong', '기재홍': 'Jaehong Key', '변유선': 'Yuseon Byun', '이동혁': 'Donghyeok Lee',
+NAME_EN = {'이은수': 'Lee, Eun Soo', '이동우': 'Lee, Dongwoo',   # 2026-11-10, as the client wrote them
+           '서영준': 'Young Joon Seo', '공태훈': 'Tae Hoon Kong', '기재홍': 'Jaehong Key', '변유선': 'Yuseon Byun', '이동혁': 'Donghyeok Lee',
            '윤철영': 'Chul Young Yoon', '이현수': 'Hyun Su Lee', '전진희': 'Jinhui Jeon', '강철영': 'Chulyoung Kang'}
 ROLE_EN = {'교수': 'Professor', '연구소장': 'Director', '연구교수': 'Research Professor', '팀장': 'Team Leader', 'Post-doc': 'Postdoctoral Researcher',
            '박사과정': 'Ph.D. Student', '석사과정': 'M.S. Student', '학부연구원': 'Undergraduate Researcher', '연구원': 'Researcher',
@@ -223,7 +224,8 @@ def initials(name):
     family-name initial only when a romanised name exists in NAME_EN, else the same Hangul syllable."""
     ko = name.strip()[0]
     if name in NAME_EN:
-        return ko, NAME_EN[name].split()[-1][0]
+        en = NAME_EN[name]
+        return ko, (en.split(',')[0] if ',' in en else en.split()[-1])[0]
     return ko, ko
 
 

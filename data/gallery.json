@@ -1,5 +1,214 @@
 [
  {
+  "src": "media/gallery/2026/2026-09",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 최소 주파수 순음청력검사 발표",
+  "caption_en": "Talk on minimal-frequency pure-tone audiometry at KORL 2026",
+  "file": "01_g51.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-10",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1126,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 이동우 연구원 이명 재활 발표",
+  "caption_en": "Dongwoo Lee, Ph.D. student, on a stepwise tinnitus rehabilitation clinic at KORL 2026",
+  "file": "02_g52.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-11",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 이은수 박사 이독성 연구 발표",
+  "caption_en": "Eun Soo Lee, Ph.D., on metabolic dysfunction and cochlear ototoxicity at KORL 2026",
+  "file": "03_g54.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-12",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 난청 노인 인지 저하 예측 발표",
+  "caption_en": "Talk on predicting cognitive decline in older adults with hearing loss at KORL 2026",
+  "file": "04_g50.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-13",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1126,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 위험도 보정 청력 나이 발표",
+  "caption_en": "Talk on risk-adjusted hearing age at KORL 2026",
+  "file": "05_g49.webp"
+ },
+ {
+  "src": "media/gallery/2026/2026-14",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, KOLAS 공인 교정 연구 발표",
+  "caption_en": "Talk on KOLAS-accredited calibration at KORL 2026",
+  "file": "06_g53.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-15",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 덱사메타손 나노에멀전 발표",
+  "caption_en": "Talk on a dexamethasone nanoemulsion against ototoxicity at KORL 2026",
+  "file": "07_g55.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-16",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 발표 후 토론",
+  "caption_en": "Discussion after a talk at KORL 2026",
+  "file": "08_g48.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-17",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 발표 후 토론",
+  "caption_en": "Discussion after a talk at KORL 2026",
+  "file": "09_g41.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-18",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 질의응답",
+  "caption_en": "A question from the floor at KORL 2026",
+  "file": "10_g46.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-19",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 질의응답",
+  "caption_en": "A question from the floor at KORL 2026",
+  "file": "11_g47.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-20",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 부산항국제전시컨벤션센터(BPEX)",
+  "caption_en": "The 32nd Korean ENT Joint Congress (KORL 2026) at BPEX, Busan",
+  "file": "12_g42.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-21",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1125,
+  "height": 2000,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 참가 학회와 일정",
+  "caption_en": "Participating societies and programme of KORL 2026",
+  "file": "13_g44.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-22",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 행사장에서 본 부산항",
+  "caption_en": "Busan Port from the KORL 2026 venue",
+  "file": "14_g43.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-23",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 부산항",
+  "caption_en": "Busan Port during KORL 2026",
+  "file": "15_g45.jpg"
+ },
+ {
   "src": "media/gallery/2026/2026-01",
   "widths": [
    480,

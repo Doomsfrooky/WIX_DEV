@@ -29,7 +29,7 @@ HERO_PHOTO = 'media/gallery/2026/2026-01'   # data/gallery.json key of the hero 
 
 # round 2's subtitle: the institute's name in the other language (KO page: the English name, EN page: the Korean name)
 ALT = ('<span data-l="ko" lang="en">Research Institute of Hearing <span class="nw">Enhancement · RIHE</span></span>'
-       '<span data-l="en">청각재활연구소 · RIHE</span>')
+       '<span data-l="en" lang="ko">청각재활연구소 · RIHE</span>')
 LEAD = ('난청에 대한 기초 연구뿐만 아니라 의료기기 개발, 임상시험에 이르기까지 전주기적인 연구를 진행하는 연세대학교 공식 연구소입니다.',
         'An official Yonsei University institute conducting full-cycle research, from basic research on hearing loss to '
         'medical device development and clinical trials.')

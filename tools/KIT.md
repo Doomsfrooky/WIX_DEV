@@ -30,7 +30,7 @@ Page names and paths (`kit.PATHS`): home `/`, about `/about`, research `/project
 `/about-1`, hearing-lab `/hearing-lab`, head-lab `/head-lab`, audiso `/audiso`, contact `/연락처`, gallery `/gallery`.
 `build.py` builds only the modules that exist in `tools/pages/`.
 
-**build.py fails the build** on: an em-dash (—) in visible copy; a `data-l="en"` element without `lang="en"`; a
+**build.py fails the build** on: an em-dash (—) in visible copy; a `data-l="en"` element without `lang="en"` (or `lang="ko"` for Korean text shown on the English page); a
 `<script src>` that is not a relative `vendor/` path; a missing robots meta; any `vh`/`svh`/`dvh`/`lvh` unit or
 `innerHeight` anywhere in the page.
 
@@ -436,13 +436,15 @@ node tools/verify/render.js site/<name>.html <out> --widths 1920,1440,980,320 --
     # every shot: stillInvisible 0, brokenImages 0, errors 0; KO height = EN height at each width
 node tools/verify/interact.js site/<name>.html                   # and --width 320: changes []
 node tools/verify/fallback.js site/<name>.html                   # and --width 320: stillInvisible 0, reduced runningAnimations 0
-node tools/verify/heights.js site/<name>.html --md               # then fill your row in docs/wix-heights.md
-    # pages with justified photo rows (gallery): add --sweep 20 (every 20 px from 980 to 1920)
+node tools/verify/heights.js site/<name>.html --fine --md        # then fill your row in docs/wix-heights.md
+    # --fine: every width from 980 to 1920 (1 px; '--fine 2' = 2 px, peaks refined to 1 px), peaks re-measured with
+    # fresh loads in KO and EN. The five default widths missed peaks of up to 67 px (2026-11-10 final audit).
 ```
 
-Last full run (2026-11-09, the stage-2 Finish build): all ten pages pass every check above (wix-sim 30 runs,
-interact and fallback at 1280 and 320, KO = EN heights at every width); the results are in DESIGN.md "2단계 마무리"
-and the heights in `docs/wix-heights.md`. Re-run them for any page whose module or data you change.
+Last full run (2026-11-10, the final audit): all ten pages pass every check above (render at 1280 and 320 in KO and
+EN, wix-sim at 1280 and 320 on the build and on the live GitHub Pages copy, interact and fallback at 1280 and 320,
+heights with --fine, KO = EN at every width); the results are in DESIGN.md "최종 점검" and the heights in
+`docs/wix-heights.md`. Re-run them for any page whose module or data you change.
 
 Look economically: the load-in as one strip (`node tools/verify/strip.js <out>/strip.png <out>/sim/t*.png --width 260
 --cols 6`), widths and languages as one sheet (`node tools/verify/compare.js site/<name>.html <out>/cmp --widths

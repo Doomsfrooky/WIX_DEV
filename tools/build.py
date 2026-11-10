@@ -10,7 +10,7 @@ A page whose module does not exist yet is skipped with a note.
 
 Checks on every page (the build fails on an error):
 - no em-dash characters in visible copy;
-- every data-l="en" element carries lang="en";
+- every data-l="en" element carries lang="en" (lang="ko" for Korean text shown on the English page);
 - scripts load only from vendor/ by relative path (site/vendor/, npm packages pinned by version);
 - a robots meta is present (content pages: noindex, indexifembedded);
 - no viewport-height sizing (vh/svh/dvh/lvh, innerHeight): inside the Wix iframe these are the element height, not the screen.
@@ -54,8 +54,8 @@ def check(name, doc):
         errs.append(f'em-dash in visible copy: ...{vis[max(0, m.start() - 40):m.start() + 20].strip()}...')
     for m in re.finditer(r'<[a-z0-9]+\b[^>]*\bdata-l="en"[^>]*>', doc):
         tag = m.group(0)
-        if 'lang="en"' not in tag and not tag.startswith('<span data-l="en">'):
-            errs.append(f'data-l="en" without lang="en": {tag[:80]}')
+        if not re.search(r'\slang="(en|ko)"', tag):
+            errs.append(f'data-l="en" without lang="en" (or lang="ko" for Korean text): {tag[:80]}')
     for src in re.findall(r'<script[^>]+src="([^"]*)"', doc):
         if not re.match(r'^(\./|\.\./)*vendor/[\w.@/-]+\.m?js$', src):
             errs.append(f'<script src="{src}">: only relative vendor/ paths are allowed')

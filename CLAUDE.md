@@ -53,7 +53,7 @@ embeds/                      1차(현재 게시된) Wix 코드 사본. fetch_liv
 - 언어는 `?lang=en|ko` 를 head 스크립트가 **첫 화면을 그리기 전에** 적용한다. Wix 페이지 코드의 `postMessage({lang})` 도 받는다. 영어 화면에서 한국어가 먼저 보였다 바뀌는 깜빡임이 없어야 한다.
 - 이미지 alt는 쌍(`data-alt-en`), aria-label은 `data-aria-en`.
 - 페이지 사이 링크는 `link()`·`more()` 로 만들고 `kit.PATHS` 경로를 쓴다. 모두 `target="_top"`. Wix Multilingual은 꺼져 있어서 `/en/...` 이 404다(그동안 `EN_PREFIX` 처리 주의).
-- `build.py` 검사(실패하면 빌드 중단): 화면 문구의 em-dash(—) 금지, `data-l="en"` 에는 `lang="en"`, `<script src>` 는 `vendor/` 상대 경로만, robots meta 필수, vh·svh·dvh·innerHeight 금지.
+- `build.py` 검사(실패하면 빌드 중단): 화면 문구의 em-dash(—) 금지, `data-l="en"` 에는 `lang="en"`(영어 층에 보이는 한국어는 `lang="ko"`), `<script src>` 는 `vendor/` 상대 경로만, robots meta 필수, vh·svh·dvh·innerHeight 금지.
 - 검색 노출: 본문 페이지 `<meta name="robots" content="noindex, indexifembedded">`(kit.ROBOTS), 시안·목록·도구는 `noindex`.
 - 한글 글꼴은 필요한 글자만 받는다(Google Fonts `text=` 서브셋).
 
@@ -106,7 +106,7 @@ Node와 미리 설치된 Playwright로 돈다(`npm install` 불필요). 저장�
 node tools/verify/render.js   site/home.html <out> [--widths 1280,320] [--langs ko,en] [--frames]   # 전체 스크린샷 + 점검(stillInvisible·brokenImages·errors 모두 0)
 node tools/verify/wixsim.js   site/home.html <out> [--w 1280|320] [--lang en]                       # Wix처럼 교차 출처 iframe에서 바깥을 스크롤. 시간순(t*)·스크롤순(s*) 스크린샷
 node tools/verify/interact.js site/research.html [--width 320]                                      # 모든 버튼·필터·페이저를 눌러도 높이가 그대로인지
-node tools/verify/heights.js  site/home.html site/about.html --md                                   # 폭·언어별 문서 높이 → docs/wix-heights.md (+24px, 10 단위 올림)
+node tools/verify/heights.js  site/home.html site/about.html --fine --md                            # 폭·언어별 문서 높이 → docs/wix-heights.md (+24px, 10 단위 올림). 표에 넣는 값은 --fine(980~1920을 1px로 훑음, 쪽당 약 5~10분)으로 잰다. 빠른 확인은 --fine 없이(다섯 폭, 최대 67px 놓침)
 node tools/verify/fallback.js site/home.html [--width 320] [--out dir]                              # JS 끔 / 주 스크립트 실패 / 동작 줄이기 에서 숨은 내용 0
 node tools/verify/shoot.js    site/home.html out.png [--width 320] [--sel ".hero"] [--lang en] [--scale 2] [--full]
 node tools/verify/probe.js    site/home.html "document.fonts.size" [--width 320]

@@ -91,6 +91,8 @@ python3 tools/media.py figure  <그림> --slug <이름> [--crop x,y,w,h]        
 - data의 경로는 `site/` 기준 상대 경로(`media/people/x.jpg`)다. `site/` 보다 깊은 페이지(`site/_directions/`)는 `core.page_shell(prefix=...)` 가 자동으로 고친다.
 - `data/people.json` 의 `photo` 는 Imgur 주소이거나 `media/people/...` 다. `core.imgur(src, size)` 는 Imgur 주소에만 크기 접미사를 붙인다.
 - `data/gallery.json` 은 두 종류가 섞인다. Wix 사진: `{media, file, width, height, year, caption_ko, caption_en}`(크기는 `core.wix()`), 저장소 사진: `{src: "media/gallery/2026/2026-01", widths: [480, 1024, 1600], width, height, year, caption_ko, caption_en}` 이고 실제 파일은 `<src>-<폭>.jpg` 다(srcset을 widths로 만든다). 갤러리·미리보기 부품은 둘 다 그려야 한다.
+- `"teaser": false` 인 사진(빈 사무실, 포스터처럼 사람·행사가 아닌 것)은 갤러리에는 나오고 Home·About 미리보기(`kit.gallery_pick`)에는 나오지 않는다. 선택 키 `alt_ko`·`alt_en` 은 설명과 다른 대체 텍스트(포스터 내용 등).
+- Home 첫 화면 사진은 `kit.HERO_STILLS`(2026-11-10 서영준 교수: 송년회·강릉 워크샵 단체 사진 두 장이 번갈아 나옴). 흰 가운 사진(IMG_0168)은 초기 연구실 모습이라 갤러리 맨 끝에 둔다.
 
 ## 라이브러리
 

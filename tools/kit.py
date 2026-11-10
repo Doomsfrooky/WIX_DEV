@@ -793,12 +793,14 @@ def _photo_frame(p, cls='', sizes='(max-width: 760px) 50vw, 420px'):
 def gallery_pick(n, exclude=(), photos=None):
     """Up to n photos for a teaser in data/gallery.json order (newest first), one per event: photos of the same year
     whose Korean captions share the part before the first comma ('제5회 청각재활연구소 워크샵, 팀 소개') are one
-    event. exclude: strings matched against file / media / src (e.g. a photo already used as the page's hero)."""
+    event. exclude: strings matched against file / media / src (e.g. a photo already used as the page's hero).
+    Entries with "teaser": false (an empty office, a poster: places and papers, not people or events) stay in the
+    gallery but never come up here."""
     out, seen = [], set()
     for p in photos or GALLERY:
         ref = f"{p.get('file', '')} {p.get('media', '')} {p.get('src', '')}"
         key = (str(p.get('year', '')), p.get('caption_ko', '').split(',')[0].strip())
-        if any(x in ref for x in exclude) or key in seen:
+        if p.get('teaser') is False or any(x in ref for x in exclude) or key in seen:
             continue
         seen.add(key)
         out.append(p)
@@ -894,11 +896,34 @@ def gallery_photo(i, pos='50% 40%', pos_m=None, crop=None):
 INST_LINE = (INST[0], INST[1].replace(' · ', ' · <span class="nw">', 1) + '</span>')
 
 
+# the Home hero's photographs of the people (Prof. Seo, 2026-11-10: the year-end party and the Gangneung workshop instead
+# of the white coats, which went to the end of the gallery): the first opens the hero; the second loads with the reel
+# (hero.js attach(), never on the first screen or with Save-Data) and takes every other return to the people.
+# (data/gallery.json src, alt (ko, en), object-position on desktop, at 320)
+HERO_STILLS = (
+    ('media/gallery/2025/2025-01', ('송년회에 모인 청각재활연구소 구성원', 'Members of RIHE at the year-end party'), '50% 42%', '50% 45%'),
+    ('media/gallery/2026/2026-01', ('제5회 청각재활연구소 워크샵에 모인 구성원', 'Members of RIHE at the 5th RIHE Workshop'), '50% 74%', '50% 70%'),
+)
+
+
+def _hero_stills():
+    out = []
+    for k, (src, alt, pos, pos_m) in enumerate(HERO_STILLS):
+        p = next(g for g in GALLERY if g.get('src') == src)
+        im = img(photo_url(p, 1024), alt, 1600, round(1600 * p['height'] / p['width']), 'cx-still' + (' cx-still-b' if k else ''),
+                 lazy=False, srcset=photo_srcset(p), sizes='(max-width: 760px) 100vw, 64vw',
+                 attrs=f'style="--sp:{pos};--spm:{pos_m}"' + (' fetchpriority="high"' if k == 0 else '') + ' decoding="async"')
+        if k:
+            im = im.replace(' src="', ' data-src="', 1).replace(' srcset="', ' data-srcset="', 1)
+        out.append(im)
+    return '\n        '.join(out)
+
+
 def home_hero():
     """The Home hero (C2, tools/kit_assets/hero.*): the reel frame on the white sheet, the knockout title, the record
     (core.OUTCOMES on counter wheels), the lead and the link to the lists. Desktop: the frame's left edge cuts the
     title; 320: the photograph full width on top and its bottom edge crosses the title's first line."""
-    h = re.sub(r'^\s*<!--.*?-->\s*', '', rd('hero.html'), count=1, flags=re.S)
+    h = re.sub(r'^\s*<!--.*?-->\s*', '', rd('hero.html'), count=1, flags=re.S).replace('{{stills}}', _hero_stills())
     inst_en = INST_LINE[1]
     ld = t(core.HOME_LEAD[0], core.HOME_LEAD[1], 'p', 'cx-lead', 'data-a')
     nums = '\n      '.join(

@@ -1,6 +1,7 @@
 """People (/people), stage 2 in direction C2.
 
-Hero: the members' group photograph (data/gallery.json 'IMG_0168'; DESIGN.md 6 recommends it, the client confirms),
+Hero: the members' group photograph at the year-end party (data/gallery.json 2025-01; until 2026-11-10 the white-coat
+photo 'IMG_0168', which Prof. Seo moved to the end of the gallery as the early lab),
 the title, round 2's subtitle and lead, and the jump links to every team with its member count.
 Then one section per team in data/people.json order (faculty > Basic Lab > Hearing Lab > HeAD Lab > administration >
 Audiso): the lab's Latin name or the team's KO/EN name, the team and the count, a link to the lab page for the four
@@ -25,7 +26,7 @@ def render():
     nav = kit.jump_nav([(tm['key'], _label(tm['key']), kit.TEAM_TONE.get(tm['key']), len(tm['members'])) for tm in teams],
                        ('팀 바로가기', 'Jump to a team'))
     hero = kit.page_hero(('구성원', 'People'), alt=kit.PEOPLE_TITLE, lead=kit.PEOPLE_LEAD,
-                         image=kit.gallery_photo('IMG_0168', '50% 32%'), extra=nav)
+                         image=kit.gallery_photo('media/gallery/2025/2025-01', '50% 42%', '50% 45%'), extra=nav)
     body = hero + '<main>' + ''.join(kit.team_sec(tm['key']) for tm in teams) + '</main>'
     return kit.page('People', body,
                     comment='구성원은 data/people.json에서 만들어집니다(팀 순서, 인원 수, 사진). 사진이 없는 구성원은 이름 첫 글자로 표시됩니다.')

@@ -1,7 +1,7 @@
 """About (/about), stage 2 in direction C2.
 
-Order (round 2's): the hero (the members' group photograph, data/gallery.json 'IMG_0168'; DESIGN.md 6 recommends it,
-the client confirms) > the institute (the director's opening line as a pull quote + two paragraphs) > director >
+Order (round 2's): the hero (the members' group photograph at the 5th workshop, data/gallery.json 2026-01; until
+2026-11-10 the white-coat photo 'IMG_0168', which Prof. Seo moved to the end of the gallery as the early lab) > the institute (the director's opening line as a pull quote + two paragraphs) > director >
 organisation > data centers > partners > gallery teaser (linking to /gallery; it replaces the old small Wix Pro Gallery
 at the bottom of /about). The teaser leaves out the hero's photograph, which would otherwise come back as its biggest
 picture, and shows the three newest other photos of data/gallery.json in one row.
@@ -25,7 +25,7 @@ PARTNERS = [
     ('pkbfNok.jpeg', 'J&KYM', 'J&KYM', dict(w=672, h=676)),     # plain text: kit.img() escapes the alt itself
 ]
 KEEP = ('uYE9HkB.png', '7WGSBl9.png')      # RGBA: keep the original file
-HERO_PHOTO = 'IMG_0168'                     # data/gallery.json key of the hero photograph (the members)
+HERO_PHOTO = 'media/gallery/2026/2026-01'   # data/gallery.json key of the hero photograph (the members at the 5th workshop)
 
 # round 2's subtitle: the institute's name in the other language (KO page: the English name, EN page: the Korean name)
 ALT = ('<span data-l="ko" lang="en">Research Institute of Hearing <span class="nw">Enhancement · RIHE</span></span>'
@@ -65,7 +65,7 @@ def gallery():
 
 
 def render():
-    hero = kit.page_hero(('연구소 소개', 'About RIHE'), alt=ALT, lead=LEAD, image=kit.gallery_photo(HERO_PHOTO, '50% 32%'))
+    hero = kit.page_hero(('연구소 소개', 'About RIHE'), alt=ALT, lead=LEAD, image=kit.gallery_photo(HERO_PHOTO, '50% 34%', '50% 70%'))
     body = (
         hero
         + '<main>'
@@ -78,4 +78,4 @@ def render():
         + '</main>'
     )
     return kit.page('About', body,
-                    comment='맨 위 사진은 data/gallery.json의 구성원 단체 사진(IMG_0168)이고, 아래 갤러리는 그 사진을 뺀 가장 최근 세 행사에서 한 장씩 보여 주며 /gallery로 연결됩니다(예전 Pro Gallery 대신).')
+                    comment='맨 위 사진은 data/gallery.json의 구성원 단체 사진(제5회 워크샵, 2026-01)이고, 아래 갤러리는 그 사진을 뺀 가장 최근 세 행사에서 한 장씩 보여 주며 /gallery로 연결됩니다(예전 Pro Gallery 대신).')

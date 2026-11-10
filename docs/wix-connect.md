@@ -16,8 +16,8 @@
 
 | 쪽 (Wix 주소) | 요소 ID | 넣을 주소 | 데스크톱 높이 | 모바일 높이 | 요소 설명 (삽입 요소 설명 칸) |
 |---|---|---|---|---|---|
-| Home (/) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/home.html | 4760 | 5360 | 청각재활연구소 홈: 연구소 소개, 연구 성과, 연구 분야, 연구실, 최근 소식 |
-| About (/about) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/about.html | 3330 | 3970 | 연구소 소개: 소개 글, 연구소장 인사말, 조직, 데이터센터, 협력 기관 |
+| Home (/) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/home.html | 4790 | 5360 | 청각재활연구소 홈: 연구소 소개, 연구 성과, 연구 분야, 연구실, 최근 소식 |
+| About (/about) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/about.html | 3280 | 3970 | 연구소 소개: 소개 글, 연구소장 인사말, 조직, 데이터센터, 협력 기관 |
 | Research (/project) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/research.html | 6190 | 9230 | 연구: 연구 분야와 논문, 학회 발표, 특허 목록 |
 | People (/people) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/people.html | 3920 | 4700 | 구성원: 팀별 연구원 소개와 사진 |
 | Basic Lab (/about-1) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/basic-lab.html | 4120 | 5800 | Basic Lab(기초팀) 소개: 연구 주제, 팀장, 구성원, 논문 |
@@ -25,7 +25,7 @@
 | HeAD Lab (/head-lab) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/head-lab.html | 5940 | 7810 | HeAD Lab(데이터팀) 소개: 청각 빅데이터센터, 구성원, 논문 |
 | Audiso (/audiso) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/audiso.html | 3320 | 4680 | 오디에스오 소개: 회사, KOLAS 공인교정, 제품 |
 | Contact (/연락처) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/contact.html | 2200 | 1910 | 연락처: 주소, 전화, 이메일, 팀별 담당자, 지도 |
-| Gallery (/gallery, 새로 만듦) | #html1 (+ #mobileHtml1) | https://doomsfrooky.github.io/WIX_DEV/site/gallery.html | 3530 (늘이기가 안 되면 2590) | 2540 | 갤러리: 학회와 행사 사진, 영상 |
+| Gallery (/gallery, 새로 만듦) | #html1 (+ #mobileHtml1) | https://doomsfrooky.github.io/WIX_DEV/site/gallery.html | 3660 (늘이기가 안 되면 2750) | 2630 | 갤러리: 학회와 행사 사진, 영상 |
 
 - 데스크톱 높이는 `docs/wix-heights.md` 의 '데스크톱' 열입니다. 지금 데스크톱 요소가 모두 화면 폭으로 늘어나 있어서(실제 사이트 CSS `width:100%`) 이 값을 씁니다. 2560px 화면에서도 높이는 1920과 같습니다.
 - 요소 설명은 지금 비어 있어서 스크린리더가 모든 칸을 영어 'Embedded Content'로 읽습니다. 데스크톱·모바일 요소에 같은 문구를 넣습니다.
@@ -60,7 +60,7 @@
 데스크톱 에디터에서 지웁니다: **#html2, #html3, #html4**, 배경 영상이 깔린 띠 두 개(청각 빅데이터센터 홍보영상 띠, 뉴스 영상 띠), 맨 아래 **Pro Gallery**(사진 10장).
 - Pro Gallery는 데스크톱·모바일 공용이라 데스크톱에서 지우면 모바일에서도 없어집니다. 사진 6장은 이미 새 갤러리에 있고, **슬라이드 그림 4장(31.png, 32.png, 33.png, 27.png)은 새 사이트에 없습니다.**
 - **맨 아래 섹션은 지우지 마세요.** 데스크톱에서는 비지만 모바일의 `#mobileHtml1` 이 그 안에 있습니다. 데스크톱에서 높이만 최소로 줄입니다.
-- 지운 뒤 #html1 이 든 섹션 높이를 3330으로(지금 3568), 모바일 섹션 높이를 3970으로(지금 4207) 맞춰 아래 빈칸을 없앱니다.
+- 지운 뒤 #html1 이 든 섹션 높이를 3280으로(지금 3568), 모바일 섹션 높이를 3970으로(지금 4207) 맞춰 아래 빈칸을 없앱니다.
 
 지운 그림과 영상 파일은 Wix 미디어 관리자에 그대로 남습니다.
 
@@ -70,8 +70,8 @@
 1. 쪽 추가 → 빈 쪽, 이름 'Gallery', URL `gallery`.
 2. 다른 쪽의 `#html1` 을 복사해 붙여 넣는 방법을 먼저 써 봅니다(화면 폭 늘이기가 따라오는지 확인). 안 되면 추가 → 삽입(Embed) → HTML iframe을 넣습니다.
 3. 주소 `https://doomsfrooky.github.io/WIX_DEV/site/gallery.html`, 설명 '갤러리: 학회와 행사 사진, 영상', x 0, y 0.
-4. 높이: 화면 폭으로 늘어나면 **3530**, 980 폭 그대로면 **2590**. HTML 요소의 늘이기는 Wix가 공식으로 지원한다고 적어 둔 요소가 아니라서 새 요소에서는 안 될 수 있습니다.
-5. 모바일: 다른 쪽처럼 데스크톱 요소를 모바일에서 숨기고 모바일 전용 HTML 요소(폭 320, 높이 **2540**, 같은 주소·설명)를 넣습니다.
+4. 높이: 화면 폭으로 늘어나면 **3660**, 980 폭 그대로면 **2750**. HTML 요소의 늘이기는 Wix가 공식으로 지원한다고 적어 둔 요소가 아니라서 새 요소에서는 안 될 수 있습니다.
+5. 모바일: 다른 쪽처럼 데스크톱 요소를 모바일에서 숨기고 모바일 전용 HTML 요소(폭 320, 높이 **2630**, 같은 주소·설명)를 넣습니다.
 6. 메뉴(메뉴 및 페이지)에 Gallery를 넣습니다. 지금 메뉴는 9개(Home부터 Contact)입니다.
 7. 영상 전체 화면이 되는지 봅니다. 기존 요소에는 전체 화면 허용이 켜져 있습니다. 새 요소에 없으면 페이지 코드에 `$w('#html1').allowFullScreen();` 한 줄을 넣습니다.
 

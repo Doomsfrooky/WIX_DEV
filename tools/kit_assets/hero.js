@@ -27,6 +27,7 @@
   var $ = function (s) { return hero.querySelector(s); };
   var $$ = function (s) { return [].slice.call(hero.querySelectorAll(s)); };
   var frame = $('.cx-frame'), par = $('.cx-par'), media = $('.cx-media'), still = $('.cx-still');
+  var stills = $$('.cx-still');                      // the people: the first photograph opens; the other (data-src) loads with the reel
   var title = $('.cx-hk'), titleW = $('.cx-hw');      // the title's two layers: ink (the h1) and paper white (in the frame)
   var v = $('.cx-v'), btn = $('.cx-pause'), grain = $('.cx-grain');
   var edgeT = $('.cx-edge-t'), edgeB = $('.cx-edge-b');
@@ -49,7 +50,7 @@
   /* ---------------------------------------------------------------- the reel */
   var REEL = /*@REEL@*/null;
   var SW = REEL ? REEL.w : 854, SH = REEL ? REEL.h : 480;
-  var STILL = { still: true, d: 3.2 };                 // the members of RIHE (d: seconds on screen)
+  var STILL = { still: true, d: 3.2 };                 // the members of RIHE, one photograph or the other (d: seconds on screen)
   var conn = navigator.connection || {};
   var mode = (!REEL || !v || conn.saveData || /(^|-)(2g|3g)$/.test(conn.effectiveType || '')) ? 'lean' : 'clip';
   var SHOTS = [STILL];
@@ -115,6 +116,10 @@
   function attach() {                            // after the load event: the first screen never waits for footage
     if (srcSet || mode === 'lean') return;
     srcSet = true;
+    stills.forEach(function (im) {               // the other photograph of the people, for every other return to them
+      var s = im.getAttribute('data-src');
+      if (s && !im.getAttribute('src')) { im.setAttribute('srcset', im.getAttribute('data-srcset') || ''); im.setAttribute('src', s); }
+    });
     if (mode === 'clip') buildClip().then(function (u) { if (mode === 'clip') { v.src = u; prepIdle(); } }, function () { if (mode === 'clip') fallback(); });
     else { v.src = REEL.src; prepIdle(); }
   }
@@ -215,6 +220,8 @@
     g.set(v, { autoAlpha: 0 }); try { v.pause(); } catch (e) {}
     if (kbV) { kbV.kill(); kbV = null; }
     holding = false;
+    var nx = stills[(stills.indexOf(still) + 1) % stills.length];   // the other photograph, once decoded (never with the photograph only)
+    if (mode !== 'lean' && nx !== still && nx.complete && nx.naturalWidth) { g.set(still, { autoAlpha: 0 }); still = nx; g.set(still, { autoAlpha: 1 }); }
     g.set(still, { scale: 1 });
     startStill(STILL.d);
     cue = -1; prepIdle();

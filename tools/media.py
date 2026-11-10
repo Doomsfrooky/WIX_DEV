@@ -11,7 +11,8 @@ that are already on Wix or Imgur keep their URLs.
         and data/people.json gets photo = "media/people/<slug>.jpg" for that name.
     python3 tools/media.py gallery <zip or folder> [--sheet captions.xlsx]
         every image (jpg, png, webp, heic) -> site/media/gallery/<year>/<year>-<nn>-<w>.jpg in widths
-        480 / 1024 / 1600 (never upscaled), appended to data/gallery.json (newest first) as
+        480 / 1024 / 1600 (never upscaled: a smaller source adds its own width, e.g. 480 / 599), appended to
+        data/gallery.json (newest first) as
         {src: "media/gallery/<year>/<year>-<nn>", widths: [...], width, height, year, caption_ko, caption_en}.
         Captions and years come from the sheet (columns: 파일명, 연도, 설명(한국어), 설명(영어)); a missing year
         falls back to the photo's EXIF date, and a photo with neither is skipped. Write '-' (or 연도 없음, 미상) as
@@ -153,12 +154,13 @@ def gallery(args):
         stem = f'media/gallery/{folder}/{folder}-{n:02d}'
         widths = []
         for w in GALLERY_WIDTHS:
-            if w > im.size[0] and widths:
-                break
             tw = min(w, im.size[0])
-            save_jpeg(im.resize((tw, round(im.size[1] * tw / im.size[0])), Image.LANCZOS), os.path.join(SITE, f'{stem}-{tw}.jpg'), q=80)
+            if widths and tw - widths[-1] < 64:      # a source a little wider than the last width adds nothing
+                break
+            save_jpeg(im.resize((tw, round(im.size[1] * tw / im.size[0])), Image.LANCZOS) if tw != im.size[0] else im,
+                      os.path.join(SITE, f'{stem}-{tw}.jpg'), q=80)
             widths.append(tw)
-            if tw < w:
+            if tw < w:                               # a smaller source: its own width is the last one (never upscaled)
                 break
         added.append(dict(src=stem, widths=widths, width=im.size[0], height=im.size[1], year='' if year == UNDATED else str(year),
                           caption_ko=meta.get('ko', ''), caption_en=meta.get('en', ''), file=os.path.basename(f)))

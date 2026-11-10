@@ -209,6 +209,19 @@
   "file": "15_g45.jpg"
  },
  {
+  "src": "media/gallery/2026/2026-26",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1077,
+  "height": 808,
+  "year": "2026",
+  "caption_ko": "오디에스오 첫 단체복",
+  "caption_en": "Audiso’s first team jackets",
+  "file": "album-s54.png"
+ },
+ {
   "src": "media/gallery/2026/2026-01",
   "widths": [
    480,
@@ -289,6 +302,20 @@
   "file": "06_photo25.jpg"
  },
  {
+  "src": "media/gallery/2026/2026-25",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1065,
+  "height": 799,
+  "year": "2026",
+  "caption_ko": "오디에스오 판교 테크노밸리 지점",
+  "caption_en": "Audiso’s new branch office in Pangyo Techno Valley",
+  "file": "album-s47.png",
+  "teaser": false
+ },
+ {
   "src": "media/gallery/2026/2026-07",
   "widths": [
    480,
@@ -314,6 +341,22 @@
   "caption_ko": "청각재활연구소 2026 성과보고회",
   "caption_en": "RIHE 2026 Results Meeting",
   "file": "08_photo12.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-24",
+  "widths": [
+   480,
+   617
+  ],
+  "width": 617,
+  "height": 752,
+  "year": "2026",
+  "caption_ko": "청각재활연구소 2026 성과보고회, 안내 포스터",
+  "caption_en": "Poster for the RIHE 2026 Results Meeting",
+  "file": "album-s43.png",
+  "alt_ko": "청각재활연구소 2026 성과보고회 포스터: 2026년 3월 9일(월) 09:00~14:00, 기업도시 WMIT 2층 대회의실, 연구실과 오디에스오 팀별 발표 일정",
+  "alt_en": "Poster for the RIHE 2026 Results Meeting: Monday 9 March 2026, 09:00 to 14:00, WMIT conference room, Wonju Enterprise City, with the programme of lab and Audiso team talks",
+  "teaser": false
  },
  {
   "src": "media/gallery/2025/2025-01",
@@ -413,6 +456,33 @@
   "file": "15_photo13.jpg"
  },
  {
+  "src": "media/gallery/2025/2025-17",
+  "widths": [
+   480,
+   1024,
+   1418
+  ],
+  "width": 1418,
+  "height": 798,
+  "year": "2025",
+  "caption_ko": "개방형 공동 혁신 R&D 센터(OIRC) 런칭데이, 현판 수여",
+  "caption_en": "Plaques presented at the launch of the Open Innovation R&D Center (OIRC)",
+  "file": "album-s36.png"
+ },
+ {
+  "src": "media/gallery/2025/2025-16",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1064,
+  "height": 798,
+  "year": "2025",
+  "caption_ko": "창원 방위산업 부품소재 장비대전, 군 난청 이명 예방협회 부스",
+  "caption_en": "Military Deafness and Tinnitus Prevention Association booth at the Changwon defence industry expo",
+  "file": "album-s32.png"
+ },
+ {
   "src": "media/gallery/2025/2025-08",
   "widths": [
    480,
@@ -467,6 +537,34 @@
   "file": "19_photo18.jpg"
  },
  {
+  "src": "media/gallery/2025/2025-15",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1065,
+  "height": 799,
+  "year": "2025",
+  "caption_ko": "데이터팀 이사, 기념 점심",
+  "caption_en": "Lunch to mark the data team’s move",
+  "file": "album-s24.png"
+ },
+ {
+  "src": "media/gallery/2025/2025-14",
+  "widths": [
+   480,
+   1024,
+   1419
+  ],
+  "width": 1419,
+  "height": 798,
+  "year": "2025",
+  "caption_ko": "데이터팀 이사, 병원 근처 지암빌딩 4층",
+  "caption_en": "The data team’s new office on the 4th floor of the Jiam Building near the hospital",
+  "file": "album-s23.png",
+  "teaser": false
+ },
+ {
   "src": "media/gallery/2025/2025-12",
   "widths": [
    480,
@@ -478,6 +576,19 @@
   "caption_ko": "CES 2025, 오디에스오 부스",
   "caption_en": "The Audiso booth at CES 2025",
   "file": "20_photo20.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-13",
+  "widths": [
+   480,
+   598
+  ],
+  "width": 598,
+  "height": 798,
+  "year": "2025",
+  "caption_ko": "CES 2025, 전시장의 오디에스오",
+  "caption_en": "Audiso on the show floor at CES 2025",
+  "file": "album-s22.png"
  },
  {
   "src": "media/gallery/2024/2024-01",
@@ -505,6 +616,32 @@
   "caption_ko": "오디에스오 KOLAS 공인교정기관 첫 인정 (KC24-437)",
   "caption_en": "Audiso’s first KOLAS accreditation as a calibration body (KC24-437)",
   "file": "22_photo26.jpg"
+ },
+ {
+  "src": "media/gallery/2024/2024-06",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1065,
+  "height": 799,
+  "year": "2024",
+  "caption_ko": "서영준 교수 생신 축하",
+  "caption_en": "Celebrating Prof. Young Joon Seo’s birthday",
+  "file": "album-s16.png"
+ },
+ {
+  "src": "media/gallery/2024/2024-07",
+  "widths": [
+   480,
+   599
+  ],
+  "width": 599,
+  "height": 799,
+  "year": "2024",
+  "caption_ko": "서영준 교수 생신 축하, 노벨상 메달 케이크",
+  "caption_en": "A Nobel medal birthday cake for Prof. Young Joon Seo",
+  "file": "album-s18.png"
  },
  {
   "src": "media/gallery/2024/2024-03",
@@ -546,13 +683,30 @@
   "file": "25_photo17.jpg"
  },
  {
-  "media": "b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg",
-  "file": "IMG_0168.JPG",
-  "width": 960,
-  "height": 640,
-  "caption_ko": "청각재활연구소 구성원",
-  "caption_en": "Members of RIHE",
-  "year": "2021"
+  "src": "media/gallery/2023/2023-02",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1064,
+  "height": 798,
+  "year": "2023",
+  "caption_ko": "대한민국 2023 지방시대 엑스포, 가상현실 어지럼증 디지털치료기기 체험 부스",
+  "caption_en": "The lab’s VR dizziness therapy booth at the 2023 Local Era Expo in Daejeon",
+  "file": "album-s08.png"
+ },
+ {
+  "src": "media/gallery/2023/2023-01",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1066,
+  "height": 799,
+  "year": "2023",
+  "caption_ko": "연구실 단체 사진",
+  "caption_en": "Lab group photo",
+  "file": "album-s04.png"
  },
  {
   "media": "b8629b_a47d8b004c224e9db81668a906c2a0be~mv2.jpg",
@@ -611,5 +765,14 @@
   "caption_ko": "노벨상 메달 앞에서, 서영준 교수",
   "caption_en": "Prof. Young Joon Seo by a giant Nobel medal",
   "file": "26_photo11.jpg"
+ },
+ {
+  "media": "b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg",
+  "file": "IMG_0168.JPG",
+  "width": 960,
+  "height": 640,
+  "caption_ko": "청각재활연구소 초기 구성원",
+  "caption_en": "Early members of RIHE",
+  "year": "2021"
  }
 ]

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>청각빅데이터센터 — RIHE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: #1a202c;
+      line-height: 1.7;
+      background: #fff;
+    }
+    .section {
+      padding: 48px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    /* 데이터센터 카드 */
+    .dc-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .dc-card img {
+      max-width: 360px;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .dc-card h3 {
+      font-size: 1.1rem;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+    .dc-card p {
+      font-size: 0.92rem;
+      color: #4a5568;
+      margin-bottom: 8px;
+    }
+    .dc-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: #1a3c6e;
+      text-decoration: none;
+    }
+    .dc-link:hover { text-decoration: underline; }
+
+    .fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <section class="section">
+    <div class="dc-card fade">
+      <img src="https://i.imgur.com/9cFssq8.png" alt="청각빅데이터센터 로고">
+      <h3>청각 빅데이터센터</h3>
+      <p>Korea Hearing Big-data Center</p>
+      <p>산업계와 연구자들에게 청각 분야의 빅데이터를 전문으로 제공하는 국내 유일 기관. 10만건 이상 데이터.</p>
+      <a href="https://www.smilesnail.org/head-lab" class="dc-link" target="_top">→ HeAD Lab에서 자세히 보기</a>
+    </div>
+  </section>
+
+  <!-- ⬇️ 이 아래에 Wix 에디터에서 소개 영상을 삽입하세요 ⬇️ -->
+
+  <script>
+    var obs = new IntersectionObserver(function(e) {
+      e.forEach(function(el, i) { if (el.isIntersecting) { setTimeout(function() { el.target.classList.add('show'); }, i * 80); obs.unobserve(el.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade').forEach(function(el) { obs.observe(el); });
+  </script>
+</body>
+</html>

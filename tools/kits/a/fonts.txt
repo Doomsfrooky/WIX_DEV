@@ -1,0 +1,8 @@
+# Latin: Source Serif 4 (titles, figures, English text), optical sizes 8..60
+https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400..600&display=swap
+# English title: the italic 'of' only (text= subset of two glyphs, display optical size)
+https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,60,400&text=of&display=swap
+# Korean display: Noto Serif KR 600, text= subset of the 7 title glyphs
+https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&display=swap&text=%EA%B0%81%EA%B5%AC%EC%86%8C%EC%97%B0%EC%9E%AC%EC%B2%AD%ED%99%9C
+# Korean text: Noto Serif KR 400, text= subset of the 66 glyphs of the institution line, lead, link and ledger labels
+https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400&display=swap&text=%EA%B0%80%EA%B0%81%EA%B0%9C%EA%B3%84%EA%B3%A0%EA%B5%90%EA%B5%AC%EA%B8%B0%EA%B9%8C%EB%82%9C%EB%85%B8%EB%85%BC%EB%8A%94%EB%8B%88%EB%8B%A4%EB%8C%80%EB%8F%85%EB%90%98%EB%93%B1%EB%9E%80%EB%A0%A5%EB%A1%9C%EB%A1%9D%EB%A3%8C%EB%A5%BC%EB%AC%B8%EB%B0%94%EB%B0%9C%EB%B3%91%EB%B3%B4%EB%B8%8C%EC%83%81%EC%84%9C%EC%84%B8%EC%86%8C%EC%88%A0%EC%8A%A4%EC%97%90%EC%97%B0%EC%9B%90%EC%9C%84%EC%9C%BC%EC%9D%98%EC%9D%B4%EC%9E%84%EC%9E%85%EC%A0%81%EC%A0%84%EC%A0%9C%EC%A3%BC%EC%A7%80%EC%B2%AD%EC%B4%88%EC%B5%9C%EC%B6%9C%EC%B9%98%ED%83%95%ED%8A%B9%ED%91%9C%ED%95%98%ED%95%99%ED%95%9C%ED%95%A9%ED%95%B4%ED%97%88%ED%9A%8C

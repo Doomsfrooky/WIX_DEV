@@ -1,0 +1,239 @@
+/* C2 · hero · editorial cinematic on white. One white sheet (the Wix header, ground and footer are #ffffff). A bounded
+   footage frame sits on the sheet: from the 34% axis to the sheet's right margin, a little white above it, so 480p footage
+   stays near its native scale and the size reads as chosen. The stacked title stands on the frame's bottom line and crosses
+   its left edge as a knockout: ink on the paper, paper white over the photograph (two aligned layers, see hero.html).
+   The opening is an ink cut line: drawn across the frame (CSS, first paint), held for a beat, split; the frame opens from
+   it; its lower half settles under the photograph, on the title's line, and stays as the reel's clock (umber).
+   No viewport-height units. Palette, type and grid tokens live on :root in tools/kits/cw.py (shared with the reading zones). */
+.cx {
+  --ft: clamp(24px, 2.2vw, 32px);                    /* white above the frame: the picture is placed on the sheet */
+  --fh: calc(min(64%, 428px) - var(--ft));           /* C's frame line stays where it was; the frame gives up its top */
+  --fb: calc(var(--ft) + var(--fh));                  /* the frame's bottom line = the title's line */
+  --fr: calc(var(--ox) + var(--m));                   /* bounded: the frame ends at the sheet's right margin */
+  --kd: calc(var(--fx) - var(--tx));                  /* from the title's left edge to the frame's edge: the title is sized from it */
+  position: relative;
+  display: block;
+  height: clamp(560px, calc(213px + 33.34vw), 664px);   /* 640 at 1280; capped at 664 so the frame and record fit a 900 px window under the Wix header */
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ko);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.cx *, .cx *::before, .cx *::after { box-sizing: border-box; }
+.cx [lang="en"] { font-family: var(--lat); }
+
+/* ---------------------------------------------------------------- the frame (people, then the field) */
+.cx-frame {
+  position: absolute; z-index: 2;
+  top: var(--ft); left: var(--fx); right: var(--fr);
+  height: var(--fh);
+  overflow: hidden;
+  background: var(--ink-2);   /* shows only if the photograph never arrives; the white title still reads on it */
+  --sk: 1;                    /* the still: a light marble wall lies under the white letters at every width (measured) */
+}
+/* a hairline on the top and sides: a bright shot never dissolves into the sheet (under the white title, over the picture) */
+.cx-frame::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  box-shadow: inset 0 1px 0 var(--ink-r), inset 1px 0 0 var(--ink-r), inset -1px 0 0 var(--ink-r); }
+.cx-par { position: absolute; left: 0; right: 0; top: -9%; bottom: 0; will-change: transform; }
+/* the grade for a white surround: open shadows (nothing crushed), a little less colour, no vignette */
+.cx-media {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  filter: saturate(.86) contrast(.97) brightness(1.02);
+  transform-origin: 62% 50%;
+}
+.cx-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+.cx-v { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; visibility: hidden; display: block; }
+/* a local shade under the white part of the title only, never a scrim over the picture. Desktop: the white letters sit
+   in the frame's left 14% (KO 9%), from 23% of its height down, so the shade is one strip along the left edge that
+   fades out above the title (mask) and is gone by a quarter of the width; the rest of the picture is untouched. */
+.cx-shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(15, 14, 12, .36) 0%, rgba(15, 14, 12, .26) 8%, rgba(15, 14, 12, .1) 16%, rgba(15, 14, 12, 0) 25%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 4%, #000 22%);
+          mask-image: linear-gradient(180deg, transparent 4%, #000 22%);
+}
+/* a little more of the same shade where the picture is bright under the white letters: 1 for the still, and for each
+   shot the script samples the frame at the cut (0 for a dark patch) */
+.cx-shade::after { content: ""; position: absolute; inset: 0; opacity: var(--sk, 1);
+  background: linear-gradient(90deg, rgba(15, 14, 12, .34) 0%, rgba(15, 14, 12, .26) 9%, rgba(15, 14, 12, .1) 18%, rgba(15, 14, 12, 0) 26%); }
+.cx-grain { position: absolute; inset: 0; pointer-events: none; opacity: .1; mix-blend-mode: overlay; background-repeat: repeat; background-size: 160px 160px; }
+
+/* the ink cut line (drawn by CSS at first paint, then handed to the script). It holds a beat, splits, and the frame opens
+   from it: the upper half rides the frame's top edge out, the lower half settles on the paper just under the photograph,
+   where the title stands, turns umber, and from then on runs down through each shot as the reel's clock. */
+.cx-edge {
+  position: absolute; z-index: 4;
+  left: var(--fx); right: var(--fr);
+  top: calc(var(--ft) + var(--fh) / 2); height: 1px; margin-top: -.5px;
+  background: var(--ink);
+  transform-origin: 0 50%; transform: scaleX(0); opacity: 0;
+  pointer-events: none;
+}
+html.js:not(.rm) .cx-edge-t { animation: cx-draw .62s cubic-bezier(.65, 0, .35, 1) .08s both; }
+@keyframes cx-draw { from { transform: scaleX(0); opacity: 1; } to { transform: scaleX(1); opacity: 1; } }
+.cx-open .cx-edge-b { top: var(--fb); margin-top: 0; background: var(--umber); }
+html.all .cx-edge, html.rm .cx-edge, .cx-done .cx-edge-t { display: none; }
+
+/* pause / play (WCAG 2.2.2): a paper chip on the picture */
+.cx-pause {
+  position: absolute; z-index: 5; right: 16px; bottom: 16px;
+  width: 40px; height: 40px; padding: 0; margin: 0;
+  display: grid; place-items: center;
+  border: 0; border-radius: 0;
+  background: rgba(255, 255, 255, .86); color: var(--ink);
+  cursor: pointer;
+  transition: background-color .2s ease;
+}
+.cx-pause[hidden] { display: none; }
+.cx-pause:hover { background: var(--paper); }
+.cx-pause:focus-visible { outline: 2px solid var(--ink); outline-offset: 0; box-shadow: 0 0 0 4px var(--paper); }
+.cx-pause svg { width: 14px; height: 14px; display: block; }
+.cx-pause .i-pause { fill: none; stroke: currentColor; stroke-width: 1.7; }
+.cx-pause .i-play { fill: currentColor; display: none; }
+.cx-pause.is-paused .i-play { display: block; }
+.cx-pause.is-paused .i-pause { display: none; }
+
+/* ---------------------------------------------------------------- title (stacked, stands on the frame's bottom line)
+   Two layers set from the same rules: .cx-hk (the h1, ink) lies under the frame; .cx-hw (paper white) rides inside the frame
+   at the same place, so the frame's own edge (and its opening gate) is the knockout's edge. */
+.cx-h {
+  position: absolute;
+  margin: 0; padding: 0;
+  font-weight: 400;
+  will-change: transform;
+}
+.cx-hk { z-index: 1; left: var(--tx); bottom: calc(100% - var(--fb)); color: var(--ink); }
+.cx-hw { z-index: 3; left: calc(var(--tx) - var(--fx)); bottom: 0; color: var(--paper); pointer-events: none;
+  text-shadow: 0 0 1px rgba(15, 14, 12, .24), 0 1px 10px rgba(15, 14, 12, .34); }
+.cx-h-ko, .cx-h-en { display: block; }
+.cx-h .ln { display: block; overflow: hidden; padding: .07em .06em .03em; margin: -.07em -.06em -.03em; }
+.cx-done .cx-h .ln { overflow: visible; }
+.cx-h .li { display: inline-block; white-space: nowrap; }
+/* sized from the edge distance so the frame's edge always falls at the same place inside a glyph (never a sliver):
+   KO 2.83 em = 46% into 활; EN 4.3 em = 75% into the O of OF and 41% into the E before NT (both pulled left by the face's
+   side bearing), and RESEARCH and HEARING end clear of the frame. 980: KO 105 / EN 69 px, 1440: 154 / 101, 1920: 172 / 113. */
+.cx-h-ko {
+  font-family: 'Black Han Sans', var(--ko);
+  font-size: calc(var(--kd) / 2.83);
+  line-height: .98;
+  letter-spacing: -.012em;
+  margin-left: -.045em;            /* the face's side bearing: the stems stand on the column of the text below */
+  transform: translateY(.075em);
+}
+.cx-h-en {
+  font-family: var(--lat);
+  font-stretch: 62%;
+  font-weight: 860;
+  font-size: calc(var(--kd) / 4.3);
+  line-height: .86;
+  letter-spacing: -.004em;
+  text-transform: uppercase;
+  margin-left: -.03em;
+  transform: translateY(.08em);
+}
+
+/* ---------------------------------------------------------------- under the frame line */
+.cx-low {
+  position: absolute; z-index: 3;
+  top: calc(var(--fb) + clamp(24px, 2.5vw, 36px));
+  left: var(--tx);
+  right: var(--m);
+  display: grid;
+  grid-template-columns: calc(var(--W) * .34 - var(--m) - var(--gut)) minmax(0, 1fr);
+  column-gap: var(--gut);
+  grid-template-areas: "inst lead" "nums lead" "nums more";
+  grid-template-rows: auto auto 1fr;
+  align-items: start;
+}
+.cx-inst {
+  grid-area: inst; margin: 0;
+  font-size: 13.5px; line-height: 1.45; font-weight: 500; letter-spacing: .005em;
+  color: var(--ink-2);
+}
+.cx-inst [lang="en"] { letter-spacing: .01em; }
+.cx-lead {
+  grid-area: lead; margin: -.32em 0 0;
+  max-width: 35em;
+  font-size: clamp(15px, 1.33vw, 18px); line-height: 1.72; font-weight: 400; letter-spacing: -.004em;
+  color: var(--ink-2);
+  word-break: keep-all; overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+.cx-lead[lang="en"] { font-size: clamp(15px, 1.29vw, 18px); line-height: 1.6; letter-spacing: 0; max-width: 36em; }
+.cx-nums {
+  grid-area: nums;
+  list-style: none; margin: clamp(16px, 1.9vw, 24px) 0 0; padding: clamp(12px, 1.2vw, 16px) 0 0;
+  background: linear-gradient(var(--ink-r2), var(--ink-r2)) no-repeat 0 0 / var(--rs, 100%) 1px;   /* hairline drawn in with the numbers */
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(12px, 1.2vw, 16px);
+}
+.cx-nums li { display: block; margin: 0; padding: 0; }
+.cx-nums b {
+  display: block;
+  font-family: var(--lat); font-stretch: 62%; font-weight: 640;
+  font-size: clamp(30px, 2.65vw, 40px); line-height: 1; letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--ink);
+}
+.cx-n { display: block; white-space: nowrap; }
+/* the record as counter wheels while it arrives (built by the script, then returned to plain text) */
+.cx-dg { display: inline-block; vertical-align: top; height: 1em; overflow: hidden; }
+.cx-strip { display: block; }
+.cx-strip > span { display: block; height: 1em; }
+.cx-nums li > span {
+  display: block; margin-top: 8px;
+  font-size: 12px; line-height: 1.38; letter-spacing: 0;
+  color: var(--ink-3);
+  word-break: keep-all;
+}
+.cx-nums li > span[lang="en"] { font-size: 11px; font-stretch: 90%; letter-spacing: .005em; }
+.cx .nw { white-space: nowrap; }
+.cx-more {
+  grid-area: more; justify-self: start;
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-top: clamp(12px, 1.4vw, 20px); padding: 8px 0;
+  color: var(--ink); text-decoration: none;
+  font-size: 15px; line-height: 1.3; font-weight: 500; letter-spacing: .005em;
+}
+.cx-more span { padding-bottom: 4px; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .35s cubic-bezier(.16, 1, .3, 1); }
+.cx-more span[lang="en"] { letter-spacing: .01em; }
+.cx-more svg { width: 20px; height: 10px; flex: none; fill: none; stroke: var(--umber); stroke-width: 1.5; transition: transform .35s cubic-bezier(.16, 1, .3, 1); }
+.cx-more:hover svg { transform: translateX(5px); }
+.cx-more:hover span { background-size: 100% 2px; }
+.cx-more:focus-visible { outline: 2px solid var(--umber); outline-offset: 4px; }
+
+/* ---------------------------------------------------------------- reveal states: hidden only when motion will run */
+html.js:not(.rm) .cx [data-a]:not(.on) { opacity: 0; }
+html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(50% 0 50% 0); }
+
+/* ---------------------------------------------------------------- 320 (Wix mobile): the same knockout, the axis at 30% */
+@media (max-width: 760px) {
+  .cx { height: 560px; --ft: 16px; --fh: 234px; --fx: 92px; --fr: 0px; }   /* the edge cuts 각 .55 and 구 .56; EN A .48, T .38, I .55, N .25 */
+  .cx-par { top: -6%; }
+  .cx-still { object-position: 46% 30%; }
+  /* the white letters cover the frame's lower left (to 57% of its width, from 45% of its height down): one even patch
+     there, as dark at the letters' tops (bright coats) as at the corner; the faces above and the right side stay clear */
+  .cx-shade {
+    background: linear-gradient(90deg, rgba(15, 14, 12, .34) 0%, rgba(15, 14, 12, .28) 46%, rgba(15, 14, 12, .1) 64%, rgba(15, 14, 12, 0) 78%);
+    -webkit-mask-image: linear-gradient(0deg, #000 0%, #000 56%, transparent 74%);
+            mask-image: linear-gradient(0deg, #000 0%, #000 56%, transparent 74%);
+  }
+  .cx-shade::after { background: linear-gradient(90deg, rgba(15, 14, 12, .36) 0%, rgba(15, 14, 12, .34) 58%, rgba(15, 14, 12, .1) 70%, rgba(15, 14, 12, 0) 80%); }
+  .cx-pause { right: 12px; bottom: 12px; width: 36px; height: 36px; }
+  .cx-h-ko { font-size: 62px; line-height: 1; transform: translateY(.07em); }
+  .cx-h-en { font-size: 36px; line-height: .9; margin-left: 0; transform: translateY(.06em); }   /* 1 px here, and it would move the edge to a sliver of the I */
+  .cx-low { top: calc(var(--fb) + 12px); left: 16px; right: 16px; display: flex; flex-direction: column; }
+  .cx-inst { order: 1; font-size: 12px; line-height: 1.4; }
+  .cx-inst [lang="en"] { font-size: 12px; line-height: 1.38; }
+  .cx-lead { order: 2; margin: 8px 0 0; font-size: 15px; line-height: 1.6; max-width: none; }
+  .cx-lead[lang="en"] { font-size: 13.5px; line-height: 1.48; max-width: none; }
+  .cx-nums { order: 3; margin-top: 16px; padding-top: 8px; column-gap: 8px; }
+  .cx-nums b { font-size: 25px; }
+  .cx-nums li > span { margin-top: 4px; font-size: 11px; line-height: 1.27; }
+  .cx-nums li > span[lang="en"] { font-size: 11px; letter-spacing: 0; }
+  .cx-more { order: 4; margin-top: 4px; padding: 8px 0; font-size: 13.5px; }
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partners — RIHE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 영어만 Times New Roman, 한글은 Pretendard */
+    @font-face {
+      font-family: 'EngSerif';
+      src: local('Times New Roman');
+      unicode-range: U+0020-007F, U+00A0-00FF, U+0100-024F, U+2000-206F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'EngSerif', Pretendard, sans-serif;
+      color: #1a202c;
+      line-height: 1.7;
+      background: #fff;
+    }
+    .section {
+      padding: 48px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 32px;
+      color: #1a202c;
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 3px;
+      background: #1a3c6e;
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       🤝 Partners 로고 그리드
+       - 4열 배치
+       - 로고 추가: partner-card를 복사해서 img src만 변경
+       ============================================================ */
+    .partner-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .partner-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .partner-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+    .partner-card img {
+      max-width: 100%;
+      max-height: 90px;
+      object-fit: contain;
+    }
+
+    .fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .partner-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="section">
+    <h2 class="section-title">Partners</h2>
+
+    <div class="partner-grid">
+
+      <!-- Cochlear -->
+      <div class="partner-card fade">
+        <img src="https://i.imgur.com/e73yTmH.jpeg" alt="Cochlear">
+      </div>
+
+      <!-- KRISS (한국표준과학연구원) -->
+      <div class="partner-card fade">
+        <img src="https://i.imgur.com/Gt2yITF.jpeg" alt="KRISS">
+      </div>
+
+      <!-- NCSRD (국가참조표준센터) -->
+      <div class="partner-card fade">
+        <img src="https://i.imgur.com/uYE9HkB.png" alt="NCSRD 국가참조표준센터">
+      </div>
+
+      <!-- 대한청각학회 -->
+      <div class="partner-card fade">
+        <img src="https://i.imgur.com/GdiAYNJ.jpeg" alt="대한청각학회">
+      </div>
+
+      <!-- ILIAS Biologics -->
+      <div class="partner-card fade">
+        <img src="https://i.imgur.com/7WGSBl9.png" alt="ILIAS Biologics">
+      </div>
+
+      <!-- M.I one (엠아이원) -->
+      <div class="partner-card fade">
+        <img src="https://i.imgur.com/sH2hnnv.jpeg" alt="M.I one">
+      </div>
+
+      <!-- Innoshuttle (이노셔틀) -->
+      <div class="partner-card fade">
+        <img src="https://i.imgur.com/bM7xqYi.png" alt="Innoshuttle">
+      </div>
+
+      <!-- J&KYM (제이엔킴) -->
+      <div class="partner-card fade">
+        <img src="https://i.imgur.com/pkbfNok.jpeg" alt="J&KYM">
+      </div>
+
+      <!--
+      파트너 추가 예시:
+      <div class="partner-card fade">
+        <img src="로고URL" alt="파트너명">
+      </div>
+      -->
+
+    </div>
+  </section>
+
+  <script>
+    var obs = new IntersectionObserver(function(e) {
+      e.forEach(function(el, i) { if (el.isIntersecting) { setTimeout(function() { el.target.classList.add('show'); }, i * 80); obs.unobserve(el.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade').forEach(function(el) { obs.observe(el); });
+  </script>
+</body>
+</html>

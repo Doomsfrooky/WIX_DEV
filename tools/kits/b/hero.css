@@ -1,0 +1,438 @@
+/* B · clinical modern · final (judge synthesis on the lens-3 skeleton).
+   The page grid is the audiogram's frequency axis: six octave intervals, 125 Hz to 8 kHz. Every block starts on an
+   octave line. One teal cursor sweeps the axis like a test tone, printing each octave as it passes: the name rises out
+   of the axis, the text and a window onto the institute's own audiometer footage are scanned in behind it. Heights are px/vw only (inside the Wix iframe vh is the element height). */
+
+html, body { margin: 0; background: #fff; }
+
+.fp {
+  --paper: #ffffff;
+  --ink: #0c1e21;
+  --ink-2: #33474b;
+  --mute: #5a6d71;
+  --mute-2: #7d8f92;
+  --rule: #d2dddd;
+  --rule-2: #e3eaea;
+  --teal: #0a7671;
+  --teal-2: #065a56;
+  --tint: #edf3f2;
+  --lat: "Hanken Grotesk", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --kor: "Noto Sans KR", "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+
+  /* desktop scale (980 to 1920 wide); every size follows the width, none the language */
+  --pad: clamp(16px, 4.4vw, 64px);
+  --wmax: 1320px;
+  --top: clamp(36px, 4.4vw, 64px);
+  --bot: clamp(40px, 4.4vw, 64px);
+  --ko-fs: clamp(60px, 8.6vw, 124px);
+  --en-fs: clamp(36px, 4.7vw, 66px);
+  --band: calc(var(--en-fs) * 2.12);
+  --row: calc((var(--band) - var(--ko-fs) * .056) / 4);   /* four rows fill the name's band exactly */
+  --n-fs: clamp(18px, 1.8vw, 26px);
+  --dt-fs: clamp(13px, 1vw, 14px);          /* the page's small step: ledger labels = readout labels */
+  --gap1: clamp(16px, 1.8vw, 24px);
+  --gap2: clamp(36px, 3.3vw, 48px);
+  --gut: clamp(24px, 2.5vw, 36px);
+  --inst-fs: clamp(15px, 1.3vw, 18px);
+  --lead-fs: clamp(14.5px, 1.24vw, 18px);
+  --ar: 2.6;
+
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--lat);
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+.fp *, .fp *::before, .fp *::after { box-sizing: border-box; }
+.fp ::selection { background: #cfe5e2; color: var(--ink); }
+.fp [data-l="ko"] { font-family: var(--kor); }
+
+.fp-in {
+  position: relative;
+  width: min(var(--wmax), 100% - 2 * var(--pad));
+  margin: 0 auto;
+  padding: var(--top) 0 var(--bot);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+/* ---------- band: the name, and the record beside it ---------- */
+.fp-band {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: end;
+  height: var(--band);
+}
+.fp-title {
+  grid-column: 1 / 5;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;              /* one weight for both names: Korean 600 (a text= subset of its 7 glyphs) and Hanken 600 */
+}
+.fp-t { display: block; }
+.fp-ko {
+  font-family: var(--kor);
+  font-size: var(--ko-fs);
+  line-height: 1;
+  letter-spacing: -0.024em;
+  white-space: nowrap;
+  margin-left: -0.04em;          /* optical: Hangul side bearing */
+  padding-bottom: 0.02em;
+}
+/* while the name rises, its last line is clipped exactly at the axis: it comes up out of the measurement line */
+.fp-ko .fp-sl-mask { padding: 0 .1em calc(var(--gap1) + .02em); margin: 0 -.1em calc(-.02em - var(--gap1)); }
+.fp-en .fp-sl-mask:last-child { padding: 0 .1em var(--gap1); margin: 0 -.1em calc(-1 * var(--gap1)); }
+.fp-en {
+  font-size: var(--en-fs);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.026em;
+  margin-left: -0.03em;
+}
+
+.fp-ledger {
+  grid-column: 5 / 7;
+  margin: 0 0 calc(var(--ko-fs) * .056);   /* last count sits on the name's baseline */
+  padding: 0;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.fp-row {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--row);
+  border-bottom: 1px solid var(--rule-2);
+}
+.fp-row dt {
+  font-size: var(--dt-fs);
+  line-height: var(--row);
+  font-weight: 500;
+  color: var(--mute);
+  white-space: nowrap;
+}
+.fp-n {
+  margin: 0;
+  font-size: var(--n-fs);
+  line-height: var(--row);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* ---------- the audiogram frequency axis: octave ticks 125 Hz to 8 kHz ---------- */
+.fp-axis {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 1px;
+  margin-top: var(--gap1);
+}
+.fp-base, .fp-draw { position: absolute; left: 0; right: 0; top: 0; height: 1px; }
+.fp-base { background: var(--rule); }
+.fp-draw { background: var(--teal); transform-origin: 0 50%; }
+.fp-tk {
+  position: absolute;
+  top: 0;
+  left: calc(var(--i) * 100% / 6);
+  width: 1px;
+  height: 7px;
+  margin-left: -0.5px;
+  background: var(--teal);
+}
+.fp-k0 { margin-left: 0; }                            /* 125 Hz: flush with the axis start */
+.fp-k6 { margin-left: -1px; }
+.fp-tk b {
+  position: absolute;
+  top: 11px;
+  left: 7px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--mute);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.fp-tk b i { font-style: normal; }
+.fp-u0 { display: none; }
+.fp-k6 b { left: auto; right: 7px; }
+
+/* the sweep: a live frequency readout rides the cursor and prints each octave label where it passes
+   (its number starts exactly where a tick label starts, 7 px right of the tick; paper behind it covers the fresh label) */
+.fp-rd {
+  position: absolute;
+  left: 0;
+  top: 11px;
+  padding: 0 6px 0 7px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--teal);
+  background: var(--paper);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+/* the cursor: one hairline from just above the axis to the foot of the window (geometry set by the script) */
+.fp-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 0;
+  background: var(--teal);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: 50% 0;
+  z-index: 3;
+}
+
+/* ---------- body: affiliation, abstract, the way to the record | the window ---------- */
+.fp-body {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-top: var(--gap2);
+}
+.fp-text {
+  grid-column: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: var(--gut);
+  contain: size;                 /* the row height is the window's: the language never changes the hero height */
+}
+.fp-nw { white-space: nowrap; }
+.fp-inst {
+  margin: 0;
+  font-size: var(--inst-fs);
+  line-height: 1.42;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+/* Hangul reads darker than Latin at the same weight: Korean affiliation and link at 500 match the English at 600
+   (and keep Noto Sans KR 600 for the display subset alone) */
+.fp-inst [data-l="ko"], .fp-link [data-l="ko"] { font-weight: 500; }
+.fp-lead {
+  margin: calc(var(--inst-fs) * 0.9) 0 calc(var(--lead-fs) * 1.5);
+  font-size: var(--lead-fs);
+  line-height: 1.66;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.fp-lead [data-l="ko"] { word-break: keep-all; line-height: 1.76; display: block; }
+.fp-lead [data-l="en"] { display: block; }
+
+.fp-link {
+  margin-top: auto;              /* the way on closes the column on the window's lower edge */
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0 7px;
+  font-size: clamp(14px, 1.12vw, 15.5px);
+  font-weight: 600;
+  letter-spacing: -0.003em;
+  color: var(--teal);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  transition: color .18s ease;
+}
+.fp-arr { flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+.fp-link:hover { color: var(--teal-2); }
+.fp-link:hover .fp-arr { transform: translateX(4px); }
+.fp-link:active .fp-arr { transform: translateX(6px); transition-duration: .1s; }
+.fp-link:focus-visible { outline: 2px solid var(--teal); outline-offset: 5px; border-radius: 1px; }
+
+/* ---------- the window: subtitle-free band of the footage, cropped by height ---------- */
+.fp-win {
+  grid-column: 3 / 7;
+  position: relative;
+  aspect-ratio: var(--ar);
+  align-self: start;
+  border-radius: 2px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.fp-media { position: absolute; inset: 0; overflow: hidden; background: var(--tint); border-radius: inherit; }
+.fp-depth { position: absolute; inset: 0; }
+.fp-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0b6d69;
+  mix-blend-mode: color;
+  opacity: .16;
+  box-shadow: inset 0 0 0 1px rgba(12, 30, 33, .08);
+  pointer-events: none;
+}
+.fp-still, .fp-v { filter: saturate(.5) contrast(1.04) brightness(1.03); }
+.fp-still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 24%;        /* faces with headroom; the seated row is cut at the shins */
+  display: block;
+}
+/* source 854 x 480; the clean band (above the burned-in subtitles) is rows 40 to 368. The video is sized so that band
+   fills the window height; narrower windows crop the sides. Desktop only, over the members photo (a phone keeps the photo). */
+.fp-v {
+  position: absolute;
+  left: 50%;
+  top: -12.2%;
+  height: 146.34%;
+  width: auto;
+  aspect-ratio: 854 / 480;
+  transform: translateX(-50%);
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .7s cubic-bezier(.25, .6, .2, 1);   /* a late first frame: people, then their instrument, one dissolve */
+  background: transparent;
+}
+.fp-v.on { opacity: 1; }
+.fp-media.live .fp-v { transition: none; }      /* after the first frame: hard cuts, as in the edit */
+
+/* ---------- the window's own controls: a time axis along its foot (the loop's progress) and a pause button (WCAG 2.2.2).
+   Shown only once the footage is actually playing and the sweep has opened the window; no JS, phones, reduced motion and
+   a failed video keep the photo and never show them. ---------- */
+.fp-hud {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s cubic-bezier(.25, .6, .2, 1), visibility 0s linear .5s;
+}
+.fp-win.fp-live.fp-open .fp-hud { opacity: 1; visibility: visible; transition-delay: 0s; }
+.fp-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, .55);
+}
+.fp-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--teal);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.fp-pz {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(12, 30, 33, .14);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+.fp-pz::before { content: ""; position: absolute; inset: -7px; }      /* a 44 px target around a quiet 30 px control */
+.fp-pz:hover { background: #fff; color: var(--teal-2); }
+.fp-pz:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.fp-pz svg { display: block; }
+.fp-i-pause { fill: none; stroke: currentColor; stroke-width: 1.7; }
+.fp-i-play { fill: currentColor; display: none; }
+.fp-pz[aria-pressed="true"] .fp-i-pause { display: none; }
+.fp-pz[aria-pressed="true"] .fp-i-play { display: block; }
+
+/* ---------- reveal states: hidden only while the script can show them ---------- */
+html.js:not(.rm) .fp [data-a]:not(.on),
+html.js:not(.rm) .fp [data-ai]:not(.on) { opacity: 0; }
+html.js:not(.rm):not(.all) .fp:not(.fp-done) .fp-tk { background: var(--rule); }        /* before the scan registers them */
+html.rm .fp *, html.rm .fp *::before, html.rm .fp *::after { transition: none !important; animation: none !important; }
+
+/* hairlines on whole pixels: the rules and measures stay crisp teal instead of blending into the grey rule */
+@supports (width: round(1.5px, 1px)) {
+  .fp {
+    --top: round(clamp(36px, 4.4vw, 64px), 1px);
+    --band: round(calc(var(--en-fs) * 2.12), 1px);
+    --row: round(calc((var(--band) - var(--ko-fs) * .056) / 4), 1px);
+    --gap1: round(clamp(16px, 1.8vw, 24px), 1px);
+  }
+  .fp-ledger { margin-bottom: round(calc(var(--ko-fs) * .056), 1px); }
+}
+
+/* narrower desktop: a taller window gives the abstract room (the side crop grows) */
+@media (max-width: 1180px) and (min-width: 761px) {
+  .fp { --ar: 2.28; }
+}
+/* below the Wix desktop minimum (980) the abstract may outgrow the window: let it set the row instead of clipping */
+@media (max-width: 979px) and (min-width: 761px) {
+  .fp-text { contain: none; }
+}
+
+/* ---------- phone: Wix shows this file at 320 px and scales it up ---------- */
+@media (max-width: 760px) {
+  .fp {
+    --pad: 16px;
+    --top: 32px;
+    --bot: 20px;
+    --ko-fs: 42px;
+    --en-fs: 25px;
+    --band: 54px;
+    --inst-fs: 13px;
+    --lead-fs: 13px;
+    --ar: 2.6;
+  }
+  .fp-in { display: flex; flex-direction: column; height: 556px; }   /* one height for both languages (EN is the longer) */
+  .fp-band, .fp-body, .fp-text { display: contents; }
+  .fp-title { order: 1; height: var(--band); display: flex; align-items: flex-end; }
+  .fp-ko { letter-spacing: -0.03em; }
+  .fp-ko .fp-sl-mask, .fp-en .fp-sl-mask:last-child { padding-bottom: .22em; margin-bottom: -.22em; }
+  .fp-en { line-height: 1.06; letter-spacing: -0.02em; }
+  .fp-inst { order: 2; margin-top: 8px; line-height: 1.4; }
+  .fp-axis { order: 3; margin-top: 16px; }
+  .fp-tk { height: 5px; }
+  .fp-tk b { top: 8px; left: 4px; font-size: 10px; letter-spacing: 0; }   /* one micro size on the phone hero: axis = ledger labels */
+  .fp-k6 b { left: auto; right: 4px; }
+  .fp-rd { top: 8px; padding: 0 4px 0 4px; font-size: 10px; letter-spacing: 0; }
+  .fp-u0 { display: inline; }
+  .fp-u6 { display: none; }
+  .fp-win { order: 4; margin-top: 28px; width: 100%; }
+  .fp-lead { order: 5; margin: 12px 0; line-height: 1.58; }
+  .fp-lead [data-l="ko"] { line-height: 1.66; }
+  .fp-ledger {
+    order: 6;
+    margin: auto 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--rule-2);
+    height: 64px;
+  }
+  .fp-row {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 2px;
+    height: auto;
+    padding: 7px 6px 0 0;
+    border-bottom: 0;
+  }
+  .fp-row + .fp-row { padding-left: 7px; border-left: 1px solid var(--rule-2); }
+  .fp-row dt { font-size: 10px; line-height: 1.25; white-space: normal; letter-spacing: 0; word-break: keep-all; }
+  .fp-n { font-size: 19px; line-height: 1.05; }
+  .fp-link { order: 7; margin-top: 8px; font-size: 14px; gap: 10px; align-self: flex-start; }
+}

@@ -1,0 +1,41 @@
+<!--
+  Stage 2 · the Home hero (C2, editorial cinematic on white), from C's /67 final, as a template: tools/kit.py home_hero()
+  fills {{inst}}, {{lead}}, {{nums}} (core.OUTCOMES, counted from data/*.json) and {{more}}. The title keeps its authored line breaks.
+  The title is set twice, exactly aligned: the real h1 in ink lies under the frame; an aria-hidden copy in paper white rides
+  inside the frame, so wherever the photograph is open the letters read white (a knockout), wherever the sheet shows they
+  read ink. One player: the reel's footage is assembled from byte ranges of the promo (tools/kits/cw/reel.py).
+-->
+<section class="cx" aria-labelledby="cx-h">
+  <h1 class="cx-h cx-hk" id="cx-h" data-a>
+    <span class="cx-h-ko" data-l="ko"><span class="ln"><span class="li">청각재활</span></span><span class="ln"><span class="li">연구소</span></span></span>
+    <span class="cx-h-en" data-l="en" lang="en"><span class="ln"><span class="li">Research </span></span><span class="ln"><span class="li">Institute of </span></span><span class="ln"><span class="li">Hearing </span></span><span class="ln"><span class="li">Enhancement</span></span></span>
+  </h1>
+  <div class="cx-frame" data-a>
+    <div class="cx-par">
+      <div class="cx-media">
+        <img class="cx-still" src="https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fill/w_960,h_640,al_c,q_85,enc_auto/members.jpg" width="960" height="640" alt="청각재활연구소 구성원" data-alt-en="Members of RIHE" fetchpriority="high" decoding="async">
+        <video class="cx-v" muted playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"></video>
+      </div>
+    </div>
+    <div class="cx-shade" aria-hidden="true"></div>
+    <div class="cx-grain" aria-hidden="true"></div>
+    <div class="cx-h cx-hw" aria-hidden="true" data-a>
+      <span class="cx-h-ko" data-l="ko"><span class="ln"><span class="li">청각재활</span></span><span class="ln"><span class="li">연구소</span></span></span>
+      <span class="cx-h-en" data-l="en" lang="en"><span class="ln"><span class="li">Research </span></span><span class="ln"><span class="li">Institute of </span></span><span class="ln"><span class="li">Hearing </span></span><span class="ln"><span class="li">Enhancement</span></span></span>
+    </div>
+    <button class="cx-pause" type="button" hidden aria-label="배경 영상 일시정지" data-aria-en="Pause background video">
+      <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg>
+      <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.6v10.8L13.4 8z"/></svg>
+    </button>
+  </div>
+  <i class="cx-edge cx-edge-t" aria-hidden="true"></i><i class="cx-edge cx-edge-b" aria-hidden="true"></i>
+
+  <div class="cx-low">
+    <p class="cx-inst" data-a>{{inst}}</p>
+    {{lead}}
+    <ul class="cx-nums" data-a>
+      {{nums}}
+    </ul>
+    {{more}}
+  </div>
+</section>

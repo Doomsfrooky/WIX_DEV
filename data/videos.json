@@ -1,0 +1,29 @@
+[
+ {
+  "title_ko": "연구소 소개 영상",
+  "title_en": "Institute introduction",
+  "duration": "2:29",
+  "date": "",
+  "src": "https://video.wixstatic.com/video/b8629b_ac3b700fe0a549b1a275c1ec461662ba/480p/mp4/file.mp4",
+  "poster": "https://static.wixstatic.com/media/b8629b_ac3b700fe0a549b1a275c1ec461662baf001.jpg",
+  "thumb": "https://static.wixstatic.com/media/b8629b_ac3b700fe0a549b1a275c1ec461662baf003.jpg"
+ },
+ {
+  "title_ko": "청각빅데이터센터 홍보영상",
+  "title_en": "Hearing Big-data Center",
+  "duration": "3:35",
+  "date": "",
+  "src": "https://video.wixstatic.com/video/b8629b_b4d81b25a9d641439ec983afe489fd43/480p/mp4/file.mp4",
+  "poster": "https://static.wixstatic.com/media/b8629b_b4d81b25a9d641439ec983afe489fd43f002.jpg",
+  "thumb": "https://static.wixstatic.com/media/b8629b_b4d81b25a9d641439ec983afe489fd43f002.jpg"
+ },
+ {
+  "title_ko": "G1 강원민방 뉴스, 청각데이터센터 개관",
+  "title_en": "G1 news: the data center opens",
+  "duration": "0:24",
+  "date": "2019.01.09",
+  "src": "https://video.wixstatic.com/video/b8629b_68bf2f6a23b14a9d848577abec2c79ce/720p/mp4/file.mp4",
+  "poster": "https://static.wixstatic.com/media/b8629b_68bf2f6a23b14a9d848577abec2c79cef003.jpg",
+  "thumb": "https://static.wixstatic.com/media/b8629b_68bf2f6a23b14a9d848577abec2c79cef003.jpg"
+ }
+]

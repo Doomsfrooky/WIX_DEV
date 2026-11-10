@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>B · 클리니컬 모던 · RIHE</title>
+<!--
+  자동 생성 파일입니다. 직접 고치지 말고 data/*.json, tools/kits/*.py, tools/core.py 를 고친 뒤 빌드하세요.
+  방향 B · 클리니컬 모던. 원본: tools/kits/b.py, tools/kits/b/ (첫 화면). 설계: site/_directions/b.design.md
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&amp;display=swap&amp;text=%21%22%23%24%25%26%27%28%29%2A%2B%2C-.%2F0123456789%3A%3B%3C%3D%3E%3F%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~%C2%B7%E2%80%93%E2%80%98%E2%80%99%E2%80%9C%E2%80%9D%E2%80%A6%EA%B0%81%EA%B3%B5%EA%B3%BC%EA%B5%90%EA%B5%AC%EA%B8%B0%EA%B9%80%EA%BB%98%EB%8A%94%EB%8B%B4%EB%8D%B0%EB%93%A4%EB%9E%8C%EB%AF%B8%EC%82%AC%EC%84%9C%EC%84%B1%EC%86%8C%EC%86%A1%EC%88%98%EC%8A%B9%EC%97%B0%EC%98%81%EC%9C%A4%EC%9D%98%EC%9D%B4%EC%9E%84%EC%9E%AC%EC%A4%80%EC%A7%84%EC%B2%A0%EC%B2%AD%ED%83%9C%ED%84%B0%ED%8C%80%ED%95%98%ED%95%A8%ED%98%B8%ED%99%8D%ED%99%9C%ED%9B%88" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<script>(function(d){try{d.classList.add('js');var m=/[?&]lang=(en|ko)/.exec(location.search);if(m){d.setAttribute('data-lang',m[1]);d.lang=m[1];}if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('rm');}catch(e){}})(document.documentElement);</script>
+<style>
+[data-lang="ko"] [data-l="en"], [data-lang="en"] [data-l="ko"] { display: none !important; }
+.sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* reveal safety. A kit hides [data-a] blocks (and [data-ai] items inside them) under html.js:not(.rm) until they get .on. If the main script never
+   reaches setup (.ready), a CSS timer shows everything 2.6 s after first style; html.all shows everything at once. */
+@keyframes rihe-show { to { opacity: 1; transform: none; clip-path: none; filter: none; visibility: visible; } }
+html.js:not(.ready) [data-a], html.js:not(.ready) [data-ai] { animation: rihe-show .01s linear 2.6s forwards; }
+html.all [data-a], html.all [data-ai] { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; visibility: visible !important; }
+#rihe-band { position: absolute; left: 0; top: 0; width: 1px; pointer-events: none; visibility: hidden; }
+#rihe-band i { position: absolute; left: 0; width: 1px; display: block; }
+.rihe-lang { position: absolute; top: 10px; right: 10px; z-index: 30; display: flex; gap: 2px; padding: 2px; background: rgba(255,255,255,.92); border: 1px solid rgba(0,0,0,.12); border-radius: 4px; }
+.rihe-lang button { font: 500 11px/1 ui-monospace, Menlo, monospace; letter-spacing: .04em; border: 0; background: none; color: #555; padding: 6px 9px; border-radius: 3px; cursor: pointer; }
+.rihe-lang button[aria-pressed="true"] { background: #222; color: #fff; }
+
+.rihe-sample { margin: 0; padding: 22px 16px; display: flex; align-items: center; gap: 14px; background: #fff; color: #8a8f98; font: 500 11px/1.4 ui-monospace, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; }
+.rihe-sample::before, .rihe-sample::after { content: ""; flex: 1; border-top: 1px dashed #c9cdd3; }
+/* B · clinical modern · final (judge synthesis on the lens-3 skeleton).
+   The page grid is the audiogram's frequency axis: six octave intervals, 125 Hz to 8 kHz. Every block starts on an
+   octave line. One teal cursor sweeps the axis like a test tone, printing each octave as it passes: the name rises out
+   of the axis, the text and a window onto the institute's own audiometer footage are scanned in behind it. Heights are px/vw only (inside the Wix iframe vh is the element height). */
+
+html, body { margin: 0; background: #fff; }
+
+.fp {
+  --paper: #ffffff;
+  --ink: #0c1e21;
+  --ink-2: #33474b;
+  --mute: #5a6d71;
+  --mute-2: #7d8f92;
+  --rule: #d2dddd;
+  --rule-2: #e3eaea;
+  --teal: #0a7671;
+  --teal-2: #065a56;
+  --tint: #edf3f2;
+  --lat: "Hanken Grotesk", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --kor: "Noto Sans KR", "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+
+  /* desktop scale (980 to 1920 wide); every size follows the width, none the language */
+  --pad: clamp(16px, 4.4vw, 64px);
+  --wmax: 1320px;
+  --top: clamp(36px, 4.4vw, 64px);
+  --bot: clamp(40px, 4.4vw, 64px);
+  --ko-fs: clamp(60px, 8.6vw, 124px);
+  --en-fs: clamp(36px, 4.7vw, 66px);
+  --band: calc(var(--en-fs) * 2.12);
+  --row: calc((var(--band) - var(--ko-fs) * .056) / 4);   /* four rows fill the name's band exactly */
+  --n-fs: clamp(18px, 1.8vw, 26px);
+  --dt-fs: clamp(13px, 1vw, 14px);          /* the page's small step: ledger labels = readout labels */
+  --gap1: clamp(16px, 1.8vw, 24px);
+  --gap2: clamp(36px, 3.3vw, 48px);
+  --gut: clamp(24px, 2.5vw, 36px);
+  --inst-fs: clamp(15px, 1.3vw, 18px);
+  --lead-fs: clamp(14.5px, 1.24vw, 18px);
+  --ar: 2.6;
+
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--lat);
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+.fp *, .fp *::before, .fp *::after { box-sizing: border-box; }
+.fp ::selection { background: #cfe5e2; color: var(--ink); }
+.fp [data-l="ko"] { font-family: var(--kor); }
+
+.fp-in {
+  position: relative;
+  width: min(var(--wmax), 100% - 2 * var(--pad));
+  margin: 0 auto;
+  padding: var(--top) 0 var(--bot);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+/* ---------- band: the name, and the record beside it ---------- */
+.fp-band {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: end;
+  height: var(--band);
+}
+.fp-title {
+  grid-column: 1 / 5;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;              /* one weight for both names: Korean 600 (a text= subset of its 7 glyphs) and Hanken 600 */
+}
+.fp-t { display: block; }
+.fp-ko {
+  font-family: var(--kor);
+  font-size: var(--ko-fs);
+  line-height: 1;
+  letter-spacing: -0.024em;
+  white-space: nowrap;
+  margin-left: -0.04em;          /* optical: Hangul side bearing */
+  padding-bottom: 0.02em;
+}
+/* while the name rises, its last line is clipped exactly at the axis: it comes up out of the measurement line */
+.fp-ko .fp-sl-mask { padding: 0 .1em calc(var(--gap1) + .02em); margin: 0 -.1em calc(-.02em - var(--gap1)); }
+.fp-en .fp-sl-mask:last-child { padding: 0 .1em var(--gap1); margin: 0 -.1em calc(-1 * var(--gap1)); }
+.fp-en {
+  font-size: var(--en-fs);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.026em;
+  margin-left: -0.03em;
+}
+
+.fp-ledger {
+  grid-column: 5 / 7;
+  margin: 0 0 calc(var(--ko-fs) * .056);   /* last count sits on the name's baseline */
+  padding: 0;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.fp-row {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--row);
+  border-bottom: 1px solid var(--rule-2);
+}
+.fp-row dt {
+  font-size: var(--dt-fs);
+  line-height: var(--row);
+  font-weight: 500;
+  color: var(--mute);
+  white-space: nowrap;
+}
+.fp-n {
+  margin: 0;
+  font-size: var(--n-fs);
+  line-height: var(--row);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* ---------- the audiogram frequency axis: octave ticks 125 Hz to 8 kHz ---------- */
+.fp-axis {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 1px;
+  margin-top: var(--gap1);
+}
+.fp-base, .fp-draw { position: absolute; left: 0; right: 0; top: 0; height: 1px; }
+.fp-base { background: var(--rule); }
+.fp-draw { background: var(--teal); transform-origin: 0 50%; }
+.fp-tk {
+  position: absolute;
+  top: 0;
+  left: calc(var(--i) * 100% / 6);
+  width: 1px;
+  height: 7px;
+  margin-left: -0.5px;
+  background: var(--teal);
+}
+.fp-k0 { margin-left: 0; }                            /* 125 Hz: flush with the axis start */
+.fp-k6 { margin-left: -1px; }
+.fp-tk b {
+  position: absolute;
+  top: 11px;
+  left: 7px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--mute);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.fp-tk b i { font-style: normal; }
+.fp-u0 { display: none; }
+.fp-k6 b { left: auto; right: 7px; }
+
+/* the sweep: a live frequency readout rides the cursor and prints each octave label where it passes
+   (its number starts exactly where a tick label starts, 7 px right of the tick; paper behind it covers the fresh label) */
+.fp-rd {
+  position: absolute;
+  left: 0;
+  top: 11px;
+  padding: 0 6px 0 7px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--teal);
+  background: var(--paper);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+/* the cursor: one hairline from just above the axis to the foot of the window (geometry set by the script) */
+.fp-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 0;
+  background: var(--teal);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: 50% 0;
+  z-index: 3;
+}
+
+/* ---------- body: affiliation, abstract, the way to the record | the window ---------- */
+.fp-body {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-top: var(--gap2);
+}
+.fp-text {
+  grid-column: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: var(--gut);
+  contain: size;                 /* the row height is the window's: the language never changes the hero height */
+}
+.fp-nw { white-space: nowrap; }
+.fp-inst {
+  margin: 0;
+  font-size: var(--inst-fs);
+  line-height: 1.42;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+/* Hangul reads darker than Latin at the same weight: Korean affiliation and link at 500 match the English at 600
+   (and keep Noto Sans KR 600 for the display subset alone) */
+.fp-inst [data-l="ko"], .fp-link [data-l="ko"] { font-weight: 500; }
+.fp-lead {
+  margin: calc(var(--inst-fs) * 0.9) 0 calc(var(--lead-fs) * 1.5);
+  font-size: var(--lead-fs);
+  line-height: 1.66;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.fp-lead [data-l="ko"] { word-break: keep-all; line-height: 1.76; display: block; }
+.fp-lead [data-l="en"] { display: block; }
+
+.fp-link {
+  margin-top: auto;              /* the way on closes the column on the window's lower edge */
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0 7px;
+  font-size: clamp(14px, 1.12vw, 15.5px);
+  font-weight: 600;
+  letter-spacing: -0.003em;
+  color: var(--teal);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  transition: color .18s ease;
+}
+.fp-arr { flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+.fp-link:hover { color: var(--teal-2); }
+.fp-link:hover .fp-arr { transform: translateX(4px); }
+.fp-link:active .fp-arr { transform: translateX(6px); transition-duration: .1s; }
+.fp-link:focus-visible { outline: 2px solid var(--teal); outline-offset: 5px; border-radius: 1px; }
+
+/* ---------- the window: subtitle-free band of the footage, cropped by height ---------- */
+.fp-win {
+  grid-column: 3 / 7;
+  position: relative;
+  aspect-ratio: var(--ar);
+  align-self: start;
+  border-radius: 2px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.fp-media { position: absolute; inset: 0; overflow: hidden; background: var(--tint); border-radius: inherit; }
+.fp-depth { position: absolute; inset: 0; }
+.fp-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0b6d69;
+  mix-blend-mode: color;
+  opacity: .16;
+  box-shadow: inset 0 0 0 1px rgba(12, 30, 33, .08);
+  pointer-events: none;
+}
+.fp-still, .fp-v { filter: saturate(.5) contrast(1.04) brightness(1.03); }
+.fp-still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 24%;        /* faces with headroom; the seated row is cut at the shins */
+  display: block;
+}
+/* source 854 x 480; the clean band (above the burned-in subtitles) is rows 40 to 368. The video is sized so that band
+   fills the window height; narrower windows crop the sides. Desktop only, over the members photo (a phone keeps the photo). */
+.fp-v {
+  position: absolute;
+  left: 50%;
+  top: -12.2%;
+  height: 146.34%;
+  width: auto;
+  aspect-ratio: 854 / 480;
+  transform: translateX(-50%);
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .7s cubic-bezier(.25, .6, .2, 1);   /* a late first frame: people, then their instrument, one dissolve */
+  background: transparent;
+}
+.fp-v.on { opacity: 1; }
+.fp-media.live .fp-v { transition: none; }      /* after the first frame: hard cuts, as in the edit */
+
+/* ---------- the window's own controls: a time axis along its foot (the loop's progress) and a pause button (WCAG 2.2.2).
+   Shown only once the footage is actually playing and the sweep has opened the window; no JS, phones, reduced motion and
+   a failed video keep the photo and never show them. ---------- */
+.fp-hud {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s cubic-bezier(.25, .6, .2, 1), visibility 0s linear .5s;
+}
+.fp-win.fp-live.fp-open .fp-hud { opacity: 1; visibility: visible; transition-delay: 0s; }
+.fp-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, .55);
+}
+.fp-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--teal);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.fp-pz {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(12, 30, 33, .14);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+.fp-pz::before { content: ""; position: absolute; inset: -7px; }      /* a 44 px target around a quiet 30 px control */
+.fp-pz:hover { background: #fff; color: var(--teal-2); }
+.fp-pz:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.fp-pz svg { display: block; }
+.fp-i-pause { fill: none; stroke: currentColor; stroke-width: 1.7; }
+.fp-i-play { fill: currentColor; display: none; }
+.fp-pz[aria-pressed="true"] .fp-i-pause { display: none; }
+.fp-pz[aria-pressed="true"] .fp-i-play { display: block; }
+
+/* ---------- reveal states: hidden only while the script can show them ---------- */
+html.js:not(.rm) .fp [data-a]:not(.on),
+html.js:not(.rm) .fp [data-ai]:not(.on) { opacity: 0; }
+html.js:not(.rm):not(.all) .fp:not(.fp-done) .fp-tk { background: var(--rule); }        /* before the scan registers them */
+html.rm .fp *, html.rm .fp *::before, html.rm .fp *::after { transition: none !important; animation: none !important; }
+
+/* hairlines on whole pixels: the rules and measures stay crisp teal instead of blending into the grey rule */
+@supports (width: round(1.5px, 1px)) {
+  .fp {
+    --top: round(clamp(36px, 4.4vw, 64px), 1px);
+    --band: round(calc(var(--en-fs) * 2.12), 1px);
+    --row: round(calc((var(--band) - var(--ko-fs) * .056) / 4), 1px);
+    --gap1: round(clamp(16px, 1.8vw, 24px), 1px);
+  }
+  .fp-ledger { margin-bottom: round(calc(var(--ko-fs) * .056), 1px); }
+}
+
+/* narrower desktop: a taller window gives the abstract room (the side crop grows) */
+@media (max-width: 1180px) and (min-width: 761px) {
+  .fp { --ar: 2.28; }
+}
+/* below the Wix desktop minimum (980) the abstract may outgrow the window: let it set the row instead of clipping */
+@media (max-width: 979px) and (min-width: 761px) {
+  .fp-text { contain: none; }
+}
+
+/* ---------- phone: Wix shows this file at 320 px and scales it up ---------- */
+@media (max-width: 760px) {
+  .fp {
+    --pad: 16px;
+    --top: 32px;
+    --bot: 20px;
+    --ko-fs: 42px;
+    --en-fs: 25px;
+    --band: 54px;
+    --inst-fs: 13px;
+    --lead-fs: 13px;
+    --ar: 2.6;
+  }
+  .fp-in { display: flex; flex-direction: column; height: 556px; }   /* one height for both languages (EN is the longer) */
+  .fp-band, .fp-body, .fp-text { display: contents; }
+  .fp-title { order: 1; height: var(--band); display: flex; align-items: flex-end; }
+  .fp-ko { letter-spacing: -0.03em; }
+  .fp-ko .fp-sl-mask, .fp-en .fp-sl-mask:last-child { padding-bottom: .22em; margin-bottom: -.22em; }
+  .fp-en { line-height: 1.06; letter-spacing: -0.02em; }
+  .fp-inst { order: 2; margin-top: 8px; line-height: 1.4; }
+  .fp-axis { order: 3; margin-top: 16px; }
+  .fp-tk { height: 5px; }
+  .fp-tk b { top: 8px; left: 4px; font-size: 10px; letter-spacing: 0; }   /* one micro size on the phone hero: axis = ledger labels */
+  .fp-k6 b { left: auto; right: 4px; }
+  .fp-rd { top: 8px; padding: 0 4px 0 4px; font-size: 10px; letter-spacing: 0; }
+  .fp-u0 { display: inline; }
+  .fp-u6 { display: none; }
+  .fp-win { order: 4; margin-top: 28px; width: 100%; }
+  .fp-lead { order: 5; margin: 12px 0; line-height: 1.58; }
+  .fp-lead [data-l="ko"] { line-height: 1.66; }
+  .fp-ledger {
+    order: 6;
+    margin: auto 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--rule-2);
+    height: 64px;
+  }
+  .fp-row {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 2px;
+    height: auto;
+    padding: 7px 6px 0 0;
+    border-bottom: 0;
+  }
+  .fp-row + .fp-row { padding-left: 7px; border-left: 1px solid var(--rule-2); }
+  .fp-row dt { font-size: 10px; line-height: 1.25; white-space: normal; letter-spacing: 0; word-break: keep-all; }
+  .fp-n { font-size: 19px; line-height: 1.05; }
+  .fp-link { order: 7; margin-top: 8px; font-size: 14px; gap: 10px; align-self: flex-start; }
+}
+
+/* ======== B · the page after the first screen. Same tokens, type and octave grid as the hero (.fp) ======== */
+.b {
+  --paper: #ffffff;
+  --ink: #0c1e21;
+  --ink-2: #33474b;
+  --mute: #5a6d71;
+  --mute-2: #7d8f92;
+  --rule: #d2dddd;
+  --rule-2: #e3eaea;
+  --teal: #0a7671;
+  --teal-2: #065a56;
+  --tint: #edf3f2;
+  --wash: #f5f8f8;
+  --lat: "Hanken Grotesk", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --kor: "Noto Sans KR", "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+
+  --pad: clamp(16px, 4.4vw, 64px);
+  --wmax: 1320px;
+  --gut: clamp(24px, 2.5vw, 36px);
+  --gap1: clamp(16px, 1.8vw, 24px);
+  --gap2: clamp(32px, 3.3vw, 48px);
+  --sec: clamp(72px, 7.4vw, 112px);
+  --h2: clamp(30px, 3.1vw, 44px);
+  --h3: clamp(15px, 1.25vw, 18px);
+  --lead: clamp(15px, 1.24vw, 18px);
+  --num: clamp(40px, 4.1vw, 60px);
+  --body: clamp(15px, 1.18vw, 17px);
+  --small: clamp(13px, 1vw, 14px);
+  --micro: 12px;
+  --dt: var(--small);                    /* readout labels take the small step (no half-step of their own) */
+
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--lat);
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.b *, .b *::before, .b *::after { box-sizing: border-box; }
+.b ::selection { background: #cfe5e2; color: var(--ink); }
+.b [data-l="ko"], .b [lang="ko"] { font-family: var(--kor); }
+.b-in { width: min(var(--wmax), 100% - 2 * var(--pad)); margin: 0 auto; }
+.b-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+/* KO/EN in one cell: the box takes the larger of the two in both languages */
+.b-d { display: grid; }
+.b-d > [data-l] { grid-area: 1 / 1; min-width: 0; }
+.b-end > [data-l] { align-self: end; }
+[data-lang] .b-d > [data-l] { display: block !important; }
+[data-lang="ko"] .b-d > [data-l="en"], [data-lang="en"] .b-d > [data-l="ko"] { visibility: hidden; }
+
+/* ---------- outcomes: four readouts on the hero's octave lines ---------- */
+.b-rec-in {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid var(--rule-2);
+  padding: clamp(32px, 3.2vw, 48px) 0 clamp(56px, 5.6vw, 80px);
+}
+.b-rec-lead {
+  grid-column: 1 / 3;
+  margin: 0;
+  padding-right: var(--gut);
+  font-size: var(--lead);
+  line-height: 1.66;                     /* the same lead measure as the hero and section leads */
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.b-rec-lead [data-l="ko"] { word-break: keep-all; line-height: 1.76; }
+.b-k { color: var(--teal); font-weight: 500; font-variant-numeric: tabular-nums; }
+.b-rec-g {
+  grid-column: 3 / 7;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.b-cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-left: 1px solid var(--rule-2);
+  padding: 0 clamp(12px, 1.1vw, 16px) 0 clamp(16px, 1.5vw, 24px);   /* the bars and units stop short of the next rule */
+}
+.b-cl {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.7em;                     /* two lines kept for every label: the numbers sit on one line across the band */
+  margin: 0;
+  font-size: var(--dt);
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--mute);
+}
+.b-cl [data-l="ko"] { word-break: keep-all; }
+.b-cn {
+  margin: clamp(4px, .6vw, 8px) 0 0;
+  font-size: var(--num);
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.b-cv { position: relative; margin: clamp(16px, 1.8vw, 24px) 0 0; height: 44px; }
+.b-ft {
+  margin: 0;
+  min-height: 32px;
+  padding-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  column-gap: 12px;
+  row-gap: 4px;
+  font-size: var(--micro);
+  line-height: 1;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+/* year bars: one per year on a shared axis and scale (publications 2008-2026, presentations on the same years) */
+.b-yr { position: absolute; inset: 0; }
+.b-bars { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 2px; }
+.b-bars i { flex: 1 1 0; height: calc(var(--v) * 100%); background: var(--teal); transform-origin: 50% 100%; transition: background-color .15s ease; }
+.b-bars i.hi { background: var(--teal-2); }
+.b-yb { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--rule); }
+@media (hover: hover) and (pointer: fine) { .b-yr { cursor: crosshair; } }     /* the chart can be read with the pointer */
+.b-yl {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: calc(var(--x) * 100%);
+  transform: translateX(-50%);
+  font-size: var(--micro);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--mute);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.b-yl.s { left: 0; transform: none; }
+.b-yl.e { left: auto; right: 0; transform: none; }
+.b-yl.k { color: var(--teal); }
+/* the cursor and its readout (the hero's, on the time axis): the sweep, then the pointer */
+.b-cur { position: absolute; left: 0; top: -7px; bottom: 0; width: 1px; background: var(--teal); opacity: 0; pointer-events: none; transform-origin: 50% 100%; }
+.b-rd {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  padding: 0 4px;
+  background: var(--paper);
+  color: var(--teal);
+  font-size: var(--micro);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+/* units: one square per patent (solid granted, hollow filed) or per transfer */
+.b-un {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(20, minmax(0, 1fr));
+  gap: 2px;
+  align-content: end;
+}
+.b-un i { aspect-ratio: 1; background: var(--teal); }
+.b-un i.o { background: transparent; box-shadow: inset 0 0 0 1px var(--teal); }
+.b-un i.off { background: var(--rule-2); box-shadow: none; }
+.b-key { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.b-key i { flex: none; width: 7px; height: 7px; background: var(--teal); }   /* the size of one unit square */
+.b-key i.o { background: transparent; box-shadow: inset 0 0 0 1px var(--teal); }
+.b-key b { font-weight: 500; color: var(--ink-2); }
+
+/* ---------- sections: a name on its axis, then the body on the octave grid ---------- */
+.b-sec { padding: var(--sec) 0; }
+.b-h2 {
+  margin: 0;
+  font-size: var(--h2);
+  line-height: 1.16;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  text-wrap: balance;                    /* 320 EN: 'Research output / of the Institute', no orphan */
+}
+.b-h2 [data-l="ko"] { letter-spacing: -0.032em; word-break: keep-all; }
+.b-ax { position: relative; height: 1px; margin-top: var(--gap1); background: var(--rule); }
+.b-ax-d { position: absolute; inset: 0; background: var(--teal); transform-origin: 0 50%; }
+.b-sb { margin-top: var(--gap2); }
+.b-side { grid-column: 1 / 3; padding-right: var(--gut); }
+.b-main { grid-column: 3 / 7; min-width: 0; }
+.b-lead {
+  margin: 0;
+  font-size: var(--lead);
+  line-height: 1.66;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.b-lead [data-l="ko"] { line-height: 1.76; word-break: keep-all; }
+
+/* ---------- research: filters | the record map and the list ---------- */
+.b-fls { margin-top: clamp(28px, 2.8vw, 40px); }
+.b-flt + .b-flt { margin-top: 24px; }
+.b-fl {
+  margin: 0 0 8px;
+  font-size: var(--micro);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.b-opts { display: flex; flex-direction: column; border-top: 1px solid var(--rule-2); }
+.b-opt {
+  position: relative;
+  display: grid;                         /* label and count share a baseline; the row is centred in the target */
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  align-content: center;
+  column-gap: 12px;
+  width: 100%;
+  min-height: 40px;
+  margin: 0;
+  padding: 8px 12px 8px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--rule-2);
+  border-radius: 0;
+  background: none;
+  font: 500 14px/1.3 var(--lat);
+  color: var(--ink-2);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease;
+}
+.b-opt::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;                            /* the cursor, standing on the chosen value */
+  background: var(--teal);
+  transform: scaleY(0);
+  transition: transform .25s var(--ease);
+}
+.b-opt-l { min-width: 0; }
+.b-opt-n { flex: none; min-width: 3ch; text-align: right; font-size: var(--micro); color: var(--mute); font-variant-numeric: tabular-nums; transition: color .15s ease; }
+@media (hover: hover) { .b-opt:hover { background: var(--wash); color: var(--ink); } }   /* no sticky hover after a tap */
+.b-opt:active { background: #e6efee; transition-duration: .06s; }
+.b-opt[aria-pressed="true"] { color: var(--ink); background: var(--tint); }
+.b-opt[aria-pressed="true"]::before { transform: scaleY(1); }
+.b-opt[aria-pressed="true"] .b-opt-n { color: var(--teal); }
+.b-opt.zero { color: var(--mute); }
+.b-opt:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; }
+
+.b-tb { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; scroll-margin-top: 24px; }
+.b-n { margin: 0; font-size: var(--small); font-weight: 500; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.b-pg { display: flex; align-items: center; gap: 2px; }
+.b-pb {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+}
+.b-pb svg { display: block; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform .35s var(--ease); }
+@media (hover: hover) {
+  .b-pb:hover:not(:disabled) { border-color: var(--teal); color: var(--teal-2); }
+  .b-pb[data-p="1"]:hover:not(:disabled) svg { transform: translateX(2px); }
+  .b-pb[data-p="-1"]:hover:not(:disabled) svg { transform: translateX(-2px); }
+}
+.b-pb:active:not(:disabled) { background: var(--tint); transition-duration: .06s; }
+.b-pb:disabled { color: var(--mute-2); border-color: var(--rule-2); cursor: default; }
+.b-pb:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.b-pi { min-width: 64px; text-align: center; font-size: var(--small); color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.b-map { margin-top: 16px; }
+.b-tk { display: flex; align-items: flex-end; height: 16px; }
+.b-tk i { position: relative; flex: 1 1 0; height: 100%; transform-origin: 50% 100%; }
+.b-tk i::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - .5px);
+  bottom: 0;
+  width: 1px;
+  height: 8px;
+  background: var(--rule);
+  transform-origin: 50% 100%;
+  transition: background-color .2s ease, transform .25s var(--ease);
+}
+.b-tk i.on::before { background: var(--teal); }
+.b-tk i.cur::before { transform: scaleY(2); background: var(--teal-2); }
+.b-my { position: relative; height: 16px; margin-top: 4px; border-top: 1px solid var(--rule-2); }
+.b-my span {
+  position: absolute;
+  top: -1px;
+  left: calc(var(--x) * 100%);
+  padding: 4px 0 0 4px;
+  border-left: 1px solid var(--rule);
+  font-size: var(--micro);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.b-my span.r { transform: translateX(-100%); padding: 4px 4px 0 0; border-left: 0; border-right: 1px solid var(--rule); }
+.b-pubs { list-style: none; margin: 16px 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.b-pub {
+  display: grid;
+  grid-template-columns: clamp(92px, 8.6vw, 128px) minmax(0, 1fr);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule-2);
+}
+.b-pub-m { margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding-right: 12px; }
+.b-pub-y { font-size: var(--body); line-height: 1.45; font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+.b-pub-tm { font-size: var(--micro); line-height: 1.35; color: var(--mute); }
+.b-pub-b { min-width: 0; }
+.b-pub-t { margin: 0; font-size: var(--body); line-height: 1.45; font-weight: 500; color: var(--ink); text-wrap: pretty; overflow-wrap: anywhere; }
+.b-pub-t[lang="ko"] { word-break: keep-all; }
+.b-pub-a { margin: 8px 0 0; font-size: var(--small); line-height: 1.5; color: var(--mute); overflow-wrap: anywhere; }
+.b-pub-j { margin: 0; font-size: var(--small); line-height: 1.5; font-weight: 500; color: var(--ink-2); }
+.b-pub-x { padding: 32px 0; font-size: var(--body); color: var(--mute); }
+.b-pub-x p { margin: 0; }
+.b-foot { display: flex; justify-content: flex-end; margin-top: 16px; }
+.b-lw { display: flex; flex-direction: column; }
+
+/* ---------- people: portraits on the octave columns ---------- */
+.b-ppl .b-lead { grid-column: 1 / 4; padding-right: var(--gut); }
+.b-grp { margin-top: clamp(44px, 4.6vw, 68px); }
+.b-gh { padding-bottom: 12px; border-bottom: 1px solid var(--rule-2); }
+.b-h3 { margin: 0; font-size: var(--h3); line-height: 1.3; font-weight: 600; color: var(--ink); }
+.b-gn { margin-left: 8px; font-family: var(--lat); font-size: var(--micro); line-height: 1; font-weight: 500; color: var(--mute); font-variant-numeric: tabular-nums; }
+.b-pp-g {
+  list-style: none;
+  margin: clamp(20px, 2vw, 28px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: var(--gut);
+  row-gap: 32px;
+}
+.b-pp { min-width: 0; }
+.b-fac .b-pp { grid-column: span 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gut); }
+.b-pp-f { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 2px; background: var(--tint); isolation: isolate; }
+.b-pp-f::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(12, 30, 33, .06); pointer-events: none; }
+.b-pp-d { position: absolute; inset: 0; }     /* the layer that settles into focus on entry (reading zone: no scroll drift) */
+.b-pp-d img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(var(--z, 1));
+  transform-origin: var(--o, 50% 30%);
+  filter: saturate(.8) contrast(1.03);
+}
+.b-ini { position: absolute; inset: 0; display: grid; place-items: center; font: 600 clamp(28px, 3vw, 44px)/1 var(--kor); color: var(--teal-2); background: var(--tint); }
+.b-pp-t { padding-top: 12px; min-width: 0; }
+.b-fac .b-pp-t { align-self: end; padding: 0 0 2px; }
+.b-fac .b-pp-t > [data-l] { align-self: end; }
+.b-pp-n { margin: 0; font-size: var(--h3); line-height: 1.3; font-weight: 600; color: var(--ink); }
+.b-fac .b-pp-n { font-size: clamp(17px, 1.5vw, 21px); }
+.b-pp-r { margin: 4px 0 0; font-size: var(--small); line-height: 1.45; color: var(--mute); }
+.b-pp-r [data-l="ko"] { word-break: keep-all; }
+
+/* ---------- runtime housekeeping (kit side) ----------
+   core builds its sentinel box (#rihe-band) once, at the document's height before the web fonts arrive, and only rebuilds
+   it when the document grows. Clipped to the body, it can never hold the document taller than its content (otherwise the
+   fixed-height Wix element would get an inner scroll of ~50 px). The scaffolding sample marks get one height in both
+   languages (their Korean glyphs fall back to a taller CJK face inside the mono stack). */
+body { position: relative; }
+#rihe-band { max-height: 100%; overflow: hidden; }
+.b .rihe-sample { box-sizing: border-box; height: 60px; }
+
+/* ---------- reveal states: hidden only while the script can show them ---------- */
+html.js:not(.rm) .b [data-a]:not(.on),
+html.js:not(.rm) .b [data-ai]:not(.on) { opacity: 0; }
+html.rm .b *, html.rm .b *::before, html.rm .b *::after { transition: none !important; animation: none !important; }
+
+/* narrower desktop */
+@media (max-width: 1180px) and (min-width: 761px) {
+  .b-pub { grid-template-columns: 88px minmax(0, 1fr); }
+}
+
+/* ---------- phone: Wix shows this file at 320 px ---------- */
+@media (max-width: 760px) {
+  .b {
+    --pad: 16px;
+    --gut: 12px;
+    --gap1: 12px;
+    --gap2: 24px;
+    --sec: 52px;
+    --h2: 24px;
+    --h3: 15px;
+    --lead: 14px;
+    --num: 32px;
+    --body: 14px;
+    --small: 12px;
+    --micro: 11px;
+    --dt: var(--micro);
+  }
+  .b-rec-in { padding: 24px 0 44px; }
+  .b-rec-lead, .b-rec-g, .b-side, .b-main, .b-ppl .b-lead { grid-column: 1 / -1; padding-right: 0; }
+  .b-rec-g { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 20px; border-top: 1px solid var(--rule-2); }
+  .b-cell { border-left: 0; padding: 12px 12px 0 0; }
+  .b-cell:nth-child(even) { border-left: 1px solid var(--rule-2); padding-left: 12px; padding-right: 0; }
+  .b-cell:nth-child(n+3) { border-top: 1px solid var(--rule-2); }
+  .b-cn { margin-top: 4px; letter-spacing: -0.03em; }
+  .b-cv { margin-top: 12px; height: 32px; }
+  .b-ft { min-height: 32px; column-gap: 8px; }
+  .b-bars { gap: 1px; }
+  .b-un { gap: 1.5px; }
+  .b-key i { width: 6px; height: 6px; }
+
+  .b-h2 { line-height: 1.22; }
+  .b-fls { margin-top: 24px; }
+  .b-flt + .b-flt { margin-top: 16px; }
+  .b-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; border-top: 0; }
+  .b-flt-y .b-opts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .b-opt:first-child { grid-column: 1 / -1; }
+  .b-opt { padding: 4px 8px; border: 1px solid var(--rule); border-radius: 2px; font-size: 13px; column-gap: 4px; }   /* "Collab & Medical 41" stays on one line */
+  .b-main { margin-top: 24px; }
+  .b-tb { scroll-margin-top: 156px; }       /* clear of the Wix sticky header (140 px) on phones */
+  .b-pb { width: 40px; height: 40px; }
+  .b-pi { min-width: 56px; }
+  .b-map { margin-top: 12px; }
+  .b-pub { grid-template-columns: minmax(0, 1fr); }
+  .b-pub-m { flex-direction: row; align-items: baseline; gap: 8px; padding: 0 0 4px; }
+  .b-pub-y { font-size: 13px; }
+  .b-pub-t { line-height: 1.42; }
+  .b-pub-a { margin-top: 4px; }
+
+  .b-grp { margin-top: 40px; }
+  .b-pp-g { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 20px; margin-top: 16px; }
+  .b-fac .b-pp-g { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+  .b-fac .b-pp { grid-column: auto; grid-template-columns: 92px minmax(0, 1fr); column-gap: 16px; }
+  .b-fac .b-pp-t, .b-fac .b-pp-t > [data-l] { align-self: center; }
+  .b-pp-t { padding-top: 8px; }
+  .b-pp-n { font-size: 14px; }
+  .b-fac .b-pp-n { font-size: 16px; }
+  .b-pp-r { font-size: var(--micro); line-height: 1.4; }
+  .b-fac .b-pp-r { font-size: var(--small); }
+}
+</style>
+<script src="../vendor/gsap@3.15.0/gsap.min.js" defer></script><script src="../vendor/gsap@3.15.0/SplitText.min.js" defer></script><script src="../vendor/gsap@3.15.0/CustomEase.min.js" defer></script><script src="../vendor/gsap@3.15.0/DrawSVGPlugin.min.js" defer></script>
+</head>
+<body>
+<div class="rihe-lang" role="group" aria-label="Language"><button type="button" data-set="ko" aria-pressed="true">KO</button><button type="button" data-set="en" aria-pressed="false">EN</button></div><main id="b-main"><section class="fp" id="fp-hero" aria-labelledby="fp-title">
+  <div class="fp-in">
+    <div class="fp-band">
+      <h1 class="fp-title" id="fp-title" data-a><span class="fp-t fp-ko" data-l="ko">청각재활연구소</span><span class="fp-t fp-en" data-l="en" lang="en">Research Institute of<br>Hearing Enhancement</span></h1>
+      <dl class="fp-ledger" data-a>
+        <div class="fp-row" data-ai><dt><span data-l="ko">학술지 논문</span><span data-l="en" lang="en">Journal articles</span></dt><dd class="fp-n"><span class="fp-c" data-count="120" aria-hidden="true">120</span><span class="sr">120</span></dd></div>
+        <div class="fp-row" data-ai><dt><span data-l="ko">학회 발표</span><span data-l="en" lang="en">Conference presentations</span></dt><dd class="fp-n"><span class="fp-c" data-count="94" aria-hidden="true">94</span><span class="sr">94</span></dd></div>
+        <div class="fp-row" data-ai><dt><span data-l="ko">특허 <span class="fp-nw">(출원·등록)</span></span><span data-l="en" lang="en">Patents (filed and granted)</span></dt><dd class="fp-n"><span class="fp-c" data-count="80" aria-hidden="true">80</span><span class="sr">80</span></dd></div>
+        <div class="fp-row" data-ai><dt><span data-l="ko">기술이전</span><span data-l="en" lang="en">Technology transfers</span></dt><dd class="fp-n"><span class="fp-c" data-count="12" aria-hidden="true">12</span><span class="sr">12</span></dd></div>
+      </dl>
+    </div>
+    <div class="fp-axis" aria-hidden="true">
+      <span class="fp-base"></span><span class="fp-draw" data-a></span>
+      <span class="fp-tk fp-k0" style="--i:0"><b data-ai>125<i class="fp-u0"> Hz</i></b></span><span class="fp-tk" style="--i:1"><b data-ai>250</b></span><span class="fp-tk" style="--i:2"><b data-ai>500</b></span><span class="fp-tk" style="--i:3"><b data-ai>1k</b></span><span class="fp-tk" style="--i:4"><b data-ai>2k</b></span><span class="fp-tk" style="--i:5"><b data-ai>4k</b></span><span class="fp-tk fp-k6" style="--i:6"><b data-ai>8k<i class="fp-u6"> Hz</i></b></span>
+      <span class="fp-rd">125 Hz</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-text">
+        <p class="fp-inst" data-a><span data-l="ko">연세대학교 원주세브란스기독병원</span><span data-l="en" lang="en"><span class="fp-nw">Yonsei University ·</span> <span class="fp-nw">Wonju Severance Christian Hospital</span></span></p>
+        <p class="fp-lead" data-a><span data-l="ko">난청의 기전에 대한 기초 연구를 바탕으로 치료제 개발, 임상 연구, 의료기기 개발까지 청각에 대한 전주기적 연구를 하는 연구소입니다. 난청 연구에서 세계 최고의 연구소가 되기 위해 노력합니다.</span><span data-l="en" lang="en">Built on basic research into the mechanisms of hearing loss, we conduct full-cycle hearing research, from drug development and clinical research to medical devices, and strive to become the world’s best institute in hearing research.</span></p>
+        <a class="fp-link" data-a href="https://www.smilesnail.org/project" target="_top" data-path="/project"><span data-l="ko">논문·학회 발표·특허 보기</span><span data-l="en" lang="en">Publications, reports and patents</span><svg class="fp-arr" viewBox="0 0 22 12" width="22" height="12" aria-hidden="true" focusable="false"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a>
+      </div>
+      <div class="fp-win">
+        <div class="fp-media" data-a aria-hidden="true"><div class="fp-depth">
+          <img class="fp-still" src="https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fill/w_960,h_480,al_c,q_85,enc_auto/x.jpg" alt="" width="960" height="480" decoding="async">
+          <video class="fp-v" muted playsinline preload="none" disablepictureinpicture disableremoteplayback data-src="https://video.wixstatic.com/video/b8629b_b4d81b25a9d641439ec983afe489fd43/480p/mp4/file.mp4#t=112.2"></video>
+          <script>/* desktop: fetch the shot while the page parses and start it behind the closed window, so the sweep uncovers footage that is already moving (phones, Save-Data and 2g/3g keep the photo and fetch nothing; reduced motion shows one still frame and never plays).
+   Data budget (CLAUDE.md): the promo file is 21.2 MB and the browser's own read-ahead pulls about 5 MB the moment it plays. So only the bytes of the loop are fetched,
+   with two range requests: the index (first 512 KB: ftyp, moov, the first samples) and the samples of 111.4 to 119 s (about 1 MB). They are played from a blob
+   with the file's own layout (the gap between them is zeros that are never read; the blob ends after the clip). Any failure falls back to the file itself. */
+(function (v) { try {
+  var d = document.documentElement, c = navigator.connection;
+  if (!v || (window.matchMedia && matchMedia('(max-width: 760px)').matches) || (c && (c.saveData || /2g|3g/.test(c.effectiveType || '')))) return;
+  var src = v.getAttribute('data-src'), url = src.split('#')[0], rm = d.classList.contains('rm'), burl = '';
+  v.muted = true; v.preload = 'metadata'; v.fpSrc = 0;
+  var go = function (s) { v.src = s; if (rm) return; v.defaultPlaybackRate = v.playbackRate = .8; var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+  var direct = function () { if (v.fpSrc === 2) return; v.fpSrc = 2; v.fpRetry = 0; if (burl) URL.revokeObjectURL(burl); go(src); };
+  v.addEventListener('timeupdate', function () { if (!v.fpLoop && v.currentTime > 116.3) v.pause(); });
+  v.addEventListener('error', function () { if (v.fpSrc === 1) { v.fpRetry = 1; setTimeout(direct, 0); } });   /* a refused clip: the file itself */
+  var get = function (a, b) {
+    return fetch(url, { headers: { Range: 'bytes=' + a + '-' + b }, credentials: 'omit' }).then(function (r) {
+      if (r.status !== 206) { try { r.body.cancel(); } catch (e) {} throw new Error('no range'); }
+      return r.arrayBuffer();
+    });
+  };
+  v.fpClip = get(0, 524287).then(function (head) {
+    var dv = new DataView(head), L = head.byteLength, u = function (o) { return dv.getUint32(o); };
+    var ty = function (o) { return String.fromCharCode(dv.getUint8(o + 4), dv.getUint8(o + 5), dv.getUint8(o + 6), dv.getUint8(o + 7)); };
+    var moov = -1, end = 0, o, s;
+    for (o = 0; o + 8 <= L; o += s) { s = u(o); if (s < 8) throw new Error('box'); if (ty(o) === 'moov') { moov = o; end = o + s; break; } }
+    if (moov < 0 || end > L) throw new Error('moov');
+    var lo = Infinity, hi = 0;
+    var walk = function (o, e, t) {
+      for (var s; o + 8 <= e; o += s) {
+        s = u(o); var k = ty(o); if (s < 8) throw new Error('box');
+        if (k === 'mdia' || k === 'minf' || k === 'stbl') walk(o + 8, o + s, t);
+        else if (k === 'mdhd') t.ts = dv.getUint8(o + 8) === 1 ? u(o + 28) : u(o + 20);
+        else if (/^(stts|stss|stsc|stsz|stco|co64)$/.test(k)) t[k] = o;
+      }
+    };
+    var at = function (t, x) {                                  /* last sample whose decode time is <= x (track units) */
+      var n = u(t.stts + 12), p = t.stts + 16, base = 0, acc = 0;
+      for (var i = 0; i < n; i++, p += 8) { var cn = u(p), dl = u(p + 4); if (acc + cn * dl > x) return base + Math.floor((x - acc) / dl); acc += cn * dl; base += cn; }
+      return base - 1;
+    };
+    var size = function (t, k) { var z = u(t.stsz + 12); return z || u(t.stsz + 20 + 4 * k); };
+    var place = function (t, k) {                               /* [byte offset, size] of sample k */
+      var n = u(t.stsc + 12), cc = u((t.stco || t.co64) + 12), first = 0;
+      for (var i = 0; i < n; i++) {
+        var fc = u(t.stsc + 16 + 12 * i) - 1, spc = u(t.stsc + 20 + 12 * i), nf = i + 1 < n ? u(t.stsc + 28 + 12 * i) - 1 : cc, run = (nf - fc) * spc;
+        if (k < first + run) {
+          var ch = fc + Math.floor((k - first) / spc), k0 = first + (ch - fc) * spc;
+          var off = t.stco ? u(t.stco + 16 + 4 * ch) : u(t.co64 + 16 + 8 * ch) * 4294967296 + u(t.co64 + 20 + 8 * ch);
+          for (var j = k0; j < k; j++) off += size(t, j);
+          return [off, size(t, k)];
+        }
+        first += run;
+      }
+      throw new Error('stsc');
+    };
+    for (o = moov + 8; o + 8 <= end; o += s) {
+      s = u(o); if (s < 8) throw new Error('box');
+      if (ty(o) !== 'trak') continue;
+      var t = {}; walk(o + 8, o + s, t);
+      if (!t.ts || !t.stts || !t.stsc || !t.stsz || !(t.stco || t.co64)) throw new Error('tables');
+      var a = at(t, 111.4 * t.ts), b = at(t, 119 * t.ts);
+      if (t.stss) { for (var i = 0, n = u(t.stss + 12), sy = 0; i < n; i++) { var q = u(t.stss + 16 + 4 * i) - 1; if (q <= a) sy = q; else break; } a = sy; }   /* back to a keyframe */
+      var A = place(t, a), B = place(t, b);
+      lo = Math.min(lo, A[0]); hi = Math.max(hi, B[0] + B[1]);
+    }
+    if (!(hi > lo) || lo < L || hi - lo > 4194304) throw new Error('range');
+    return get(lo, hi - 1).then(function (mid) { return new Blob([head, new Uint8Array(lo - L), mid], { type: 'video/mp4' }); });
+  }).then(function (blob) {
+    if (v.fpSrc) return;
+    v.fpSrc = 1; burl = URL.createObjectURL(blob); go(burl + '#t=112.2');
+  }).catch(direct);
+} catch (e) {} })(document.currentScript && document.currentScript.previousElementSibling);</script>
+        </div></div>
+        <div class="fp-hud">
+          <span class="fp-track" aria-hidden="true"><i class="fp-fill"></i></span>
+          <button class="fp-pz" type="button" aria-pressed="false" aria-label="영상 일시정지" data-aria-en="Pause video"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path class="fp-i-pause" d="M3.5 2v8M8.5 2v8"/><path class="fp-i-play" d="M3.5 1.8v8.4L10.3 6z"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <span class="fp-line" aria-hidden="true"></span>
+  </div>
+</section>
+<div class="b"><div class="b-rec" id="b-rec"><div class="b-in b-rec-in"><p class="b-d b-rec-lead" data-a><span data-l="ko"><span class="b-k">2015</span>년부터 다양한 융합 연구를 선보인 연구소입니다.</span><span data-l="en" lang="en">Since <span class="b-k">2015</span> the Institute has pursued a wide range of translational research.</span></p><dl class="b-rec-g"><div class="b-cell" data-ai><dt class="b-cl"><span class="b-d b-end"><span data-l="ko">학술지 논문</span><span data-l="en" lang="en">Journal articles</span></span></dt><dd class="b-cn"><span class="b-c" data-count="120" aria-hidden="true">120</span><span class="sr">120</span></dd><dd class="b-cv"><div class="b-yr" data-y0="2008" aria-hidden="true"><div class="b-bars"><i style="--v:0.0526" data-n="1"></i><i style="--v:0.0000" data-n="0"></i><i style="--v:0.0526" data-n="1"></i><i style="--v:0.0526" data-n="1"></i><i style="--v:0.0526" data-n="1"></i><i style="--v:0.0526" data-n="1"></i><i style="--v:0.0526" data-n="1"></i><i style="--v:0.3158" data-n="6"></i><i style="--v:0.4211" data-n="8"></i><i style="--v:0.5789" data-n="11"></i><i style="--v:0.3684" data-n="7"></i><i style="--v:0.2105" data-n="4"></i><i style="--v:0.8947" data-n="17"></i><i style="--v:0.7895" data-n="15"></i><i style="--v:0.4737" data-n="9"></i><i style="--v:0.7895" data-n="15"></i><i style="--v:0.4211" data-n="8"></i><i style="--v:0.6316" data-n="12"></i><i style="--v:0.1053" data-n="2"></i></div><span class="b-yb"></span><span class="b-yl s" style="--x:0.0263">2008</span><span class="b-yl k" style="--x:0.3947">2015</span><span class="b-yl e" style="--x:0.9737">2026</span><span class="b-cur"></span><span class="b-rd"></span></div></dd><dd class="b-ft"></dd></div><div class="b-cell" data-ai><dt class="b-cl"><span class="b-d b-end"><span data-l="ko">학회 발표</span><span data-l="en" lang="en">Conference presentations</span></span></dt><dd class="b-cn"><span class="b-c" data-count="94" aria-hidden="true">94</span><span class="sr">94</span></dd><dd class="b-cv"><div class="b-yr" data-y0="2008" aria-hidden="true"><div class="b-bars"><i style="--v:0.0000" data-n="0"></i><i style="--v:0.0000" data-n="0"></i><i style="--v:0.0526" data-n="1"></i><i style="--v:0.0000" data-n="0"></i><i style="--v:0.0000" data-n="0"></i><i style="--v:0.0000" data-n="0"></i><i style="--v:0.0526" data-n="1"></i><i style="--v:0.0000" data-n="0"></i><i style="--v:0.0000" data-n="0"></i><i style="--v:0.4737" data-n="9"></i><i style="--v:0.5789" data-n="11"></i><i style="--v:0.2105" data-n="4"></i><i style="--v:0.2632" data-n="5"></i><i style="--v:0.4211" data-n="8"></i><i style="--v:0.1579" data-n="3"></i><i style="--v:0.6842" data-n="13"></i><i style="--v:0.5789" data-n="11"></i><i style="--v:1.0000" data-n="19"></i><i style="--v:0.4737" data-n="9"></i></div><span class="b-yb"></span><span class="b-yl s" style="--x:0.0263">2008</span><span class="b-yl k" style="--x:0.3947">2015</span><span class="b-yl e" style="--x:0.9737">2026</span><span class="b-cur"></span><span class="b-rd"></span></div></dd><dd class="b-ft"></dd></div><div class="b-cell" data-ai><dt class="b-cl"><span class="b-d b-end"><span data-l="ko">특허 (출원·등록)</span><span data-l="en" lang="en">Patents (filed and granted)</span></span></dt><dd class="b-cn"><span class="b-c" data-count="80" aria-hidden="true">80</span><span class="sr">80</span></dd><dd class="b-cv"><div class="b-un" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i><i class=o></i></div></dd><dd class="b-ft"><span class="b-key"><i></i><b>37</b><span class="b-d"><span data-l="ko">등록</span><span data-l="en" lang="en">Granted</span></span></span><span class="b-key"><i class="o"></i><b>43</b><span class="b-d"><span data-l="ko">출원</span><span data-l="en" lang="en">Filed</span></span></span></dd></div><div class="b-cell" data-ai><dt class="b-cl"><span class="b-d b-end"><span data-l="ko">기술이전</span><span data-l="en" lang="en">Technology transfers</span></span></dt><dd class="b-cn"><span class="b-c" data-count="12" aria-hidden="true">12</span><span class="sr">12</span></dd><dd class="b-cv"><div class="b-un" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></dd><dd class="b-ft"></dd></div></dl></div></div><div class="rihe-sample" role="note"><span><span data-l="ko">시안 구간 · Research 페이지 일부</span><span data-l="en" lang="en">Sample · Part of the Research page</span></span></div><section class="b-sec b-res" id="research" aria-labelledby="b-res-h"><div class="b-in"><header class="b-sh"><h2 class="b-d b-h2 b-end" id="b-res-h" data-a><span data-l="ko">청각재활연구소의 연구 성과</span><span data-l="en" lang="en">Research output of the Institute</span></h2><div class="b-ax" aria-hidden="true"><i class="b-ax-d" data-a></i></div></header><div class="b-sb b-grid" id="b-pubs"><div class="b-side"><p class="b-d b-lead" data-a><span data-l="ko">기초 연구, 빅데이터·인공지능, 의료기기, 임상시험을 아우르는 연구를 합니다. 연구소와의 협력을 언제나 환영합니다.</span><span data-l="en" lang="en">Our hearing research covers basic science, big data &amp; AI, medical devices and clinical trials. We always welcome collaborations with our laboratory.</span></p><div class="b-fls" data-a><div class="b-flt" role="group" aria-labelledby="b-f-team"><p class="b-d b-fl" id=b-f-team><span data-l="ko">팀</span><span data-l="en" lang="en">Team</span></p><div class="b-opts"><button type="button" class="b-opt" data-k="team" data-v="all" aria-pressed="true"><span class="b-opt-l"><span class="b-d"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></span></span><span class="b-opt-n">120</span></button><button type="button" class="b-opt" data-k="team" data-v="basic" aria-pressed="false"><span class="b-opt-l"><span>Basic Lab</span></span><span class="b-opt-n">41</span></button><button type="button" class="b-opt" data-k="team" data-v="hearing" aria-pressed="false"><span class="b-opt-l"><span>Hearing Lab</span></span><span class="b-opt-n">21</span></button><button type="button" class="b-opt" data-k="team" data-v="head" aria-pressed="false"><span class="b-opt-l"><span>HeAD Lab</span></span><span class="b-opt-n">17</span></button><button type="button" class="b-opt" data-k="team" data-v="collab" aria-pressed="false"><span class="b-opt-l"><span class="b-d"><span data-l="ko">협력·임상</span><span data-l="en" lang="en">Collab &amp; Medical</span></span></span><span class="b-opt-n">41</span></button></div></div><div class="b-flt b-flt-y" role="group" aria-labelledby="b-f-year"><p class="b-d b-fl" id=b-f-year><span data-l="ko">연도</span><span data-l="en" lang="en">Year</span></p><div class="b-opts"><button type="button" class="b-opt" data-k="year" data-v="all" aria-pressed="true"><span class="b-opt-l"><span class="b-d"><span data-l="ko">전체</span><span data-l="en" lang="en">All</span></span></span><span class="b-opt-n">120</span></button><button type="button" class="b-opt" data-k="year" data-v="2026" aria-pressed="false"><span class="b-opt-l">2026</span><span class="b-opt-n">2</span></button><button type="button" class="b-opt" data-k="year" data-v="2025" aria-pressed="false"><span class="b-opt-l">2025</span><span class="b-opt-n">12</span></button><button type="button" class="b-opt" data-k="year" data-v="2024" aria-pressed="false"><span class="b-opt-l">2024</span><span class="b-opt-n">8</span></button><button type="button" class="b-opt" data-k="year" data-v="2023" aria-pressed="false"><span class="b-opt-l">2023</span><span class="b-opt-n">15</span></button><button type="button" class="b-opt" data-k="year" data-v="2022" aria-pressed="false"><span class="b-opt-l">2022</span><span class="b-opt-n">9</span></button><button type="button" class="b-opt" data-k="year" data-v="~2021" aria-pressed="false"><span class="b-opt-l">~2021</span><span class="b-opt-n">74</span></button></div></div></div></div><div class="b-main"><div class="b-mh" data-a><p class="sr" data-st aria-live="polite" aria-atomic="true"></p><div class="b-tb"><p class="b-n" data-n><span data-l="ko">120건</span><span data-l="en" lang="en">120 items</span></p><div class="b-pg b-pg-t"><button type="button" class="b-pb" data-p="-1" aria-label="이전 페이지" data-aria-en="Previous page" disabled><svg viewBox="0 0 14 10" width="14" height="10" aria-hidden="true" focusable="false"><path d="M13 5H1.5M5.5 1 1.5 5l4 4"/></svg></button><span class="b-pi" data-pi>1 / 12</span><button type="button" class="b-pb" data-p="1" aria-label="다음 페이지" data-aria-en="Next page"><svg viewBox="0 0 14 10" width="14" height="10" aria-hidden="true" focusable="false"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></button></div></div><div class="b-map" aria-hidden="true"><div class="b-tk" data-ticks><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on cur"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="b-my"><span style="--x:0.0167">2025</span><span style="--x:0.5083">2020</span><span class=r style="--x:0.9000">2015</span></div></div></div><div class="b-lw"><ul class="b-pubs" data-items data-a><li class="b-pub" data-i="0"><p class="b-pub-m"><span class="b-pub-y">2026</span><span class="b-pub-tm">Hearing Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening</p><p class="b-pub-a" lang="en">Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong</p><p class="b-pub-j" lang="en">Hearing Research</p></div></li><li class="b-pub" data-i="1"><p class="b-pub-m"><span class="b-pub-y">2026</span><span class="b-pub-tm">Hearing Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017</p><p class="b-pub-a" lang="en">Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., &amp; Jin, I. K.</p><p class="b-pub-j" lang="en">American Journal of Audiology</p></div></li><li class="b-pub" data-i="2"><p class="b-pub-m"><span class="b-pub-y">2025</span><span class="b-pub-tm">Hearing Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital</p><p class="b-pub-a" lang="en">Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...</p><p class="b-pub-j" lang="en">CRITICAL PUBLIC HEALTH</p></div></li><li class="b-pub" data-i="3"><p class="b-pub-m"><span class="b-pub-y">2025</span><span class="b-pub-tm">Basic Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Innovative surgical approaches for the Osia® 2 System</p><p class="b-pub-a" lang="en">Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon</p><p class="b-pub-j" lang="en">ACTA OTO-LARYNGOLOGICA</p></div></li><li class="b-pub" data-i="4"><p class="b-pub-m"><span class="b-pub-y">2025</span><span class="b-d b-pub-tm"><span data-l="ko">협력·임상</span><span data-l="en" lang="en">Collab &amp; Medical</span></span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">A Retrospective Comparison of Clinical Characteristics of Post-Traumatic and Idiopathic Benign Paroxysmal Positional Vertigo</p><p class="b-pub-a" lang="en">Kim, Minheon, Jeon, Eun Kyung, Seo, Young Joon, Kong, Tae Hoon</p><p class="b-pub-j" lang="en">EAR AND HEARING</p></div></li><li class="b-pub" data-i="5"><p class="b-pub-m"><span class="b-pub-y">2025</span><span class="b-pub-tm">HeAD Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data</p><p class="b-pub-a" lang="en">You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon</p><p class="b-pub-j" lang="en">HEARING RESEARCH</p></div></li><li class="b-pub" data-i="6"><p class="b-pub-m"><span class="b-pub-y">2025</span><span class="b-pub-tm">Basic Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Isolated Myxoma of the External Auditory Canal: A Rare Case Report</p><p class="b-pub-a" lang="ko">전은경, 김민헌, 권동환, 서영준</p><p class="b-pub-j" lang="en">Journal of Audiology &amp; Otology</p></div></li><li class="b-pub" data-i="7"><p class="b-pub-m"><span class="b-pub-y">2025</span><span class="b-pub-tm">HeAD Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset</p><p class="b-pub-a" lang="en">Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho</p><p class="b-pub-j" lang="en">Journal of Audiology &amp; Otology</p></div></li><li class="b-pub" data-i="8"><p class="b-pub-m"><span class="b-pub-y">2025</span><span class="b-pub-tm">HeAD Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data</p><p class="b-pub-a" lang="en">Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun</p><p class="b-pub-j" lang="en">Frontiers in Neurology</p></div></li><li class="b-pub" data-i="9"><p class="b-pub-m"><span class="b-pub-y">2025</span><span class="b-pub-tm">HeAD Lab</span></p><div class="b-pub-b"><p class="b-pub-t" lang="en">Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System</p><p class="b-pub-a" lang="en">Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon</p><p class="b-pub-j" lang="en">OTO Open</p></div></li></ul><div class="b-foot" data-a><div class="b-pg b-pg-b"><button type="button" class="b-pb" data-p="-1" aria-label="이전 페이지" data-aria-en="Previous page" disabled><svg viewBox="0 0 14 10" width="14" height="10" aria-hidden="true" focusable="false"><path d="M13 5H1.5M5.5 1 1.5 5l4 4"/></svg></button><span class="b-pi" data-pi>1 / 12</span><button type="button" class="b-pb" data-p="1" aria-label="다음 페이지" data-aria-en="Next page"><svg viewBox="0 0 14 10" width="14" height="10" aria-hidden="true" focusable="false"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></button></div></div></div></div></div></div><script type="application/json" id="b-pubs-data">{"items": [{"year": 2026, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"0\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2026<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening<\/p><p class=\"b-pub-a\" lang=\"en\">Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong<\/p><p class=\"b-pub-j\" lang=\"en\">Hearing Research<\/p><\/div><\/li>"}, {"year": 2026, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"1\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2026<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Normal Hearing Thresholds in Korean Adults Aged 20–79 Years: Establishing Reference Values and Comparison With International Organization for Standardization 7029:2017<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, D., Kwak, C., Sagong, J., Lee, D., Byun, Y., Seo, Y. J., &amp; Jin, I. K.<\/p><p class=\"b-pub-j\" lang=\"en\">American Journal of Audiology<\/p><\/div><\/li>"}, {"year": 2025, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"2\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Field survey on the conformity of equipment and environment for audiometric test in South Korean hospital<\/p><p class=\"b-pub-a\" lang=\"en\">Cho, Wan-Ho, Lee, Jihyun, Kwak, Chanbeom, You, Sunghwa, Sagong, Junghee, Kim,...<\/p><p class=\"b-pub-j\" lang=\"en\">CRITICAL PUBLIC HEALTH<\/p><\/div><\/li>"}, {"year": 2025, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"3\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Innovative surgical approaches for the Osia® 2 System<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, Jae Woo, Lee, Hyun Su, Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">ACTA OTO-LARYNGOLOGICA<\/p><\/div><\/li>"}, {"year": 2025, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"4\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">A Retrospective Comparison of Clinical Characteristics of Post-Traumatic and Idiopathic Benign Paroxysmal Positional Vertigo<\/p><p class=\"b-pub-a\" lang=\"en\">Kim, Minheon, Jeon, Eun Kyung, Seo, Young Joon, Kong, Tae Hoon<\/p><p class=\"b-pub-j\" lang=\"en\">EAR AND HEARING<\/p><\/div><\/li>"}, {"year": 2025, "team": "head", "h": "<li class=\"b-pub\" data-i=\"5\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Digitizing audiograms with deep learning: structured data extraction and pseudonymization for hearing big data<\/p><p class=\"b-pub-a\" lang=\"en\">You, Sunghwa, Kwak, Chanbeom, Yoon, Chul Young, Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">HEARING RESEARCH<\/p><\/div><\/li>"}, {"year": 2025, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"6\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Isolated Myxoma of the External Auditory Canal: A Rare Case Report<\/p><p class=\"b-pub-a\" lang=\"ko\">전은경, 김민헌, 권동환, 서영준<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2025, "team": "head", "h": "<li class=\"b-pub\" data-i=\"7\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Preliminary Analysis of Drug-Induced Ototoxicity in South Korea: Trends From a National Sample Dataset<\/p><p class=\"b-pub-a\" lang=\"en\">Aldahan Zahra, Kim Jiwon, Yoon Chul-Young, Seo Young Joon, Park Kyoung Ho<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2025, "team": "head", "h": "<li class=\"b-pub\" data-i=\"8\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Nationwide trends in steroid therapy for vestibular neuritis: insights from South Korea’s health insurance review and assessment data<\/p><p class=\"b-pub-a\" lang=\"en\">Yoon, Chul Young, Kong, Tae Hoon, Seo, Young Joon, Park, Ji-Yun<\/p><p class=\"b-pub-j\" lang=\"en\">Frontiers in Neurology<\/p><\/div><\/li>"}, {"year": 2025, "team": "head", "h": "<li class=\"b-pub\" data-i=\"9\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Review of Ototoxic Drugs Using Health Insurance Data: A Data-Driven Management System<\/p><p class=\"b-pub-a\" lang=\"en\">Kim, Jiwon, CHUL YOUNG, YOON, Lee, Junhun, Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">OTO Open<\/p><\/div><\/li>"}, {"year": 2025, "team": "head", "h": "<li class=\"b-pub\" data-i=\"10\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">Part 2. Current Status of Hearing Disability and Hearing Rehabilitation Devices in Korea Using National Data: NHIS-Database, 2010 to 2020; [2부. 국가 데이터를 활용한 한국의 청각장애 현황 및 청각재활장비 현황: NHIS-Database, 2010~2020]<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...<\/p><p class=\"b-pub-j\" lang=\"en\">Korean Journal of Otorhinolaryngology-Head and Neck Surgery<\/p><\/div><\/li>"}, {"year": 2025, "team": "head", "h": "<li class=\"b-pub\" data-i=\"11\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Seasonal variation in vestibular neuritis in Korea: a nationwide population-based cohort study<\/p><p class=\"b-pub-a\" lang=\"ko\">Yoon Chul-Young, 서영준, 박지윤<\/p><p class=\"b-pub-j\" lang=\"en\">Research in Vestibular Science<\/p><\/div><\/li>"}, {"year": 2025, "team": "head", "h": "<li class=\"b-pub\" data-i=\"12\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">Part 1. 전국 데이터를 이용한 우리나라 난청 환자 현황: National Health Insurance Service-데이터베이스, 2010 to 2020<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, Junhun, Yoon, Chul Young, Kim, Jiwon, Jin, In-Ki, Suh, Michelle J., Cho,...<\/p><p class=\"b-pub-j\" lang=\"ko\">대한이비인후-두경부외과학회지<\/p><\/div><\/li>"}, {"year": 2025, "team": "head", "h": "<li class=\"b-pub\" data-i=\"13\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2025<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Virtual reality-based vestibular rehabilitation therapy in patients with acute unilateral vestibulopathy: a randomized controlled trial<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, Jae Woo, Yoon, Chul Young, Kim, Jae Ha, Seo, Young Joon, Kong, Tae Hoon<\/p><p class=\"b-pub-j\" lang=\"en\">Frontiers in Neurology<\/p><\/div><\/li>"}, {"year": 2024, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"14\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2024<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Efficacy of virtual reality pure-tone audiometry in training of hearing test for audiologist<\/p><p class=\"b-pub-a\" lang=\"en\">Kwak, Chanbeom, Kim, Jinsook, Jang, Hyunsook, Han, Woojae, Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">Heliyon<\/p><\/div><\/li>"}, {"year": 2024, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"15\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2024<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Understanding Standard Procedure in Auditory Brainstem Response: Importance of Normative Data<\/p><p class=\"b-pub-a\" lang=\"en\">Kwak Chanbeom, Byun Yuseon, You Sunghwa, Sagong Junghee, Kim Do-Yun, Cho Wan-...<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2024, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"16\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2024<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Improving Accuracy and Reliability of Hearing Tests: Measurement Standards for Audiometric Devices<\/p><p class=\"b-pub-a\" lang=\"en\">Cho, Wan-Ho, Lee, Jihyun, Seo, Young Joon, Kong, Tae Hoon, Suh, Michelle J., ...<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology and Otology<\/p><\/div><\/li>"}, {"year": 2024, "team": "head", "h": "<li class=\"b-pub\" data-i=\"17\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2024<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Importance of small vessel disease as a possible cause of sudden sensorineural hearing loss<\/p><p class=\"b-pub-a\" lang=\"en\">Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">PloS one<\/p><\/div><\/li>"}, {"year": 2024, "team": "head", "h": "<li class=\"b-pub\" data-i=\"18\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2024<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Clinical characteristics of the &quot;Gap&quot; between the prevalence and incidence of hearing loss using National Health Insurance Service data<\/p><p class=\"b-pub-a\" lang=\"en\">Lee Junhun, Yoon Chul Young, Lee Juhyung, Kong Tae Hoon, Seo Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">PLoS ONE<\/p><\/div><\/li>"}, {"year": 2024, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"19\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2024<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Virtual reality simulators for temporal bone dissection: overcoming limitations of previous models<\/p><p class=\"b-pub-a\" lang=\"ko\">Temuulen Batsaikhan, 서영준<\/p><p class=\"b-pub-j\" lang=\"en\">Research in Vestibular Science<\/p><\/div><\/li>"}, {"year": 2024, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"20\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2024<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Vitamin D supplementation in preventing the recurrence of benign paroxysmal positional vertigo<\/p><p class=\"b-pub-a\" lang=\"en\">Kong, Tae Hoon, Jung, Su Young, Seo, Young Joon, Shim, Dae Bo<\/p><p class=\"b-pub-j\" lang=\"en\">LARYNGOSCOPE INVESTIGATIVE OTOLARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2024, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"21\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2024<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Combination Therapy of Choline Alfoscerate With Ginkgo biloba Monotherapy in Age-Related Hearing Loss: Effects and Outcomes<\/p><p class=\"b-pub-a\" lang=\"en\">Kim Dae Hyun, Seo Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2023, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"22\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Role of Kir4.1 Channels in Aminoglycoside-Induced Ototoxicity of Hair Cells<\/p><p class=\"b-pub-a\" lang=\"en\">Choi, Jin Sil, Ahn, Ye Ji, Lee, SuHoon, Park, Dong Jun, Park, JeongEun, Ha, S...<\/p><p class=\"b-pub-j\" lang=\"en\">BioMed Research International<\/p><\/div><\/li>"}, {"year": 2023, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"23\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Meta-Analysis Exploring the Effects of Music Training in Cochlear Implant Users by Age<\/p><p class=\"b-pub-a\" lang=\"en\">Shukor Nor Farawaheeda Ab, Seo Young Joon, Han Woojae<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology and Otology<\/p><\/div><\/li>"}, {"year": 2023, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"24\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Improving Accuracy and Reliability of Hearing Tests: An Exploration of International Standards<\/p><p class=\"b-pub-a\" lang=\"en\">Suh Michelle J., Lee Jihyun, Cho Wan-Ho, Jin In-Ki, Kong Tae Hoon, Oh Soo Hee...<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology and Otology<\/p><\/div><\/li>"}, {"year": 2023, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"25\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">편도에 고립된 뇌간 경색의 희귀한 증례: 급작스러운 현훈의 임상적 특징 및 영상 소견<\/p><p class=\"b-pub-a\" lang=\"en\">Dong Hwan Kwon, Eun kyung Jeon, Young Joon Seo<\/p><p class=\"b-pub-j\" lang=\"en\">Research in Vestibular Science<\/p><\/div><\/li>"}, {"year": 2023, "team": "head", "h": "<li class=\"b-pub\" data-i=\"26\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Effect of changes in the hearing aid subsidy on the prevalence of hearing loss in South Korea<\/p><p class=\"b-pub-a\" lang=\"en\">Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">Frontiers in Neurology<\/p><\/div><\/li>"}, {"year": 2023, "team": "head", "h": "<li class=\"b-pub\" data-i=\"27\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">A situational analysis of ear and hearing care in South Korea using WHO ear and Hearing Care Situation Analysis tool<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, Juhyeong, Yoon, Chul Young, Lee, Junhun, Kong, Tae Hoon, Oh, Seung Ha, S...<\/p><p class=\"b-pub-j\" lang=\"en\">Frontiers in Public Health<\/p><\/div><\/li>"}, {"year": 2023, "team": "head", "h": "<li class=\"b-pub\" data-i=\"28\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">건강 보험 데이터 분석을 통한 급성 전정신경염의 유병률 측정<\/p><p class=\"b-pub-a\" lang=\"en\">Chul Young Yoon, Seulgi Hong, Ji-Yun Park, Young Joon Seo<\/p><p class=\"b-pub-j\" lang=\"en\">Research in Vestibular Science<\/p><\/div><\/li>"}, {"year": 2023, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"29\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">효과적인 BAHAⓇ Attract의 이식술식<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, Jeon Mi, Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"ko\">대한이비인후-두경부외과학회지<\/p><\/div><\/li>"}, {"year": 2023, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"30\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">d-Galactose and Hypoxia Induce the Early Onset of Age-Related Hearing Loss Deterioration in a Mouse Model<\/p><p class=\"b-pub-a\" lang=\"en\">Batsaikhan Temuulen, Choi Jin Sil, Ha Sun Mok, Ahn Yeji, Seo Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">TISSUE ENGINEERING AND REGENERATIVE MEDICINE<\/p><\/div><\/li>"}, {"year": 2023, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"31\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">A nystagmus extraction system using artificial intelligence for video-nystagmography<\/p><p class=\"b-pub-a\" lang=\"ko\">Lee, Yerin, Lee, Sena, Han, Junghun, 서영준, Yang, Sejung<\/p><p class=\"b-pub-j\" lang=\"en\">Scientific Reports<\/p><\/div><\/li>"}, {"year": 2023, "team": "head", "h": "<li class=\"b-pub\" data-i=\"32\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Learning curve comparable study of microscopic and endoscopic type 1 tympanoplasty<\/p><p class=\"b-pub-a\" lang=\"ko\">Lee Hyun Su, Yoon Chul Young, 박대우, Lee Joo Hyung, 서영준, 공태훈<\/p><p class=\"b-pub-j\" lang=\"en\">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2023, "team": "head", "h": "<li class=\"b-pub\" data-i=\"33\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Epidemiology of idiopathic sudden sensorineural hearing loss in the era of big data<\/p><p class=\"b-pub-a\" lang=\"en\">Yoon Chul Young, Kong, Tae Hoon, Lee Juhyung, Seo, Young Joon, Ahn, Jae Joon<\/p><p class=\"b-pub-j\" lang=\"en\">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2023, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"34\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Contralateral bone conducted sound wave propagation on the skull bones in fresh frozen cadaver<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, J., Cho, W.-H., Kong, T.H., Jung, S.-S., Han, W., Park, S., Seo, Y.J.<\/p><p class=\"b-pub-j\" lang=\"en\">Scientific Reports<\/p><\/div><\/li>"}, {"year": 2023, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"35\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">An eye-tracking algorithm for nystagmus detection in videonystagmography based on convolutional neural networks<\/p><p class=\"b-pub-a\" lang=\"ko\">Lee, Y., Lee, S., Han, J., Wang, H.J., 서영준, Yang, S.<\/p><p class=\"b-pub-j\" lang=\"en\">Progress in Biomedical Optics and Imaging - Proceedings of SPIE<\/p><\/div><\/li>"}, {"year": 2023, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"36\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2023<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Deep Learning Techniques for Ear Diseases Based on Segmentation of the Normal Tympanic Membrane<\/p><p class=\"b-pub-a\" lang=\"en\">Park, Y.S., Jeon, J.H., Kong, T.H., Chung, T.Y., Seo, Y.J.<\/p><p class=\"b-pub-j\" lang=\"en\">Clinical and Experimental Otorhinolaryngology<\/p><\/div><\/li>"}, {"year": 2022, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"37\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Protection of Hearing Loss in Ototoxic Mouse Model Through SPIONs and Dexamethasone-Loaded PLGA Nanoparticle Delivery by Magnetic Attraction<\/p><p class=\"b-pub-a\" lang=\"en\">Park, Jeong-Eun, Kim, Woo Cheol, Kim, Sung Kyun, Ahn, Yeji, Ha, Sun Mok, Kim,...<\/p><p class=\"b-pub-j\" lang=\"en\">INTERNATIONAL JOURNAL OF NANOMEDICINE<\/p><\/div><\/li>"}, {"year": 2022, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"38\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">안진영상에서 안진기의 미끄러짐으로 유발된 동잡음 제거 알고리즘 개발<\/p><p class=\"b-pub-a\" lang=\"en\">Yerin Lee, Young Joon Seo, Sejung Yang<\/p><p class=\"b-pub-j\" lang=\"en\">Research in Vestibular Science<\/p><\/div><\/li>"}, {"year": 2022, "team": "head", "h": "<li class=\"b-pub\" data-i=\"39\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Association of dietary factors with noise-induced hearing loss in Korean population: A 3-year national cohort study<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, H.J., Lee, J., Yoon, C., Park, Y., Joo, Y.-H., Park, J.-O., Seo, Y.J., P...<\/p><p class=\"b-pub-j\" lang=\"en\">PLOS ONE<\/p><\/div><\/li>"}, {"year": 2022, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"40\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Circulatory disturbance of the cochlear spiral modiolar artery in a type 2 diabetic mouse model<\/p><p class=\"b-pub-a\" lang=\"en\">Seo Young Joon, Shim Dae Bo, Sharif Arazu, Samson Zeke, Takechi Ryu, Brown Da...<\/p><p class=\"b-pub-j\" lang=\"en\">Laryngoscope Investigative Otolaryngology<\/p><\/div><\/li>"}, {"year": 2022, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"41\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">The value of having an initial word recognition score for a precise prognosis of idiopathic sudden sensorineural hearing loss<\/p><p class=\"b-pub-a\" lang=\"en\">Kwak, Chanbeom, Seo, Young Joon, Yoon, ChulYoung, Lee, JuHyung, Han, Woojae<\/p><p class=\"b-pub-j\" lang=\"en\">AURIS NASUS LARYNX<\/p><\/div><\/li>"}, {"year": 2022, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"42\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Analysis of the Knowledge, Attitudes, and Practice Model of Healthcare Professionals on Hearing Loss at Elderly Dementia Residences in Korea<\/p><p class=\"b-pub-a\" lang=\"en\">Kwak, C., Seo, Y.J., Park, K.H., Han, W.<\/p><p class=\"b-pub-j\" lang=\"en\">HEALTHCARE<\/p><\/div><\/li>"}, {"year": 2022, "team": "head", "h": "<li class=\"b-pub\" data-i=\"43\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">HeAD Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Relationship between Nutrient Intake and Hearing Loss According to the Income Level of Working-Aged Adults: A Korean National Health and Nutrition Survey<\/p><p class=\"b-pub-a\" lang=\"en\">Lee, Juhyung, Lee, Ji-Hyeon, Yoon, Chulyoung, Kwak, Chanbeom, Jaejoon Ahn, Ko...<\/p><p class=\"b-pub-j\" lang=\"en\">NUTRIENTS<\/p><\/div><\/li>"}, {"year": 2022, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"44\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">양성돌발체위현기증 진단을 위한 주성분 분석을 이용한 안진 자동패턴인식 기술: 예비 연구<\/p><p class=\"b-pub-a\" lang=\"en\">O-Hyeon Gwon, TAEHOON KONG, Jaehong Key, SEJUNG YANG, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">Research in Vestibular Science<\/p><\/div><\/li>"}, {"year": 2022, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"45\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2022<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Observation of the vibration response on the skull bones by bone conduction with the fresh frozen cadaver<\/p><p class=\"b-pub-a\" lang=\"en\">Cho, Wan-Ho, Lee, Ji Hyeon, Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">Proceedings of the International Congress on Acoustics<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"46\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">The risk of laryngitis with herpes zoster infection: A nested case-control study using data from the Korean National Sample Cohort<\/p><p class=\"b-pub-a\" lang=\"en\">Joo, Young-Hoon, Lee, Hyun-Jin, Park, Jun-Ook, Seo, Young Joon, Kong, Tae Hoo...<\/p><p class=\"b-pub-j\" lang=\"en\">PLOS ONE<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"47\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Protective effect of MSC-derived exosomes against cisplatin-induced apoptosis via heat shock protein 70 in auditory explant model<\/p><p class=\"b-pub-a\" lang=\"en\">Park, Dong Jun, Park, Jeong-Eun, Lee, Su Hoon, Eliceiri, Brian P., Choi, Jin ...<\/p><p class=\"b-pub-j\" lang=\"en\">NANOMEDICINE-NANOTECHNOLOGY BIOLOGY AND MEDICINE<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"48\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Hyperbaric Protocols for Idiopathic Sudden Sensorineural Hearing Loss Response<\/p><p class=\"b-pub-a\" lang=\"en\">Seo, Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"49\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Engineering of Extracellular Vesicles Based on Payload Changes for Tissue Regeneration<\/p><p class=\"b-pub-a\" lang=\"en\">Park Dong Jun, Seo Young Joon<\/p><p class=\"b-pub-j\" lang=\"en\">TISSUE ENGINEERING AND REGENERATIVE MEDICINE<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"50\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Usefulness of stress-related hormones as predictors and prognostic factors for idiopathic sudden sensorineural hearing loss<\/p><p class=\"b-pub-a\" lang=\"en\">Chae, H (Chae, Heesung), Lee, HS (Lee, Hyun Su), Lee, JH (Lee, Joo Hyung), Ki...<\/p><p class=\"b-pub-j\" lang=\"en\">ACTA OTO-LARYNGOLOGICA<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"51\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Alteration of payload in extracellular vesicles by crosstalk with mesenchymal stem cells from different origin<\/p><p class=\"b-pub-a\" lang=\"en\">DONGJUN PARK, JEONGEUN PARK, TAEHOON KONG, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">JOURNAL OF NANOBIOTECHNOLOGY<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"52\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Effects of reactive oxygen species generation induced by Wonju City particulate matter on mitochondrial dysfunction in human middle ear cell<\/p><p class=\"b-pub-a\" lang=\"en\">SUHOON LEE, SUNMOKHA , MinJae JEONG, DONGJUN PARK, Polo, CN (Polo, Carlos Nor...<\/p><p class=\"b-pub-j\" lang=\"en\">ENVIRONMENTAL SCIENCE AND POLLUTION RESEARCH<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"53\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Crucial Music Components Needed for Speech Perception Enhancement of Pediatric Cochlear Implant Users: A Systematic Review and Meta-Analysis<\/p><p class=\"b-pub-a\" lang=\"en\">Ab Shukor, NF (Ab Shukor, Nor Farawaheeda), Han, W (Han, Woojae), JIHYEON LEE...<\/p><p class=\"b-pub-j\" lang=\"en\">AUDIOLOGY AND NEURO-OTOLOGY<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"54\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">The Effectiveness of Hyperbaric Oxygen Therapy in Severe Idiopathic Sudden Sensorineural Hearing Loss<\/p><p class=\"b-pub-a\" lang=\"en\">YEJI AHN, YOUNG JOON SEO, Lee, YS (Lee, Young Sub)<\/p><p class=\"b-pub-j\" lang=\"en\">JOURNAL OF INTERNATIONAL ADVANCED OTOLOGY<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"55\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Audiological benefits and performance improvements of Baha® attract implantation in patients with unilateral hearing loss<\/p><p class=\"b-pub-a\" lang=\"en\">TAEHOON KONG, JIHYEON LEE, Kwak C., Han W., Gwon O.-H., YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">Cochlear Implants International<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"56\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Biodistribution of poly clustered superparamagnetic iron oxide nanoparticle labeled mesenchymal stem cells in aminoglycoside induced ototoxic mouse model<\/p><p class=\"b-pub-a\" lang=\"en\">YEJI AHN, WAN SU YUN, JINSILCHOI , woochul kim, Su Hoon Lee, Dong Jun Park, J...<\/p><p class=\"b-pub-j\" lang=\"en\">Biomedical Engineering Letters<\/p><\/div><\/li>"}, {"year": 2021, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"57\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Efficacy of Music Training in Hearing Aid and Cochlear Implant Users: A Systematic Review and Meta-Analysis<\/p><p class=\"b-pub-a\" lang=\"en\">Ab Shukor, Nor Farawaheeda, Lee, Jihyeon, Seo, Young Joon, Han, Woojae<\/p><p class=\"b-pub-j\" lang=\"en\">CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2021, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"58\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Auditory Function Testing for Types of Dementia: Systematic Reviews and Meta-Analysis<\/p><p class=\"b-pub-a\" lang=\"ko\">박시훈, 한우재, TAEHOON KONG, YOUNG JOON SEO, HANJAEHYUN , TAEHUI KIM<\/p><p class=\"b-pub-j\" lang=\"ko\">대한이비인후과학회지 두경부외과학<\/p><\/div><\/li>"}, {"year": 2021, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"59\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Usefulness of vertebrobasilar artery radiological finding as a predictive and prognostic factor for sudden sensorineural hearing loss<\/p><p class=\"b-pub-a\" lang=\"en\">Han, SM (Han, Sung Min), Lee, HS (Lee, Hyun Su), Chae, HS (Chae, Hee Sung), Y...<\/p><p class=\"b-pub-j\" lang=\"en\">AURIS NASUS LARYNX<\/p><\/div><\/li>"}, {"year": 2021, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"60\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2021<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Familial Otosclerosis Associated with Osteogenesis Imperfecta: A Case Report<\/p><p class=\"b-pub-a\" lang=\"en\">Ha Neul Lee, Hyun Jong Jeon, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2020, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"61\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Improvement of stem cell-derived exosome release efficiency by surface-modified nanoparticles<\/p><p class=\"b-pub-a\" lang=\"ko\">박동준, Yun, W.S., Kim, W.C., Park, J.-E., Lee, S.H., Ha, S., Choi, J.S., Key, J...<\/p><p class=\"b-pub-j\" lang=\"en\">JOURNAL OF NANOBIOTECHNOLOGY<\/p><\/div><\/li>"}, {"year": 2020, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"62\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">In vitro time-lapse live-cell imaging to explore cell migration toward the organ of corti<\/p><p class=\"b-pub-a\" lang=\"en\">Park, J.-E., Lee, S.H., DONGJUN PARK, Seo, Y.J., Kim, S.K.<\/p><p class=\"b-pub-j\" lang=\"en\">JOVE-JOURNAL OF VISUALIZED EXPERIMENTS<\/p><\/div><\/li>"}, {"year": 2020, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"63\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Circulating microRNAs as potentially new diagnostic biomarkers of idiopathic sudden sensorineural hearing loss<\/p><p class=\"b-pub-a\" lang=\"en\">SUNMOKHA , Hwang, KR (Hwang, Kyu Rin), ILHWAN PARK, Park, S (Park, Sunyoung),...<\/p><p class=\"b-pub-j\" lang=\"en\">ACTA OTO-LARYNGOLOGICA<\/p><\/div><\/li>"}, {"year": 2020, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"64\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Non-invasive postoperative monitoring of pedicled rat skin flap using laser speckle contrast imaging<\/p><p class=\"b-pub-a\" lang=\"en\">Im, J., Kong, T.H., Choi, J.S., Seo, Y.J., Choi, E.C., Jung, B., Kim, J.-H.<\/p><p class=\"b-pub-j\" lang=\"en\">MICROVASCULAR RESEARCH<\/p><\/div><\/li>"}, {"year": 2020, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"65\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Endocytic trafficking of polymeric clustered superparamagnetic iron oxide nanoparticles in mesenchymal stem cells<\/p><p class=\"b-pub-a\" lang=\"en\">Su Hoon Lee, Dong Jun Park, Wan Su Yun, Jeong-Eun Park, Jin Sil Choi, Jaehong...<\/p><p class=\"b-pub-j\" lang=\"en\">JOURNAL OF CONTROLLED RELEASE<\/p><\/div><\/li>"}, {"year": 2020, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"66\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Induced short-term hearing loss due to stimulation of age-related factors by intermittent hypoxia, high-fat diet, and galactose injection<\/p><p class=\"b-pub-a\" lang=\"ko\">박동준, Ha, S., Choi, J.S., Lee, S.H., Park, J.-E., Seo, Y.J.<\/p><p class=\"b-pub-j\" lang=\"en\">International Journal of Molecular Sciences<\/p><\/div><\/li>"}, {"year": 2020, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"67\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">일측성 난청 환자에서 골전도 보청기의 효능<\/p><p class=\"b-pub-a\" lang=\"ko\">이지현, 서영준<\/p><p class=\"b-pub-j\" lang=\"ko\">대한이비인후과학회지 두경부외과학<\/p><\/div><\/li>"}, {"year": 2020, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"68\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Sixth Cranial Nerve Palsy and Vertigo Caused by Vertebrobasilar Insufficiency<\/p><p class=\"b-pub-a\" lang=\"en\">Seung Won Paik, Hui Joon Yang, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2020, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"69\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">비디오두부충동검사와 온도안진검사 간의 비교분석<\/p><p class=\"b-pub-a\" lang=\"ko\">한 준, 백승원, 양희준, 박상유, 이지현, 서영준<\/p><p class=\"b-pub-j\" lang=\"en\">Research in Vestibular Science<\/p><\/div><\/li>"}, {"year": 2020, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"70\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">미로내 신경초종 1예와 이전 국내에서 보고된 미로내 신경초종 증례의 문헌 고찰<\/p><p class=\"b-pub-a\" lang=\"ko\">전현종, 채희성, 이하늘, 서영준<\/p><p class=\"b-pub-j\" lang=\"ko\">대한이비인후과학회지 두경부외과학<\/p><\/div><\/li>"}, {"year": 2020, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"71\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Engineered iron oxide nanoparticles to improve regenerative effects of mesenchymal stem cells<\/p><p class=\"b-pub-a\" lang=\"en\">Wan Su Yun, Susmita Aryal, YEJI AHN, YOUNG JOON SEO, Jaehong Key<\/p><p class=\"b-pub-j\" lang=\"en\">Biomedical Engineering Letters<\/p><\/div><\/li>"}, {"year": 2020, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"72\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Sphenoid Sinus Fat Packing in Transsphenoidal Surgery: Long-Term Fate Assessment Using Magnetic Resonance Imaging<\/p><p class=\"b-pub-a\" lang=\"ko\">황치상, 황금, 채희성, 이현수, 이중석, 서영준, 박동준<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Rhinology<\/p><\/div><\/li>"}, {"year": 2020, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"73\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Experimental animal models for meniere&#x27;s disease: A mini-review<\/p><p class=\"b-pub-a\" lang=\"en\">Seo Y.J., Brown D.<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2020, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"74\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Better Understanding of Direct Bone-Conduction Measurement: Comparison with Frequency-Specific Bone-Conduction Tones and Brainstem Responses<\/p><p class=\"b-pub-a\" lang=\"en\">Kim, Yeoju, Han, Woojae, Park, Sihun, You, Sunghwa, Kwak, Chanbeom, YOUNG JOO...<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2020, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"75\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Baha Attract Implantation Using a Small Incision: Initial Report of Surgical Technique and Surveillance<\/p><p class=\"b-pub-a\" lang=\"en\">Dong Su Jang, Dong Hyo Shin, Woojae Han, , YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2020, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"76\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Measurement of Skull Size on Computed Tomography Images for Developing a Bone Conduction Headset Suitable for the Korean Standard Head Size<\/p><p class=\"b-pub-a\" lang=\"en\">Cheol Hyo Ku, Soo Won Kim, Ji Young Kim, Seung Won Paik, Hui Joon Yang, Ji Hy...<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2020, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"77\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2020<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Reliability and validity of self-screening tool for hearing loss in older adults<\/p><p class=\"b-pub-a\" lang=\"en\">Sunghwa You, Woojae Han, Saea Kim, Sanga Maeng, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">Clinical interventions in aging<\/p><\/div><\/li>"}, {"year": 2019, "team": "hearing", "h": "<li class=\"b-pub\" data-i=\"78\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2019<\/span><span class=\"b-pub-tm\">Hearing Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Evaluation of wireless Bluetooth devices to improve recognition of speech and sentences when using a mobile phone in bone conduction device recipients<\/p><p class=\"b-pub-a\" lang=\"en\">Chanbeom Kwak, Woojae Han, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2019, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"79\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2019<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Association of Dietary Factors with Presence and Severity of Tinnitus in Korean Adults with Normal Hearing<\/p><p class=\"b-pub-a\" lang=\"en\">Sung Kyun Kim, Yoon Ah Park, SANG-YOO PARK, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">JOURNAL OF FOOD AND NUTRITION RESEARCH<\/p><\/div><\/li>"}, {"year": 2019, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"80\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2019<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Strategies to enhance efficacy of SPION-labeled stem cell homing by magnetic attraction: a systemic review with meta-analysis<\/p><p class=\"b-pub-a\" lang=\"en\">Ye Ji Ahn, Tae Hoon Kong, Jin Sil Choi, Wan Su Yun, Jaehong Key, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">INTERNATIONAL JOURNAL OF NANOMEDICINE<\/p><\/div><\/li>"}, {"year": 2019, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"81\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2019<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Clinical Features of Fracture versus Concussion of the Temporal Bone after Head Trauma<\/p><p class=\"b-pub-a\" lang=\"en\">Jae Woo Lee, Yoon Ah Park, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2018, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"82\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2018<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Surgical outcomes of tympanoplasty using a sterile acellular dermal allograft: a prospective randomised controlled study.<\/p><p class=\"b-pub-a\" lang=\"en\">Jeon Mi Lee, YOUNG JOON SEO, Dae Bo Shim, Hyun Jin Lee, sung huhn Kim<\/p><p class=\"b-pub-j\" lang=\"en\">ACTA OTORHINOLARYNGOLOGICA ITALICA<\/p><\/div><\/li>"}, {"year": 2018, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"83\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2018<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">A newly designed tympanostomy stent with TiO2 coating to reduce Pseudomonas aeruginosa biofilm formation<\/p><p class=\"b-pub-a\" lang=\"en\">Joe, H (Joe, Hosung), YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">JOURNAL OF BIOMATERIALS APPLICATIONS<\/p><\/div><\/li>"}, {"year": 2018, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"84\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2018<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Pyoderma Gangrenosum of the Preauricular Area with Ulcerative Colitis: A Case Report and Review<\/p><p class=\"b-pub-a\" lang=\"en\">Hee Sung Chae, Sung Min Han, Ha Neul Lee, Hyun Jong Jeon, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2018, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"85\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2018<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Circulating Serum miRNA-205 as a Diagnostic Biomarker for Ototoxicity in Mice Treated with Aminoglycoside Antibiotics<\/p><p class=\"b-pub-a\" lang=\"en\">Lee S.H., Ju H.M., Choi J.S., Ahn Y., Lee S., YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES<\/p><\/div><\/li>"}, {"year": 2018, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"86\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2018<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Enhanced homing technique of mesenchymal stem cells using iron oxide nanoparticles by magnetic attraction in olfactory-injured mouse models<\/p><p class=\"b-pub-a\" lang=\"en\">WANSU YUN, JINSILCHOI , HYUNMI JU, MIN HEE KIM, SEONG JIN CHOI, EunSeol Oh, Y...<\/p><p class=\"b-pub-j\" lang=\"en\">INTERNATIONAL JOURNAL OF MOLECULAR SCIENCES<\/p><\/div><\/li>"}, {"year": 2018, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"87\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2018<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Update on Bone-Conduction Auditory Brainstem Responses: A Review<\/p><p class=\"b-pub-a\" lang=\"ko\">YOUNG JOON SEO, 곽찬범, 김세아, PARKYOONAH , 박경호, 한우재<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2018, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"88\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2018<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Monitoring blood-flow in the mouse cochlea using an endoscopic laser speckle contrast imaging system<\/p><p class=\"b-pub-a\" lang=\"en\">Yu, S (Yu, Sunkon), Jeong Pyo Bong, JINSILCHOI , YOUNG JOON SEO, Byung Jo Jung<\/p><p class=\"b-pub-j\" lang=\"en\">PLOS ONE<\/p><\/div><\/li>"}, {"year": 2017, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"89\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">외이도의 에크린 한선종<\/p><p class=\"b-pub-a\" lang=\"ko\">이영섭, 한준, 구철효, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"ko\">대한이비인후과학회지 두경부외과학<\/p><\/div><\/li>"}, {"year": 2017, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"90\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">A Simple Model for Inducing Optimal Increase of SDF-1 with Aminoglycoside Ototoxicity<\/p><p class=\"b-pub-a\" lang=\"en\">HYUNMI JU, SUNHEE LEE, JINSILCHOI , YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">BIOMED RESEARCH INTERNATIONAL<\/p><\/div><\/li>"}, {"year": 2017, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"91\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Tracheal reconstruction with a free vascularized myofascial flap: Preclinical investigation in a porcine model to human clinical application<\/p><p class=\"b-pub-a\" lang=\"en\">Kim W.S., Chang J.W., Jang W.S., YOUNG JOON SEO, Kang M.-L., Sung H.-J., Kim ...<\/p><p class=\"b-pub-j\" lang=\"en\">SCIENTIFIC REPORTS<\/p><\/div><\/li>"}, {"year": 2017, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"92\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Importance of adhesiolysis in revision surgery for vibrant soundbridge device failures at the short incus process<\/p><p class=\"b-pub-a\" lang=\"en\">PARKYOONAH , Tae Hoon Kong, Jin Soon Chang, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2017, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"93\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Damage of Inner Ear Sensory Hair Cells via Mitochondrial Loss in a Murine Model of Sleep Apnea With Chronic Intermittent Hypoxia<\/p><p class=\"b-pub-a\" lang=\"en\">YOUNG JOON SEO, Ju, HM (Ju, Hyun Mi), Lee, SH (Lee, Sun Hee), Kwak, SH (Kwak,...<\/p><p class=\"b-pub-j\" lang=\"en\">SLEEP<\/p><\/div><\/li>"}, {"year": 2017, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"94\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">A sustained increase of plasma fibrinogen in sudden sensorineural hearing loss predicts worse outcome independently<\/p><p class=\"b-pub-a\" lang=\"en\">Park Y.A., Kong T.H., Seo Y.J.<\/p><p class=\"b-pub-j\" lang=\"en\">AMERICAN JOURNAL OF OTOLARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2017, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"95\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Usefulness of Intravital Multiphoton Microscopy in Visualizing Study of Mouse Cochlea and Volume Changes in the Scala Media<\/p><p class=\"b-pub-a\" lang=\"en\">HYUNMI JU, SUNHEE LEE, , Kwon, SH (Kwon, Seung-Hae), JINSILCHOI , YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">FRONTIERS IN NEUROLOGY<\/p><\/div><\/li>"}, {"year": 2017, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"96\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Kawasaki disease and labyrinthitis: An underdiagnosed complication<\/p><p class=\"b-pub-a\" lang=\"en\">Kim K.Y., Kim K.H., Park Y.A., Seo Y.J.<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2017, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"97\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Efficacy of Bone-Anchored Hearing Aids in Single-Sided Deafness: A Systematic Review<\/p><p class=\"b-pub-a\" lang=\"en\">Kim, G (Kim, Gaeun), HYUNMI JU, Lee, SH (Lee, Sun Hee), HEE SOON kIM , Kwon, ...<\/p><p class=\"b-pub-j\" lang=\"en\">OTOLOGY &amp; NEUROTOLOGY<\/p><\/div><\/li>"}, {"year": 2017, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"98\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Does Herpes Virus Reactivation Affect Prognosis in Idiopathic Sudden Sensorineural Hearing Loss?<\/p><p class=\"b-pub-a\" lang=\"ko\">박상만, 한준, 이재우, 공태훈, 서영준<\/p><p class=\"b-pub-j\" lang=\"en\">CLINICAL AND EXPERIMENTAL OTORHINOLARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2017, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"99\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2017<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Image-guided implantation of the Bonebridge™ with a surgical navigation: A feasibility study<\/p><p class=\"b-pub-a\" lang=\"en\">Kong T.H., Park Y.A., YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">International Journal of Surgery Case Reports<\/p><\/div><\/li>"}, {"year": 2016, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"100\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2016<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">The change of hippocampal volume and its relevance with inner ear function in Meniere&#x27;s disease patients<\/p><p class=\"b-pub-a\" lang=\"en\">YOUNG JOON SEO, Jinna Kim , sung huhn Kim<\/p><p class=\"b-pub-j\" lang=\"en\">AURIS NASUS LARYNX<\/p><\/div><\/li>"}, {"year": 2016, "team": "basic", "h": "<li class=\"b-pub\" data-i=\"101\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2016<\/span><span class=\"b-pub-tm\">Basic Lab<\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Head position and increased head velocity to optimize video head impulse test sensitivity<\/p><p class=\"b-pub-a\" lang=\"en\">YOUNG JOON SEO, PARKYOONAH , Tae Hoon Kong, MEE RAN BAE , sung huhn Kim<\/p><p class=\"b-pub-j\" lang=\"en\">EUROPEAN ARCHIVES OF OTO-RHINO-LARYNGOLOGY<\/p><\/div><\/li>"}, {"year": 2016, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"102\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2016<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">A mutation of the succinate dehydrogenase B gene in a Korean family with paraganglioma<\/p><p class=\"b-pub-a\" lang=\"en\">Borum Sagong, YOUNG JOON SEO, Hyun-Jin Lee, Mi Joo Kim , Un-Kyung Kim, In Seo...<\/p><p class=\"b-pub-j\" lang=\"en\">FAMILIAL CANCER<\/p><\/div><\/li>"}, {"year": 2016, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"103\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2016<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Is Alcohol Swabbing Sufficient to Clean Otoscopes in Hospitals?<\/p><p class=\"b-pub-a\" lang=\"ko\">Cheol Hyo Ku, Young Sub Lee, 서영준, Jeong Pyo Bong<\/p><p class=\"b-pub-j\" lang=\"ko\">대한이비인후과학회지 두경부외과학<\/p><\/div><\/li>"}, {"year": 2016, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"104\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2016<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Early deterioration of residual hearing in patients with SLC26A4 mutations<\/p><p class=\"b-pub-a\" lang=\"en\">Kim B.G., Roh K.J., Park A.Y., Lee S.C., Kang B.S., YOUNG JOON SEO, Lee J.D.,...<\/p><p class=\"b-pub-j\" lang=\"en\">LARYNGOSCOPE<\/p><\/div><\/li>"}, {"year": 2016, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"105\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2016<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Correlation of vestibular aqueduct size with air-bone gap in enlarged vestibular aqueduct syndrome.<\/p><p class=\"b-pub-a\" lang=\"en\">YoungJoon Seo, Jinna Kim, jae young choi<\/p><p class=\"b-pub-j\" lang=\"en\">LARYNGOSCOPE<\/p><\/div><\/li>"}, {"year": 2016, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"106\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2016<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Lowest Oxyhemoglobin Saturation May Be an Independent Factor Influencing Auditory Function in Severe Obstructive Sleep Apnea<\/p><p class=\"b-pub-a\" lang=\"en\">Seo, YJ (Seo, Young Joon), Park, SY (Park, Sang Yoo), Chung, HJ (Chung, Hyo J...<\/p><p class=\"b-pub-j\" lang=\"en\">JOURNAL OF CLINICAL SLEEP MEDICINE<\/p><\/div><\/li>"}, {"year": 2016, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"107\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2016<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Clinical Features and Prognosis of Sudden Sensorineural Hearing Loss Secondary to Intralabyrinthine Hemorrhage<\/p><p class=\"b-pub-a\" lang=\"ko\">이재우, 박윤아, Park SM, 공태훈, 박상유, Jeong Pyo Bong, DONG JOON PARK, YOUNG JOON SEO<\/p><p class=\"b-pub-j\" lang=\"en\">Journal of Audiology &amp; Otology<\/p><\/div><\/li>"}, {"year": 2015, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"108\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2015<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Predictive value of neutrophil to lymphocyte ratio in first-time and recurrent idiopathic sudden sensorineural hearing loss<\/p><p class=\"b-pub-a\" lang=\"en\">Seo, YJ (Seo, Young Joon), Park, YA (Park, Yoon Ah), Bong, JP (Bong, Jeong Py...<\/p><p class=\"b-pub-j\" lang=\"en\">AURIS NASUS LARYNX<\/p><\/div><\/li>"}, {"year": 2015, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"109\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2015<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Changes in Tinnitus After Middle Ear Implant Surgery: Comparisons With the Cochlear Implant<\/p><p class=\"b-pub-a\" lang=\"en\">YoungJoon Seo, Hyun Ji Kim, In Seok Moon, jae young choi<\/p><p class=\"b-pub-j\" lang=\"en\">EAR AND HEARING<\/p><\/div><\/li>"}, {"year": 2015, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"110\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2015<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Association of hearing impairment with chronic kidney disease: a cross-sectional study of the Korean general population<\/p><p class=\"b-pub-a\" lang=\"en\">Seo, YJ (Seo, Young Joon), Ko, SB (Ko, Sang Baek), Ha, TH (Ha, Tae Hyung), Go...<\/p><p class=\"b-pub-j\" lang=\"en\">BMC NEPHROLOGY<\/p><\/div><\/li>"}, {"year": 2015, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"111\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2015<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Genetic aspects and clinical characteristics of familial meniere&#x27;s disease in a South Korean population<\/p><p class=\"b-pub-a\" lang=\"ko\">Jeon Mi Lee, 김미주, Jinsei Jung, Hyun Ji Kim, YoungJoon Seo, sung huhn Kim<\/p><p class=\"b-pub-j\" lang=\"en\">LARYNGOSCOPE<\/p><\/div><\/li>"}, {"year": 2015, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"112\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2015<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Expression and Localization of Aquaporin Water Channels in Human Middle Ear Epithelium<\/p><p class=\"b-pub-a\" lang=\"en\">Seo, YJ (Seo, Young Joon), Choi, JY (Choi, Jae Young)<\/p><p class=\"b-pub-j\" lang=\"en\">OTOLOGY &amp; NEUROTOLOGY<\/p><\/div><\/li>"}, {"year": 2015, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"113\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2015<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">A Melting Method for RNA Extraction from the Mucosal Membrane of the Mouse Middle Ear<\/p><p class=\"b-pub-a\" lang=\"en\">YoungJoon Seo, sung huhn Kim , In Seok Moon , jae young choi<\/p><p class=\"b-pub-j\" lang=\"en\">YONSEI MEDICAL JOURNAL<\/p><\/div><\/li>"}, {"year": 2014, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"114\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2014<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Neutrophil-to-Lymphocyte Ratio and Platelet-to-Lymphocyte Ratio: Novel Markers for Diagnosis and Prognosis in Patients with Idiopathic Sudden Sensorineural Hearing Loss<\/p><p class=\"b-pub-a\" lang=\"en\">YOUNG JOON SEO, JUNHUI JEONG, Jae Young Choi, In Seok Moon<\/p><p class=\"b-pub-j\" lang=\"en\">DISEASE MARKERS<\/p><\/div><\/li>"}, {"year": 2013, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"115\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2013<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Visualization of endolymphatic hydrops and correlation with audio-vestibular functional testing in patients with definite Meniere&#x27;s disease<\/p><p class=\"b-pub-a\" lang=\"en\">young joon Seo, Jinna Kim, jae young choi, WON SANG LEE<\/p><p class=\"b-pub-j\" lang=\"en\">AURIS NASUS LARYNX<\/p><\/div><\/li>"}, {"year": 2012, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"116\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2012<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Cochlear implantation in a bilateral sensorineural hearing loss patient with relapsing polychondritis<\/p><p class=\"b-pub-a\" lang=\"en\">young joon Seo, jae young choi, Si Hong Kim, Kim, TJ (Kim, Tae-Jung)<\/p><p class=\"b-pub-j\" lang=\"en\">RHEUMATOLOGY INTERNATIONAL<\/p><\/div><\/li>"}, {"year": 2011, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"117\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2011<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"en\">Radiologic characteristics of sinonasal fungus ball: an analysis of 119 cases<\/p><p class=\"b-pub-a\" lang=\"en\">young joon Seo, Jinna Kim, Kyubo Kim, JEUNG GWEON LEE, Chang-Hoon Kim, JOO HE...<\/p><p class=\"b-pub-j\" lang=\"en\">ACTA RADIOLOGICA<\/p><\/div><\/li>"}, {"year": 2010, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"118\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2010<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">혀에 발생한 신경초종 1예 및 고찰<\/p><p class=\"b-pub-a\" lang=\"en\">Won Il Lee, Hong Jun Kim, young joon Seo, Kyung Jin Roh, EUN CHANG CHOI, Hyun...<\/p><p class=\"b-pub-j\" lang=\"ko\">대한두경부종양학회지<\/p><\/div><\/li>"}, {"year": 2008, "team": "collab", "h": "<li class=\"b-pub\" data-i=\"119\"><p class=\"b-pub-m\"><span class=\"b-pub-y\">2008<\/span><span class=\"b-d b-pub-tm\"><span data-l=\"ko\">협력·임상<\/span><span data-l=\"en\" lang=\"en\">Collab &amp; Medical<\/span><\/span><\/p><div class=\"b-pub-b\"><p class=\"b-pub-t\" lang=\"ko\">메니에르병 환자에서 고실내 Gadolinium-diethylen-triamine pentaacetic acid 주입 후 자기공명영상을 통한 내림프공간의 시각화<\/p><p class=\"b-pub-a\" lang=\"en\">young joon Seo , Daebo Shim , Jinna Kim , WON SANG LEE<\/p><p class=\"b-pub-j\" lang=\"ko\">대한평형의학회지<\/p><\/div><\/li>"}], "empty": "<li class=\"b-pub-x\"><p class=\"b-d\"><span data-l=\"ko\">해당 조건의 항목이 없습니다.<\/span><span data-l=\"en\" lang=\"en\">No items match this filter.<\/span><\/p><\/li>"}</script></section><div class="rihe-sample" role="note"><span><span data-l="ko">시안 구간 · People 페이지 일부</span><span data-l="en" lang="en">Sample · Part of the People page</span></span></div><section class="b-sec b-ppl" id="people" aria-labelledby="b-ppl-h"><div class="b-in"><header class="b-sh"><h2 class="b-d b-h2 b-end" id="b-ppl-h" data-a><span data-l="ko">함께 연구하는 사람들</span><span data-l="en" lang="en">The people of RIHE</span></h2><div class="b-ax" aria-hidden="true"><i class="b-ax-d" data-a></i></div></header><div class="b-sb b-grid"><p class="b-d b-lead" data-a><span data-l="ko">연세대학교 원주세브란스기독병원 청각재활연구소(RIHE) 구성원을 소개합니다.</span><span data-l="en" lang="en">Meet the members of the Research Institute of Hearing Enhancement.</span></p></div><div class="b-grp b-fac"><div class="b-gh"><h3 class="b-h3 b-d"><span data-l="ko">교수진<span class="b-gn" aria-hidden="true">3</span></span><span data-l="en" lang="en">Faculty<span class="b-gn" aria-hidden="true">3</span></span></h3></div><ul class="b-pp-g" data-a><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/vIAp69Yl.jpeg" srcset="https://i.imgur.com/vIAp69Ym.jpeg 240w, https://i.imgur.com/vIAp69Yl.jpeg 480w" sizes="(max-width: 760px) 92px, (max-width: 1320px) 15vw, 200px" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:36% 30%;--o:36% 30%"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">서영준</p><p class="b-pp-r">교수 / 연구소장 · 이비인후과</p></div><div data-l="en" lang="en"><p class="b-pp-n">Young Joon Seo</p><p class="b-pp-r">Professor / Director · Otorhinolaryngology</p></div></div></li><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/6nGWxAVl.jpeg" srcset="https://i.imgur.com/6nGWxAVm.jpeg 240w, https://i.imgur.com/6nGWxAVl.jpeg 480w" sizes="(max-width: 760px) 92px, (max-width: 1320px) 15vw, 200px" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:50% 26%;--o:50% 26%"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">기재홍</p><p class="b-pp-r">교수 · 생체공학과</p></div><div data-l="en" lang="en"><p class="b-pp-n">Jaehong Key</p><p class="b-pp-r">Professor · Biomedical Engineering</p></div></div></li><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/kKOtOgOl.jpeg" srcset="https://i.imgur.com/kKOtOgOm.jpeg 240w, https://i.imgur.com/kKOtOgOl.jpeg 480w" sizes="(max-width: 760px) 92px, (max-width: 1320px) 15vw, 200px" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:50% 26%;--o:50% 26%"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">공태훈</p><p class="b-pp-r">교수 · 이비인후과</p></div><div data-l="en" lang="en"><p class="b-pp-n">Tae Hoon Kong</p><p class="b-pp-r">Professor · Otorhinolaryngology</p></div></div></li></ul></div><div class="b-grp b-lab"><div class="b-gh"><h3 class="b-h3 b-d"><span data-l="ko">데이터팀 · HeAD Lab<span class="b-gn" aria-hidden="true">6</span></span><span data-l="en" lang="en">HeAD Lab<span class="b-gn" aria-hidden="true">6</span></span></h3></div><ul class="b-pp-g" data-a><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/RC37iFml.jpeg" srcset="https://i.imgur.com/RC37iFmm.jpeg 240w, https://i.imgur.com/RC37iFml.jpeg 480w" sizes="(max-width: 760px) 92px, (max-width: 1320px) 15vw, 200px" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:50% 26%;--o:50% 26%"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">윤철영</p><p class="b-pp-r">팀장</p></div><div data-l="en" lang="en"><p class="b-pp-n">Chul Young Yoon</p><p class="b-pp-r">Team Leader</p></div></div></li><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/7FVQZQel.jpeg" srcset="https://i.imgur.com/7FVQZQem.jpeg 240w, https://i.imgur.com/7FVQZQel.jpeg 480w" sizes="(max-width: 760px) 92px, (max-width: 1320px) 15vw, 200px" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:50% 26%;--o:50% 26%"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">김송이</p><p class="b-pp-r">박사과정</p></div><div data-l="en" lang="en"><p class="b-pp-n" lang="ko">김송이</p><p class="b-pp-r">Ph.D. Student</p></div></div></li><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/yCSCJNd.jpeg" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:57% 45%;--o:57% 64%;--z:2.0"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">김진수</p><p class="b-pp-r">석사과정</p></div><div data-l="en" lang="en"><p class="b-pp-n" lang="ko">김진수</p><p class="b-pp-r">M.S. Student</p></div></div></li><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/bomh6knl.jpeg" srcset="https://i.imgur.com/bomh6knm.jpeg 240w, https://i.imgur.com/bomh6knl.jpeg 480w" sizes="(max-width: 760px) 92px, (max-width: 1320px) 15vw, 200px" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:50% 26%;--o:50% 26%"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">임승미</p><p class="b-pp-r">석사과정</p></div><div data-l="en" lang="en"><p class="b-pp-n" lang="ko">임승미</p><p class="b-pp-r">M.S. Student</p></div></div></li><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/F9YowOS.jpeg" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:51% 40%;--o:51% 46%;--z:1.5"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">서연호</p><p class="b-pp-r">석사과정</p></div><div data-l="en" lang="en"><p class="b-pp-n" lang="ko">서연호</p><p class="b-pp-r">M.S. Student</p></div></div></li><li class="b-pp"><div class="b-pp-f" data-ai><div class="b-pp-d"><img src="https://i.imgur.com/0PwvF5sl.jpeg" srcset="https://i.imgur.com/0PwvF5sm.jpeg 240w, https://i.imgur.com/0PwvF5sl.jpeg 480w" sizes="(max-width: 760px) 92px, (max-width: 1320px) 15vw, 200px" alt="" width="480" height="600" loading="lazy" decoding="async" style="object-position:50% 26%;--o:50% 26%"></div></div><div class="b-pp-t b-d" data-ai><div data-l="ko"><p class="b-pp-n">윤담</p><p class="b-pp-r">학부연구원</p></div><div data-l="en" lang="en"><p class="b-pp-n" lang="ko">윤담</p><p class="b-pp-r">Undergraduate Researcher</p></div></div></li></ul></div></div></section></div></main>
+<script>
+(function () {
+  'use strict';
+  var doc = document, root = doc.documentElement;
+  var R = window.RIHE = window.RIHE || {};
+  R.SITE = 'https://www.smilesnail.org'; R.ENP = '/en';
+  R.reduce = root.classList.contains('rm');
+  R.lang = 'ko'; R.hooks = []; R.showHooks = [];
+  R.each = function (sel, f, ctx) { [].forEach.call((ctx || doc).querySelectorAll(sel), f); };
+  R.onLang = function (f) { R.hooks.push(f); };
+  R.inFrame = (function () { try { return window.top !== window.self; } catch (e) { return true; } })();
+
+  /* ---------- safety: content never stays hidden ---------- */
+  R.showAll = function () {
+    if (root.classList.contains('all')) return;
+    root.classList.add('all');
+    R.each('[data-a]', function (el) { el.classList.add('on'); });
+    R.showHooks.forEach(function (f) { try { f(); } catch (e) {} });
+  };
+  R.motionReady = function () { R.motion = true; };
+  // the kit's motion module must call RIHE.motionReady() within 3 s (vendor scripts load deferred), else show everything
+  setTimeout(function () { if (!R.motion && doc.querySelector('[data-a]')) R.showAll(); }, 3000);
+
+  /* ---------- inview: IntersectionObserver with thresholds only. In a cross-origin iframe (Wix + github.io)
+     rootMargin is ignored and rootBounds is null; the implicit root is the top-level viewport. ---------- */
+  var ioAlive = false, ioCount = 0;
+  var TH = [0, .02, .05, .1, .15, .2, .25, .3, .4, .5, .6, .75, .9, 1];
+  // fn(el) once el is th visible (ratio) or at least px tall on screen (tall blocks never reach a high ratio)
+  R.inview = function (el, fn, o) {
+    o = o || {};
+    var th = o.threshold == null ? .15 : o.threshold, px = o.px == null ? 140 : o.px;
+    if (R.reduce || !('IntersectionObserver' in window)) { fn(el); return; }
+    ioCount++;
+    var io = new IntersectionObserver(function (es) {
+      ioAlive = true;
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        if (e.intersectionRatio >= th || e.intersectionRect.height >= px) { io.disconnect(); fn(el); }
+      });
+    }, { threshold: TH });
+    io.observe(el);
+  };
+  // fn(true|false) whenever el enters or leaves the screen: pause work off-screen
+  R.visible = function (el, fn) {
+    if (!('IntersectionObserver' in window)) { fn(true); return; }
+    new IntersectionObserver(function (es) { es.forEach(function (e) { fn(e.isIntersecting); }); }, { threshold: 0 }).observe(el);
+  };
+  setTimeout(function () { if (ioCount && !ioAlive) R.showAll(); }, 1500);
+  doc.addEventListener('visibilitychange', function () { R.hidden = doc.hidden; });
+
+  /* ---------- band: the visible part of this document, in document px, also inside a tall cross-origin iframe.
+     100 px sentinels tile the whole document; thresholds every 1 % make each straddling sentinel report its
+     intersectionRect at 1 px steps. band = {top, bottom, h, ok}. Subscribe with RIHE.onBand(fn). ---------- */
+  var band = R.band = { top: 0, bottom: 0, h: 0, ok: false, docH: 0 };
+  var bandFns = [], bandOn = false;
+  R.onBand = function (fn) { bandFns.push(fn); startBand(); if (band.ok) fn(band); };
+  function startBand() {
+    if (bandOn || !('IntersectionObserver' in window)) return;
+    bandOn = true;
+    var box = doc.createElement('div'); box.id = 'rihe-band'; box.setAttribute('aria-hidden', 'true');
+    doc.body.appendChild(box);
+    var S = 100, th = [], vis = {}, io = null, raf = 0;
+    for (var i = 0; i <= 100; i++) th.push(i / 100);
+    function emit() {
+      raf = 0;
+      var t = Infinity, b = -Infinity;
+      for (var k in vis) { if (vis[k][0] < t) t = vis[k][0]; if (vis[k][1] > b) b = vis[k][1]; }
+      band.ok = t !== Infinity;
+      if (band.ok) { band.top = t; band.bottom = b; band.h = b - t; }
+      for (var j = 0; j < bandFns.length; j++) { try { bandFns[j](band); } catch (e) {} }
+    }
+    function docH() { return Math.max(root.scrollHeight, doc.body.scrollHeight); }
+    function build() {
+      if (io) io.disconnect();
+      vis = {}; box.innerHTML = '';
+      var H = docH(); band.docH = H; box.style.height = H + 'px';
+      io = new IntersectionObserver(function (es) {
+        var sy = R.inFrame ? 0 : (window.scrollY || 0);   // top-level preview: rects are viewport-relative
+        es.forEach(function (e) {
+          var k = e.target.getAttribute('data-i');
+          if (e.isIntersecting && e.intersectionRatio > 0) vis[k] = [e.intersectionRect.top + sy, e.intersectionRect.bottom + sy];
+          else delete vis[k];
+        });
+        if (!raf) raf = requestAnimationFrame(emit);
+      }, { threshold: th });
+      for (var y = 0, n = 0; y < H; y += S, n++) {
+        var s = doc.createElement('i');
+        s.style.top = y + 'px'; s.style.height = Math.min(S, H - y) + 'px'; s.setAttribute('data-i', n);
+        box.appendChild(s); io.observe(s);
+      }
+    }
+    build();
+    var rz = 0;
+    window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (docH() !== band.docH) build(); }, 160); });
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { if (docH() !== band.docH) build(); });
+  }
+  // element box in document px (the iframe never scrolls, so this is stable while the outer page scrolls)
+  R.rect = function (el) { var r = el.getBoundingClientRect(), sy = R.inFrame ? 0 : (window.scrollY || 0); return { top: r.top + sy, bottom: r.bottom + sy, h: r.height }; };
+  // 0 when el's top meets the band's bottom edge (entering), 1 when its bottom meets the band's top edge (leaving)
+  R.progress = function (r) { if (!band.ok) return null; var p = (band.bottom - r.top) / (band.h + r.h); return p < 0 ? 0 : p > 1 ? 1 : p; };
+
+  /* ---------- language: ?lang=en|ko before first paint (head script), postMessage({lang}), preview toggle ---------- */
+  function setLang(l) {
+    R.lang = l === 'en' ? 'en' : 'ko';
+    var en = R.lang === 'en';
+    root.setAttribute('data-lang', R.lang); root.lang = R.lang;
+    R.each('[data-path]', function (a) { a.href = R.SITE + (en ? R.ENP : '') + a.getAttribute('data-path'); });
+    R.each('[data-alt-en]', function (im) {
+      if (!im.hasAttribute('data-alt-ko')) im.setAttribute('data-alt-ko', im.alt);
+      im.alt = im.getAttribute(en ? 'data-alt-en' : 'data-alt-ko');
+    });
+    R.each('[data-aria-en]', function (x) {
+      if (!x.hasAttribute('data-aria-ko')) x.setAttribute('data-aria-ko', x.getAttribute('aria-label') || '');
+      x.setAttribute('aria-label', x.getAttribute(en ? 'data-aria-en' : 'data-aria-ko'));
+    });
+    R.each('.rihe-lang button', function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === R.lang)); });
+    R.hooks.forEach(function (f) { try { f(R.lang); } catch (e) {} });
+  }
+  R.setLang = setLang;
+  // Wix page code: $w('#html1').postMessage({ lang: 'en' })
+  window.addEventListener('message', function (e) { var d = e.data; if (d && (d.lang === 'en' || d.lang === 'ko') && d.lang !== R.lang) setLang(d.lang); });
+  doc.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('.rihe-lang button'); if (b) setLang(b.getAttribute('data-set')); });
+  var m = /[?&]lang=(en|ko)/.exec(location.search);
+  setLang(m ? m[1] : (root.getAttribute('data-lang') || 'ko'));
+
+  /* ---------- smooth in-page jumps. A plain #fragment click inside the cross-origin iframe does not scroll the
+     Wix page; scrollIntoView does (it scrolls every ancestor scroller). ---------- */
+  R.jump = function (id) {
+    var el = doc.getElementById(id); if (!el) return;
+    el.scrollIntoView({ behavior: R.reduce ? 'auto' : 'smooth', block: 'start' });
+    var f = el.matches('h1,h2,h3,[tabindex]') ? el : (el.querySelector('h2,h3') || el);
+    if (!f.hasAttribute('tabindex')) f.setAttribute('tabindex', '-1');
+    try { f.focus({ preventScroll: true }); } catch (e) {}
+  };
+  doc.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a && a.getAttribute('href').length > 1 && !a.hasAttribute('data-no-jump')) { e.preventDefault(); R.jump(a.getAttribute('href').slice(1)); }
+  });
+
+  /* ---------- headless list: filter, paginate, and reserve the tallest page so the height never changes ----------
+     RIHE.list(el, {data, size, render(d) -> html, empty: html, after(ul, reason)}). Markup inside el:
+       [data-items] list element · button[data-k][data-v] filter toggles (aria-pressed) · button[data-p="-1"|"1"] pager
+       [data-n] count · [data-pi] "page / pages" (any number) · [data-ticks] container whose children get .on per item */
+  R.list = function (el, o) {
+    var data = o.data, size = o.size || 10, ul = el.querySelector('[data-items]');
+    var st = { page: 0, f: {} }, base = 0;
+    R.each('button[data-k]', function (b) { st.f[b.getAttribute('data-k')] = 'all'; }, el);
+    function pass(d) {
+      for (var k in st.f) {
+        var v = st.f[k];
+        if (v === 'all') continue;
+        if (v.charAt(0) === '~') { if (!(+d[k] <= +v.slice(1))) return false; }
+        else if (String(d[k]) !== v) return false;
+      }
+      return true;
+    }
+    function rows() { var r = []; data.forEach(function (d, i) { if (pass(d)) r.push(i); }); return r; }
+    function measure() {
+      ul.style.minHeight = '';
+      ul.innerHTML = data.map(o.render).join('') + o.empty;
+      var lis = ul.children, hs = [], total = ul.getBoundingClientRect().height, best = 0;
+      for (var i = 0; i < lis.length; i++) { hs.push(lis[i].getBoundingClientRect().height); total -= hs[i]; }
+      var empty = hs.pop(), keep = {}, k, combos = [{}];
+      for (k in st.f) keep[k] = st.f[k];
+      Object.keys(st.f).forEach(function (key) {
+        var vals = [].map.call(el.querySelectorAll('button[data-k="' + key + '"]'), function (b) { return b.getAttribute('data-v'); }), nx = [];
+        combos.forEach(function (c) { vals.forEach(function (v) { var x = {}; for (var y in c) x[y] = c[y]; x[key] = v; nx.push(x); }); });
+        combos = nx;
+      });
+      combos.forEach(function (c) {
+        st.f = c;
+        var r = rows();
+        if (!r.length) best = Math.max(best, empty);
+        for (var p = 0; p < r.length; p += size) {
+          var s = 0;
+          for (var j = p; j < Math.min(r.length, p + size); j++) s += hs[r[j]];
+          if (s > best) best = s;
+        }
+      });
+      st.f = keep; base = total;
+      ul.style.minHeight = Math.ceil(base + best - .01) + 'px';
+      draw('measure');
+    }
+    function draw(reason) {
+      var r = rows(), pages = Math.max(1, Math.ceil(r.length / size));
+      if (st.page >= pages) st.page = pages - 1;
+      var view = r.slice(st.page * size, st.page * size + size);
+      ul.innerHTML = view.length ? view.map(function (i) { return o.render(data[i]); }).join('') : o.empty;
+      var on = {}; r.forEach(function (i) { on[i] = 1; });
+      var tk = el.querySelector('[data-ticks]');
+      if (tk) for (var i = 0; i < tk.children.length; i++) tk.children[i].classList.toggle('on', !!on[i]);
+      R.each('[data-n]', function (n) { n.innerHTML = '<span data-l="ko">' + r.length + '건</span><span data-l="en" lang="en">' + r.length + (r.length === 1 ? ' item' : ' items') + '</span>'; }, el);
+      R.each('[data-pi]', function (n) { n.textContent = (st.page + 1) + ' / ' + pages; }, el);
+      R.each('button[data-p]', function (b) { var d = +b.getAttribute('data-p'); b.disabled = d < 0 ? st.page === 0 : st.page >= pages - 1; }, el);
+      R.each('button[data-k]', function (b) { b.setAttribute('aria-pressed', String(st.f[b.getAttribute('data-k')] === b.getAttribute('data-v'))); }, el);
+      if (o.after) o.after(ul, reason);
+    }
+    el.addEventListener('click', function (e) {
+      var tg = e.target.closest('button[data-k]'), p = e.target.closest('button[data-p]');
+      if (tg) { st.f[tg.getAttribute('data-k')] = tg.getAttribute('data-v'); st.page = 0; draw('filter'); }
+      if (p && !p.disabled) { st.page += +p.getAttribute('data-p'); draw('page'); }
+    });
+    var lastW = el.offsetWidth, rz = 0;
+    window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (el.offsetWidth !== lastW) { lastW = el.offsetWidth; measure(); } }, 200); });
+    R.onLang(measure);
+    measure();
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(measure);
+    return { redraw: draw, measure: measure };
+  };
+
+  root.classList.add('ready');
+})();
+</script>
+<script>document.addEventListener('DOMContentLoaded', function () { try {
+/* B · clinical modern · final (judge synthesis). Skeleton: lens 3 (first principles), one measurement.
+   Grafted: the footage already rolling behind the closed window at 0.8x so the sweep uncovers moving pictures (lens 1),
+   a pause control that stops everything and Save-Data / 2g / 3g stills (lens 2), the window's time axis and its
+   progress line (lens 4), a loop that can never run past the clean shot and an autoplay-refused frame with a play
+   button (lens 5), the link's arrow plotted by DrawSVG once the cursor has passed it (lens 6).
+   Five seconds must establish four things: hearing (the field), a university hospital (the institution), measured output
+   (the record) and real clinical work (the institute's own footage). The field's own instrument says the first directly:
+   the audiogram frequency axis, 125 Hz to 8 kHz, is the spine of the composition. The motion is the act of measuring:
+   one teal cursor sweeps the axis like a test tone, with a live readout that prints each octave as it passes. The name
+   rises out of the axis where the cursor crosses it, the text and the window onto an audiometer in use are scanned in
+   behind it, and the record registers when it reaches it. The window opens on the people (the members of RIHE); once
+   the type has settled, their instrument dissolves in, already running. Then only the footage moves. */
+(function () {
+  var R = window.RIHE;
+  var hero = document.getElementById('fp-hero');
+  if (!hero || !R) return;
+  R.motionReady();
+
+  var doc = document;
+  var G = window.gsap;
+  var mobile = !!(window.matchMedia && window.matchMedia('(max-width: 760px)').matches);
+  var win = hero.querySelector('.fp-win');
+  var media = hero.querySelector('.fp-media');
+  var reel = makeReel(win, mobile, R.reduce);
+
+  if (R.reduce) { reel.still(); win.classList.add('fp-open'); return; }   // final composed state at once; no autoplay
+  reel.start();                                         // rolling behind the closed window: moving when the sweep uncovers it
+  if (!G) { R.showAll(); win.classList.add('fp-open'); return; }
+
+  var SplitText = window.SplitText, CustomEase = window.CustomEase;
+  try { G.registerPlugin.apply(G, [SplitText, CustomEase, window.DrawSVGPlugin].filter(Boolean)); } catch (e) {}
+  var SWEEP = 'power2.inOut', OUT = 'expo.out';
+  if (CustomEase) {
+    SWEEP = CustomEase.create('fpSweep', 'M0,0 C0.24,0 0.2,1 1,1');   // a calibrated sweep: measured start, long settle into 8 kHz
+    OUT = CustomEase.create('fpOut', 'M0,0 C0.12,0.82 0.24,1 1,1');
+  }
+  var css = getComputedStyle(hero);
+  var TEAL = (css.getPropertyValue('--teal') || '#0a7671').trim();
+  var MUTE = (css.getPropertyValue('--mute') || '#5a6d71').trim();
+
+  var tl = null, splits = [], built = false, finished = false;
+  var nums = [].map.call(hero.querySelectorAll('.fp-c'), function (el) { return { el: el, n: +el.getAttribute('data-count') }; });
+
+  // content must never stay hidden: an error, a language switch or a new width ends in the final state
+  R.showHooks.push(finish);
+  R.onLang(function () { if (tl) finish(); });
+  var w0px = window.innerWidth;
+  window.addEventListener('resize', function () { if (tl && Math.abs(window.innerWidth - w0px) > 2) finish(); });
+
+  var fonts = fontsReady(320);
+  R.inview(hero, function () { fonts.then(build); }, { threshold: 0.2, px: 220 });
+  setTimeout(function () { if (!built) build(); }, 1200);  // never wait longer than this for fonts or the observer
+
+  function fontsReady(ms) {
+    var list = [];
+    if (doc.fonts && doc.fonts.load) {
+      list = (R.lang === 'en' ? ['600 60px "Hanken Grotesk"'] : ['600 100px "Noto Sans KR"']).map(function (f) {
+        return doc.fonts.load(f, /Noto/.test(f) ? '청각재활연구소' : 'Research').catch(function () {});
+      });
+    }
+    return Promise.race([Promise.all(list), new Promise(function (r) { setTimeout(r, ms); })]);
+  }
+
+  function build() {
+    if (built) return;
+    built = true;
+    var lang = R.lang === 'en' ? 'en' : 'ko';
+    var inner = hero.querySelector('.fp-in');
+    var axis = hero.querySelector('.fp-axis');
+    var draw = hero.querySelector('.fp-draw');
+    var ticks = [].slice.call(hero.querySelectorAll('.fp-tk'));
+    var labels = ticks.map(function (t) { return t.querySelector('b'); });
+    var rd = hero.querySelector('.fp-rd');
+    var line = hero.querySelector('.fp-line');
+    var h1 = hero.querySelector('.fp-title');
+    var tSpan = h1.querySelector('[data-l="' + lang + '"]');
+    var text = hero.querySelector('.fp-text');
+    var inst = hero.querySelector('.fp-inst');
+    var lead = hero.querySelector('.fp-lead');
+    var link = hero.querySelector('.fp-link');
+    var ledger = hero.querySelector('.fp-ledger');
+    var rows = [].slice.call(hero.querySelectorAll('.fp-row'));
+
+    var units = [];
+    if (SplitText) {
+      var ts = SplitText.create(tSpan, { type: lang === 'ko' ? 'lines,chars' : 'lines,words', mask: 'lines', linesClass: 'fp-sl' });
+      splits.push(ts);
+      units = lang === 'ko' ? ts.chars : ts.words;
+    }
+
+    // geometry: every cue is a position on the axis (0 = 125 Hz, 1 = 8 kHz)
+    var iR = inner.getBoundingClientRect(), aR = axis.getBoundingClientRect(), wR = win.getBoundingClientRect();
+    var AW = Math.max(1, aR.width), AX = aR.left - iR.left, AY = aR.top - iR.top;
+    var clamp01 = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+    var xc = function (el) { var r = el.getBoundingClientRect(); return clamp01((r.left + r.width / 2 - aR.left) / AW); };
+    var xl = function (el) { var r = el.getBoundingClientRect(); return clamp01((r.left - aR.left) / AW); };
+    var w0 = clamp01((wR.left - aR.left) / AW), w1 = clamp01((wR.right - aR.left) / AW);
+    var span = Math.max(0.0001, w1 - w0);
+
+    // the cursor: from 7 px above the axis to the foot of the window
+    var lineTop = Math.round(AY - 7);
+    line.style.top = lineTop + 'px';
+    line.style.height = Math.max(24, Math.round(wR.bottom - iR.top - lineTop)) + 'px';
+    var setLineX = G.quickSetter(line, 'x', 'px');
+
+    // the readout never runs past the end of the axis
+    rd.textContent = '8.0 kHz';
+    var rdW = rd.offsetWidth;
+    rd.textContent = '125 Hz';
+
+    // desktop: the text column is scanned in behind the cursor (soft edge); a phone stacks it, so it reads in order
+    var tR = text.getBoundingClientRect();
+    var useMask = !mobile && getComputedStyle(text).display !== 'contents' && tR.width > 0;
+    var tx0 = tR.left - aR.left;
+
+    var D = mobile ? 1.15 : 1.6, T0 = 0.12;
+    var ease = G.parseEase(SWEEP);
+    var tAt = function (x) {                               // time at which the eased cursor reaches x
+      var lo = 0, hi = 1;
+      for (var i = 0; i < 22; i++) { var m = (lo + hi) / 2; if (ease(m) < x) lo = m; else hi = m; }
+      return T0 + D * (lo + hi) / 2;
+    };
+
+    var sweep = { p: 0 }, lastTxt = '', opened = false, opening = false;
+    function paint() {
+      var p = sweep.p, x = p * AW;
+      draw.style.transform = 'scaleX(' + p.toFixed(5) + ')';
+      setLineX(AX + x - 0.5);
+      var f = 125 * Math.pow(2, 6 * p);                   // octaves are equal steps: 125 Hz x 2^(6p)
+      var txt = f < 999.5 ? Math.round(f) + ' Hz' : (f / 1000).toFixed(1) + ' kHz';
+      if (txt !== lastTxt) { rd.textContent = txt; lastTxt = txt; }
+      rd.style.transform = 'translateX(' + Math.min(x, AW - rdW).toFixed(2) + 'px)';
+      var q = clamp01((p - w0) / span);
+      if (q >= 0.999) { if (!opened) { opened = true; win.classList.remove('fp-opening'); win.classList.add('fp-open'); } }
+      else if (q > 0 && !opening) { opening = true; win.classList.add('fp-opening'); }
+      var c = q >= 1 ? 'none' : 'inset(0% ' + ((1 - q) * 100).toFixed(3) + '% 0% 0%)';
+      media.style.clipPath = c; media.style.webkitClipPath = c;
+      if (useMask) {
+        var e = x - tx0;
+        var m = e > tR.width + 60 ? 'none' : 'linear-gradient(90deg, #000 ' + (e - 60).toFixed(1) + 'px, rgba(0,0,0,0) ' + (e - 4).toFixed(1) + 'px)';
+        text.style.webkitMaskImage = m; text.style.maskImage = m;
+      }
+    }
+
+    // hidden pieces first, then the containers may show
+    G.set(units, { yPercent: lang === 'ko' ? 140 : 150 });
+    G.set(labels, { opacity: 0 });
+    G.set(rows, { autoAlpha: 0, y: 6 });
+    G.set(line, { scaleY: 0, opacity: 0 });
+    if (!useMask) {
+      G.set([inst, link], { autoAlpha: 0, y: 8 });
+      G.set(lead, { clipPath: 'inset(0% 0% 100% 0%)', y: 6 });
+    }
+    nums.forEach(function (o) { o.el.textContent = '0'; });
+    paint();
+    [h1, lead, inst, link, ledger, draw, media].forEach(function (el) { el.classList.add('on'); });
+    rows.concat(labels).forEach(function (el) { el.classList.add('on'); });
+
+    tl = G.timeline({ onComplete: done });
+
+    // the cursor lands on the axis and drops to the foot of the window, then sweeps 125 Hz to 8 kHz
+    tl.to(line, { scaleY: 1, opacity: 1, duration: 0.45, ease: 'power3.out' }, 0);
+    tl.to(rd, { opacity: 1, duration: 0.2, ease: 'none' }, 0.05);
+    tl.to(sweep, { p: 1, duration: D, ease: SWEEP, onUpdate: paint }, T0);
+    tl.to([line, rd], { opacity: 0, duration: 0.34, ease: 'power1.in' }, T0 + D - 0.08);
+
+    // each octave registers as the cursor crosses it: the tick turns teal, its label is printed and cools to grey
+    ticks.forEach(function (tk, i) {
+      var t = tAt(i / 6);
+      tl.to(tk, { backgroundColor: TEAL, duration: 0.18, ease: 'none' }, t);
+      tl.set(labels[i], { opacity: 1, color: TEAL }, t);
+      tl.to(labels[i], { color: MUTE, duration: 0.8, ease: 'power1.inOut' }, t + 0.3);
+    });
+
+    // the name rises out of the axis, unit by unit, as the cursor passes beneath
+    units.forEach(function (u) { tl.to(u, { yPercent: 0, duration: 0.9, ease: OUT }, Math.max(0, tAt(xc(u)) - 0.06)); });
+
+    // a phone stacks the text under the window: affiliation first, the abstract unrolls, the way on comes last
+    if (!useMask) {
+      tl.to(inst, { autoAlpha: 1, y: 0, duration: 0.7, ease: OUT }, T0 + 0.1);
+      tl.to(lead, { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: 1.0, ease: OUT }, T0 + D * 0.5);
+      tl.to(link, { autoAlpha: 1, y: 0, duration: 0.6, ease: OUT }, T0 + D + 0.2);
+    }
+
+    // the record registers when the cursor reaches it (on a phone the record sits last, so it follows the reading order)
+    var tRec = mobile ? T0 + D * 0.7 : tAt(xl(ledger)) + 0.02;
+    rows.forEach(function (row, i) {
+      var t = tRec + i * 0.07;
+      tl.to(row, { autoAlpha: 1, y: 0, duration: 0.5, ease: OUT }, t);
+      var o = nums[i], c = { v: 0 };
+      if (o) tl.to(c, { v: o.n, duration: 0.75, ease: 'power3.out', onUpdate: function () { o.el.textContent = String(Math.round(c.v)); } }, t + 0.04);
+    });
+
+    // the picture settles into its window as the cursor uncovers it (a slow focus pull, no blur on the video layer)
+    var layer = hero.querySelector('.fp-depth');
+    if (layer) {
+      var s1 = mobile ? 1 : 1.07;                         // desktop keeps 7 % of headroom for the depth drift below
+      G.set(layer, { scale: s1 + 0.07, transformOrigin: '50% 46%' });
+      tl.to(layer, { scale: s1, duration: 1.9, ease: 'power2.out' }, Math.max(0, tAt(w0) - 0.05));
+    }
+    // the link's arrow is plotted once the cursor has passed it (a phone: just after the link arrives)
+    var arrSvg = link.querySelector('.fp-arr'), arr = arrSvg && arrSvg.querySelector('path');
+    if (arr && window.DrawSVGPlugin) {
+      G.set(arr, { drawSVG: '0% 0%' });
+      tl.to(arr, { drawSVG: '0% 100%', duration: 0.6, ease: 'power2.inOut' }, useMask ? tAt(xc(arrSvg)) + 0.04 : T0 + D + 0.4);
+    }
+    depth();
+  }
+
+  // a window, not a picture: on wide screens the footage sits a little deeper than its frame while the outer page
+  // scrolls (RIHE.onBand: the visible band of this document, measured inside the non-scrolling Wix iframe).
+  // The drift stays inside the clean band of the shot (no letterbox, no burned-in subtitles).
+  function depth() {
+    var layer = hero.querySelector('.fp-depth');
+    if (mobile || !layer || !G.quickTo) return;
+    var yTo = G.quickTo(layer, 'y', { duration: 0.7, ease: 'power3.out' });
+    R.onBand(function () {
+      var p = R.progress(R.rect(win));
+      if (p == null) return;
+      yTo((p - 0.5) * 2 * win.offsetHeight * 0.03);
+    });
+  }
+
+  // tidy end state: splits reverted (plain text again, so later resizes and language switches reflow naturally)
+  function done() {
+    if (finished) return;
+    finished = true;
+    hero.classList.add('fp-done');
+    splits.forEach(function (s) { try { s.revert(); } catch (e) {} });
+    splits = [];
+    nums.forEach(function (o) { o.el.textContent = String(o.n); });
+    var q = function (s) { return [].slice.call(hero.querySelectorAll(s)); };
+    G.set(q('.fp-line, .fp-rd'), { opacity: 0 });
+    G.set(q('.fp-tk, .fp-tk b'), { clearProps: 'backgroundColor,color,opacity' });
+    q('.fp-tk b').forEach(function (b) { b.classList.add('on'); });
+    G.set(q('.fp-inst, .fp-lead, .fp-link, .fp-row'), { clearProps: 'clipPath,transform,opacity,visibility' });
+    var text = hero.querySelector('.fp-text');
+    if (text) { text.style.webkitMaskImage = ''; text.style.maskImage = ''; }
+    if (media) { media.style.clipPath = 'none'; media.style.webkitClipPath = 'none'; }
+    var draw = hero.querySelector('.fp-draw');
+    if (draw) draw.style.transform = 'none';
+    var arr = hero.querySelector('.fp-arr path');
+    if (arr) G.set(arr, { clearProps: 'strokeDasharray,strokeDashoffset' });
+    win.classList.remove('fp-opening');
+    win.classList.add('fp-open');
+    tl = null;
+  }
+  function finish() {
+    if (tl) { try { tl.progress(1); } catch (e) {} }
+    if (!finished && built) done();
+    if (!built) {
+      built = true; finished = true;
+      R.each('[data-a],[data-ai]', function (el) { el.classList.add('on'); }, hero);
+      nums.forEach(function (o) { o.el.textContent = String(o.n); });
+    }
+    hero.classList.add('fp-done');
+    win.classList.remove('fp-opening');
+    win.classList.add('fp-open');
+    reel.start();
+  }
+
+  /* ---------- the reel: the institute's own edit of one pure-tone test ----------
+     audiometer close-up, hands on the keys (112.05-114.29 s) -> the audiogram screen and booth camera (114.29-116.42 s),
+     looped on one element at 0.8x; the jump back reads as the edit's own cut. The photo of the members is the window's
+     base layer, so the cursor always uncovers a real picture whatever the network does. The video is fetched and started
+     while the page parses (inline loader in hero.html), so on a normal connection the sweep uncovers footage that is
+     already moving; otherwise it dissolves in over the photo the moment it plays. Phones, Save-Data and 2g/3g keep the
+     photo: at 120 px tall the keys and screens are illegible and the bytes are real. */
+  function makeReel(win, mobile, reduce) {
+    var noop = function () {};
+    var v = win && win.querySelector('.fp-v');
+    var mediaEl = win && win.querySelector('.fp-media');
+    var btn = win && win.querySelector('.fp-pz');
+    var fill = win && win.querySelector('.fp-fill');
+    var cn = navigator.connection;
+    var slow = !!(cn && (cn.saveData || /2g|3g/.test(cn.effectiveType || '')));
+    if (mobile || slow || !v || typeof v.play !== 'function' || !v.getAttribute('data-src')) return { start: noop, still: noop };
+    var S = { a: 112.05, b: 116.42, first: 112.2, rate: 0.8 };
+    var wanted = false, onScreen = true, userPaused = false, dead = false, raf = 0, lived = false, anyFrame = false;
+    v.fpLoop = true;                                     // the hero now owns the loop (the inline loader stops guarding it)
+    v.muted = true;
+    // the inline loader fetches only the loop's bytes (v.fpClip, CLAUDE.md video budget); without it, the file itself
+    if (!v.getAttribute('src') && !v.fpClip) { v.preload = 'metadata'; v.src = v.getAttribute('data-src'); }
+    function rate() { try { v.defaultPlaybackRate = S.rate; v.playbackRate = S.rate; } catch (e) {} }
+    rate();
+    v.addEventListener('loadedmetadata', rate);
+
+    function seek(t) { try { v.currentTime = t; } catch (e) {} }
+    function sync() { if (btn) btn.setAttribute('aria-pressed', String(userPaused)); }
+    function play() {
+      rate();
+      var p = v.play();
+      if (p && p.catch) p.catch(function (err) {
+        if (err && err.name === 'NotAllowedError') { userPaused = true; sync(); frameOnly(); }   // autoplay refused: a still and a play button
+      });
+    }
+    function reveal() {
+      if (anyFrame) return;
+      anyFrame = true;
+      v.classList.add('on');
+      win.classList.add('fp-live');
+      if (!lived && mediaEl) { lived = true; setTimeout(function () { mediaEl.classList.add('live'); }, 1000); }  // then hard cuts
+    }
+    // a paused, clean frame of the shot (never frame 0, never past the shot) may stand in for the footage
+    function frameOnly() {
+      var f = function () { if (!v.seeking && v.readyState >= 2 && v.currentTime >= S.a - 0.25 && v.currentTime < S.b) reveal(); };
+      f(); ['loadeddata', 'seeked'].forEach(function (ev) { v.addEventListener(ev, f); });
+    }
+    function go() { return wanted && onScreen && !doc.hidden && !userPaused && !dead; }
+    function loop() { if (!raf) raf = requestAnimationFrame(step); }
+    function step() {
+      raf = 0;
+      if (!go()) return;
+      if (!v.seeking) {
+        var t = v.currentTime;
+        if (t >= S.b || t < S.a - 0.25) seek(S.a);       // never runs past the clean shot into the promo's graphics
+        else {
+          if (!v.paused && v.readyState >= 2 && !win.classList.contains('fp-opening')) reveal();   // never swap pictures mid-reveal
+          if (fill) fill.style.transform = 'scaleX(' + Math.min(1, Math.max(0, (t - S.a) / (S.b - S.a))).toFixed(4) + ')';
+        }
+      }
+      if (v.paused && v.readyState >= 2) play();
+      loop();
+    }
+    function resume() { if (go()) { play(); loop(); } }
+    function pause() { if (raf) cancelAnimationFrame(raf); raf = 0; if (!v.paused) v.pause(); }
+    v.addEventListener('error', function () {
+      if (v.fpRetry) return;                             // the loader is retrying with the file itself
+      dead = true; pause(); win.classList.remove('fp-live'); v.classList.remove('on');
+    });
+    R.visible(win, function (on) { onScreen = on; if (on) resume(); else pause(); });
+    doc.addEventListener('visibilitychange', function () { if (doc.hidden) pause(); else resume(); });
+    if (btn) btn.addEventListener('click', function () {
+      userPaused = !userPaused;
+      sync();
+      if (userPaused) pause(); else resume();
+    });
+
+    if (reduce) {                                        // reduced motion: the footage's opening frame, never played, no controls
+      var early = function () {
+        if (!anyFrame && !v.seeking && v.readyState >= 2 && Math.abs(v.currentTime - S.first) < 0.35) { anyFrame = true; v.classList.add('on'); }
+      };
+      ['loadeddata', 'seeked', 'canplay'].forEach(function (ev) { v.addEventListener(ev, early); });
+      return { start: noop, still: early };
+    }
+    return { start: function () { if (wanted) return; wanted = true; resume(); }, still: noop };
+  }
+})();
+
+
+/* B · clinical modern · the page after the first screen.
+   One motion language with the hero: a teal cursor that measures. The outcomes band repeats the hero's sweep on the time
+   axis (2008 to 2026) and its numbers are the running totals at the cursor; section names rise out of their axis line;
+   the publication list is scanned in behind a soft edge and its record map shows where the page sits among all papers;
+   portraits open from their baseline like the hero's window. Scroll position comes only from RIHE.onBand (the visible
+   band of this document inside the non-scrolling Wix iframe); reveals from RIHE.inview (thresholds only). */
+(function () {
+  'use strict';
+  var R = window.RIHE, doc = document;
+  var root = doc.querySelector('.b');
+  if (!R || !root) return;
+  R.motionReady();
+
+  var G = window.gsap;
+  var mq = function (q) { return !!(window.matchMedia && window.matchMedia(q).matches); };
+  var mobile = mq('(max-width: 760px)');
+  var fine = mq('(hover: hover) and (pointer: fine)');
+  var $ = function (s, c) { return (c || doc).querySelector(s); };
+  var $$ = function (s, c) { return [].slice.call((c || doc).querySelectorAll(s)); };
+  var on = function (els) { [].concat(els).forEach(function (el) { if (el) el.classList.add('on'); }); };
+  var masked = [];
+
+  // a soft-edged scan from left to right (the hero's text scan): node.style.mask follows p.x, cleared at the end
+  function maskAt(node, x, soft) {
+    var m = x === null ? '' : 'linear-gradient(90deg, #000 ' + (x - soft).toFixed(1) + 'px, rgba(0,0,0,0) ' + x.toFixed(1) + 'px)';
+    node.style.webkitMaskImage = m; node.style.maskImage = m;
+  }
+  function scanTween(node, dur, ease, soft) {
+    soft = soft || 80;
+    var w = Math.max(1, node.getBoundingClientRect().width), p = { x: 0 };
+    if (node._scan) node._scan.kill();
+    if (masked.indexOf(node) < 0) masked.push(node);
+    maskAt(node, 0, soft);
+    node._scan = window.gsap.to(p, { x: 1, duration: dur, ease: ease || 'power2.out',
+      onUpdate: function () { maskAt(node, p.x * (w + soft), soft); },
+      onComplete: function () { maskAt(node, null); node._scan = null; } });
+    return node._scan;
+  }
+
+  /* ---------- the publication list: works with or without motion ---------- */
+  pubs();
+  function pubs() {
+    var el = doc.getElementById('b-pubs'), src = doc.getElementById('b-pubs-data');
+    if (!el || !src || !R.list) return;
+    var data;
+    try { data = JSON.parse(src.textContent); } catch (err) { return; }
+    var ticks = $$('[data-ticks] > i', el), head = $('.b-tb', el), bottom = $('.b-pg-b', el), status = $('[data-st]', el);
+    var lw = $('.b-lw', el), foot = $('.b-foot', el), fromBottom = false, headSeen = true;
+    // the engine reserves the tallest page on the list itself; the reserve moves to the wrapper, so the foot pager follows
+    // the last row (no gap above it) while the block, and the page, keep one height
+    function hold(ul) {
+      var mh = parseFloat(ul.style.minHeight);
+      if (!mh || !lw || !foot) return;
+      lw.style.minHeight = Math.ceil(mh + foot.offsetHeight + (parseFloat(getComputedStyle(foot).marginTop) || 0)) + 'px';
+      ul.style.minHeight = '';
+    }
+    el.addEventListener('click', function (ev) {      // capture: runs before the list engine's own click handler
+      var b = ev.target.closest && ev.target.closest('button[data-p]');
+      fromBottom = !!(b && bottom && bottom.contains(b));
+    }, true);
+    if (head) R.visible(head, function (v) { headSeen = v; });
+    function ok(it, k, v) {
+      if (v === 'all') return true;
+      if (v.charAt(0) === '~') return +it[k] <= +v.slice(1);
+      return String(it[k]) === v;
+    }
+    // every option shows how many papers it would leave, given the other filter (no dead ends)
+    function counts() {
+      var f = {};
+      $$('button[data-k][aria-pressed="true"]', el).forEach(function (b) { f[b.getAttribute('data-k')] = b.getAttribute('data-v'); });
+      $$('button[data-k]', el).forEach(function (b) {
+        var k = b.getAttribute('data-k'), v = b.getAttribute('data-v'), n = 0;
+        data.items.forEach(function (it) {
+          if (!ok(it, k, v)) return;
+          for (var o in f) if (o !== k && !ok(it, o, f[o])) return;
+          n++;
+        });
+        var c = $('.b-opt-n', b);
+        if (c) c.textContent = String(n);
+        b.classList.toggle('zero', !n);
+      });
+    }
+    function after(ul, reason) {
+      hold(ul);
+      var cur = {};
+      $$('li[data-i]', ul).forEach(function (li) { cur[li.getAttribute('data-i')] = 1; });
+      for (var i = 0; i < ticks.length; i++) ticks[i].classList.toggle('cur', !!cur[i]);
+      counts();
+      if (status && (reason === 'page' || reason === 'filter')) {    // e.g. "41건 · 1 / 5", from the strings on screen
+        var nv = $('[data-n] [data-l="' + R.lang + '"]', el), pi = $('[data-pi]', el);
+        status.textContent = (nv ? nv.textContent : '') + (pi ? ' · ' + pi.textContent : '');
+      }
+      if ((reason === 'page' || reason === 'filter') && window.gsap && !R.reduce) scanTween(ul, 0.42, 'power2.out', 90);
+      // paging from the foot of the list while its head is off screen: bring the head (and the new page) into view
+      if (reason === 'page' && fromBottom && !headSeen && head) head.scrollIntoView({ behavior: R.reduce ? 'auto' : 'smooth', block: 'start' });
+      fromBottom = false;
+    }
+    R.list(el, { data: data.items, size: 10, render: function (it) { return it.h; }, empty: data.empty, after: after });
+  }
+
+  if (R.reduce || !G) { R.showAll(); return; }       // reduced motion: the final state at once, nothing moves
+
+  var SplitText = window.SplitText, CustomEase = window.CustomEase;
+  try { G.registerPlugin.apply(G, [SplitText, CustomEase].filter(Boolean)); } catch (err) {}
+  var SWEEP = 'power2.inOut', OUT = 'expo.out';
+  if (CustomEase) {
+    SWEEP = CustomEase.create('bSweep', 'M0,0 C0.24,0 0.2,1 1,1');   // the hero's calibrated sweep
+    OUT = CustomEase.create('bOut', 'M0,0 C0.12,0.82 0.24,1 1,1');
+  }
+  var css = getComputedStyle(root);
+  var TEAL = (css.getPropertyValue('--teal') || '#0a7671').trim(), MUTE = (css.getPropertyValue('--mute') || '#5a6d71').trim();
+
+  // every timeline can be finished at once: a language switch, an error (showAll) or a new width ends in the final state
+  var live = [], splits = [];
+  function timeline(done) {
+    var tl = G.timeline({ onComplete: function () { var i = live.indexOf(tl); if (i >= 0) live.splice(i, 1); if (done) done(); } });
+    live.push(tl);
+    return tl;
+  }
+  function finishAll() {
+    live.slice().forEach(function (tl) { try { tl.progress(1); } catch (err) {} });
+    live = [];
+    splits.forEach(function (s) { try { s.revert(); } catch (err) {} });
+    splits = [];
+    masked.forEach(function (n) { if (n._scan) { n._scan.kill(); n._scan = null; } maskAt(n, null); });
+  }
+  R.onLang(finishAll);
+  R.showHooks.push(finishAll);
+  var w0 = window.innerWidth;
+  window.addEventListener('resize', function () { if (Math.abs(window.innerWidth - w0) > 2) { w0 = window.innerWidth; finishAll(); } });
+
+  var fontsP = Promise.race([doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve(), new Promise(function (r) { setTimeout(r, 900); })]);
+  // the first screen's measurement has the stage: the outcomes sweep waits for it (tall screens see both at once)
+  var heroDone = new Promise(function (res) {
+    var h = doc.getElementById('fp-hero');
+    if (!h || h.classList.contains('fp-done')) return res();
+    var t = setTimeout(res, 3400);
+    try {
+      new MutationObserver(function (_, mo) { if (h.classList.contains('fp-done')) { mo.disconnect(); clearTimeout(t); res(); } })
+        .observe(h, { attributes: true, attributeFilter: ['class'] });
+    } catch (err) { res(); }
+  });
+
+  heads();
+  record();
+  listIn();
+  people();
+  scrub();
+
+  /* ---------- section names rise out of their axis; the axis is drawn; the lead is scanned in ---------- */
+  function heads() {
+    $$('.b-sh', root).forEach(function (sh) {
+      var h2 = $('.b-h2', sh), draw = $('.b-ax-d', sh);
+      var lead = $('.b-lead', sh.parentNode);
+      R.inview(sh, function () {
+        fontsP.then(function () {
+          var span = $('[data-l="' + R.lang + '"]', h2) || h2, st = null;
+          if (SplitText) { st = SplitText.create(span, { type: 'lines', mask: 'lines', linesClass: 'b-sl' }); splits.push(st); }
+          var lines = st ? st.lines : [span];
+          G.set(lines, { yPercent: 106 });
+          G.set(draw, { scaleX: 0 });
+          on([h2, draw]);
+          var tl = timeline(function () {
+            if (st) { try { st.revert(); } catch (err) {} var i = splits.indexOf(st); if (i >= 0) splits.splice(i, 1); }
+          });
+          tl.to(draw, { scaleX: 1, duration: 1.05, ease: SWEEP }, 0);
+          tl.to(lines, { yPercent: 0, duration: 0.95, ease: OUT, stagger: 0.09 }, 0.14);
+          if (lead && !lead.classList.contains('on')) {
+            tl.add(function () { on(lead); scanTween(lead, 1.0, 'power1.inOut', 90); }, 0.42);
+            maskAt(lead, 0, 90);
+            if (masked.indexOf(lead) < 0) masked.push(lead);
+          }
+        });
+      }, { threshold: 0.85, px: 120 });
+    });
+  }
+
+  /* ---------- outcomes: the cursor sweeps the years; each number is the running total at the cursor ---------- */
+  function record() {
+    var band = $('.b-rec', root);
+    if (!band) return;
+    var lead = $('.b-rec-lead', band), cells = $$('.b-cell', band);
+    // the band waits for the first screen's measurement only while that is on screen: a visitor who has already
+    // scrolled past it gets the band at once. The decision is taken after the current batch of observer callbacks
+    // (setTimeout 0): Chrome does not deliver them in creation order, so the hero's state of the same frame may come later.
+    // 'on screen' = at least a fifth of it showing (a sliver at the top edge is not watching the sweep); thresholds only
+    var heroEl = doc.getElementById('fp-hero'), heroOn = true;
+    if (heroEl && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { es.forEach(function (e) { heroOn = e.isIntersecting && e.intersectionRatio >= 0.2; }); },
+        { threshold: [0, 0.2] }).observe(heroEl);
+    }
+    R.inview(band, function () {
+      setTimeout(function () { (heroOn ? Promise.all([heroDone, fontsP]) : fontsP).then(go); }, 0);
+    }, { threshold: 0.6, px: 190 });
+
+    function go() {
+      var D = mobile ? 1.35 : 1.65, T0 = 0.32;
+      var ease = G.parseEase(SWEEP);
+      var tAt = function (x) {                      // time at which the eased cursor reaches x (0..1)
+        var lo = 0, hi = 1;
+        for (var i = 0; i < 22; i++) { var m = (lo + hi) / 2; if (ease(m) < x) lo = m; else hi = m; }
+        return T0 + D * (lo + hi) / 2;
+      };
+      var charts = $$('.b-yr', band).map(function (c) {
+        var bars = $$('.b-bars i', c);
+        return { el: c, bars: bars, n: bars.map(function (b) { return +b.getAttribute('data-n'); }), cur: $('.b-cur', c), rd: $('.b-rd', c),
+          labels: $$('.b-yl', c), num: $('.b-c', c.closest('.b-cell')), y0: +c.getAttribute('data-y0'), last: '' };
+      });
+      var units = $$('.b-un', band).map(function (u) { return { el: u, sq: $$('i', u), num: $('.b-c', u.closest('.b-cell')), lit: -1 }; });
+      var totals = $$('.b-c', band).map(function (n) { return { el: n, n: +n.getAttribute('data-count') }; });
+
+      charts.forEach(function (c) {
+        c.el.classList.add('b-busy');
+        G.set(c.bars, { scaleY: 0 });
+        G.set(c.cur, { opacity: 0, scaleY: 0, x: 0 });
+        G.set(c.rd, { opacity: 0, x: 0 });
+        G.set(c.labels, { opacity: 0 });
+        c.num.textContent = '0';
+      });
+      units.forEach(function (u) { u.sq.forEach(function (s) { s.classList.add('off'); }); u.num.textContent = '0'; });
+      G.set(cells, { autoAlpha: 0, y: 10 });
+      on(cells);
+      if (lead && !lead.classList.contains('on')) { maskAt(lead, 0, 90); if (masked.indexOf(lead) < 0) masked.push(lead); }
+
+      var tl = timeline(done);
+      if (lead && !lead.classList.contains('on')) tl.add(function () { on(lead); scanTween(lead, 1.1, 'power1.inOut', 90); }, 0);
+      tl.to(cells, { autoAlpha: 1, y: 0, duration: 0.6, ease: OUT, stagger: 0.06 }, 0.04);
+      charts.forEach(function (c) {
+        tl.to(c.cur, { opacity: 1, scaleY: 1, duration: 0.35, ease: 'power3.out' }, T0 - 0.22);
+        tl.to(c.rd, { opacity: 1, duration: 0.2, ease: 'none' }, T0 - 0.1);
+        var n = c.bars.length;
+        c.bars.forEach(function (b, i) { tl.to(b, { scaleY: 1, duration: 0.6, ease: OUT }, tAt((i + 0.5) / n) - 0.02); });
+        // a year label is printed where the cursor has passed (the readout covers it until then)
+        c.labels.forEach(function (lb) {
+          var x = parseFloat(lb.style.getPropertyValue('--x')) || 0, t = tAt(Math.min(1, x + 0.04));
+          var key = lb.classList.contains('k');
+          tl.set(lb, { opacity: 1, color: TEAL }, t);
+          if (!key) tl.to(lb, { color: MUTE, duration: 0.8, ease: 'power1.inOut' }, t + 0.3);
+        });
+        tl.to([c.cur, c.rd], { opacity: 0, duration: 0.34, ease: 'power1.in' }, T0 + D - 0.06);
+      });
+      var sweep = { p: 0 };
+      tl.to(sweep, { p: 1, duration: D, ease: 'none', onUpdate: paint }, T0);
+
+      function paint() {
+        var p = ease(sweep.p);                       // the cursor position (eased), 0..1
+        charts.forEach(function (c) {
+          var W = c.el.offsetWidth, n = c.bars.length, x = p * W;
+          var k = Math.min(n - 1, Math.floor(p * n)), s = 0;
+          for (var i = 0; i < k; i++) s += c.n[i];
+          s += c.n[k] * Math.min(1, p * n - k);
+          c.num.textContent = String(Math.round(s));
+          G.set(c.cur, { x: Math.round(x) - (x >= W - 0.5 ? 1 : 0) });
+          var txt = String(c.y0 + k);
+          if (txt !== c.last) { c.rd.textContent = txt; c.last = txt; c.rdW = c.rd.offsetWidth; }
+          G.set(c.rd, { x: Math.max(0, Math.min(W - (c.rdW || 34), x - (c.rdW || 34) / 2)) });
+        });
+        units.forEach(function (u) {
+          var N = u.sq.length, lit = Math.round(N * p);
+          if (lit === u.lit) return;
+          for (var i = 0; i < N; i++) u.sq[i].classList.toggle('off', i >= lit);
+          u.lit = lit;
+          u.num.textContent = String(lit);
+        });
+      }
+      function done() {
+        totals.forEach(function (o) { o.el.textContent = String(o.n); });
+        charts.forEach(function (c) {
+          G.set(c.bars, { clearProps: 'transform' });
+          G.set(c.labels, { clearProps: 'opacity,color' });
+          G.set([c.cur, c.rd], { opacity: 0 });
+          c.el.classList.remove('b-busy');
+        });
+        units.forEach(function (u) { u.sq.forEach(function (s) { s.classList.remove('off'); }); });
+        G.set(cells, { clearProps: 'opacity,visibility,transform' });
+      }
+    }
+  }
+
+  /* ---------- the list block: the record map registers, the first page is scanned in ---------- */
+  function listIn() {
+    var el = doc.getElementById('b-pubs');
+    if (!el) return;
+    var ul = $('[data-items]', el), mh = $('.b-mh', el), foot = $('.b-foot', el), fls = $('.b-fls', el);
+    var ticks = $$('[data-ticks] > i', el);
+    R.inview(ul, function () {
+      G.set(ticks, { scaleY: 0 });
+      if (fls) G.set(fls.querySelectorAll('.b-flt'), { autoAlpha: 0, y: 8 });
+      on([mh, fls, foot]);
+      maskAt(ul, 0, 110);
+      if (masked.indexOf(ul) < 0) masked.push(ul);
+      on(ul);
+      var tl = timeline(function () { G.set(ticks, { clearProps: 'transform' }); });
+      tl.to(ticks, { scaleY: 1, duration: 0.45, ease: OUT, stagger: { each: 0.0042 } }, 0);
+      tl.add(function () { scanTween(ul, 0.95, 'power1.inOut', 110); }, 0.12);
+      if (fls) tl.to(fls.querySelectorAll('.b-flt'), { autoAlpha: 1, y: 0, duration: 0.6, ease: OUT, stagger: 0.08, clearProps: 'opacity,visibility,transform' }, 0.05);
+    }, { threshold: 0.12, px: 200 });
+  }
+
+  /* ---------- portraits open from their baseline and settle into focus (the hero window's material) ---------- */
+  function people() {
+    $$('.b-pp-g', root).forEach(function (g) {
+      var frames = $$('.b-pp-f', g), layers = $$('.b-pp-d', g), texts = $$('.b-pp-t', g);
+      R.inview(g, function () {
+        G.set(frames, { clipPath: 'inset(100% 0% 0% 0%)' });
+        G.set(layers, { scale: 1.08, transformOrigin: '50% 70%' });
+        G.set(texts, { autoAlpha: 0, y: 8 });
+        on(g); on(frames); on(texts);
+        var tl = timeline(function () {
+          G.set(frames, { clearProps: 'clipPath' });
+          G.set(layers, { scale: 1 });
+          G.set(texts, { clearProps: 'opacity,visibility,transform' });
+        });
+        tl.to(frames, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.95, ease: OUT, stagger: 0.08 }, 0);
+        tl.to(layers, { scale: 1, duration: 1.5, ease: 'power2.out', stagger: 0.08 }, 0);
+        tl.to(texts, { autoAlpha: 1, y: 0, duration: 0.55, ease: OUT, stagger: 0.08 }, 0.3);
+      }, { threshold: 0.3, px: 220 });
+    });
+  }
+
+  /* the members are a reading zone (PRODUCT.md principle 3): after their one entry they stay still. Scroll-linked depth
+     belongs to the first screen's window alone (hero.js), where it is a window onto a scene. */
+
+  /* ---------- the year charts answer the pointer with the hero's cursor and readout (year · count) ---------- */
+  function scrub() {
+    if (!fine) return;
+    $$('.b-yr', root).forEach(function (c) {
+      var bars = $$('.b-bars i', c), cur = $('.b-cur', c), rd = $('.b-rd', c), y0 = +c.getAttribute('data-y0'), k0 = -1;
+      c.style.pointerEvents = 'auto';
+      c.addEventListener('pointermove', function (ev) {
+        if (c.classList.contains('b-busy')) return;
+        var r = c.getBoundingClientRect(), n = bars.length;
+        var k = Math.max(0, Math.min(n - 1, Math.floor((ev.clientX - r.left) / r.width * n)));
+        if (k === k0) return;
+        k0 = k;
+        bars.forEach(function (b, i) { b.classList.toggle('hi', i === k); });
+        var x = (k + 0.5) / n * r.width;
+        rd.textContent = (y0 + k) + ' · ' + bars[k].getAttribute('data-n');
+        var w = rd.offsetWidth;
+        G.to(cur, { x: Math.round(x), opacity: 1, scaleY: 1, duration: 0.18, ease: 'power2.out', overwrite: true });
+        G.to(rd, { x: Math.max(0, Math.min(r.width - w, x - w / 2)), opacity: 1, duration: 0.18, ease: 'power2.out', overwrite: true });
+      });
+      c.addEventListener('pointerleave', function () {
+        k0 = -1;
+        bars.forEach(function (b) { b.classList.remove('hi'); });
+        G.to([cur, rd], { opacity: 0, duration: 0.2, ease: 'power1.out', overwrite: true });
+      });
+    });
+  }
+})();
+
+} catch (err) { if (window.console) console.error(err); window.RIHE && RIHE.showAll(); } });</script>
+</body>
+</html>

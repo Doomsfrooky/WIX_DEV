@@ -54,7 +54,7 @@ def check(name, doc):
         errs.append(f'em-dash in visible copy: ...{vis[max(0, m.start() - 40):m.start() + 20].strip()}...')
     for m in re.finditer(r'<[a-z0-9]+\b[^>]*\bdata-l="en"[^>]*>', doc):
         tag = m.group(0)
-        if not re.search(r'\blang="(en|ko)"', tag):
+        if not re.search(r'\slang="(en|ko)"', tag):
             errs.append(f'data-l="en" without lang="en" (or lang="ko" for Korean text): {tag[:80]}')
     for src in re.findall(r'<script[^>]+src="([^"]*)"', doc):
         if not re.match(r'^(\./|\.\./)*vendor/[\w.@/-]+\.m?js$', src):

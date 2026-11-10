@@ -7,8 +7,9 @@
 // --fine [step] (the values for docs/wix-heights.md): one load per page, then the viewport is resized from 980 to 1920
 // every <step> px (default 1) and the height is read once it is stable; the highest widths are refined to 1 px and
 // measured again with fresh loads in both languages, with 320 and 980; the desktop value is the larger of the two.
-// The five usual widths missed peaks of up to 58 px (2026-11-10): content that stops growing at the 1640 px cap
-// (about 1700), the two-column breakpoint below 1100 (Audiso), and justified photo rows (gallery). The resize pass
+// The five usual widths missed peaks of up to 67 px (2026-11-10): content that stops growing at the 1640 px cap
+// (about 1700), the two-column breakpoint below 1100 (Audiso, 58 px), and justified photo rows (gallery, 67 px;
+// --sweep 20 still missed 29 px). The resize pass
 // reads KO only: every page reserves the larger language's height per section, and the fresh loads check both.
 'use strict';
 const V = require('./lib');

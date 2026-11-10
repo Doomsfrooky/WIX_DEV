@@ -406,6 +406,7 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.86) contrast(.97) brightness(1.02); transition: opacity .3s ease; }
 .k-scr video { position: absolute; inset: 0; width: 100%; height: 100%; background: #000; }
 .k-scr.on .k-poster, .k-scr.on .k-play { opacity: 0; pointer-events: none; }
+.k-scr.on .k-play { visibility: hidden; }   /* out of the tab order and the accessibility tree while the video shows */
 .k-play { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; padding: 0; border: 0; border-radius: 0; cursor: pointer;
   display: grid; place-items: center; background: rgba(15, 14, 12, .86); color: var(--paper); transition: background-color .2s ease, transform .12s ease, opacity .2s ease; }
 .k-play svg { width: 22px; height: 22px; margin-left: 3px; fill: currentColor; }
@@ -1326,7 +1327,12 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
     srcSet = true;
     stills.forEach(function (im) {               // the other photograph of the people, for every other return to them
       var s = im.getAttribute('data-src');
-      if (s && !im.getAttribute('src')) { im.setAttribute('srcset', im.getAttribute('data-srcset') || ''); im.setAttribute('src', s); }
+      if (!s || im.getAttribute('src')) return;
+      im.addEventListener('load', function () {  // decoded before the first cut to it: hidden, it is never painted, and the cut would show the empty frame
+        var ok = function () { im.setAttribute('data-ok', ''); }, q = im.decode ? im.decode() : null;
+        if (q && q.then) q.then(ok, function () {}); else ok();
+      }, { once: true });
+      im.setAttribute('srcset', im.getAttribute('data-srcset') || ''); im.setAttribute('src', s);
     });
     if (mode === 'clip') buildClip().then(function (u) { if (mode === 'clip') { v.src = u; prepIdle(); } }, function () { if (mode === 'clip') fallback(); });
     else { v.src = REEL.src; prepIdle(); }
@@ -1423,15 +1429,18 @@ html.js:not(.rm) .cx .cx-frame[data-a]:not(.on) { opacity: 1; clip-path: inset(5
   }
   // back to the people: hard cut to the photograph
   function toStill() {
+    var fromV = onV;
     onV = false; slot = 0; cutting = -1;
     frame.style.removeProperty('--sk');            // the still's own value (hero.css)
     g.set(v, { autoAlpha: 0 }); try { v.pause(); } catch (e) {}
     if (kbV) { kbV.kill(); kbV = null; }
     holding = false;
     var nx = stills[(stills.indexOf(still) + 1) % stills.length];   // the other photograph, once decoded (never with the photograph only)
-    if (mode !== 'lean' && nx !== still && nx.complete && nx.naturalWidth) { g.set(still, { autoAlpha: 0 }); still = nx; g.set(still, { autoAlpha: 1 }); }
-    g.set(still, { scale: 1 });
-    startStill(STILL.d);
+    var ready = nx.hasAttribute('data-src') ? nx.hasAttribute('data-ok') : (nx.complete && nx.naturalWidth > 0);   // the first was decoded before the gate opened
+    var swap = mode !== 'lean' && nx !== still && ready;
+    if (swap) { g.set(still, { autoAlpha: 0 }); still = nx; g.set(still, { autoAlpha: 1 }); }
+    if (fromV || swap || !kbS) { g.set(still, { scale: 1 }); startStill(STILL.d); }
+    else { if (clock) clock.kill(); clock = g.to({}, { duration: STILL.d }); }   // the photograph only: its push-in runs on and holds, no snap back
     cue = -1; prepIdle();
   }
   // the cut lands on a decoded frame: crop, show, play

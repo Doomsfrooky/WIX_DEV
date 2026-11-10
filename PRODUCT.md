@@ -41,7 +41,7 @@ web
 
 - 페이지 10개: Home, About, Research(/project), People, Basic Lab(/about-1), Hearing Lab, HeAD Lab, Audiso, Contact(/연락처), Gallery(/gallery).
 - iframe 제약(CLAUDE.md "Wix iframe에서 모션이 동작하는 조건"): 높이 고정, 100vh·sticky·fixed·스크롤 가로채기 금지, 클릭으로 높이가 늘어나는 내용 금지, 스크롤 연동 효과는 IntersectionObserver 근사로만.
-- 사진·영상은 Wix 미디어와 Imgur 주소를 참조만 한다(저장소에 넣지 않음).
+- 영상은 Wix 미디어 주소를 참조한다. 이미 Wix·Imgur에 있는 사진도 주소 그대로 쓰고, 새 구성원·갤러리 사진과 도표는 저장소 `site/media/` 에 웹용 사본만 둔다(`tools/media.py`, 2026-11-09 결정).
 - Gallery 페이지는 Wix CMS 목록을 postMessage로 받을 수 있다(`tools/pages/gallery.md`).
 
 ## Brand Commitments
@@ -52,9 +52,9 @@ web
 
 ## Evidence on Hand
 
-- 학술지 논문 120편(`data/publications.json`), 학회 발표 94건(`data/reports.json`), 특허 80건(`data/patents.json`), 기술이전 12건(1차 문구, 데이터 아님).
-- 구성원 34명, 팀 6개(`data/people.json`: 교수진 3, Basic 4, Hearing 5, HeAD 6, 행정 4, Audiso 12). 대부분 Imgur 사진.
-- 사진 6장(`data/gallery.json`, Wix 미디어), 영상 3편(`data/videos.json`, Wix 영상: 연구소 소개, 청각빅데이터센터 홍보, G1 뉴스).
+- 학술지 논문 121편(`data/publications.json`), 학회 발표 110건(`data/reports.json`), 특허 80건(`data/patents.json`), 기술이전 12건(1차 문구, 데이터 아님). (2026-11-10 기준)
+- 구성원 36명, 팀 6개(`data/people.json`: 교수진 3, Basic 5, Hearing 5, HeAD 6, 행정 4, Audiso 13). 사진 35명(Imgur 27, 저장소 8), 1명은 사진이 오면 넣는다.
+- 갤러리 사진 59장(`data/gallery.json`: 저장소 사본 53, Wix 미디어 6), 영상 3편(`data/videos.json`, Wix 영상: 연구소 소개, 청각빅데이터센터 홍보, G1 뉴스).
 - 연구소장 인사말과 약력(`tools/kit.py` `DIRECTOR`), 협력 기관 로고(About).
 - 없는 것: 추천사·후기, 수상 목록 데이터, 환자 대상 안내 자료, 영문 보도자료. 만들어 넣지 않는다.
 

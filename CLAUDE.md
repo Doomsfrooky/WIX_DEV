@@ -106,7 +106,7 @@ Node와 미리 설치된 Playwright로 돈다(`npm install` 불필요). 저장�
 node tools/verify/render.js   site/home.html <out> [--widths 1280,320] [--langs ko,en] [--frames]   # 전체 스크린샷 + 점검(stillInvisible·brokenImages·errors 모두 0)
 node tools/verify/wixsim.js   site/home.html <out> [--w 1280|320] [--lang en]                       # Wix처럼 교차 출처 iframe에서 바깥을 스크롤. 시간순(t*)·스크롤순(s*) 스크린샷
 node tools/verify/interact.js site/research.html [--width 320]                                      # 모든 버튼·필터·페이저를 눌러도 높이가 그대로인지
-node tools/verify/heights.js  site/home.html site/about.html --md                                   # 폭·언어별 문서 높이 → docs/wix-heights.md (+24px, 10 단위 올림)
+node tools/verify/heights.js  site/home.html site/about.html --fine --md                            # 폭·언어별 문서 높이 → docs/wix-heights.md (+24px, 10 단위 올림). 표에 넣는 값은 --fine(980~1920을 1px로 훑음, 쪽당 약 5~10분)으로 잰다. 빠른 확인은 --fine 없이(다섯 폭, 최대 58px 놓침)
 node tools/verify/fallback.js site/home.html [--width 320] [--out dir]                              # JS 끔 / 주 스크립트 실패 / 동작 줄이기 에서 숨은 내용 0
 node tools/verify/shoot.js    site/home.html out.png [--width 320] [--sel ".hero"] [--lang en] [--scale 2] [--full]
 node tools/verify/probe.js    site/home.html "document.fonts.size" [--width 320]

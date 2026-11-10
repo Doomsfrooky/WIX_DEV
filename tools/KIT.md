@@ -436,8 +436,9 @@ node tools/verify/render.js site/<name>.html <out> --widths 1920,1440,980,320 --
     # every shot: stillInvisible 0, brokenImages 0, errors 0; KO height = EN height at each width
 node tools/verify/interact.js site/<name>.html                   # and --width 320: changes []
 node tools/verify/fallback.js site/<name>.html                   # and --width 320: stillInvisible 0, reduced runningAnimations 0
-node tools/verify/heights.js site/<name>.html --md               # then fill your row in docs/wix-heights.md
-    # pages with justified photo rows (gallery): add --sweep 20 (every 20 px from 980 to 1920)
+node tools/verify/heights.js site/<name>.html --fine --md        # then fill your row in docs/wix-heights.md
+    # --fine: every width from 980 to 1920 (1 px; '--fine 2' = 2 px, peaks refined to 1 px), peaks re-measured with
+    # fresh loads in KO and EN. The five default widths missed peaks of up to 58 px (2026-11-10 final audit).
 ```
 
 Last full run (2026-11-09, the stage-2 Finish build): all ten pages pass every check above (wix-sim 30 runs,

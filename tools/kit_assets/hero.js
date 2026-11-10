@@ -118,7 +118,12 @@
     srcSet = true;
     stills.forEach(function (im) {               // the other photograph of the people, for every other return to them
       var s = im.getAttribute('data-src');
-      if (s && !im.getAttribute('src')) { im.setAttribute('srcset', im.getAttribute('data-srcset') || ''); im.setAttribute('src', s); }
+      if (!s || im.getAttribute('src')) return;
+      im.addEventListener('load', function () {  // decoded before the first cut to it: hidden, it is never painted, and the cut would show the empty frame
+        var ok = function () { im.setAttribute('data-ok', ''); }, q = im.decode ? im.decode() : null;
+        if (q && q.then) q.then(ok, function () {}); else ok();
+      }, { once: true });
+      im.setAttribute('srcset', im.getAttribute('data-srcset') || ''); im.setAttribute('src', s);
     });
     if (mode === 'clip') buildClip().then(function (u) { if (mode === 'clip') { v.src = u; prepIdle(); } }, function () { if (mode === 'clip') fallback(); });
     else { v.src = REEL.src; prepIdle(); }
@@ -215,15 +220,18 @@
   }
   // back to the people: hard cut to the photograph
   function toStill() {
+    var fromV = onV;
     onV = false; slot = 0; cutting = -1;
     frame.style.removeProperty('--sk');            // the still's own value (hero.css)
     g.set(v, { autoAlpha: 0 }); try { v.pause(); } catch (e) {}
     if (kbV) { kbV.kill(); kbV = null; }
     holding = false;
     var nx = stills[(stills.indexOf(still) + 1) % stills.length];   // the other photograph, once decoded (never with the photograph only)
-    if (mode !== 'lean' && nx !== still && nx.complete && nx.naturalWidth) { g.set(still, { autoAlpha: 0 }); still = nx; g.set(still, { autoAlpha: 1 }); }
-    g.set(still, { scale: 1 });
-    startStill(STILL.d);
+    var ready = nx.hasAttribute('data-src') ? nx.hasAttribute('data-ok') : (nx.complete && nx.naturalWidth > 0);   // the first was decoded before the gate opened
+    var swap = mode !== 'lean' && nx !== still && ready;
+    if (swap) { g.set(still, { autoAlpha: 0 }); still = nx; g.set(still, { autoAlpha: 1 }); }
+    if (fromV || swap || !kbS) { g.set(still, { scale: 1 }); startStill(STILL.d); }
+    else { if (clock) clock.kill(); clock = g.to({}, { duration: STILL.d }); }   // the photograph only: its push-in runs on and holds, no snap back
     cue = -1; prepIdle();
   }
   // the cut lands on a decoded frame: crop, show, play

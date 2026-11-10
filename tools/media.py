@@ -74,7 +74,7 @@ def load_image(path):
 
 def save_jpeg(im, path, q=82):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    im.save(path, 'JPEG', quality=q, optimize=True, progressive=True)   # no exif/icc passed: metadata is dropped
+    im.save(path, 'JPEG', quality=q, optimize=True, progressive=True, comment=b'')   # no exif/icc/comment: metadata is dropped
     return os.path.getsize(path)
 
 

@@ -1,6 +1,13 @@
 [
  {
   "year": 2026,
+  "team": "head",
+  "title": "Reappraisal of Blood Markers in Sudden Sensorineural Hearing Loss Using a Single-Center OMOP Common Data Model: Associations With Onset, Baseline Severity, and Recovery Across Clinical Axes and Sampling Timings",
+  "authors": "Chul Young Yoon, SongYi Kim, Jin Su Kim, Seungmi Im, Yeon Ho Seo, Dam Yoon, Young Joon Seo",
+  "journal": "Diagnostics"
+ },
+ {
+  "year": 2026,
   "team": "hearing",
   "title": "Feasibility study on noise attenuation and stability of active noise cancelling headphones for mobile hearing screening",
   "authors": "Yuseon Byun, Chanbeom Kwak, Jihyeon Lee, Wan-Ho Cho, Tae Hoon Kong",

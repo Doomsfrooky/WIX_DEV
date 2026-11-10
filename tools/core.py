@@ -77,14 +77,14 @@ DIRECTOR = dict(
     name_ko='서영준', name_en='Young Joon Seo', role_ko='연구소장', role_en='Director',
     photo='https://i.imgur.com/vIAp69Y.jpeg', email='okas2000@yonsei.ac.kr',
     lines_ko=['연세대학교 원주의과대학 이비인후과 주임교수', '연세대학교 미래캠퍼스 디지털헬스케어학과 겸임교수',
-              '연세대학교 원주의과대학원 의학통계학과 겸임교수', '대한청각학회 연구이사 · 차세대 한림원 회원(2022.1~)'],
+              '연세대학교 원주의과대학원 의료정보통계학과 겸임교수', '대한청각학회 연구이사 · 차세대 한림원 회원(2022.1~)'],
     lines_en=['Professor and Chair, Department of Otorhinolaryngology, Yonsei University Wonju College of Medicine',
               'Adjunct Professor, Department of Digital Healthcare, Yonsei University Mirae Campus',
-              'Adjunct Professor, Department of Medical Statistics, Yonsei University Wonju Graduate School of Medicine',
+              'Adjunct Professor, Department of Medical Informatics and Biostatistics, Yonsei University Wonju Graduate School of Medicine',
               'Director of Research, Korean Audiological Society · Member, Young Korean Academy of Science and Technology (since 2022)'],
     # shorter English credentials for Home, so EN is not much taller than KO in the fixed-height iframe
     lines_en_short=['Professor and Chair, Otorhinolaryngology, Yonsei Wonju College of Medicine',
-                    'Adjunct Professor, Digital Healthcare and Medical Statistics, Yonsei University',
+                    'Adjunct Professor of Digital Healthcare and of Medical Informatics and Biostatistics, Yonsei University',
                     'Director of Research, Korean Audiological Society · Member, Young Korean Academy of Science and Technology (since 2022)'],
     greeting_ko=('난청을 치료하는 임상의이자 난청을 연구하는 연구자로서, 청각재활연구소를 기반으로 융합 연구자의 길을 걸어왔습니다. '
                  '2015년부터 다양한 융합 연구를 선보인 연구소입니다. 세계 여러 나라 청각 특성화 연구소들과 어깨를 나란히 견줄 수 있는 연구소가 되겠습니다.'),

@@ -11,10 +11,10 @@
    Then the field: hard cuts through the institute's own footage (clinic, audiometer, data, team, earbud fitting; burned-in
    subtitles cropped out), slow push-ins, back to the people. A shot that stalls is cut away, never held frozen.
    Data (CLAUDE.md, video data): ONE player, preload="metadata". REEL (tools/kits/cw/reel.json, injected by tools/kits/cw.py)
-   lists the byte ranges of the five shots in the 21.2 MB promo; after the page's load event they are range-fetched
+   lists the byte ranges of the four shots in the 21.2 MB promo; after the page's load event they are range-fetched
    (about 1.4 MB) and assembled with a precomputed header into a small video-only MP4 that plays from a Blob, so every cut
    is a local seek and nothing more is downloaded. If that fails (a browser that preflights Range, a changed file), the one
-   player seeks the original file and plays only the three shots that sit within 15 s of each other (Chrome reads about
+   player seeks the original file and plays only the two shots that sit within 15 s of each other (Chrome reads about
    3 MB ahead of a seek point). Save-Data, 2g and 3g get the photograph only.
    Film grain on desktop, a small scroll parallax through RIHE.onBand. Everything pauses off-screen, in a hidden tab and with
    the pause button. Reduced motion: the composed frame on the photograph at once; the button offers play. */

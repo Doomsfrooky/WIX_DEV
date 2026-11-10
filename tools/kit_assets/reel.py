@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Direction C2 (a copy of direction C's tool) · the hero reel's data budget (CLAUDE.md: video data).
 
-The promo footage (Hearing Big-data Center promo, 480p only) is one 21.2 MB MP4. The hero shows five short shots from it
-(about 10.6 s in all). A plain <video> that seeks to each shot makes Chrome read about 3 MB ahead of every seek point,
+The promo footage (Hearing Big-data Center promo, 480p only) is one 21.2 MB MP4. The hero shows four short shots from it
+(about 7.3 s in all). A plain <video> that seeks to each shot makes Chrome read about 3 MB ahead of every seek point,
 so the first pass of the reel would cost about 10 MB. This script precomputes, from a local copy of the file, everything
 the page needs to fetch only the bytes of the shots it uses:
 
   ranges   one HTTP byte range per shot: from the keyframe at or before the in point (the promo has a closed GOP and a
            keyframe every 2.000 s) to a little past the out point
   pieces   where the video samples sit inside each fetched range (audio is interleaved; it is dropped)
-  head     ftyp + a rebuilt moov (video track only, the five windows laid end to end at SPACING s intervals, sample
+  head     ftyp + a rebuilt moov (video track only, the four windows laid end to end at SPACING s intervals, sample
            tables rewritten) + the mdat header, base64
   shots    in/out times inside the assembled clip (t0, t1), plus the crop and speed of each shot
 
@@ -35,14 +35,14 @@ TAIL = 0.25        # s of frames kept past each out point (B-frame reorder depth
 # 188.4); y0/y1 the usable band (burned-in subtitles and the chair's fall-caution sign excluded); fx/fy the subject;
 # ax where it sits across the frame (the title covers the left edge); r playback rate. Crops are from the /67 final.
 SHOTS = [
-    dict(a=174.06, b=177.35, y0=0, y1=.76, fx=.64, fy=.42, ax=.6, r=.8, near=1),    # otology clinic, ear examination
+    # (otology clinic, ear examination, 174.06-177.35: removed 2026-11-10 at the client's request, a patient is shown)
     dict(a=112.1, b=114.15, y0=0, y1=.78, fx=.7, fy=.58, ax=.62, r=.8, near=0),     # audiometer, hands on the keys
     dict(a=82.1, b=83.88, y0=0, y1=.84, fx=.8, fy=.3, ax=.7, r=.8, near=0),         # researcher at the code screens
     dict(a=182.98, b=184.38, y0=0, y1=.84, fx=.46, fy=.56, ax=.56, r=.8, near=1),   # team meeting
     dict(a=186.12, b=188.25, y0=0, y1=.84, fx=.5, fy=.5, ax=.58, r=.78, near=1),    # earbud fitting, close-up
 ]
-# near=1: the three shots inside one 15 s stretch of the file. If the page cannot assemble the clip (a browser that
-# preflights Range, a changed file), it falls back to one player seeking the original URL and plays only these three,
+# near=1: the two shots inside one 15 s stretch of the file. If the page cannot assemble the clip (a browser that
+# preflights Range, a changed file), it falls back to one player seeking the original URL and plays only these two,
 # so Chrome's read-ahead stays near 3 MB.
 
 

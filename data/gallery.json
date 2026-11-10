@@ -1,5 +1,342 @@
 [
  {
+  "src": "media/gallery/2026/2026-01",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1196,
+  "year": "2026",
+  "caption_ko": "제5회 청각재활연구소 워크샵, 강릉",
+  "caption_en": "The 5th RIHE Workshop in Gangneung",
+  "file": "01_photo03.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-02",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1126,
+  "year": "2026",
+  "caption_ko": "제5회 청각재활연구소 워크샵, 팀 소개",
+  "caption_en": "Team introductions at the 5th RIHE Workshop",
+  "file": "02_photo06.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-03",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2026",
+  "caption_ko": "제5회 청각재활연구소 워크샵, 팀별 사진",
+  "caption_en": "A team photo at the 5th RIHE Workshop",
+  "file": "03_photo22.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-04",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2026",
+  "caption_ko": "제5회 청각재활연구소 워크샵, 팀별 사진",
+  "caption_en": "A team photo at the 5th RIHE Workshop",
+  "file": "04_photo23.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-05",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2026",
+  "caption_ko": "제5회 청각재활연구소 워크샵, 팀별 사진",
+  "caption_en": "A team photo at the 5th RIHE Workshop",
+  "file": "05_photo24.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-06",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2026",
+  "caption_ko": "제5회 청각재활연구소 워크샵, 팀별 사진",
+  "caption_en": "A team photo at the 5th RIHE Workshop",
+  "file": "06_photo25.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-07",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2026",
+  "caption_ko": "KIMES 2026, 오디에스오 부스",
+  "caption_en": "The Audiso booth at KIMES 2026",
+  "file": "07_photo21.webp"
+ },
+ {
+  "src": "media/gallery/2026/2026-08",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2026",
+  "caption_ko": "청각재활연구소 2026 성과보고회",
+  "caption_en": "RIHE 2026 Performance Report Meeting",
+  "file": "08_photo12.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-01",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1176,
+  "year": "2025",
+  "caption_ko": "송년회, 단체 사진",
+  "caption_en": "Group photo at the year-end party",
+  "file": "09_photo10.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-02",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2025",
+  "caption_ko": "송년회, 게임 시간",
+  "caption_en": "Games at the year-end party",
+  "file": "10_photo05.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-03",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2025",
+  "caption_ko": "송년회",
+  "caption_en": "Year-end party",
+  "file": "11_photo07.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-04",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2025",
+  "caption_ko": "송년회, 이준헌 석사 졸업 기념 수고상 수여",
+  "caption_en": "Year-end party: an award marking 이준헌’s master’s degree",
+  "file": "12_photo08.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-05",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1125,
+  "year": "2025",
+  "caption_ko": "송년회, 김지원 석사 졸업 기념상 수여",
+  "caption_en": "Year-end party: an award marking 김지원’s master’s degree",
+  "file": "13_photo09.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-06",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 953,
+  "year": "2025",
+  "caption_ko": "제1회 OGC",
+  "caption_en": "The 1st OGC",
+  "file": "14_photo01.webp"
+ },
+ {
+  "src": "media/gallery/2025/2025-07",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2025",
+  "caption_ko": "GMES 2025, 오디에스오 부스",
+  "caption_en": "The Audiso booth at GMES 2025",
+  "file": "15_photo13.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-08",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2025",
+  "caption_ko": "봄 야유회",
+  "caption_en": "Spring outing",
+  "file": "16_photo04.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-09",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2025",
+  "caption_ko": "KIMES 2025, 오디에스오 부스",
+  "caption_en": "The Audiso booth at KIMES 2025",
+  "file": "17_photo02.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-10",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 1500,
+  "year": "2025",
+  "caption_ko": "메디컬 코리아 2025, 서영준 교수 보건복지부장관 표창 수상",
+  "caption_en": "Prof. Young Joon Seo receives the Minister of Health and Welfare’s Commendation at MEDICAL KOREA 2025",
+  "file": "18_photo19.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-11",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2025",
+  "caption_ko": "메디컬 코리아 2025, 보건복지부장관 표창패 (제15회 글로벌 헬스케어 & 의료관광 콘퍼런스)",
+  "caption_en": "The Minister of Health and Welfare’s Commendation plaque, MEDICAL KOREA 2025 (15th Global Healthcare & Medical Tourism Conference)",
+  "file": "19_photo18.jpg"
+ },
+ {
+  "src": "media/gallery/2025/2025-12",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2025",
+  "caption_ko": "CES 2025, 오디에스오 부스",
+  "caption_en": "The Audiso booth at CES 2025",
+  "file": "20_photo20.jpg"
+ },
+ {
+  "src": "media/gallery/2024/2024-01",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2024",
+  "caption_ko": "서영준 교수가 기왓장에 적은 오디에스오의 포부",
+  "caption_en": "Prof. Young Joon Seo’s hopes for Audiso, written on a roof tile",
+  "file": "21_photo14.jpg"
+ },
+ {
+  "src": "media/gallery/2024/2024-02",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 1932,
+  "height": 1923,
+  "year": "2024",
+  "caption_ko": "오디에스오 KOLAS 공인교정기관 첫 인정 (KC24-437)",
+  "caption_en": "Audiso’s first accreditation as a KOLAS calibration laboratory (KC24-437)",
+  "file": "22_photo26.jpg"
+ },
+ {
+  "src": "media/gallery/2024/2024-03",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2024",
+  "caption_ko": "CES 2024, 오디에스오 부스",
+  "caption_en": "The Audiso booth at CES 2024",
+  "file": "23_photo15.jpg"
+ },
+ {
+  "src": "media/gallery/2024/2024-04",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2024",
+  "caption_ko": "CES 2024, 오디에스오 부스",
+  "caption_en": "The Audiso booth at CES 2024",
+  "file": "24_photo16.jpg"
+ },
+ {
+  "src": "media/gallery/2024/2024-05",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1500,
+  "height": 2000,
+  "year": "2024",
+  "caption_ko": "CES 2024, 청력검사 체험",
+  "caption_en": "A visitor tries the hearing test at CES 2024",
+  "file": "25_photo17.jpg"
+ },
+ {
   "media": "b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg",
   "file": "IMG_0168.JPG",
   "width": 960,
@@ -52,5 +389,18 @@
   "caption_ko": "원주세브란스기독병원 전경",
   "caption_en": "Wonju Severance Christian Hospital campus",
   "year": ""
+ },
+ {
+  "src": "media/gallery/undated/undated-01",
+  "widths": [
+   480,
+   1024
+  ],
+  "width": 1080,
+  "height": 1440,
+  "year": "",
+  "caption_ko": "노벨상 메달 앞에서, 서영준 교수",
+  "caption_en": "Prof. Young Joon Seo with the Nobel medal",
+  "file": "26_photo11.jpg"
  }
 ]

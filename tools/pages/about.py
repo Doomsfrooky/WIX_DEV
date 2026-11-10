@@ -60,7 +60,7 @@ def partners():
 def gallery():
     """The gallery teaser without the hero's photograph (it would come back as the teaser's biggest picture): the
     three newest other photos of data/gallery.json in one row (320: the first across, then a pair)."""
-    photos = [p for p in kit.GALLERY if HERO_PHOTO not in (p.get('file', '') + p.get('media', '') + p.get('src', ''))][:3]
+    photos = kit.gallery_pick(3, exclude=(HERO_PHOTO,))   # the latest three events, without the hero photograph
     return kit.gallery_teaser(photos, rows=(len(photos),))
 
 
@@ -78,4 +78,4 @@ def render():
         + '</main>'
     )
     return kit.page('About', body,
-                    comment='맨 위 사진은 data/gallery.json의 구성원 단체 사진(IMG_0168)이고, 아래 갤러리는 그 사진을 뺀 가장 최근 세 장을 보여 주며 /gallery로 연결됩니다(예전 Pro Gallery 대신).')
+                    comment='맨 위 사진은 data/gallery.json의 구성원 단체 사진(IMG_0168)이고, 아래 갤러리는 그 사진을 뺀 가장 최근 세 행사에서 한 장씩 보여 주며 /gallery로 연결됩니다(예전 Pro Gallery 대신).')

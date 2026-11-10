@@ -14,7 +14,10 @@ that are already on Wix or Imgur keep their URLs.
         480 / 1024 / 1600 (never upscaled), appended to data/gallery.json (newest first) as
         {src: "media/gallery/<year>/<year>-<nn>", widths: [...], width, height, year, caption_ko, caption_en}.
         Captions and years come from the sheet (columns: 파일명, 연도, 설명(한국어), 설명(영어)); a missing year
-        falls back to the photo's EXIF date.
+        falls back to the photo's EXIF date, and a photo with neither is skipped. Write '-' (or 연도 없음, 미상) as
+        the year of a photo whose year nobody knows: it goes to site/media/gallery/undated/ with year "" (shown under
+        '전체' only, with no year label) at the end of data/gallery.json. Within a year, photos keep the sheet's file
+        order (name the files so they sort newest first); existing entries keep their order.
     python3 tools/media.py template <out.xlsx>
         the caption sheet to fill in.
     python3 tools/media.py figure  <image> --slug <name> [--crop x,y,w,h]
@@ -41,6 +44,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, 'site')
 IMG_EXT = ('.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif')
 GALLERY_WIDTHS = (480, 1024, 1600)
+UNDATED = 'undated'                       # the sheet said the year is unknown
 Image.MAX_IMAGE_PIXELS = 80_000_000          # refuse absurd images (decompression bombs)
 
 
@@ -106,7 +110,9 @@ def read_sheet(path):
         if not r or not r[0]:
             continue
         name = os.path.basename(str(r[0]).strip())
-        rows[name.lower()] = dict(year=int(r[1]) if r[1] else None, ko=(r[2] or '').strip() if len(r) > 2 else '',
+        y = str(r[1]).strip() if r[1] is not None else ''
+        year = UNDATED if y in ('-', '연도 없음', '미상') else (int(float(y)) if y else None)
+        rows[name.lower()] = dict(year=year, ko=(r[2] or '').strip() if len(r) > 2 else '',
                                   en=(r[3] or '').strip() if len(r) > 3 else '')
     return rows
 
@@ -142,8 +148,9 @@ def gallery(args):
         year = meta.get('year') or exif_year
         if not year:
             print(f'skip {os.path.basename(f)}: no year in the sheet or EXIF'); continue
-        n = 1 + sum(1 for d in data + added if str(d.get('year')) == str(year) and str(d.get('src', '')).startswith('media/gallery/'))
-        stem = f'media/gallery/{year}/{year}-{n:02d}'
+        folder = UNDATED if year == UNDATED else str(year)
+        n = 1 + sum(1 for d in data + added if str(d.get('src', '')).startswith(f'media/gallery/{folder}/'))
+        stem = f'media/gallery/{folder}/{folder}-{n:02d}'
         widths = []
         for w in GALLERY_WIDTHS:
             if w > im.size[0] and widths:
@@ -153,11 +160,12 @@ def gallery(args):
             widths.append(tw)
             if tw < w:
                 break
-        added.append(dict(src=stem, widths=widths, width=im.size[0], height=im.size[1], year=str(year),
+        added.append(dict(src=stem, widths=widths, width=im.size[0], height=im.size[1], year='' if year == UNDATED else str(year),
                           caption_ko=meta.get('ko', ''), caption_en=meta.get('en', ''), file=os.path.basename(f)))
         print(f'{os.path.basename(f)} -> site/{stem}-{{{",".join(map(str, widths))}}}.jpg ({im.size[0]}x{im.size[1]}, {year})')
-    added.sort(key=lambda d: d['year'], reverse=True)
-    json.dump(added + data, open(gj, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    dated = sorted((d for d in added if d['year']), key=lambda d: d['year'], reverse=True)   # stable: sheet order within a year
+    undated = [d for d in added if not d['year']]
+    json.dump(dated + data + undated, open(gj, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     missing = [d['file'] for d in added if not d['caption_ko']]
     print(f'{len(added)} photos added to data/gallery.json' + (f'; no caption yet: {", ".join(missing)}' if missing else ''))
     shutil.rmtree(work, ignore_errors=True)

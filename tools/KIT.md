@@ -200,7 +200,11 @@ Mission/Vision: `kit.ruled([(('미션', 'Mission'), t(ko, en, 'p')), (('비전',
 hairline frame of fixed ratio (16:10): the image keeps its own ratio (pass its real `w`, `h`), fitted with a 6% margin,
 never cropped; it is cut open when its block appears. `href`: the full-size original (new tab, zoom cursor).
 **`fig_cols(items, cols=2, m2=False)`** — ruled columns with a plate: `[(plate html, h3, body html), ...]`.
-Research projects: `kit.plate(kit.imgur(src, 'l'), (ak, ae), w, h, href=src, srcset=f"{kit.imgur(src, 'l')} 640w, {kit.imgur(src, 'h')} 1024w")`.
+**`figure_plate(f, alt, sizes='(max-width: 760px) 100vw, 50vw', **kw)`** — `plate()` for a repository figure made by
+`python3 tools/media.py figure <file> --slug <name> [--crop x,y,w,h]`: `f` is what the command prints, `{src, widths, width,
+height}`; the smallest copy is the `src`, all copies the `srcset`, the largest opens full size. Research projects:
+`kit.figure_plate(FIGS[key][0], (ak, ae))` in `sec_wide()` (2026-11-09: the four round-1 imgur figures became repository
+copies in `site/media/figures/`); HeAD Lab puts the big-data center's structure diagram inside its `dc_box()`.
 Audiso products: `kit.fig_cols(items, 3, m2=True)` (two columns at 320).
 
 **`record(items, links=None)`** — figures on counter wheels with labels on a hairline (the Home hero's record, for inner
@@ -325,8 +329,12 @@ poster); the height never changes.
 **`video_player(videos=None)`** — player and playlist stacked, for any body column.
 
 **`gallery_teaser(photos=None, h=None, note=None, sid='gallery', rows=(2, 3))`** — Home and About: a wide section,
-the first five photos of `data/gallery.json` in justified rows linking to /gallery, each cut open; at 320 the first
-spans the width (3:2), the others sit in pairs (4:3).
+photos in justified rows linking to /gallery, each cut open; at 320 the first spans the width (3:2), the others sit in
+pairs (4:3). Default photos: `gallery_pick(5)`.
+**`gallery_pick(n, exclude=(), photos=None)`** — up to `n` photos in `data/gallery.json` order (newest first), one per
+event: the same year and the same Korean caption before the first comma (`'제5회 청각재활연구소 워크샵, 팀 소개'`) count
+as one event, so write the event first in captions. `exclude`: strings matched against file / media / src (About passes
+its hero photo, `IMG_0168`).
 
 **Photos in two kinds** (CLAUDE.md "사진"): `data/gallery.json` mixes Wix entries `{media, file, width, height, year,
 caption_ko, caption_en}` and repository copies `{src: 'media/gallery/<year>/<year>-<nn>', widths: [480, 1024, 1600],
@@ -334,7 +342,9 @@ width, height, year, caption_ko, caption_en}` (files `<src>-<width>.jpg`). Every
 `gallery_photo()` draw both; if you need a URL yourself use **`photo_url(p, w, q=None, crop=None)`** (about `w` px:
 Wix fitted, or the smallest stored width >= w; `crop` for Wix entries) and **`photo_srcset(p, ws=(600, 1200), crop=None)`**. People photos are Imgur URLs or
 `media/people/<slug>.jpg`; `kit.imgur(u, size)` adds a size only to Imgur URLs. Data paths are relative to `site/`;
-preview pages are rewritten to `../site/media/` by `page()`. New photos go in only through `python3 tools/media.py`.
+preview pages are rewritten to `../site/media/` by `page()`. New photos go in only through `python3 tools/media.py`
+(a sheet year of `-` stores an undated photo: `media/gallery/undated/`, year `""`, at the end of the list, shown under
+'전체' only and without a year label).
 
 **`gallery_grid(photos=None, per_page=12, years=True, live=False)`** — /gallery: year filters with counts, justified
 rows (no crop on desktop; two 4:3 columns at 320), 12 per page, the pager, a viewer that opens in place over the grid
@@ -352,7 +362,7 @@ These are the compositions the kit was built for. Keep the order; adapt only wha
 | page | hero | sections |
 |---|---|---|
 | about | `page_hero(('연구소 소개', 'About RIHE'), alt=<round 2's alt>, lead=..., image=gallery_photo('IMG_0168', '50% 32%'))` | `sec('청각재활연구소', quote(...) + prose([...]))` > `sec('연구소장', director(short_en=False, quote=False))` > `sec('조직', org_chart())` > `sec('데이터센터', data_centers())` > `sec('협력 기관', logos(PARTNERS))` > `gallery_teaser()` |
-| research | `page_hero(('연구', 'Research'), alt=RESEARCH_TITLE, lead=RESEARCH_LEAD, extra=record(<3 lists>, ['#publication', '#report', '#patents']))` (tint `inst`) | `sec('연구 분야' / 'Projects', fig_cols(<4 plates with href>, 2), 'projects', note=('그림을 누르면 원본 크기로 열립니다.', ...))` > `list_sec('논문' / 'Publication', 'pub', PUBS, 'publication', note=REEL_NOTE['pub'])` > `list_sec('학회 발표' / 'Report', 'report', REPORTS, 'report', ...)` > `list_sec('특허' / 'Patents', 'patent', PATENTS, 'patents', filters=('status', 'country'), ...)` |
+| research | `page_hero(('연구', 'Research'), alt=RESEARCH_TITLE, lead=RESEARCH_LEAD, extra=record(<3 lists>, ['#publication', '#report', '#patents']))` (tint `inst`) | `sec_wide('연구 분야' / 'Projects', fig_cols(<4 figure_plate()>, 2), 'projects', note=('그림을 누르면 원본 크기로 열립니다.', ...))` > `list_sec('논문' / 'Publication', 'pub', PUBS, 'publication', note=REEL_NOTE['pub'])` > `list_sec('학회 발표' / 'Report', 'report', REPORTS, 'report', ...)` > `list_sec('특허' / 'Patents', 'patent', PATENTS, 'patents', filters=('status', 'country'), ...)` |
 | people | `page_hero(('구성원', 'People'), alt=PEOPLE_TITLE, lead=PEOPLE_LEAD, image=gallery_photo('IMG_0168', '50% 32%'), extra=jump_nav([(key, label, TEAM_TONE[key], count) for every team with members], ('팀 바로가기', 'Jump to a team')))` | `team_sec(key)` for every team in people.json order (faculty > basic > hearing > head > admin > audiso); labels: lab name for labs, `(TEAM_META ko, en)` otherwise |
 | basic-lab | via `lab_page('basic', ...)` (no image: the basic tint) | lab template |
 | hearing-lab | via `lab_page('hearing', ..., dc=dc_box('hearing', ..., since=...), alumni=..., image=gallery_photo('IMG_7721')?)` | lab template (the plaque photo is a suggestion for the client to confirm; without it the hero is the hearing tint) |

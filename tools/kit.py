@@ -775,11 +775,28 @@ def _photo_frame(p, cls='', sizes='(max-width: 760px) 50vw, 420px'):
     return f'<span class="k-pp">{im}</span><i class="k-cut" aria-hidden="true"></i>', r
 
 
+def gallery_pick(n, exclude=(), photos=None):
+    """Up to n photos for a teaser in data/gallery.json order (newest first), one per event: photos of the same year
+    whose Korean captions share the part before the first comma ('제5회 청각재활연구소 워크샵, 팀 소개') are one
+    event. exclude: strings matched against file / media / src (e.g. a photo already used as the page's hero)."""
+    out, seen = [], set()
+    for p in photos or GALLERY:
+        ref = f"{p.get('file', '')} {p.get('media', '')} {p.get('src', '')}"
+        key = (str(p.get('year', '')), p.get('caption_ko', '').split(',')[0].strip())
+        if any(x in ref for x in exclude) or key in seen:
+            continue
+        seen.add(key)
+        out.append(p)
+        if len(out) == n:
+            break
+    return out
+
+
 def gallery_teaser(photos=None, h=None, note=None, sid='gallery', rows=(2, 3)):
     """Home / About gallery teaser: a wide section, photos in justified rows (equal heights per row) linking to
     /gallery, each cut open; at 320 the first photo spans the width (3:2), the others sit in pairs (4:3).
-    photos: default the first five entries of data/gallery.json."""
-    photos = photos or GALLERY[:sum(rows)]
+    photos: default gallery_pick(5), the newest photo of each of the five latest events in data/gallery.json."""
+    photos = photos or gallery_pick(sum(rows))
     h = h or ('갤러리', 'Gallery')
     note = note or ('학회와 수상, 그리고 연구소 사람들의 사진을 모았습니다.', 'Conferences, awards and the people of the institute.')
     body, k = '', 0
@@ -793,7 +810,7 @@ def gallery_teaser(photos=None, h=None, note=None, sid='gallery', rows=(2, 3)):
             k += 1
         body += '</div>'
     body = f'<div class="k-gteaser" data-a>{body}</div>'
-    return ('<!-- 사진: data/gallery.json의 앞 다섯 장이 여기에 나옵니다. -->'
+    return ('<!-- 사진: data/gallery.json 앞에서부터 행사마다 한 장씩(같은 해, 쉼표 앞 설명이 같으면 한 행사) 골라 나옵니다. -->'
             + sec_wide(h, body, sid, note, more('gallery', '갤러리 전체 보기', 'Open the gallery')))
 
 

@@ -82,7 +82,7 @@ Wix HTML 요소는 내용 높이만큼 큰 iframe이고, 스크롤은 바깥 Wix
 
 ```
 python3 tools/media.py people  <사진> --name 김강현 --slug kim-ganghyun [--crop x,y,w,h]   # 4:5, 최대 640x800 -> site/media/people/<slug>.jpg, data/people.json photo 갱신
-python3 tools/media.py gallery <zip 또는 폴더> [--sheet 설명.xlsx]                          # 480/1024/1600 폭 -> site/media/gallery/<연도>/, data/gallery.json 맨 앞에 추가
+python3 tools/media.py gallery <zip 또는 폴더> [--sheet 설명.xlsx]                          # 480/1024/1600 폭 -> site/media/gallery/<연도>/, data/gallery.json 맨 앞에 추가(연도를 모르면 시트에 '-': undated/, 목록 맨 끝)
 python3 tools/media.py template <설명.xlsx>                                                # 갤러리 설명 시트 양식(파일명, 연도, 설명 한국어, 설명 영어)
 python3 tools/media.py figure  <그림> --slug <이름> [--crop x,y,w,h]                          # 도표·그림(자르지 않음), 800/1600 폭 -> site/media/figures/<이름>-<폭>.jpg, 페이지는 kit.figure_plate()
 ```

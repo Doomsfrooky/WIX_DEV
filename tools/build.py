@@ -87,9 +87,6 @@ def main():
             print(f'  skip  {name:12s} (tools/pages/{name}.py not written yet)')
             continue
         doc = mod.render()
-        if kit.PREVIEW:   # repository photos stay in site/media only: previews point there instead of copying them
-            doc = re.sub(r'((?:src|href|poster)=")media/', r'\1../site/media/', doc)
-            doc = re.sub(r'srcset="[^"]*"', lambda m: re.sub(r'(^srcset="|,\s*)media/', r'\1../site/media/', m.group(0)), doc)
         errs = check(name, doc)
         out = os.path.join(out_dir, name + '.html')
         with open(out, 'w', encoding='utf-8') as f:

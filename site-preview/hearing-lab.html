@@ -441,12 +441,14 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-gl { position: relative; }
 .k-gl-f { margin-bottom: 28px; }
 .k-gl-f[hidden] { display: none; }
-.k-gl-f .k-fb { grid-template-columns: repeat(7, max-content); max-width: none; column-gap: 24px; }
+.k-gl-f .k-fb { display: flex; flex-wrap: wrap; max-width: none; column-gap: 24px; }   /* one row while the years fit, a clean wrap after; beats the 761-899 three-column year rule */
 .k-gl-grid { display: flex; flex-wrap: wrap; gap: 28px 16px; align-content: flex-start; }
 .k-gl-grid::after { content: ""; flex: 999 1 0; }
 .k-gl-grid.jx::after { display: none; }
 .k-gl-it { flex: var(--r) 1 calc(var(--r) * 250px); min-width: 0; }
 .k-gl-it[hidden] { display: none; }
+.k-gl-it { container-type: inline-size; }
+@container (max-width: 180px) { .k-gl-it figcaption { display: block; } .k-gl-it .k-cy { display: block; margin-top: 3px; } }   /* narrow tiles (9:16, 3:4 at 980): the year under the caption, as at 320 */
 .k-gl-open { width: 100%; border: 0; padding: 0; cursor: zoom-in; background: none; }
 .k-gl .k-pg { margin-top: 36px; }
 .k-gl-view { position: absolute; left: 0; right: 0; z-index: 6; background: var(--paper); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink-r); opacity: 0; transform: scale(.985);
@@ -659,15 +661,17 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
   .k-plist { margin-top: 16px; }
   .k-gteaser { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 10px; }
   .k-gt-row { display: contents; }
-  .k-gt { --r: 4 / 3; }
-  .k-gt-row:first-child .k-gt:first-child { grid-column: 1 / -1; --r: 3 / 2; }
+  .k-gt .k-ph { aspect-ratio: 4 / 3; }   /* on the frame: each .k-gt carries its photo's --r inline (desktop rows), which outranks any --r set here */
+  .k-gt-row:first-child .k-gt:first-child { grid-column: 1 / -1; }
+  .k-gt-row:first-child .k-gt:first-child .k-ph { aspect-ratio: 3 / 2; }
   .k-gt figcaption, .k-gl-it figcaption { display: block; font-size: 12px; margin-top: 8px; }
   .k-cy { display: block; margin-top: 3px; font-size: 12px; }
   .k-gl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 10px; }
   .k-gl-grid::after { display: none; }
   .k-gl-it { --r: 4 / 3; }
   .k-gl-open { aspect-ratio: 4 / 3; }
-  .k-gl-f .k-fb { display: flex; flex-wrap: wrap; column-gap: 14px; }   /* as many years as fit in a row (the live list sets the count) */
+  .k-gl-f .k-fb { column-gap: 14px; }   /* as many years as fit in a row (the live list sets the count) */
+  .k-gl-vcap .k-cy { margin-left: 0; }
   /* hero: the frame spans the width; the title starts at the margin */
   .k-hero { --ft: 16px; --fh: 196px; --fl: 0px; --fr: 0px; --fw: calc(100vw - 2 * var(--m)); --hmax: 54px; --hl: var(--m); }
   html[data-lang="en"] .k-hero { --hmax: 46px; }
@@ -1085,7 +1089,13 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
       var st = { year: 'all', page: 0 }, vis = all, keepPager = false;
       var pager = gl.querySelector('.k-pg'), pi = pager.querySelector('[data-pi]'), prev = pager.querySelector('[data-p="-1"]'), next = pager.querySelector('[data-p="1"]');
       var view = gl.querySelector('.k-gl-view'), vimg = doc.createElement('img'), vcap = view.querySelector('.k-gl-vcap'), vn = view.querySelector('.k-gl-vn');
-      var cur = -1, opener = null, closing = 0;
+      var cur = -1, opener = null, closing = 0, anchor = gl.querySelector('.k-top');
+      // paging from the pager under the grid: bring the grid's top back on screen (the anchor sits 150 px above it)
+      function toTop() {
+        var b = R.band, top = R.rect(grid).top;
+        var above = b && b.ok ? top < b.top + 40 : grid.getBoundingClientRect().top < 0;
+        if (above && anchor && anchor.scrollIntoView) anchor.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      }
       function pick(y) { return all.filter(function (f) { return y === 'all' || f.getAttribute('data-year') === y; }); }
       function show(list, p) { all.forEach(function (f) { f.hidden = true; }); list.slice(p * size, p * size + size).forEach(function (f) { f.hidden = false; }); }
       function counts() { $$('button[data-k="year"]', gl).forEach(function (b) { var c = b.querySelector('.k-bc'); if (c) c.textContent = pick(b.getAttribute('data-v')).length; }); }
@@ -1122,8 +1132,16 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
         for (var e2 = n; e2 > 0; e2 = from[e2]) {
           var b = from[e2], S2 = 0, k;
           for (k = b; k < e2; k++) S2 += rs[k];
-          var hh = Math.min((W - gap * (e2 - b - 1)) / S2, e2 === n ? T : Infinity);
-          for (k = b; k < e2; k++) fs[k].style.flex = '0 0 ' + Math.floor(rs[k] * hh * 100) / 100 + 'px';
+          var hh = (W - gap * (e2 - b - 1)) / S2;
+          if (e2 === n && hh > T) {   // a short last row: at most the target height, and never taller than the row above it
+            hh = T;
+            if (b > 0) { for (var S3 = 0, q = from[b]; q < b; q++) S3 += rs[q]; hh = Math.min(T, (W - gap * (b - from[b] - 1)) / S3); }
+          }
+          for (k = b; k < e2; k++) {
+            var px = Math.floor(rs[k] * hh * 100) / 100, im = fs[k].querySelector('img');
+            fs[k].style.flex = '0 0 ' + px + 'px';
+            if (im && im.srcset) im.sizes = Math.ceil(px) + 'px';   // the tile's real width, so srcset picks a sharp file
+          }
         }
         grid.classList.add('jx');
       }
@@ -1192,7 +1210,7 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
         var tg = ev.target.closest('button[data-k="year"]'), p = ev.target.closest('.k-pg [data-p]'), o = ev.target.closest('.k-gl-open');
         if (tg || (p && !p.disabled)) close(true);
         if (tg) { st.year = tg.getAttribute('data-v'); st.page = 0; apply(true); }
-        if (p && !p.disabled) { st.page += +p.getAttribute('data-p'); apply(false); }
+        if (p && !p.disabled) { st.page += +p.getAttribute('data-p'); apply(false); toTop(); }
         if (o) open(vis.indexOf(o.parentNode), o);
         if (ev.target.closest('.k-gl-close')) close(false);
         if (ev.target.closest('.k-gl-prev')) stepTo(-1);
@@ -1254,7 +1272,8 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
         im.src = u.src;
         pp.appendChild(im); b.appendChild(pp); f.appendChild(b);
         var fc = el('figcaption'); fc.appendChild(pair(ko, en, enOk));
-        if (y && !(ko.indexOf(y) >= 0 && en.indexOf(y) >= 0)) fc.appendChild(el('span', 'k-cy', y));
+        var hk = ko.indexOf(y) >= 0, he = en.indexOf(y) >= 0;
+        if (y && !(hk && he)) { var cy = el('span', 'k-cy', y); if (he) cy.setAttribute('data-l', 'ko'); else if (hk) { cy.setAttribute('data-l', 'en'); cy.lang = 'en'; } fc.appendChild(cy); }
         f.appendChild(fc);
         return f;
       }

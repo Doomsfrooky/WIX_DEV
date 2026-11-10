@@ -762,16 +762,31 @@ def _photo_alt(p):
 
 
 def _cap_year(p):
-    """Year after a caption, left out when both captions already contain it."""
+    """Year after a caption, left out in each language whose caption already contains it (the English congress captions
+    say 'KORL 2026', the Korean ones do not)."""
     y = str(p.get('year', '') or '')
-    if not y or (y in p.get('caption_ko', '') and y in p.get('caption_en', '')):
+    if not y:
         return ''
+    ko, en = y in p.get('caption_ko', ''), y in p.get('caption_en', '')
+    if ko and en:
+        return ''
+    if en:
+        return f'<span class="k-cy" data-l="ko">{y}</span>'
+    if ko:
+        return f'<span class="k-cy" data-l="en" lang="en">{y}</span>'
     return f'<span class="k-cy">{y}</span>'
+
+
+# where the 320 crops (4:3 in the gallery, 3:2 / 4:3 in the teasers) are centred, for photos whose subject is off centre
+CROP_POS = {'media/gallery/2024/2024-05': '50% 20%', 'media/gallery/2026/2026-11': '20% 50%',
+            'media/gallery/2026/2026-14': '10% 50%', 'media/gallery/2026/2026-07': '50% 15%'}
 
 
 def _photo_frame(p, cls='', sizes='(max-width: 760px) 50vw, 420px'):
     r = p['width'] / p['height']
-    im = img(photo_url(p, 600), '', 600, round(600 / r), 'k-im', srcset=photo_srcset(p), sizes=sizes, attrs='decoding="async"')
+    pos = CROP_POS.get(p.get('src', ''))
+    im = img(photo_url(p, 600), '', 600, round(600 / r), 'k-im', srcset=photo_srcset(p), sizes=sizes,
+             attrs='decoding="async"' + (f' style="object-position:{pos}"' if pos else ''))
     return f'<span class="k-pp">{im}</span><i class="k-cut" aria-hidden="true"></i>', r
 
 
@@ -802,10 +817,12 @@ def gallery_teaser(photos=None, h=None, note=None, sid='gallery', rows=(2, 3)):
     body, k = '', 0
     for cnt in rows:
         body += '<div class="k-gt-row">'
+        S = sum(q['width'] / q['height'] for q in photos[k:k + cnt]) or 1   # a tile's width is its share of the row
         for p in photos[k:k + cnt]:
-            fr, r = _photo_frame(p, sizes='(max-width: 760px) 50vw, 620px' if k == 0 else '(max-width: 760px) 50vw, 400px')
+            w = math.ceil(93 * p['width'] / p['height'] / S)                 # the content is about 93% of the viewport
+            fr, r = _photo_frame(p, sizes=f'(max-width: 760px) {"calc(100vw - 32px)" if k == 0 else "50vw"}, {w}vw')
             body += (f'<figure class="k-gt" style="--r:{r:.4f}">'
-                     + link('gallery', f'<span class="k-ph">{fr}</span><figcaption><span class="k-cp">{t(p["caption_ko"], p["caption_en"])}</span>{_cap_year(p)}</figcaption>')
+                     + link('gallery', f'<span class="k-ph">{fr}</span><figcaption><span class="k-cp">{t(e(p["caption_ko"]), e(p["caption_en"]))}</span>{_cap_year(p)}</figcaption>')
                      + '</figure>')
             k += 1
         body += '</div>'
@@ -838,7 +855,7 @@ def gallery_grid(photos=None, per_page=12, years=True, live=False):
         hid = ' hidden' if i >= per_page else ''
         figs += (f'<figure class="k-gl-it" style="--r:{r:.4f}" data-year="{p.get("year", "")}" data-full="{full}"{hid}>'
                  f'<button type="button" class="k-gl-open k-ph" aria-label="크게 보기: {e(p["caption_ko"])}" data-aria-en="View larger: {e(p["caption_en"])}">{fr}</button>'
-                 f'<figcaption><span class="k-cp">{t(p["caption_ko"], p["caption_en"])}</span>{_cap_year(p)}</figcaption></figure>')
+                 f'<figcaption><span class="k-cp">{t(e(p["caption_ko"]), e(p["caption_en"]))}</span>{_cap_year(p)}</figcaption></figure>')
     pages = max(1, math.ceil(len(photos) / per_page))
     pager = (f'<div class="k-pg"{" hidden" if pages < 2 else ""}><button type="button" data-p="-1" aria-label="{UI["prev"][0]}" data-aria-en="{UI["prev"][1]}" disabled>{CH_L}</button>'
              f'<span class="k-pi"><span data-pi>1 / {pages}</span></span>'
@@ -849,7 +866,7 @@ def gallery_grid(photos=None, per_page=12, years=True, live=False):
               f'<button type="button" class="k-gl-next" aria-label="다음 사진" data-aria-en="Next photo">{CH_R}</button>'
               f'<button type="button" class="k-gl-close">{t("닫기", "Close")}</button></div></div></div>')
     return (f'<!-- 사진: data/gallery.json에서 만들어집니다. -->'
-            f'<div class="k-gl" data-gallery data-size="{per_page}"{" data-live" if live else ""} data-a>{tg}<div class="k-gl-grid">{figs}</div>{pager}{viewer}</div>')
+            f'<div class="k-gl" data-gallery data-size="{per_page}"{" data-live" if live else ""} data-a><i class="k-top" aria-hidden="true"></i>{tg}<div class="k-gl-grid">{figs}</div>{pager}{viewer}</div>')
 
 
 def gallery_photo(i, pos='50% 40%', pos_m=None, crop=None):
@@ -1468,12 +1485,14 @@ a.k-org-x:hover .k-ar { transform: translateX(4px); }
 .k-gl { position: relative; }
 .k-gl-f { margin-bottom: 28px; }
 .k-gl-f[hidden] { display: none; }
-.k-gl-f .k-fb { grid-template-columns: repeat(7, max-content); max-width: none; column-gap: 24px; }
+.k-gl-f .k-fb { display: flex; flex-wrap: wrap; max-width: none; column-gap: 24px; }   /* one row while the years fit, a clean wrap after; beats the 761-899 three-column year rule */
 .k-gl-grid { display: flex; flex-wrap: wrap; gap: 28px 16px; align-content: flex-start; }
 .k-gl-grid::after { content: ""; flex: 999 1 0; }
 .k-gl-grid.jx::after { display: none; }
 .k-gl-it { flex: var(--r) 1 calc(var(--r) * 250px); min-width: 0; }
 .k-gl-it[hidden] { display: none; }
+.k-gl-it { container-type: inline-size; }
+@container (max-width: 180px) { .k-gl-it figcaption { display: block; } .k-gl-it .k-cy { display: block; margin-top: 3px; } }   /* narrow tiles (9:16, 3:4 at 980): the year under the caption, as at 320 */
 .k-gl-open { width: 100%; border: 0; padding: 0; cursor: zoom-in; background: none; }
 .k-gl .k-pg { margin-top: 36px; }
 .k-gl-view { position: absolute; left: 0; right: 0; z-index: 6; background: var(--paper); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink-r); opacity: 0; transform: scale(.985);
@@ -1686,15 +1705,17 @@ html.rm *, html.rm *::before, html.rm *::after { transition: none !important; an
   .k-plist { margin-top: 16px; }
   .k-gteaser { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 10px; }
   .k-gt-row { display: contents; }
-  .k-gt { --r: 4 / 3; }
-  .k-gt-row:first-child .k-gt:first-child { grid-column: 1 / -1; --r: 3 / 2; }
+  .k-gt .k-ph { aspect-ratio: 4 / 3; }   /* on the frame: each .k-gt carries its photo's --r inline (desktop rows), which outranks any --r set here */
+  .k-gt-row:first-child .k-gt:first-child { grid-column: 1 / -1; }
+  .k-gt-row:first-child .k-gt:first-child .k-ph { aspect-ratio: 3 / 2; }
   .k-gt figcaption, .k-gl-it figcaption { display: block; font-size: 12px; margin-top: 8px; }
   .k-cy { display: block; margin-top: 3px; font-size: 12px; }
   .k-gl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 10px; }
   .k-gl-grid::after { display: none; }
   .k-gl-it { --r: 4 / 3; }
   .k-gl-open { aspect-ratio: 4 / 3; }
-  .k-gl-f .k-fb { display: flex; flex-wrap: wrap; column-gap: 14px; }   /* as many years as fit in a row (the live list sets the count) */
+  .k-gl-f .k-fb { column-gap: 14px; }   /* as many years as fit in a row (the live list sets the count) */
+  .k-gl-vcap .k-cy { margin-left: 0; }
   /* hero: the frame spans the width; the title starts at the margin */
   .k-hero { --ft: 16px; --fh: 196px; --fl: 0px; --fr: 0px; --fw: calc(100vw - 2 * var(--m)); --hmax: 54px; --hl: var(--m); }
   html[data-lang="en"] .k-hero { --hmax: 46px; }
@@ -1888,7 +1909,13 @@ KIT_JS = r"""
       var st = { year: 'all', page: 0 }, vis = all, keepPager = false;
       var pager = gl.querySelector('.k-pg'), pi = pager.querySelector('[data-pi]'), prev = pager.querySelector('[data-p="-1"]'), next = pager.querySelector('[data-p="1"]');
       var view = gl.querySelector('.k-gl-view'), vimg = doc.createElement('img'), vcap = view.querySelector('.k-gl-vcap'), vn = view.querySelector('.k-gl-vn');
-      var cur = -1, opener = null, closing = 0;
+      var cur = -1, opener = null, closing = 0, anchor = gl.querySelector('.k-top');
+      // paging from the pager under the grid: bring the grid's top back on screen (the anchor sits 150 px above it)
+      function toTop() {
+        var b = R.band, top = R.rect(grid).top;
+        var above = b && b.ok ? top < b.top + 40 : grid.getBoundingClientRect().top < 0;
+        if (above && anchor && anchor.scrollIntoView) anchor.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      }
       function pick(y) { return all.filter(function (f) { return y === 'all' || f.getAttribute('data-year') === y; }); }
       function show(list, p) { all.forEach(function (f) { f.hidden = true; }); list.slice(p * size, p * size + size).forEach(function (f) { f.hidden = false; }); }
       function counts() { $$('button[data-k="year"]', gl).forEach(function (b) { var c = b.querySelector('.k-bc'); if (c) c.textContent = pick(b.getAttribute('data-v')).length; }); }
@@ -1925,8 +1952,16 @@ KIT_JS = r"""
         for (var e2 = n; e2 > 0; e2 = from[e2]) {
           var b = from[e2], S2 = 0, k;
           for (k = b; k < e2; k++) S2 += rs[k];
-          var hh = Math.min((W - gap * (e2 - b - 1)) / S2, e2 === n ? T : Infinity);
-          for (k = b; k < e2; k++) fs[k].style.flex = '0 0 ' + Math.floor(rs[k] * hh * 100) / 100 + 'px';
+          var hh = (W - gap * (e2 - b - 1)) / S2;
+          if (e2 === n && hh > T) {   // a short last row: at most the target height, and never taller than the row above it
+            hh = T;
+            if (b > 0) { for (var S3 = 0, q = from[b]; q < b; q++) S3 += rs[q]; hh = Math.min(T, (W - gap * (b - from[b] - 1)) / S3); }
+          }
+          for (k = b; k < e2; k++) {
+            var px = Math.floor(rs[k] * hh * 100) / 100, im = fs[k].querySelector('img');
+            fs[k].style.flex = '0 0 ' + px + 'px';
+            if (im && im.srcset) im.sizes = Math.ceil(px) + 'px';   // the tile's real width, so srcset picks a sharp file
+          }
         }
         grid.classList.add('jx');
       }
@@ -1995,7 +2030,7 @@ KIT_JS = r"""
         var tg = ev.target.closest('button[data-k="year"]'), p = ev.target.closest('.k-pg [data-p]'), o = ev.target.closest('.k-gl-open');
         if (tg || (p && !p.disabled)) close(true);
         if (tg) { st.year = tg.getAttribute('data-v'); st.page = 0; apply(true); }
-        if (p && !p.disabled) { st.page += +p.getAttribute('data-p'); apply(false); }
+        if (p && !p.disabled) { st.page += +p.getAttribute('data-p'); apply(false); toTop(); }
         if (o) open(vis.indexOf(o.parentNode), o);
         if (ev.target.closest('.k-gl-close')) close(false);
         if (ev.target.closest('.k-gl-prev')) stepTo(-1);
@@ -2057,7 +2092,8 @@ KIT_JS = r"""
         im.src = u.src;
         pp.appendChild(im); b.appendChild(pp); f.appendChild(b);
         var fc = el('figcaption'); fc.appendChild(pair(ko, en, enOk));
-        if (y && !(ko.indexOf(y) >= 0 && en.indexOf(y) >= 0)) fc.appendChild(el('span', 'k-cy', y));
+        var hk = ko.indexOf(y) >= 0, he = en.indexOf(y) >= 0;
+        if (y && !(hk && he)) { var cy = el('span', 'k-cy', y); if (he) cy.setAttribute('data-l', 'ko'); else if (hk) { cy.setAttribute('data-l', 'en'); cy.lang = 'en'; } fc.appendChild(cy); }
         f.appendChild(fc);
         return f;
       }

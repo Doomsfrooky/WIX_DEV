@@ -345,6 +345,9 @@ Wix fitted, or the smallest stored width >= w; `crop` for Wix entries) and **`ph
 preview pages are rewritten to `../site/media/` by `page()`. New photos go in only through `python3 tools/media.py`
 (a sheet year of `-` stores an undated photo: `media/gallery/undated/`, year `""`, at the end of the list, shown under
 '전체' only and without a year label).
+`CROP_POS` (kit.py, keyed by `src`) moves the 320 crops (4:3 in the gallery, 3:2 / 4:3 in the teasers) of photos whose
+subject is off centre; desktop frames keep each photo's own shape, so it changes nothing there. `_cap_year()` shows the
+year after a caption only in a language whose caption does not already contain it.
 
 **`gallery_grid(photos=None, per_page=12, years=True, live=False)`** — /gallery: year filters with counts, justified
 rows (no crop on desktop; two 4:3 columns at 320), 12 per page, the pager, a viewer that opens in place over the grid

@@ -152,14 +152,17 @@ the frame spans the width.
   (HeAD Lab's) and leaves a logo on a white ground (Audiso's JPEG) as it is. A flat logo file is still better.
 - `extra`: html under the lead: `jump_nav(...)`, `record(...)`, `<p class="k-btns">` + `btn(...)`.
 - `gallery_photo(key, pos='50% 40%', pos_m=None, crop=None)` picks a `data/gallery.json` entry by a stable key (part
-  of its file name): `'IMG_0168'` members (960x640), `'IMG_6300'` ORL-HNS 2018 congress, `'IMG_8510'` award ceremony,
-  `'IMG_8219'` KIMES 2019, `'IMG_7721'` the data center plaque, `'21.png'` the hospital campus (1391x660). An index
+  of its file name or src): `'media/gallery/2025/2025-01'` the members at the year-end party (People),
+  `'media/gallery/2026/2026-01'` the members at the 5th workshop (About), `'IMG_6300'` ORL-HNS 2018 congress,
+  `'IMG_8510'` award ceremony, `'IMG_8219'` KIMES 2019, `'IMG_7721'` the data center plaque, `'21.png'` the hospital
+  campus (1391x660), `'IMG_0168'` the early lab in white coats (960x640; the About / People / Home hero until
+  2026-11-10, when Prof. Seo moved it to the end of the gallery). An index
   works too, but new photos are added at the front, so indexes move. `pos` is the CSS object-position on the wide
   desktop frame (about 2.8:1), `pos_m` at 320 (about 1.6:1). `crop=(x, y, w, h)` (original pixels, Wix entries only)
   uses only that part of the photo: **`'21.png'` is a banner**, a CG rendering on a transparent strip (x < 95) above a
   band with the Yonsei logo and the institute's name (y > 528), so Contact passes `crop=(96, 2, 1295, 524)`.
 - Examples:
-  `page_hero(('연구소 소개', 'About RIHE'), alt=..., lead=..., image=kit.gallery_photo('IMG_0168', '50% 32%'))`
+  `page_hero(('연구소 소개', 'About RIHE'), alt=..., lead=..., image=kit.gallery_photo('media/gallery/2026/2026-01', '50% 34%', '50% 70%'))`
   `page_hero(('연구', 'Research'), alt=kit.RESEARCH_TITLE, lead=kit.RESEARCH_LEAD, extra=kit.record(...))`
   `page_hero('Audiso', alt=..., lead=..., logo=(kit.imgur('https://i.imgur.com/lQwB2st.jpeg', 'l'), 1858, 542), tone='audiso', inst='Audiology with ISO', extra='<p class="k-btns">' + kit.btn('https://audiso.co.kr/', 'audiso.co.kr') + kit.btn('https://xr.audiso.co.kr/', 'xr.audiso.co.kr') + '</p>')`
 
@@ -334,7 +337,11 @@ pairs (4:3). Default photos: `gallery_pick(5)`.
 **`gallery_pick(n, exclude=(), photos=None)`** — up to `n` photos in `data/gallery.json` order (newest first), one per
 event: the same year and the same Korean caption before the first comma (`'제5회 청각재활연구소 워크샵, 팀 소개'`) count
 as one event, so write the event first in captions. `exclude`: strings matched against file / media / src (About passes
-its hero photo, `IMG_0168`).
+its hero photo, Home the two `HERO_STILLS`). Entries with `"teaser": false` (an empty office, a poster) stay in the
+gallery but are never picked.
+**`HERO_STILLS`** — the Home hero's photographs of the people, `(src, alt, pos, pos_m)`: the first opens the hero,
+the second (`data-src`, loaded by hero.js with the reel, never with Save-Data / 2g / 3g) takes every other return to
+the people. Each photo's framing is `--sp` / `--spm` (object-position on desktop / at 320).
 
 **Photos in two kinds** (CLAUDE.md "사진"): `data/gallery.json` mixes Wix entries `{media, file, width, height, year,
 caption_ko, caption_en}` and repository copies `{src: 'media/gallery/<year>/<year>-<nn>', widths: [480, 1024, 1600],
@@ -364,9 +371,9 @@ These are the compositions the kit was built for. Keep the order; adapt only wha
 
 | page | hero | sections |
 |---|---|---|
-| about | `page_hero(('연구소 소개', 'About RIHE'), alt=<round 2's alt>, lead=..., image=gallery_photo('IMG_0168', '50% 32%'))` | `sec('청각재활연구소', quote(...) + prose([...]))` > `sec('연구소장', director(short_en=False, quote=False))` > `sec('조직', org_chart())` > `sec('데이터센터', data_centers())` > `sec('협력 기관', logos(PARTNERS))` > `gallery_teaser()` |
+| about | `page_hero(('연구소 소개', 'About RIHE'), alt=<round 2's alt>, lead=..., image=gallery_photo('media/gallery/2026/2026-01', '50% 34%', '50% 70%'))` | `sec('청각재활연구소', quote(...) + prose([...]))` > `sec('연구소장', director(short_en=False, quote=False))` > `sec('조직', org_chart())` > `sec('데이터센터', data_centers())` > `sec('협력 기관', logos(PARTNERS))` > `gallery_teaser()` |
 | research | `page_hero(('연구', 'Research'), alt=RESEARCH_TITLE, lead=RESEARCH_LEAD, extra=record(<3 lists>, ['#publication', '#report', '#patents']))` (tint `inst`) | `sec_wide('연구 분야' / 'Projects', fig_cols(<4 figure_plate()>, 2), 'projects', note=('그림을 누르면 원본 크기로 열립니다.', ...))` > `list_sec('논문' / 'Publication', 'pub', PUBS, 'publication', note=REEL_NOTE['pub'])` > `list_sec('학회 발표' / 'Report', 'report', REPORTS, 'report', ...)` > `list_sec('특허' / 'Patents', 'patent', PATENTS, 'patents', filters=('status', 'country'), ...)` |
-| people | `page_hero(('구성원', 'People'), alt=PEOPLE_TITLE, lead=PEOPLE_LEAD, image=gallery_photo('IMG_0168', '50% 32%'), extra=jump_nav([(key, label, TEAM_TONE[key], count) for every team with members], ('팀 바로가기', 'Jump to a team')))` | `team_sec(key)` for every team in people.json order (faculty > basic > hearing > head > admin > audiso); labels: lab name for labs, `(TEAM_META ko, en)` otherwise |
+| people | `page_hero(('구성원', 'People'), alt=PEOPLE_TITLE, lead=PEOPLE_LEAD, image=gallery_photo('media/gallery/2025/2025-01', '50% 42%', '50% 45%'), extra=jump_nav([(key, label, TEAM_TONE[key], count) for every team with members], ('팀 바로가기', 'Jump to a team')))` | `team_sec(key)` for every team in people.json order (faculty > basic > hearing > head > admin > audiso); labels: lab name for labs, `(TEAM_META ko, en)` otherwise |
 | basic-lab | via `lab_page('basic', ...)` (no image: the basic tint) | lab template |
 | hearing-lab | via `lab_page('hearing', ..., dc=dc_box('hearing', ..., since=...), alumni=..., image=gallery_photo('IMG_7721')?)` | lab template (the plaque photo is a suggestion for the client to confirm; without it the hero is the hearing tint) |
 | head-lab | via `lab_page('head', ..., logo=('https://i.imgur.com/QV0SgF2.png', 981, 230), dc=dc_box('head', ...), alumni=...)` | lab template |

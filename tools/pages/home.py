@@ -18,8 +18,8 @@ def render():
         + sec(('데이터센터', 'Data centers'), kit.data_centers(), 'data-centers')
         + kit.videos_sec()
         + sec(('연구소장', 'Director'), kit.director(short_en=True), 'director')
-        + kit.gallery_teaser()
+        + kit.gallery_teaser(kit.gallery_pick(5, exclude=tuple(h[0] for h in kit.HERO_STILLS)))   # not the hero's photographs
         + '</main>'
     )
     return kit.page('청각재활연구소', body,
-                    comment='기록 숫자는 data/*.json에서 셉니다. 영상은 data/videos.json, 사진은 data/gallery.json(앞 다섯 장)에서 만들어집니다.')
+                    comment='기록 숫자는 data/*.json에서 셉니다. 영상은 data/videos.json, 사진은 data/gallery.json(앞에서부터 행사마다 한 장, 맨 위 두 단체 사진은 빼고 다섯 장)에서 만들어집니다.')

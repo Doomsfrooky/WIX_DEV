@@ -1,6 +1,7 @@
 <!--
   Stage 2 · the Home hero (C2, editorial cinematic on white), from C's /67 final, as a template: tools/kit.py home_hero()
-  fills {{inst}}, {{lead}}, {{nums}} (core.OUTCOMES, counted from data/*.json) and {{more}}. The title keeps its authored line breaks.
+  fills {{stills}} (kit.HERO_STILLS: the photographs of the people), {{inst}}, {{lead}}, {{nums}} (core.OUTCOMES, counted
+  from data/*.json) and {{more}}. The title keeps its authored line breaks.
   The title is set twice, exactly aligned: the real h1 in ink lies under the frame; an aria-hidden copy in paper white rides
   inside the frame, so wherever the photograph is open the letters read white (a knockout), wherever the sheet shows they
   read ink. One player: the reel's footage is assembled from byte ranges of the promo (tools/kits/cw/reel.py).
@@ -13,7 +14,7 @@
   <div class="cx-frame" data-a>
     <div class="cx-par">
       <div class="cx-media">
-        <img class="cx-still" src="https://static.wixstatic.com/media/b8629b_9d88869d4ddd410ca48f2baf99bf7f25~mv2.jpg/v1/fill/w_960,h_640,al_c,q_85,enc_auto/members.jpg" width="960" height="640" alt="청각재활연구소 구성원" data-alt-en="Members of RIHE" fetchpriority="high" decoding="async">
+        {{stills}}
         <video class="cx-v" muted playsinline preload="metadata" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"></video>
       </div>
     </div>

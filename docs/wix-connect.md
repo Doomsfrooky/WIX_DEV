@@ -30,6 +30,8 @@
 - 데스크톱 높이는 `docs/wix-heights.md` 의 '데스크톱' 열입니다. 지금 데스크톱 요소가 모두 화면 폭으로 늘어나 있어서(실제 사이트 CSS `width:100%`) 이 값을 씁니다. 2560px 화면에서도 높이는 1920과 같습니다.
 - 요소 설명은 지금 비어 있어서 스크린리더가 모든 칸을 영어 'Embedded Content'로 읽습니다. 데스크톱·모바일 요소에 같은 문구를 넣습니다.
 
+- 영어 편집(5절)에서는 같은 칸에 영어 설명을 넣습니다: Home 'RIHE home: the institute, research outcomes, research areas, labs and latest news', About 'About RIHE: introduction, director's message, organization, data centers and partners', Research 'Research: research areas, publications, conference presentations and patents', People 'People: members of each team with photos', Basic Lab 'Basic Lab: research topics, team leader, members and publications', Hearing Lab 'Hearing Lab: Korean hearing reference standard data center, members and publications', HeAD Lab 'HeAD Lab: hearing big data center, members and publications', Audiso 'Audiso: company, KOLAS-accredited calibration and products', Contact 'Contact: address, phone, email, team contacts and map', Gallery 'Gallery: photos and videos of conferences and events'.
+
 ### 요소 하나를 바꾸는 법
 
 1. 에디터에서 요소를 클릭하고 **웹사이트 주소 입력**(Enter Website Address)을 누릅니다. 지금은 'HTML 코드' 방식이라 코드가 보이면 '웹사이트 주소'를 고릅니다.
@@ -67,7 +69,7 @@
 ## 3. 갤러리 쪽 새로 만들기 (/gallery)
 
 지금 사이트에는 /gallery 쪽이 없습니다(404).
-1. 쪽 추가 → 빈 쪽, 이름 'Gallery', URL `gallery`.
+1. 쪽 추가 → 빈 쪽, 이름 'Gallery'. **URL(슬러그)은 꼭 `gallery` 로 바꿉니다.** 빈 쪽의 기본 URL은 `blank` 라서, 그대로 두면 새 쪽 안의 갤러리 링크(`/gallery`)가 404가 납니다(2026-11-11 게시본이 그랬음). 바꾸는 곳: 쪽 목록에서 Gallery 옆 ⋯ → 설정 → SEO 기본 → URL 슬러그. 영어판(`/en/gallery`)도 같은 슬러그인지 봅니다.
 2. 다른 쪽의 `#html1` 을 복사해 붙여 넣는 방법을 먼저 써 봅니다(화면 폭 늘이기가 따라오는지 확인). 안 되면 추가 → 삽입(Embed) → HTML iframe을 넣습니다.
 3. 주소 `https://doomsfrooky.github.io/WIX_DEV/site/gallery.html`, 설명 '갤러리: 학회와 행사 사진, 영상', x 0, y 0.
 4. 높이: 화면 폭으로 늘어나면 **3690**, 980 폭 그대로면 **2750**. HTML 요소의 늘이기는 Wix가 공식으로 지원한다고 적어 둔 요소가 아니라서 새 요소에서는 안 될 수 있습니다.
@@ -83,9 +85,9 @@
 - githack 미리보기 주소는 Wix 안에 넣을 수 없습니다(CLAUDE.md "미리보기 링크"). Wix에는 위 표의 Pages 주소만 넣습니다.
 - 다른 쪽에서 오는 링크 중 쪽 안의 위치를 가리키는 것(예: 연구실 쪽 '학회 발표 목록은 연구 페이지에서 보기')은 대상 쪽의 맨 위로 갑니다. 그 자리로 보내려면 Wix 페이지 코드가 따로 필요합니다(`docs/wix-platform-facts.md` 끝).
 
-## 5. 영어판 (Wix Multilingual, 나중에)
+## 5. 영어판 (Wix Multilingual)
 
-지금 Multilingual은 꺼져 있고(`/en/about` 404), 영어판은 아직 공개되지 않습니다. 한국어판을 먼저 끝내고 켭니다.
+2026-11-11 켜고 공개했습니다(영어 `https://www.smilesnail.org/en/...`). 아래는 그때 한 순서이고, 다시 할 때나 다른 언어를 더할 때 씁니다.
 
 ### 켜는 순서 (Wix 도움말 'Wix 다국어 추가 및 설정하기', 2026-11-11 확인)
 1. 앱 마켓 검색창에 **'Wix 다국어'** 를 그대로 넣고(도움말의 이름입니다. '다국어'만 치면 추천 목록에 다른 앱만 보일 수 있습니다) Wix가 만든 **Wix 다국어** 를 골라 **사이트에 추가**를 누릅니다. 사이트 대시보드의 앱 마켓에서 해도 같습니다. 에디터 위 **설정** 메뉴에 **다국어**가 보이면 거기서 바로 시작해도 됩니다.
@@ -96,7 +98,7 @@
 - 영어판을 공개하면 블로그·회원 같은 앱 쪽에도 영어 주소가 생깁니다. 공개 전에 살펴봅니다.
 
 ### 언어 전달
-먼저 **코드 없는 방법을 시험**합니다(이렇게 되면 깜빡임도 없습니다).
+**2026-11-11 확인: 코드 없는 방법이 됩니다.** 영어 편집에서 요소 주소 끝에 `?lang=en` 을 붙이면 영어 쪽에만 들어가고, 한국어 쪽 주소는 그대로입니다(실제 사이트에서 한국어 20칸은 `?lang=en` 없음, 영어 20칸은 모두 `?lang=en`, 데스크톱·모바일 10쪽씩). 그래서 아래 페이지 코드는 쓰지 않았습니다.
 1. 언어 전환 → English에서 `#html1` 을 고르고 '번역 편집' 또는 '웹사이트 주소 입력'으로 주소 칸이 열리는지 봅니다.
 2. 열리면 주소 끝에 `?lang=en` 을 붙여 적용합니다(예: `.../site/home.html?lang=en`). 설명 칸도 영어로 바꿀 수 있으면 바꿉니다.
 3. 한국어로 돌아와서 한국어 요소의 주소에 `?lang=en` 이 **없어야** 합니다. 한국어 쪽까지 바뀌었다면 되돌리고 아래 코드를 씁니다.

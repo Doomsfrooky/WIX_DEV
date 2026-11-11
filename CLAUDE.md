@@ -20,7 +20,7 @@ tools/wix-sim.html           Wix 흉내(헤더 + 고정 높이 교차 출처 ifr
 tools/verify/                검증 스크립트(아래)
 docs/wix-platform-facts.md   Wix 플랫폼 조사 결과(근거 포함)
 docs/wix-connect.md          Wix 연결 안내(쪽별 요소 ID·주소·높이·설명, 지울 요소, 갤러리 쪽 만들기, 영어판, 저장소 이전)
-embeds/                      1차(현재 게시된) Wix 코드 사본. fetch_live.py로 다시 받는다
+embeds/                      1차 Wix 코드 사본(2026-11-11 전환 전까지 게시돼 있던 것). fetch_live.py는 지금 게시 상태를 docs/site-map.md 로 받는다
 ```
 
 페이지 10개: home(/), about(/about), research(/project), people(/people), basic-lab(/about-1), hearing-lab, head-lab, audiso, contact(/연락처), gallery(/gallery).
@@ -28,7 +28,7 @@ embeds/                      1차(현재 게시된) Wix 코드 사본. fetch_liv
 ## 결정한 것
 
 1. Wix 요소는 **"웹사이트 주소"** 방식. 각 요소에 `https://doomsfrooky.github.io/WIX_DEV/site/<페이지>.html` 을 넣는다. 그 뒤 수정은 저장소에서만, Wix는 높이를 바꿀 때만 연다.
-   - 주소 방식으로 바뀐 뒤에는 **main = 실제 사이트**다. 확정 전 작업은 브랜치에서만, 승인받은 것만 main에 머지한다. 머지 후 반영까지 최대 10분(Pages 배포 + max-age=600).
+   - 주소 방식으로 바뀐 뒤에는 **main = 실제 사이트**다(2026-11-11 전환·게시, 한국어·영어). 확정 전 작업은 브랜치에서만, 승인받은 것만 main에 머지한다. 머지 후 반영까지 최대 10분(Pages 배포 + max-age=600).
 2. 영상은 저장소에 넣지 않고 Wix 미디어(video.wixstatic.com) 주소를 참조한다. 이미 Wix·Imgur에 있는 사진도 그 주소를 그대로 쓴다.
    - **2026-11-09 바뀜(의뢰인: "관리가 쉬운 쪽으로"): 새 구성원 사진과 새 갤러리 사진은 저장소 `site/media/` 에 웹용 사본만 둔다.** 원본은 넣지 않는다. `python3 tools/media.py` 로만 넣는다(EXIF 회전 반영, 위치정보 등 메타데이터 제거, 크기 제한, 진행형 JPEG). Pages 한도(1GB, 월 100GB)를 생각해 사진 한 장은 수백 KB 안으로 둔다.
    - 같은 날: Research 연구 분야 그림 네 장(1차의 imgur 그림)과 HeAD Lab 청각 빅데이터센터 구조도도 저장소 사본(`site/media/figures/`, `python3 tools/media.py figure`)이다. 의뢰인이 연구 페이지 그림이 안 보인다고 해서 imgur에 기대지 않게 옮겼다. imgur 원본 주소는 그대로 남아 있다.
@@ -52,7 +52,7 @@ embeds/                      1차(현재 게시된) Wix 코드 사본. fetch_liv
 - 화면의 모든 문구는 `t(ko, en)` 쌍. `t(ko, en, 'p')` 처럼 태그 지정, `tt(pair)`, 언어 중립은 `t(text)`.
 - 언어는 `?lang=en|ko` 를 head 스크립트가 **첫 화면을 그리기 전에** 적용한다. Wix 페이지 코드의 `postMessage({lang})` 도 받는다. 영어 화면에서 한국어가 먼저 보였다 바뀌는 깜빡임이 없어야 한다.
 - 이미지 alt는 쌍(`data-alt-en`), aria-label은 `data-aria-en`.
-- 페이지 사이 링크는 `link()`·`more()` 로 만들고 `kit.PATHS` 경로를 쓴다. 모두 `target="_top"`. Wix Multilingual은 꺼져 있어서 `/en/...` 이 404다(그동안 `EN_PREFIX` 처리 주의).
+- 페이지 사이 링크는 `link()`·`more()` 로 만들고 `kit.PATHS` 경로를 쓴다. 모두 `target="_top"`. Wix Multilingual은 2026-11-11 켜서 공개했다(영어 `/en/...`, 영어 요소 주소는 `?lang=en`). 영어 화면의 쪽 사이 링크는 `/en/<경로>` 로 간다(`core.EN_PREFIX`).
 - `build.py` 검사(실패하면 빌드 중단): 화면 문구의 em-dash(—) 금지, `data-l="en"` 에는 `lang="en"`(영어 층에 보이는 한국어는 `lang="ko"`), `<script src>` 는 `vendor/` 상대 경로만, robots meta 필수, vh·svh·dvh·innerHeight 금지.
 - 검색 노출: 본문 페이지 `<meta name="robots" content="noindex, indexifembedded">`(kit.ROBOTS), 시안·목록·도구는 `noindex`.
 - 한글 글꼴은 필요한 글자만 받는다(Google Fonts `text=` 서브셋).

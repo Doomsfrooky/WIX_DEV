@@ -4,7 +4,7 @@
 
 사이트는 Wix 클래식 에디터입니다. 쪽마다 본문은 Wix **HTML 요소** 하나(데스크톱 `#html1`, 모바일 `#mobileHtml1`)이고, [docs/wix-connect.md](docs/wix-connect.md) 대로 전환하면 이 요소가 **웹사이트 주소** 방식으로 이 저장소의 GitHub Pages 파일 `https://doomsfrooky.github.io/WIX_DEV/site/<쪽>.html` 을 불러 보여 줍니다. 그 뒤로는 내용은 이 저장소에서만 고치고, Wix는 요소 높이를 바꿀 때만 엽니다. main에 머지하면 10분 안에 사이트에 반영됩니다(전환 뒤 main = 실제 사이트).
 
-**2026-11-10 현재 smilesnail.org는 아직 1차 HTML 코드가 게시된 상태입니다**(9쪽, /gallery 없음). 새 쪽은 GitHub Pages에서 볼 수 있고, Wix 에디터에서 주소·높이를 넣고 **게시**하면 실제 사이트에 나옵니다.
+**2026-11-11 전환해서 게시했습니다**(한국어 `https://www.smilesnail.org/`, 영어 `https://www.smilesnail.org/en/`, 영어 요소는 주소 끝에 `?lang=en`). 이제 main에 머지하면 실제 사이트에 반영됩니다. 게시된 상태는 `python3 tools/fetch_live.py` 가 `docs/site-map.md` 로 받아 둡니다.
 
 - Wix 쪽 연결(쪽별 요소·주소·높이·설명, 지울 요소, 갤러리 쪽 만들기, 메뉴 글꼴·색, 영어판): [docs/wix-connect.md](docs/wix-connect.md)
 - 요소 높이 표: [docs/wix-heights.md](docs/wix-heights.md)

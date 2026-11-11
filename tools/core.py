@@ -106,7 +106,16 @@ DATA_CENTERS = [
 
 NAME_EN = {'이은수': 'Lee, Eun Soo', '이동우': 'Lee, Dongwoo',   # 2026-11-10, as the client wrote them
            '서영준': 'Young Joon Seo', '공태훈': 'Tae Hoon Kong', '기재홍': 'Jaehong Key', '변유선': 'Yuseon Byun', '이동혁': 'Donghyeok Lee',
-           '윤철영': 'Chul Young Yoon', '이현수': 'Hyun Su Lee', '전진희': 'Jinhui Jeon', '강철영': 'Chulyoung Kang'}
+           '윤철영': 'Chul Young Yoon', '이현수': 'Hyun Su Lee', '강철영': 'Chulyoung Kang',
+           # 2026-11-11, as the client wrote them (format and spelling kept)
+           '김송이': 'SongYi Kim', '김진수': 'Jinsu Kim', '임승미': 'Seungmi Im', '서연호': 'Yeonho Seo', '윤담': 'Dam Yoon',
+           '양효경': 'Yang, Hyo kyung', '서영란': 'Seo, Young Ran', '채성현': 'Chae, Seong Hyeon', '김순정': 'Kim, Soon Jeong',
+           '고재욱': 'Ko, Jae Uk', '손명석': 'Son, Myeong Seok', '김다희': 'Kim, Da Hee', '윤창희': 'Yun, Chang Hui', '전진희': 'Jeon, Jin Hui',
+           # 2026-11-11, romanised by us until the people correct them (client: "나머지는 감대로 넣고 수정해달라고 하면 그 때");
+           # the team's own format (Audiso and administration write 'Family, Given'), photo slugs followed where they exist
+           '최소윤': 'Choi, So Yun', '김철영': 'Kim, Cheol Young', '홍기현': 'Hong, Ki Hyun', '김강현': 'Kim, Gang Hyun',
+           '이상윤': 'Lee, Sang Yoon', '홍상의': 'Hong, Sang Eui', '신중환': 'Shin, Jung Hwan', '문진혁': 'Moon, Jin Hyuk',
+           '여인기': 'Yeo, In Ki', '이재원': 'Lee, Jae Won', '김성훈': 'Kim, Seong Hun'}
 ROLE_EN = {'교수': 'Professor', '연구소장': 'Director', '연구교수': 'Research Professor', '팀장': 'Team Leader', 'Post-doc': 'Postdoctoral Researcher',
            '박사과정': 'Ph.D. Student', '석사과정': 'M.S. Student', '학부연구원': 'Undergraduate Researcher', '연구원': 'Researcher',
            '연구간호사': 'Research Nurse', 'CTO': 'CTO', '개발': 'Development', 'AI개발': 'AI Development', '영업': 'Sales', 'QA': 'QA',

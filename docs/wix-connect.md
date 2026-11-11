@@ -19,7 +19,7 @@
 | Home (/) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/home.html | 4810 | 5360 | 청각재활연구소 홈: 연구소 소개, 연구 성과, 연구 분야, 연구실, 최근 소식 |
 | About (/about) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/about.html | 3290 | 3970 | 연구소 소개: 소개 글, 연구소장 인사말, 조직, 데이터센터, 협력 기관 |
 | Research (/project) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/research.html | 6200 | 9230 | 연구: 연구 분야와 논문, 학회 발표, 특허 목록 |
-| People (/people) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/people.html | 3930 | 4700 | 구성원: 팀별 연구원 소개와 사진 |
+| People (/people) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/people.html | 3940 | 4870 | 구성원: 팀별 연구원 소개와 사진 |
 | Basic Lab (/about-1) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/basic-lab.html | 4120 | 5800 | Basic Lab(기초팀) 소개: 연구 주제, 팀장, 구성원, 논문 |
 | Hearing Lab (/hearing-lab) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/hearing-lab.html | 5310 | 7130 | Hearing Lab(참조표준팀) 소개: 한국인 청각 참조표준데이터센터, 구성원, 논문 |
 | HeAD Lab (/head-lab) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/head-lab.html | 5940 | 7810 | HeAD Lab(데이터팀) 소개: 청각 빅데이터센터, 구성원, 논문 |
@@ -87,9 +87,9 @@
 
 지금 Multilingual은 꺼져 있고(`/en/about` 404), 영어판은 아직 공개되지 않습니다. 한국어판을 먼저 끝내고 켭니다.
 
-### 켜는 순서
-1. 에디터 → 앱 추가 → 'Wix 다국어'(Wix Multilingual) → 사이트에 추가.
-2. 상단 설정 → 다국어 → 지금 시작하기. 기본 언어는 한국어(정한 뒤 바꾸기 어렵습니다). '+ 언어 추가'로 영어를 넣고, 번역은 **수동 번역**을 고르고, 영어 사이트 공개는 **아니요, 지금은 비공개**로 둡니다.
+### 켜는 순서 (Wix 도움말 'Wix 다국어 추가 및 설정하기', 2026-11-11 확인)
+1. 앱 마켓 검색창에 **'Wix 다국어'** 를 그대로 넣고(도움말의 이름입니다. '다국어'만 치면 추천 목록에 다른 앱만 보일 수 있습니다) Wix가 만든 **Wix 다국어** 를 골라 **사이트에 추가**를 누릅니다. 사이트 대시보드의 앱 마켓에서 해도 같습니다. 에디터 위 **설정** 메뉴에 **다국어**가 보이면 거기서 바로 시작해도 됩니다.
+2. 대시보드 → **다국어** → **지금 시작하기**. 기본 언어는 **한국어**로 확인합니다(정한 뒤에는 바꿀 수 없습니다). 국기를 고르고 **+ 언어 추가** → 언어 **English**, 국기 → **번역 시작 방법**: **수동 번역** → **English 사이트를 바로 공개할까요?**: **아니요, 지금은 숨깁니다** → **언어 추가**.
 3. 언어 전환 → English에서 메뉴·머리글·바닥글 글자와 쪽마다 SEO 제목을 번역합니다. **영어 쪽 주소(slug)는 한국어와 똑같이 둡니다.** iframe 안 링크가 `/en/<한국어 쪽 주소>` 로 가기 때문입니다(`tools/core.py` 의 `EN_PREFIX = '/en'`, Wix 기본 방식인 하위 디렉터리 `/en/...` 와 같음).
 4. 아래 '언어 전달'을 합니다.
 5. 영어 미리보기를 확인한 뒤 대시보드 → 다국어 → 상태를 **공개**로 바꾸고 게시합니다. '언어 자동 전환'은 끕니다(Wix가 SEO에 나쁘다고 안내).

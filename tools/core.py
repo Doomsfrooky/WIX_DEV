@@ -14,8 +14,8 @@ import urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = 'https://www.smilesnail.org'
-# English pages live under SITE + EN_PREFIX + path. Wix Multilingual is OFF on the live site today,
-# so /en/... returns 404 until it is enabled. Set EN_PREFIX = '' to keep English links on the Korean URLs.
+# English pages live under SITE + EN_PREFIX + path: Wix Multilingual is on since 2026-11-11 (English at /en/...).
+# Set EN_PREFIX = '' to keep English links on the Korean URLs if it is ever turned off.
 EN_PREFIX = '/en'
 PREVIEW = False          # build.py sets this; True adds the small KO/EN toggle
 ROBOTS = 'noindex, indexifembedded'   # content pages: indexed only inside smilesnail.org, never as github.io pages
@@ -34,7 +34,7 @@ COLORS = {'navy': '#1b3d6f', 'basic': '#2e8b57', 'hearing': '#4e7595', 'head': '
           'audiso': '#9a6f07', 'collab': '#7a8494', 'ink': '#131b2a'}
 PATHS = {'home': '/', 'about': '/about', 'research': '/project', 'people': '/people', 'basic-lab': '/about-1',
          'hearing-lab': '/hearing-lab', 'head-lab': '/head-lab', 'audiso': '/audiso', 'contact': '/연락처',
-         'gallery': '/gallery'}
+         'gallery': '/blank'}   # the Wix Gallery page was published at /blank (2026-11-11); if its slug becomes 'gallery', change this back
 
 # ================================================================== COPY (from tools/build_v1.py unless noted)
 INST = ('연세대학교 원주세브란스기독병원', 'Yonsei University · Wonju Severance Christian Hospital')

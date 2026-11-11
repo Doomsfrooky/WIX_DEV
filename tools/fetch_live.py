@@ -35,7 +35,7 @@ PAGES = [
     ("head-lab", "head-lab", "HeAD Lab"),
     ("audiso", "audiso", "Audiso"),
     ("연락처", "contact", "Contact"),
-    ("gallery", "gallery", "Gallery"),
+    ("blank", "gallery", "Gallery"),   # the Wix Gallery page is published at /blank
 ]
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

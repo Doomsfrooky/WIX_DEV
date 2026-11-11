@@ -53,7 +53,7 @@ web
 ## Evidence on Hand
 
 - 학술지 논문 121편(`data/publications.json`), 학회 발표 110건(`data/reports.json`), 특허 80건(`data/patents.json`), 기술이전 12건(1차 문구, 데이터 아님). (2026-11-10 기준)
-- 구성원 36명, 팀 6개(`data/people.json`: 교수진 3, Basic 5, Hearing 5, HeAD 6, 행정 4, Audiso 13). 사진 35명(Imgur 27, 저장소 8), 1명은 사진이 오면 넣는다.
+- 구성원 36명, 팀 6개(`data/people.json`: 교수진 3, Basic 5, Hearing 5, HeAD 6, 행정 4, Audiso 13). 36명 모두 사진이 있다(Imgur 27, 저장소 9).
 - 갤러리 사진 59장(`data/gallery.json`: 저장소 사본 53, Wix 미디어 6), 영상 3편(`data/videos.json`, Wix 영상: 연구소 소개, 청각빅데이터센터 홍보, G1 뉴스).
 - 연구소장 인사말과 약력(`tools/kit.py` `DIRECTOR`), 협력 기관 로고(About).
 - 없는 것: 추천사·후기, 수상 목록 데이터, 환자 대상 안내 자료, 영문 보도자료. 만들어 넣지 않는다.

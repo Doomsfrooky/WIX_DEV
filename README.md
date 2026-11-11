@@ -25,7 +25,7 @@ tools/fetch_live.py         게시된 Wix 쪽의 HTML 요소 상태를 받아 do
 embeds/, docs/paste-list.md, docs/redesign.md   1·2차 기록(옛 HTML 코드 붙여넣기 방식, 2차 시안). 지금은 쓰지 않습니다
 ```
 
-쪽 10개: home(/), about(/about), research(/project), people(/people), basic-lab(/about-1), hearing-lab, head-lab, audiso, contact(/연락처), gallery(/gallery).
+쪽 10개: home(/), about(/about), research(/project), people(/people), basic-lab(/about-1), hearing-lab, head-lab, audiso, contact(/연락처), gallery(/blank).
 
 ## 고쳐서 반영하는 순서
 

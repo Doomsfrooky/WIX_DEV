@@ -23,7 +23,7 @@ docs/wix-connect.md          Wix 연결 안내(쪽별 요소 ID·주소·높이�
 embeds/                      1차 Wix 코드 사본(2026-11-11 전환 전까지 게시돼 있던 것). fetch_live.py는 지금 게시 상태를 docs/site-map.md 로 받는다
 ```
 
-페이지 10개: home(/), about(/about), research(/project), people(/people), basic-lab(/about-1), hearing-lab, head-lab, audiso, contact(/연락처), gallery(/gallery).
+페이지 10개: home(/), about(/about), research(/project), people(/people), basic-lab(/about-1), hearing-lab, head-lab, audiso, contact(/연락처), gallery(Wix 주소 /blank, 2026-11-11 게시본 그대로. `core.PATHS` 도 /blank).
 
 ## 결정한 것
 

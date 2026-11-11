@@ -25,7 +25,7 @@
 | HeAD Lab (/head-lab) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/head-lab.html | 5940 | 7810 | HeAD Lab(데이터팀) 소개: 청각 빅데이터센터, 구성원, 논문 |
 | Audiso (/audiso) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/audiso.html | 3380 | 4680 | 오디에스오 소개: 회사, KOLAS 공인교정, 제품 |
 | Contact (/연락처) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/contact.html | 2200 | 1910 | 연락처: 주소, 전화, 이메일, 팀별 담당자, 지도 |
-| Gallery (/gallery, 새로 만듦) | #html1 (+ #mobileHtml1) | https://doomsfrooky.github.io/WIX_DEV/site/gallery.html | 3690 (늘이기가 안 되면 2750) | 2630 | 갤러리: 학회와 행사 사진, 영상 |
+| Gallery (/blank) | #html1 (+ #mobileHtml1) | https://doomsfrooky.github.io/WIX_DEV/site/gallery.html | 3690 (늘이기가 안 되면 2750) | 2630 | 갤러리: 학회와 행사 사진, 영상 |
 
 - 데스크톱 높이는 `docs/wix-heights.md` 의 '데스크톱' 열입니다. 지금 데스크톱 요소가 모두 화면 폭으로 늘어나 있어서(실제 사이트 CSS `width:100%`) 이 값을 씁니다. 2560px 화면에서도 높이는 1920과 같습니다.
 - 요소 설명은 지금 비어 있어서 스크린리더가 모든 칸을 영어 'Embedded Content'로 읽습니다. 데스크톱·모바일 요소에 같은 문구를 넣습니다.
@@ -69,7 +69,7 @@
 ## 3. 갤러리 쪽 새로 만들기 (/gallery)
 
 지금 사이트에는 /gallery 쪽이 없습니다(404).
-1. 쪽 추가 → 빈 쪽, 이름 'Gallery'. **URL(슬러그)은 꼭 `gallery` 로 바꿉니다.** 빈 쪽의 기본 URL은 `blank` 라서, 그대로 두면 새 쪽 안의 갤러리 링크(`/gallery`)가 404가 납니다(2026-11-11 게시본이 그랬음). 바꾸는 곳: 쪽 목록에서 Gallery 옆 ⋯ → 설정 → SEO 기본 → URL 슬러그. 영어판(`/en/gallery`)도 같은 슬러그인지 봅니다.
+1. 쪽 추가 → 빈 쪽, 이름 'Gallery'. 빈 쪽의 기본 URL(슬러그)은 `blank` 입니다. **2026-11-11 게시본은 `/blank` 그대로 두기로 해서 새 쪽 안의 갤러리 링크도 `/blank`(영어 `/en/blank`)로 맞췄습니다**(`tools/core.py` `PATHS['gallery']`). 나중에 슬러그를 `gallery` 로 바꾸면(쪽 목록에서 Gallery 옆 ⋯ → 설정 → SEO 기본 → URL 슬러그) `PATHS` 도 `/gallery` 로 되돌리고 빌드합니다. 둘이 다르면 갤러리 링크가 404입니다.
 2. 다른 쪽의 `#html1` 을 복사해 붙여 넣는 방법을 먼저 써 봅니다(화면 폭 늘이기가 따라오는지 확인). 안 되면 추가 → 삽입(Embed) → HTML iframe을 넣습니다.
 3. 주소 `https://doomsfrooky.github.io/WIX_DEV/site/gallery.html`, 설명 '갤러리: 학회와 행사 사진, 영상', x 0, y 0.
 4. 높이: 화면 폭으로 늘어나면 **3690**, 980 폭 그대로면 **2750**. HTML 요소의 늘이기는 Wix가 공식으로 지원한다고 적어 둔 요소가 아니라서 새 요소에서는 안 될 수 있습니다.

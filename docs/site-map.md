@@ -24,3 +24,5 @@ Wix의 HTML iframe 요소는 높이가 자동으로 늘어나지 않습니다. �
 | Audiso | https://www.smilesnail.org/audiso | `#mobileHtml1` | 모바일 | 4682 | 웹사이트 주소: https://doomsfrooky.github.io/WIX_DEV/site/audiso.html |
 | Contact | https://www.smilesnail.org/%EC%97%B0%EB%9D%BD%EC%B2%98 | `#html1` | 데스크톱 | 2223 | 웹사이트 주소: https://doomsfrooky.github.io/WIX_DEV/site/contact.html |
 | Contact | https://www.smilesnail.org/%EC%97%B0%EB%9D%BD%EC%B2%98 | `#mobileHtml1` | 모바일 | 1913 | 웹사이트 주소: https://doomsfrooky.github.io/WIX_DEV/site/contact.html |
+| Gallery | https://www.smilesnail.org/blank | `#html1` | 데스크톱 | 3484 | 웹사이트 주소: https://doomsfrooky.github.io/WIX_DEV/site/gallery.html |
+| Gallery | https://www.smilesnail.org/blank | `#mobileHtml1` | 모바일 | 2630 | 웹사이트 주소: https://doomsfrooky.github.io/WIX_DEV/site/gallery.html |

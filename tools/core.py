@@ -118,7 +118,7 @@ NAME_EN = {'이은수': 'Lee, Eun Soo', '이동우': 'Lee, Dongwoo',   # 2026-11
            '여인기': 'Yeo, In Ki', '이재원': 'Lee, Jae Won', '김성훈': 'Kim, Seong Hun'}
 ROLE_EN = {'교수': 'Professor', '연구소장': 'Director', '연구교수': 'Research Professor', '팀장': 'Team Leader', 'Post-doc': 'Postdoctoral Researcher',
            '박사과정': 'Ph.D. Student', '석사과정': 'M.S. Student', '학부연구원': 'Undergraduate Researcher', '연구원': 'Researcher',
-           '연구간호사': 'Research Nurse', 'CTO': 'CTO', '개발': 'Development', 'AI개발': 'AI Development', '영업': 'Sales', 'QA': 'QA',
+           '연구간호사': 'Research Nurse', 'CTO': 'CTO', '개발': 'Development', 'AI개발': 'AI Development', '영업': 'Sales', 'QA': 'QA', 'RA': 'RA',
            '인증': 'Certification', '전략': 'Strategy', '이비인후과': 'Otorhinolaryngology', '생체공학과': 'Biomedical Engineering',
            '홍보': 'Public Relations', 'AI': 'AI', 'PM': 'Project Manager', 'PL': 'Project Leader'}
 # people.json team key -> (colour key, KO heading, EN heading)

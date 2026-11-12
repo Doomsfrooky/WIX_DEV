@@ -745,3 +745,8 @@ Home의 컷을 조용하게: 흰 지면 위 프레임이 34% 축에서 오른쪽
 ## 갤러리 링크 (2026-11-11)
 
 의뢰인이 Wix 쪽은 더 고치지 않기로 해서("다 잘 나오도록 했어, 굳이 안 고쳐도 돼") 갤러리 쪽 주소 `/blank` 를 그대로 두고, 새 쪽 안의 갤러리 링크 10개(Home 6, About 4)를 `/gallery`(404)에서 `/blank` 로 바꿨다(`core.PATHS`). 영어 화면은 `/en/blank`(200). Wix 게시본(revision 1353)의 높이는 그대로다: People·Basic Lab 모바일은 마지막 칸 아래 빈 여백만 잘리고, 갤러리 데스크톱(3484)은 창 폭 약 1,396~1,516px에서 맨 아래 영상 칸이 최대 173px 잘린다(그날 의뢰인에게 알림).
+
+## 의뢰인 요청 (2026-11-12)
+
+- 여인기: 직무 '인증' → 'RA'(`data/people.json`, 영어도 'RA', `core.ROLE_EN`).
+- HeAD Lab 쪽 팀장(윤철영) 칸: 학과 줄 '연세대학교 의료정보통계학과' / 'Department of Medical Informatics and Biostatistics, Yonsei University' 를 빼고 'HeAD Lab 연구팀장' / 'Team Leader, HeAD Lab' 만 남겼다(`tools/pages/head-lab.py`). HeAD Lab 모바일 높이 7810 → 7760(Wix 게시본 7811은 아래에 빈칸 약 50px, 잘리지는 않음).

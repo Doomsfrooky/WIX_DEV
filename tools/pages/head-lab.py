@@ -60,8 +60,7 @@ def render():
                   ('International Cohorts', 'International Cohorts', 'UK Biobank 및 NHIS/KNHANES 연계 연구', 'Research linking UK Biobank and NHIS/KNHANES'),
                   ('Ear Age', 'Ear Age', '청력 기반 생물학적 나이 추정 및 청각 노화 연구', 'Estimating biological age from hearing, and ear ageing')],
         manager=dict(photo='https://i.imgur.com/RC37iFm.jpeg', name=('윤철영', 'Chul Young Yoon'),
-                     lines=(['HeAD Lab 연구팀장', '연세대학교 의료정보통계학과'],
-                            ['Team Leader, HeAD Lab', 'Department of Medical Informatics and Biostatistics, Yonsei University'])),
+                     lines=(['HeAD Lab 연구팀장'], ['Team Leader, HeAD Lab'])),   # department line removed (client, 2026-11-12)
         alumni=[('이준헌', 'https://i.imgur.com/gQo7vUz.jpeg', '의료정보통계학과 석사 · 2026년 2월 졸업', 'M.S. · Feb 2026'),
                 ('김지원', 'https://i.imgur.com/TWCotbS.jpeg', '의료정보통계학과 석사 · 2025년 2월 졸업', 'M.S. · Feb 2025'),
                 ('이주형', 'https://i.imgur.com/jXCJxED.jpeg', '의료정보통계학 석사 · 2023년 2월 졸업', 'M.S. · Feb 2023')],

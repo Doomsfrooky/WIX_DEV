@@ -22,7 +22,7 @@
 | People (/people) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/people.html | 3940 | 4870 | 구성원: 팀별 연구원 소개와 사진 |
 | Basic Lab (/about-1) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/basic-lab.html | 4120 | 5800 | Basic Lab(기초팀) 소개: 연구 주제, 팀장, 구성원, 논문 |
 | Hearing Lab (/hearing-lab) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/hearing-lab.html | 5310 | 7130 | Hearing Lab(참조표준팀) 소개: 한국인 청각 참조표준데이터센터, 구성원, 논문 |
-| HeAD Lab (/head-lab) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/head-lab.html | 5940 | 7810 | HeAD Lab(데이터팀) 소개: 청각 빅데이터센터, 구성원, 논문 |
+| HeAD Lab (/head-lab) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/head-lab.html | 5940 | 7760 | HeAD Lab(데이터팀) 소개: 청각 빅데이터센터, 구성원, 논문 |
 | Audiso (/audiso) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/audiso.html | 3380 | 4680 | 오디에스오 소개: 회사, KOLAS 공인교정, 제품 |
 | Contact (/연락처) | #html1, #mobileHtml1 | https://doomsfrooky.github.io/WIX_DEV/site/contact.html | 2200 | 1910 | 연락처: 주소, 전화, 이메일, 팀별 담당자, 지도 |
 | Gallery (/blank) | #html1 (+ #mobileHtml1) | https://doomsfrooky.github.io/WIX_DEV/site/gallery.html | 3690 (늘이기가 안 되면 2750) | 2630 | 갤러리: 학회와 행사 사진, 영상 |

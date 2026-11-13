@@ -750,3 +750,7 @@ Home의 컷을 조용하게: 흰 지면 위 프레임이 34% 축에서 오른쪽
 
 - 여인기: 직무 '인증' → 'RA'(`data/people.json`, 영어도 'RA', `core.ROLE_EN`).
 - HeAD Lab 쪽 팀장(윤철영) 칸: 학과 줄 '연세대학교 의료정보통계학과' / 'Department of Medical Informatics and Biostatistics, Yonsei University' 를 빼고 'HeAD Lab 연구팀장' / 'Team Leader, HeAD Lab' 만 남겼다(`tools/pages/head-lab.py`). HeAD Lab 모바일 높이 7810 → 7760(Wix 게시본 7811은 아래에 빈칸 약 50px, 잘리지는 않음).
+
+## 의뢰인 요청 (2026-11-13)
+
+- 홍상의: 직무 '영업' → '영업부장' / 'Sales manager'. 신중환: '홍보' → 'BM' / 'Brand Manager'(`data/people.json`, `core.ROLE_EN`). People 높이는 그대로(`--fine`: 3940 / 2850 / 4870).

@@ -14,6 +14,20 @@
   "file": "01_g51.jpg"
  },
  {
+  "src": "media/gallery/2026/2026-27",
+  "widths": [
+   480,
+   1024,
+   1300
+  ],
+  "width": 1300,
+  "height": 867,
+  "year": "2026",
+  "caption_ko": "제32차 이비인후과 종합학술대회, 단체 사진",
+  "caption_en": "Group photo at KORL 2026",
+  "file": "a-korl-group.webp"
+ },
+ {
   "src": "media/gallery/2026/2026-10",
   "widths": [
    480,
@@ -300,6 +314,21 @@
   "caption_ko": "제5회 청각재활연구소 워크샵, 팀별 사진",
   "caption_en": "A team photo at the 5th RIHE Workshop",
   "file": "06_photo25.jpg"
+ },
+ {
+  "src": "media/gallery/2026/2026-28",
+  "widths": [
+   480,
+   1024,
+   1600
+  ],
+  "width": 2000,
+  "height": 2000,
+  "year": "2026",
+  "caption_ko": "스승의 날, 축하 케이크",
+  "caption_en": "A cake for Teachers’ Day",
+  "file": "b-teachers-day-cake.jpg",
+  "teaser": false
  },
  {
   "src": "media/gallery/2026/2026-25",
